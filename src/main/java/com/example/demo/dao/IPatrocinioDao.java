@@ -1,7 +1,6 @@
 package com.example.demo.dao;
 
 import java.util.List;
-import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Patrocinio;
 
 public interface IPatrocinioDao {
