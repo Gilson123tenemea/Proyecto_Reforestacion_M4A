@@ -17,7 +17,7 @@ public class Voluntarios implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id_valuntario;
+	private Long id_voluntario;
 	private String experiencia;
 	
 	@Temporal(TemporalType.DATE)	
@@ -25,16 +25,15 @@ public class Voluntarios implements Serializable{
 	
 	//LLves FK
 	private Long id_proyecto_participacion;
-	private Long id_equipo;
 	
 	
-	
-	public Long getId_valuntario() {
-		return Id_valuntario;
+
+	public Long getId_voluntario() {
+		return id_voluntario;
 	}
 
-	public void setId_valuntario(Long id_valuntario) {
-		Id_valuntario = id_valuntario;
+	public void setId_voluntario(Long id_voluntario) {
+		this.id_voluntario = id_voluntario;
 	}
 
 	public String getExperiencia() {
@@ -61,14 +60,7 @@ public class Voluntarios implements Serializable{
 		this.id_proyecto_participacion = id_proyecto_participacion;
 	}
 
-	public Long getId_equipo() {
-		return id_equipo;
-	}
-
-	public void setId_equipo(Long id_equipo) {
-		this.id_equipo = id_equipo;
-	}
-
+	
 	private static final long serialVersionUID = 1L;
 
 }

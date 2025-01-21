@@ -1,10 +1,13 @@
 package com.example.demo.dao;
 
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
 import com.example.demo.entity.Asignacion_proyectoActi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
+@Repository
 public class Asignacion_proyectoActiDaoImpl implements IAsignacion_proyectoActiDao {
 
 	@PersistenceContext

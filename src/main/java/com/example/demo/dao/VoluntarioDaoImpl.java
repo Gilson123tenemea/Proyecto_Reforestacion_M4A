@@ -21,7 +21,7 @@ public class VoluntarioDaoImpl implements IVoluntarioDao{
 
 	@Override
 	public void save(Voluntarios voluntarios) {
-		if(voluntarios.getId_valuntario()!=null && voluntarios.getId_valuntario() > 0) {
+		if(voluntarios.getId_voluntario()!=null && voluntarios.getId_voluntario() > 0) {
 			em.merge(voluntarios);
 		}else{
 			em.persist(voluntarios);

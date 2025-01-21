@@ -9,21 +9,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="suelo")
+@Table(name="suelos")
 public class Suelo implements Serializable{
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id_suelo;
+	private Long id_suelo;
 	private Long id_tiposuelo;
 	private double ph;
 	private String composicion;
 	private boolean fertilidad;
+	
+	
 	public long getId_suelo() {
 		return id_suelo;
 	}
@@ -54,9 +54,7 @@ public class Suelo implements Serializable{
 	public void setFertilidad(boolean fertilidad) {
 		this.fertilidad = fertilidad;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	
 	
 	

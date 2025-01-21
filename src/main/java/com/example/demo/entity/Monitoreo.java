@@ -25,8 +25,8 @@ public class Monitoreo implements Serializable {
 	private Long id_monitoreo;
 	private Long id_administrador;
 	private Long id_actividades;
-	private double altura_plantas;
-	private double duracion_monitoreo;
+	private Double altura_plantas;
+	private String duracion_monitoreo;
 	private String problemas_idetificados;
 	private String observaciones;
 	private String nota_administrador;
@@ -57,10 +57,11 @@ public class Monitoreo implements Serializable {
 	public void setAltura_plantas(double altura_plantas) {
 		this.altura_plantas = altura_plantas;
 	}
-	public double getDuracion_monitoreo() {
+	
+	public String getDuracion_monitoreo() {
 		return duracion_monitoreo;
 	}
-	public void setDuracion_monitoreo(double duracion_monitoreo) {
+	public void setDuracion_monitoreo(String duracion_monitoreo) {
 		this.duracion_monitoreo = duracion_monitoreo;
 	}
 	public String getProblemas_idetificados() {

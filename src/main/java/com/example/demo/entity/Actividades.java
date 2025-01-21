@@ -18,8 +18,8 @@ public class Actividades implements Serializable {
 	
 	private Long id_tipoactividades;
 	private String estado;
-	private String metareal;
-	private String metadeseada;
+	private String meta_real;
+	private String meta_deseada;
 
 	public Long getId_actividades() {
 		return id_actividades;
@@ -45,21 +45,25 @@ public class Actividades implements Serializable {
 		this.estado = estado;
 	}
 
-	public String getMetareal() {
-		return metareal;
+	
+
+	public String getMeta_real() {
+		return meta_real;
 	}
 
-	public void setMetareal(String metareal) {
-		this.metareal = metareal;
+	public void setMeta_real(String meta_real) {
+		this.meta_real = meta_real;
 	}
 
-	public String getMetadeseada() {
-		return metadeseada;
+	public String getMeta_deseada() {
+		return meta_deseada;
 	}
 
-	public void setMetadeseada(String metadeseada) {
-		this.metadeseada = metadeseada;
+	public void setMeta_deseada(String meta_deseada) {
+		this.meta_deseada = meta_deseada;
 	}
+
+
 
 	private static final long serialVersionUID = 1L;
 
