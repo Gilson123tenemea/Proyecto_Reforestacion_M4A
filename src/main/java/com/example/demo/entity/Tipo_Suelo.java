@@ -14,6 +14,8 @@ public class Tipo_Suelo implements Serializable {
 
 	
 	
+	
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_tiposuelo;
@@ -23,7 +25,8 @@ public class Tipo_Suelo implements Serializable {
     private String textura;
     private String densidad;
     
-    private static final long serialVersionUID = -5604445790837451384L;
+
+    private static final long serialVersionUID = 1L;
 
 	public Long getId_tiposuelo() {
 		return id_tiposuelo;

@@ -31,8 +31,8 @@ public class Asignacion_equipo implements Serializable {
     public void prePersist() {
         createAe = new Date();
     }
-    
-    private static final long serialVersionUID = -4518447769113877806L;
+   
+    private static final long serialVersionUID = 1L;
 
 	public Long getId_asig_eq() {
 		return id_asig_eq;

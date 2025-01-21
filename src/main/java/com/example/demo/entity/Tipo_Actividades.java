@@ -14,6 +14,8 @@ public class Tipo_Actividades implements Serializable{
 
 	
 	
+	
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	
@@ -23,8 +25,8 @@ public class Tipo_Actividades implements Serializable{
     private String frecuencia;
     private String descripcion;
     
-    private static final long serialVersionUID = -7829507919417151416L;
     
+    private static final long serialVersionUID = 1L;
     
     public Long getId_tipoActividades() {
 		return id_tipoActividades;
@@ -83,7 +85,6 @@ public class Tipo_Actividades implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
 
 
 	

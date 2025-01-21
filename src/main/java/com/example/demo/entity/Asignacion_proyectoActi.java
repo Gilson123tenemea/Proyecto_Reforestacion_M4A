@@ -31,7 +31,7 @@ public class Asignacion_proyectoActi implements Serializable {
         createAs = new Date();
     }
     
-    private static final long serialVersionUID = 3666176546640572827L;
+    private static final long serialVersionUID = 1L;
 
 	public Long getId_asignacionproyecto() {
 		return id_asignacionproyecto;
