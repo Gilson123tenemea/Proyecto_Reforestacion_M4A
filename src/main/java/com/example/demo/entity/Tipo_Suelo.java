@@ -11,10 +11,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tipo_suelos")
 public class Tipo_Suelo implements Serializable {
-
-	
-	
-	
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +20,10 @@ public class Tipo_Suelo implements Serializable {
     private String color;
     private String textura;
     private String densidad;
+    private String ph;
+    private String composicion;
+    private String fertilidad;
+    private String uso_del_suelo;
     
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +75,39 @@ public class Tipo_Suelo implements Serializable {
 	public void setDensidad(String densidad) {
 		this.densidad = densidad;
 	}
+
+	public String getPh() {
+		return ph;
+	}
+
+	public void setPh(String ph) {
+		this.ph = ph;
+	}
+
+	public String getComposicion() {
+		return composicion;
+	}
+
+	public void setComposicion(String composicion) {
+		this.composicion = composicion;
+	}
+
+	public String getFertilidad() {
+		return fertilidad;
+	}
+
+	public void setFertilidad(String fertilidad) {
+		this.fertilidad = fertilidad;
+	}
+
+	public String getUso_del_suelo() {
+		return uso_del_suelo;
+	}
+
+	public void setUso_del_suelo(String uso_del_suelo) {
+		this.uso_del_suelo = uso_del_suelo;
+	}
+	
 
     
 
