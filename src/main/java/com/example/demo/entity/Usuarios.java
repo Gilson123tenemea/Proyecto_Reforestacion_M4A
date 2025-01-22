@@ -16,8 +16,9 @@ public class Usuarios implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cedula;
+	private Long id_usuarios;
 	
+	private String cedula;
 	private String nombre;
 	private String apellido;
 	private String correo;
@@ -28,11 +29,21 @@ public class Usuarios implements Serializable{
 	private String contraseña;
 	
 
-	public Long getCedula() {
+	
+
+	public Long getId_usuarios() {
+		return id_usuarios;
+	}
+
+	public void setId_usuarios(Long id_usuarios) {
+		this.id_usuarios = id_usuarios;
+	}
+
+	public String getCedula() {
 		return cedula;
 	}
 
-	public void setCedula(Long cedula) {
+	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
 

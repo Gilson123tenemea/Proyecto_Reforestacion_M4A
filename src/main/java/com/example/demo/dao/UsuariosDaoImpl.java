@@ -24,7 +24,7 @@ public class UsuariosDaoImpl implements IUsuariosDao {
 
 	@Override
 	public void save(Usuarios usuarios) {
-		if (usuarios.getCedula() != null && usuarios.getCedula() > 0) {
+		if (usuarios.getId_usuarios()!= null && usuarios.getId_usuarios() > 0) {
 			em.merge(usuarios);
 		} else {
 			em.persist(usuarios);
