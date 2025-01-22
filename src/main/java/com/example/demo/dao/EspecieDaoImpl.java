@@ -1,10 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
-
-import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
 
 import jakarta.persistence.EntityManager;
