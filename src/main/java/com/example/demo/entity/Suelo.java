@@ -19,15 +19,12 @@ public class Suelo implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_suelo;
 	private Long id_tiposuelo;
-	private double ph;
 	private String composicion;
-	private boolean fertilidad;
-	
-	
-	public long getId_suelo() {
+	private String descripcion;
+	public Long getId_suelo() {
 		return id_suelo;
 	}
-	public void setId_suelo(long id_suelo) {
+	public void setId_suelo(Long id_suelo) {
 		this.id_suelo = id_suelo;
 	}
 	public Long getId_tiposuelo() {
@@ -36,27 +33,25 @@ public class Suelo implements Serializable{
 	public void setId_tiposuelo(Long id_tiposuelo) {
 		this.id_tiposuelo = id_tiposuelo;
 	}
-	public double getPh() {
-		return ph;
-	}
-	public void setPh(double ph) {
-		this.ph = ph;
-	}
 	public String getComposicion() {
 		return composicion;
 	}
 	public void setComposicion(String composicion) {
 		this.composicion = composicion;
 	}
-	public boolean isFertilidad() {
-		return fertilidad;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setFertilidad(boolean fertilidad) {
-		this.fertilidad = fertilidad;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	
 	
+
 	
 	
 	
