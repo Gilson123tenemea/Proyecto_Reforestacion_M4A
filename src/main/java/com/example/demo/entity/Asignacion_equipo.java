@@ -70,6 +70,14 @@ public class Asignacion_equipo implements Serializable {
 	public void setId_voluntario(Long id_voluntario) {
 		this.id_voluntario = id_voluntario;
 	}
+
+	public Long getId_equipo() {
+		return id_equipo;
+	}
+
+	public void setId_equipo(Long id_equipo) {
+		this.id_equipo = id_equipo;
+	}
 	
     
     
