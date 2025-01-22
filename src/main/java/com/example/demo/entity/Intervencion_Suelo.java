@@ -59,7 +59,7 @@ public class Intervencion_Suelo implements Serializable{
 	}
 
 	public void setId_equipo(Long id_equipo) {
-		id_equipo = id_equipo;
+		this.id_equipo = id_equipo;
 	}
 
 	public Date getFecha_asignacion() {
