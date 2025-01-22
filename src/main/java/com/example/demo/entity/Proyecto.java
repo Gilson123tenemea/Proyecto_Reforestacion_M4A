@@ -2,17 +2,23 @@ package com.example.demo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "proyecto")
+@Table(name = "proyecto",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_ubicacion","id_administrador","id_proyecto"})})
 public class Proyecto implements Serializable {
 
 	@Id
@@ -23,6 +29,32 @@ public class Proyecto implements Serializable {
 	private Long id_ubicacion;
 
 	private String nombre;
+	
+	
+	//relacion con incripcion
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto")
+	private List<Inscripcion> inscripcion ; 
+	
+	//relacion con asignacionproyectoact
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto")
+	private List<Asignacion_proyectoActi> asignacion_proyectoacti ; 
+	
+	//relacion con monitoreo
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto")
+	private List<Monitoreo> monitoreo ; 
+	
+	//relacion con area
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto")
+	private List<Area> area  ; 
+	
+	//relacion con patrocinio
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto")
+	private List<Patrocinio> patrocinio; 
 
 	@Temporal(TemporalType.DATE)
 	private Date fecha_inicio;
@@ -87,6 +119,47 @@ public class Proyecto implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public List<Inscripcion> getInscripcion() {
+		return inscripcion;
+	}
+
+	public void setInscripcion(List<Inscripcion> inscripcion) {
+		this.inscripcion = inscripcion;
+	}
+
+	public List<Asignacion_proyectoActi> getAsignacion_proyectoacti() {
+		return asignacion_proyectoacti;
+	}
+
+	public void setAsignacion_proyectoacti(List<Asignacion_proyectoActi> asignacion_proyectoacti) {
+		this.asignacion_proyectoacti = asignacion_proyectoacti;
+	}
+	
+	public List<Monitoreo> getMonitoreo() {
+		return monitoreo;
+	}
+
+	public void setMonitoreo(List<Monitoreo> monitoreo) {
+		this.monitoreo = monitoreo;
+	}
+	
+	public List<Area> getArea() {
+		return area;
+	}
+
+	public void setArea(List<Area> area) {
+		this.area = area;
+	}
+	
+	public List<Patrocinio> getPatrocinio() {
+		return patrocinio;
+	}
+
+	public void setPatrocinio(List<Patrocinio> patrocinio) {
+		this.patrocinio = patrocinio;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 

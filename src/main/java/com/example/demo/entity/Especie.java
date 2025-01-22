@@ -1,11 +1,16 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,6 +22,11 @@ public class Especie implements Serializable {
 	private Long id_especie;
 
 	private String nombre;
+	
+	//relacion con plantas
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_especie")
+	private List<Plantas> plantas  ;
 
 	public Long getId_especie() {
 		return id_especie;
@@ -33,6 +43,16 @@ public class Especie implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+
+	public List<Plantas> getPlantas() {
+		return plantas;
+	}
+
+	public void setPlantas(List<Plantas> plantas) {
+		this.plantas = plantas;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 

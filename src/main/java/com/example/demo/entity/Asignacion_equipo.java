@@ -12,20 +12,25 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="asignacion_equipos")
+@Table(name="asignacion_equipos",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_equipo","id_asig_eq"})})
 public class Asignacion_equipo implements Serializable {
 
-	
-	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_asig_eq;
 	private String horas_trabajadas;
+	
 	@Column(name = "create_ae")
     @Temporal(TemporalType.DATE)
     private Date createAe;
+	
+	//relacion con voluntaios
+	private Long id_voluntario;
+	//relacion con equipos
+	private Long id_equipo;
 
     @PrePersist
     public void prePersist() {
@@ -57,6 +62,15 @@ public class Asignacion_equipo implements Serializable {
 	public void setCreateAe(Date createAe) {
 		this.createAe = createAe;
 	}
+
+	public Long getId_voluntario() {
+		return id_voluntario;
+	}
+
+	public void setId_voluntario(Long id_voluntario) {
+		this.id_voluntario = id_voluntario;
+	}
+	
     
     
 }

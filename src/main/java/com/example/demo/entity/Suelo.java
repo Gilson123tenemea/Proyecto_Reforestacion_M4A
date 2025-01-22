@@ -1,19 +1,22 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="suelos")
+@Table(name="suelos",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_suelo","id_tiposuelo"})})
 public class Suelo implements Serializable{
-
-	
-	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +24,18 @@ public class Suelo implements Serializable{
 	private Long id_tiposuelo;
 	private String composicion;
 	private String descripcion;
+	
+	//relacion con intervencion_suelo
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_suelo")
+	private List<Intervencion_Suelo> intervencion_suelo ; 
+	
+	
+	//relacion con parcelas
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_suelo")
+	private List<Parcelas> parcelas; 
+	
 	public Long getId_suelo() {
 		return id_suelo;
 	}
@@ -45,20 +60,21 @@ public class Suelo implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	
+	public List<Intervencion_Suelo> getIntervencion_suelo() {
+		return intervencion_suelo;
+	}
+	public void setIntervencion_suelo(List<Intervencion_Suelo> intervencion_suelo) {
+		this.intervencion_suelo = intervencion_suelo;
 	}
 	
-	
-	
+	public List<Parcelas> getParcelas() {
+		return parcelas;
+	}
+	public void setParcelas(List<Parcelas> parcelas) {
+		this.parcelas = parcelas;
+	}
 
+	private static final long serialVersionUID = 1L;
 	
-	
-	
-
-	
-	
-	
-	
-
 }

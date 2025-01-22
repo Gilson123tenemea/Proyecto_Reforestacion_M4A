@@ -1,15 +1,21 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="parcelas")
+@Table(name="parcelas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_suelo","id_plantas","id_parcelas"})})
 
 public class Parcelas implements Serializable {
 
@@ -22,6 +28,13 @@ public class Parcelas implements Serializable {
 	private Long id_suelo;
 	private double altura;
 	private double ancho;
+	
+	
+	//relacion con area
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_parcelas")
+	private List<Area> area  ; 
+	
 	public Long getId_parcelas() {
 		return id_parcelas;
 	}
@@ -52,10 +65,11 @@ public class Parcelas implements Serializable {
 	public void setAncho(double ancho) {
 		this.ancho = ancho;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public List<Area> getArea() {
+		return area;
+	}
+	public void setArea(List<Area> area) {
+		this.area = area;
 	}
 	
-	
-
 }

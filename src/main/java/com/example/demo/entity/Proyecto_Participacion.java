@@ -1,11 +1,16 @@
 package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,7 +24,11 @@ public class Proyecto_Participacion implements Serializable{
 	private String actividades;
 	private Date fechaparticipo;
 	
-	
+	//relacion con super voluntarios
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_proyecto_participacion")
+	private List<Voluntarios> voluntarios ; 
+		
 
 	public Long getId_proyecto_participacion() {
 		return id_proyecto_participacion;
@@ -52,6 +61,15 @@ public class Proyecto_Participacion implements Serializable{
 	public void setFechaparticipo(Date fechaparticipo) {
 		this.fechaparticipo = fechaparticipo;
 	}
+
+	public List<Voluntarios> getVoluntarios() {
+		return voluntarios;
+	}
+
+	public void setVoluntarios(List<Voluntarios> voluntarios) {
+		this.voluntarios = voluntarios;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 

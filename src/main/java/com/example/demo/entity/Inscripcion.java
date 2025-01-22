@@ -10,9 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Inscripcion")
+@Table(name = "Inscripcion",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_actividades","id_proyecto","id_inscripcion"})})
 public class Inscripcion implements Serializable{
 	
 	@Id

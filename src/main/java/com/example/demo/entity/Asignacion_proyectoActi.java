@@ -12,12 +12,11 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="asignacion_proyecto")
+@Table(name="asignacion_proyecto",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_asignacionproyecto","id_actividades","id_proyecto"})})
 public class Asignacion_proyectoActi implements Serializable {
-
-	
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +24,8 @@ public class Asignacion_proyectoActi implements Serializable {
 	@Column(name = "create_as")
     @Temporal(TemporalType.DATE)
     private Date createAs;
+	private Long id_proyecto;
+	private Long id_actividades;
 
     @PrePersist
     public void prePersist() {
@@ -48,6 +49,22 @@ public class Asignacion_proyectoActi implements Serializable {
 	public void setCreateAs(Date createAs) {
 		this.createAs = createAs;
 	}
-    
+
+	public Long getId_proyecto() {
+		return id_proyecto;
+	}
+
+	public void setId_proyecto(Long id_proyecto) {
+		this.id_proyecto = id_proyecto;
+	}
+
+	public Long getId_actividades() {
+		return id_actividades;
+	}
+
+	public void setId_actividades(Long id_actividades) {
+		this.id_actividades = id_actividades;
+	}
+
     
 }

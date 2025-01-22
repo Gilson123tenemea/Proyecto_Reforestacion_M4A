@@ -8,23 +8,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Monitoreo")
+@Table(name = "Monitoreo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_actividades","id_proyecto","id_monitoreo"})})
 
 public class Monitoreo implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_monitoreo;
+	
 	private Long id_administrador;
 	private Long id_actividades;
+	private Long id_proyecto;
+	
 	private Double altura_plantas;
 	private String duracion_monitoreo;
 	private String problemas_idetificados;
@@ -32,7 +30,7 @@ public class Monitoreo implements Serializable {
 	private String nota_administrador;
 	private Date fecha;
 	private String imagen;
-	private Long id_proyecto;
+	
 	public Long getId_monitoreo() {
 		return id_monitoreo;
 	}
@@ -100,12 +98,9 @@ public class Monitoreo implements Serializable {
 	public void setId_proyecto(Long id_proyecto) {
 		this.id_proyecto = id_proyecto;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
+	private static final long serialVersionUID = 1L;
 	
-	
-	
-	
+
 
 }

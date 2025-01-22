@@ -10,9 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Intervencion_Suelo")
+@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_equipo","id_actividades","id_suelo","id_asignacionActividades"})})
 public class Intervencion_Suelo implements Serializable{
 	
 	@Id
@@ -21,7 +22,7 @@ public class Intervencion_Suelo implements Serializable{
 	
 	private Long id_actividades;
 	private Long id_suelo;
-	private Long Id_equipo;
+	private Long id_equipo;
 	
 	@Temporal(TemporalType.DATE)
 	private Date fecha_asignacion;
@@ -54,11 +55,11 @@ public class Intervencion_Suelo implements Serializable{
 	}
 
 	public Long getId_equipo() {
-		return Id_equipo;
+		return id_equipo;
 	}
 
 	public void setId_equipo(Long id_equipo) {
-		Id_equipo = id_equipo;
+		id_equipo = id_equipo;
 	}
 
 	public Date getFecha_asignacion() {
