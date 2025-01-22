@@ -22,8 +22,8 @@ public class Asignacion_proyectoActiServiceImpl implements IAsignacion_proyectoA
 
 	@Transactional
 	@Override
-	public void save(Asignacion_proyectoActi asignar_proyecto) {
-		asg_proyectoDao.save(asignar_proyecto);
+	public void save(Asignacion_proyectoActi asignacion_proyecto) {
+		asg_proyectoDao.save(asignacion_proyecto);
 	}
 
 	@Transactional(readOnly=true)

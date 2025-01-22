@@ -5,42 +5,38 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.demo.dao.ITipo_SueloDao;
-import com.example.demo.entity.Tipo_Suelo;
-
-
+import com.example.demo.dao.IVoluntarioDao;
+import com.example.demo.entity.Voluntarios;
 @Service
-
-public class Tipo_SueloServiceImpl implements ITipo_SueloService {
+public class VoluntariosServiceImpl implements IVoluntariosService {
 
 	@Autowired
-	private ITipo_SueloDao tpsueloDao;
+	private IVoluntarioDao voluntarioDao;
 	
 	@Transactional(readOnly=true)
 	@Override
-	public List<Tipo_Suelo> findAll() {
+	public List<Voluntarios> findAll() {
 		
-		return tpsueloDao.findAll();
+		return voluntarioDao.findAll();
 	}
 
 	@Transactional
 	@Override
-	public void save(Tipo_Suelo tipo_suelos) {
-		tpsueloDao.save(tipo_suelos);
+	public void save(Voluntarios voluntarios) {
+		voluntarioDao.save(voluntarios);
 	}
 
 	@Transactional(readOnly=true)
 	@Override
-	public Tipo_Suelo findOne(Long id) {
+	public Voluntarios findOne(Long id) {
 		
-		return tpsueloDao.findOne(id);
+		return voluntarioDao.findOne(id);
 	}
 
 	@Transactional
 	@Override
 	public void delete(Long id) {
-		tpsueloDao.delete(id);
+		voluntarioDao.delete(id);
 		
 	}
 

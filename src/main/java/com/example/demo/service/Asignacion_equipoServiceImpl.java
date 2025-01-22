@@ -23,8 +23,8 @@ public class Asignacion_equipoServiceImpl implements IAsignacion_equipoService {
 
 	@Transactional
 	@Override
-	public void save(Asignacion_equipo asignar_equipo) {
-		asg_equipoDao.save(asignar_equipo);
+	public void save(Asignacion_equipo asignacion_equipos) {
+		asg_equipoDao.save(asignacion_equipos);
 	}
 
 	@Transactional(readOnly=true)

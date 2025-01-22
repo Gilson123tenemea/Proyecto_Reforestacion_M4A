@@ -9,7 +9,7 @@ public interface ITipo_SueloDao {
 
     public List<Tipo_Suelo> findAll();
 	
-	public void save (Tipo_Suelo tpsuelo);
+	public void save (Tipo_Suelo tipo_suelos);
 	
 	public Tipo_Suelo findOne (Long id);
 

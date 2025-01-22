@@ -10,7 +10,7 @@ public interface IAsignacion_proyectoActiDao {
 
     public List<Asignacion_proyectoActi> findAll();
 	
-	public void save (Asignacion_proyectoActi aproyecto);
+	public void save (Asignacion_proyectoActi asignacion_proyecto);
 	
 	public Asignacion_proyectoActi findOne (Long id);
 

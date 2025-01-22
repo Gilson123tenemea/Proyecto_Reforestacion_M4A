@@ -9,7 +9,7 @@ public interface IAsignacion_equipoDao {
 
     public List<Asignacion_equipo> findAll();
 	
-	public void save (Asignacion_equipo aequipo);
+	public void save (Asignacion_equipo asignacion_equipos);
 	
 	public Asignacion_equipo findOne (Long id);
 

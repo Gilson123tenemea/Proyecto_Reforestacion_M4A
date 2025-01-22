@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Repository
-public class Proyecto_ParticipacionDaoImpl implements  iProyecto_ParticipacionDao{
+public class Proyecto_ParticipacionDaoImpl implements  IProyecto_ParticipacionDao{
 
 	@PersistenceContext
 	private EntityManager em;

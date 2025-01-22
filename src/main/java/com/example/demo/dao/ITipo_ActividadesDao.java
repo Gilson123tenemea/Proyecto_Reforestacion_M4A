@@ -9,7 +9,7 @@ public interface ITipo_ActividadesDao {
 
     public List<Tipo_Actividades> findAll();
 	
-	public void save (Tipo_Actividades tpactividades);
+	public void save (Tipo_Actividades tipo_actividades);
 	
 	public Tipo_Actividades findOne (Long id);
 
