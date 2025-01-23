@@ -42,6 +42,11 @@ public class Tipo_Actividades implements Serializable{
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name ="id_tipoActividades")
    private List<Intervencion_Suelo> intervencionsuelo   ; 
+   
+    //relacion con inscripcion actividades
+ 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+ 	@JoinColumn(name ="id_tipoActividades")
+ 	private List<Inscripcion_actividades> inscripcion_actividades  ; 	
   	
     private static final long serialVersionUID = 1L;
     
@@ -124,6 +129,15 @@ public class Tipo_Actividades implements Serializable{
 	public void setIntervencionsuelo(List<Intervencion_Suelo> intervencionsuelo) {
 		this.intervencionsuelo = intervencionsuelo;
 	}
+
+	public List<Inscripcion_actividades> getInscripcion_actividades() {
+		return inscripcion_actividades;
+	}
+
+	public void setInscripcion_actividades(List<Inscripcion_actividades> inscripcion_actividades) {
+		this.inscripcion_actividades = inscripcion_actividades;
+	}
+	
 	
 
 }

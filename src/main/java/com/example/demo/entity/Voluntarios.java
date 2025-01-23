@@ -34,19 +34,25 @@ public class Voluntarios implements Serializable{
 	//relacion con usuarios
 	private Long id_usuarios;
 	
-	
-	//relacion con asignacion equipo
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_voluntario")
-	private List<Asignacion_equipo> asignacion_equipo ; 
-	
-	
 	//relacion con inscripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_voluntario")
 	private List<Inscripcion> inscripcion ; 
 		
-		
+	//relacion con inscripcion actividades
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_voluntario")
+	private List<Inscripcion_actividades> inscripcion_actividades  ; 	
+	
+	//relacion con intervencion suelo
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_voluntario")
+	private List<Intervencion_Suelo> intervencion_suelo;
+	
+	//relacion con RegsitroctividadesRealiza
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_voluntario")
+	private List<RegistroActividadRealiza>  registroactividadrealiza  ; 	
 
 	public Long getId_voluntario() {
 		return id_voluntario;
@@ -96,20 +102,37 @@ public class Voluntarios implements Serializable{
 		this.disponibilidad = disponibilidad;
 	}
 
-	public List<Asignacion_equipo> getAsignacion_equipo() {
-		return asignacion_equipo;
-	}
-
-	public void setAsignacion_equipo(List<Asignacion_equipo> asignacion_equipo) {
-		this.asignacion_equipo = asignacion_equipo;
-	}
-
 	public List<Inscripcion> getInscripcion() {
 		return inscripcion;
 	}
 
 	public void setInscripcion(List<Inscripcion> inscripcion) {
 		this.inscripcion = inscripcion;
+	}
+
+	public List<Inscripcion_actividades> getInscripcion_actividades() {
+		return inscripcion_actividades;
+	}
+
+	public void setInscripcion_actividades(List<Inscripcion_actividades> inscripcion_actividades) {
+		this.inscripcion_actividades = inscripcion_actividades;
+	}
+	
+	public List<Intervencion_Suelo> getIntervencion_suelo() {
+		return intervencion_suelo;
+	}
+
+	public void setIntervencion_suelo(List<Intervencion_Suelo> intervencion_suelo) {
+		this.intervencion_suelo = intervencion_suelo;
+	}
+	
+
+	public List<RegistroActividadRealiza> getRegistroactividadrealiza() {
+		return registroactividadrealiza;
+	}
+
+	public void setRegistroactividadrealiza(List<RegistroActividadRealiza> registroactividadrealiza) {
+		this.registroactividadrealiza = registroactividadrealiza;
 	}
 
 	private static final long serialVersionUID = 1L;

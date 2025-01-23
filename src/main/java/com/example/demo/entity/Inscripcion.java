@@ -3,10 +3,12 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,8 +26,14 @@ public class Inscripcion implements Serializable{
 	private Long id_actividades;
 	private Long id_proyecto;
 	
+	@Column(name = "create_as")
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
+	
+	 @PrePersist
+	    public void prePersist() {
+		 fecha = new Date();
+	    }
 	
 	public Long getId_inscripcion() {
 		return id_inscripcion;

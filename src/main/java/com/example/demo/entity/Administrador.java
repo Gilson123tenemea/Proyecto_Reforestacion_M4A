@@ -27,12 +27,7 @@ public class Administrador implements Serializable {
 	private int actividades_gestionadas;
 	private Long id_super_administrador;
 
-	//relacion con equipos
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_administrador")
-	private List<Equipos> equipos  ; 
-	
-	
+
 	//relacion con proyecto
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_administrador")
@@ -67,14 +62,6 @@ public class Administrador implements Serializable {
 
 	public void setId_super_administrador(Long id_super_administrador) {
 		this.id_super_administrador = id_super_administrador;
-	}
-
-	public List<Equipos> getEquipos() {
-		return equipos;
-	}
-
-	public void setEquipos(List<Equipos> equipos) {
-		this.equipos = equipos;
 	}
 
 	public List<Proyecto> getProyecto() {

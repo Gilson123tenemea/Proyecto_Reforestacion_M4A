@@ -36,6 +36,7 @@ public class Proyecto implements Serializable {
 	private Date fecha_fin;
 
 	private String estado;
+	private int voluntariosmax;
 	
 	//relacion con incripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -113,6 +114,14 @@ public class Proyecto implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public int getVoluntariosmax() {
+		return voluntariosmax;
+	}
+
+	public void setVoluntariosmax(int voluntariosmax) {
+		this.voluntariosmax = voluntariosmax;
 	}
 
 	public List<Inscripcion> getInscripcion() {
