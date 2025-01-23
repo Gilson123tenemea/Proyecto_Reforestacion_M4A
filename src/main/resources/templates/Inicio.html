@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Administrador</title>
+</head>
+<body>
+    <h1>Crear Nuevo Administrador</h1>
+    <form action="/guardar" method="post">
+        <!-- Datos del Usuario -->
+        <fieldset>
+            <legend>Datos del Usuario</legend>
+            <label for="cedula">Cédula:</label>
+            <input type="text" name="cedula" id="cedula" required>
+            <br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+            <br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required>
+            <br>
+            <label for="correo">Correo:</label>
+            <input type="email" name="correo" id="correo" required>
+            <br>
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" name="contraseña" id="contraseña" required>
+            <br>
+        </fieldset>
+        
+        <!-- Datos del Administrador -->
+        <fieldset>
+            <legend>Datos del Administrador</legend>
+            <label for="actividades_gestionadas">Actividades Gestionadas:</label>
+            <input type="number" name="actividades_gestionadas" id="actividades_gestionadas" required>
+            <br>
+            <label for="id_super_administrador">ID del Super Administrador:</label>
+            <input type="number" name="id_super_administrador" id="id_super_administrador" required>
+            <br>
+        </fieldset>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

@@ -24,9 +24,9 @@ public class Administrador implements Serializable {
 
 	//relacion usuarios
 	private Long id_usuarios;
-	//relacion con super admiistrador
+	private int actividades_gestionadas;
 	private Long id_super_administrador;
-	
+
 	//relacion con equipos
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_administrador")
@@ -91,6 +91,15 @@ public class Administrador implements Serializable {
 	public void setMonitoreo(List<Monitoreo> monitoreo) {
 		this.monitoreo = monitoreo;
 	}
+	
+	public int getActividades_gestionadas() {
+		return actividades_gestionadas;
+	}
+
+	public void setActividades_gestionadas(int actividades_gestionadas) {
+		this.actividades_gestionadas = actividades_gestionadas;
+	}
+
 
 
 	private static final long serialVersionUID = 1L;
