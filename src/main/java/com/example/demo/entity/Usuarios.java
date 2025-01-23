@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -28,7 +30,9 @@ public class Usuarios implements Serializable{
 	private String nombre;
 	private String apellido;
 	private String correo;
+	@Temporal(TemporalType.DATE)
 	private Date fecha_nacimiento;
+	
 	private String genero;
 	private String celular;
 	private String contraseña;

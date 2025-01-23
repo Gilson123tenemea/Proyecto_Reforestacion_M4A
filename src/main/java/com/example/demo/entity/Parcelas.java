@@ -27,9 +27,10 @@ public class Parcelas implements Serializable {
 	private Long id_plantas;
 	private Long id_area;
 	private Long id_suelo;
-	private double altura;
+	private double largo;
 	private double ancho;
-	
+	private double x;
+	private double y;
 	
 	//relacion con monitoreo
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -54,11 +55,24 @@ public class Parcelas implements Serializable {
 	public void setId_suelo(Long id_suelo) {
 		this.id_suelo = id_suelo;
 	}
-	public double getAltura() {
-		return altura;
+	
+	public double getLargo() {
+		return largo;
 	}
-	public void setAltura(double altura) {
-		this.altura = altura;
+	public void setLargo(double largo) {
+		this.largo = largo;
+	}
+	public double getX() {
+		return x;
+	}
+	public void setX(double x) {
+		this.x = x;
+	}
+	public double getY() {
+		return y;
+	}
+	public void setY(double y) {
+		this.y = y;
 	}
 	public double getAncho() {
 		return ancho;
