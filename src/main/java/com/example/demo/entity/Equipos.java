@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -25,9 +27,11 @@ public class Equipos implements Serializable {
 
 	//relacion con administrador
 	private Long id_administrador;
-
 	private int numeroequipo;
+	
+	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
+	@Temporal(TemporalType.DATE)
 	private Date fechaFin;
 	
 	//relacion con asignacion equipo

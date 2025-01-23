@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -17,7 +19,9 @@ public class Patrocinio implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id_patrocina;
+	@Temporal(TemporalType.DATE)
 	private Date fechainicio;
+	@Temporal(TemporalType.DATE)
 	private Date fechafin;
 	private String tipo_patrocinio;
 	private Double cantiad_estimada;

@@ -23,7 +23,7 @@ public class Area implements Serializable {
 	private Long id_area;
 	
 	private Long id_proyecto;
-	
+	private String nombre;
 	private String tipo_terreno;
 	private String tipo_vegetacion;
 	private String observaciones;
@@ -94,6 +94,16 @@ public class Area implements Serializable {
 	public void setParcelas(List<Parcelas> parcelas) {
 		this.parcelas = parcelas;
 	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 
 
 	private static final long serialVersionUID = 1L;

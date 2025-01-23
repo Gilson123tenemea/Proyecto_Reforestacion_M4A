@@ -29,7 +29,13 @@ public class Proyecto implements Serializable {
 	private Long id_parroquia;
 
 	private String nombre;
-	
+	@Temporal(TemporalType.DATE)
+	private Date fecha_inicio;
+
+	@Temporal(TemporalType.DATE)
+	private Date fecha_fin;
+
+	private String estado;
 	
 	//relacion con incripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -51,13 +57,7 @@ public class Proyecto implements Serializable {
 	@JoinColumn(name ="id_proyecto")
 	private List<Patrocinio> patrocinio; 
 
-	@Temporal(TemporalType.DATE)
-	private Date fecha_inicio;
-
-	@Temporal(TemporalType.DATE)
-	private Date fecha_fin;
-
-	private String estado;
+	
 
 	public Long getId_proyecto() {
 		return id_proyecto;

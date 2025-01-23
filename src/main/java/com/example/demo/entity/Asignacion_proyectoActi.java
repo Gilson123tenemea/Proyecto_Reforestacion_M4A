@@ -71,5 +71,30 @@ public class Asignacion_proyectoActi implements Serializable {
 	public void setId_tipoActividades(Long id_tipoActividades) {
 		this.id_tipoActividades = id_tipoActividades;
 	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+	public String getMeta_real() {
+		return meta_real;
+	}
+
+	public void setMeta_real(String meta_real) {
+		this.meta_real = meta_real;
+	}
+
+	public String getMeta_deseada() {
+		return meta_deseada;
+	}
+
+	public void setMeta_deseada(String meta_deseada) {
+		this.meta_deseada = meta_deseada;
+	}
+	
     
 }
