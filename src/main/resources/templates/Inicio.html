@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Administrador</title>
+    <title>Lista de Administradores y Usuarios</title>
 </head>
 <body>
-    <h1>Crear Nuevo Administrador</h1>
+    <h1>Lista de Administradores y Usuarios</h1>
+
+    <h2>Crear Nuevo Administrador</h2>
     <form action="/guardar" method="post">
         <!-- Datos del Usuario -->
         <fieldset>
@@ -41,5 +43,31 @@
 
         <button type="submit">Guardar</button>
     </form>
+
+    <h2>Lista de Administradores</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Administrador</th>
+                <th>Cédula</th>
+                <th>Nombre Usuario</th>
+                <th>Apellido Usuario</th>
+                <th>Correo</th>
+                <th>Actividades Gestionadas</th>
+                <th>ID Super Administrador</th>
+            </tr>
+        </thead>
+		<tbody>
+		    <tr th:each="adminUser : ${adminUserDetails}">
+		        <td th:text="${adminUser[0]}"></td> <!-- ID Administrador -->
+		        <td th:text="${adminUser[1]}"></td> <!-- Cédula -->
+		        <td th:text="${adminUser[2]}"></td> <!-- Nombre -->
+		        <td th:text="${adminUser[3]}"></td> <!-- Apellido -->
+		        <td th:text="${adminUser[4]}"></td> <!-- Correo -->
+		        <td th:text="${adminUser[5]}"></td> <!-- Actividades Gestionadas -->
+		        <td th:text="${adminUser[6]}"></td> <!-- ID Super Administrador -->
+		    </tr>
+		</tbody>
+    </table>
 </body>
 </html>

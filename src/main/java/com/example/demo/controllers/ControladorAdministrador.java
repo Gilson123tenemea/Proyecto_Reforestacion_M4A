@@ -71,10 +71,11 @@ public class ControladorAdministrador {
     
     @RequestMapping("/Inicio")
     public String crear(Map<String, Object> model) {
-        model.put("administrador", new Administrador()); 
+        model.put("administrador", new Administrador());
+        model.put("usuarios", usuarioServices.findAll());
+        model.put("administradores", administradorServices.findAll()); // Fetching the list of administrators
         return "Inicio"; 
     }
-
     // Eliminar Administrador
     @DeleteMapping("/delete/{id}")
     public String deleteAdministrador(@PathVariable Long id, Model model) {

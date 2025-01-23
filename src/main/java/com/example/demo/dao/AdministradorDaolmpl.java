@@ -8,6 +8,7 @@ import com.example.demo.entity.Administrador;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class AdministradorDaolmpl implements IAdministradorDao {
@@ -39,5 +40,19 @@ public class AdministradorDaolmpl implements IAdministradorDao {
 	@Override
 	public void delete(Long id) {
 		em.remove(findOne(id));
+	}
+	
+	
+	public List<Object[]> findAllAdminUserDetails() {
+	    String jpql = "SELECT a.id_administrador, u.cedula, u.nombre, u.apellido, u.correo, "
+	                 + "a.actividades_gestionadas, a.id_super_administrador "
+	                 + "FROM Administrador a JOIN Usuarios u ON a.id_usuarios = u.id_usuarios";
+	    TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+	    List<Object[]> results = query.getResultList();
+	    
+	    // Log the results to verify data
+	    System.out.println("Retrieved admin user details: " + results);
+	    
+	    return results;
 	}
 }
