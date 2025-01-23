@@ -1,16 +1,21 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "areas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_proyecto","id_parcelas","id_area"})})
+@Table(name = "areas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_proyecto","id_area"})})
 public class Area implements Serializable {
 	
 	@Id
@@ -18,11 +23,16 @@ public class Area implements Serializable {
 	private Long id_area;
 	
 	private Long id_proyecto;
-	private Long id_parcelas;
 	
 	private String tipo_terreno;
 	private String tipo_vegetacion;
 	private String observaciones;
+	
+	//relacion con parcelas
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@JoinColumn(name ="id_area")
+  	private List<Parcelas> parcelas   ; 
+	
 	
 	
 	public Long getId_area() {
@@ -44,15 +54,6 @@ public class Area implements Serializable {
 		this.id_proyecto = id_proyecto;
 	}
 
-
-	public Long getId_parcelas() {
-		return id_parcelas;
-	}
-
-
-	public void setId_parcelas(Long id_parcelas) {
-		this.id_parcelas = id_parcelas;
-	}
 
 
 	public String getTipo_terreno() {
@@ -82,6 +83,16 @@ public class Area implements Serializable {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+
+	public List<Parcelas> getParcelas() {
+		return parcelas;
+	}
+
+
+	public void setParcelas(List<Parcelas> parcelas) {
+		this.parcelas = parcelas;
 	}
 
 

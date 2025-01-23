@@ -13,9 +13,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_parroquia","id_usuarios"})})
 public class Usuarios implements Serializable{
 
 
@@ -31,6 +32,8 @@ public class Usuarios implements Serializable{
 	private String genero;
 	private String celular;
 	private String contraseña;
+	
+	private Long id_parroquia;
 	
     //relacion con super admiistrador
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -51,14 +54,8 @@ public class Usuarios implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_usuarios")
 	private List<Patrocinador> patrocinador  ; 
-	
-	//relacion con ubicacion
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_usuarios")
-	private List<Ubicacion> ubicacion; 
-			
-		
 
+		
 	public Long getId_usuarios() {
 		return id_usuarios;
 	}
@@ -123,6 +120,14 @@ public class Usuarios implements Serializable{
 		this.celular = celular;
 	}
 
+	public Long getId_parroquia() {
+		return id_parroquia;
+	}
+
+	public void setId_parroquia(Long id_parroquia) {
+		this.id_parroquia = id_parroquia;
+	}
+
 	public String getContraseña() {
 		return contraseña;
 	}
@@ -164,13 +169,7 @@ public class Usuarios implements Serializable{
 		this.patrocinador = patrocinador;
 	}
 	
-	public List<Ubicacion> getUbicacion() {
-		return ubicacion;
-	}
 
-	public void setUbicacion(List<Ubicacion> ubicacion) {
-		this.ubicacion = ubicacion;
-	}
 
 	private static final long serialVersionUID = 1L;
 

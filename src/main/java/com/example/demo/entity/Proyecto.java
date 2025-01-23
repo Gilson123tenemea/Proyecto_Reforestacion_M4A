@@ -18,7 +18,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "proyecto",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_ubicacion","id_administrador","id_proyecto"})})
+@Table(name = "proyecto",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_parroquia","id_administrador","id_proyecto"})})
 public class Proyecto implements Serializable {
 
 	@Id
@@ -26,7 +26,7 @@ public class Proyecto implements Serializable {
 	private Long id_proyecto;
 
 	private Long id_administrador;
-	private Long id_ubicacion;
+	private Long id_parroquia;
 
 	private String nombre;
 	
@@ -40,11 +40,6 @@ public class Proyecto implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
 	private List<Asignacion_proyectoActi> asignacion_proyectoacti ; 
-	
-	//relacion con monitoreo
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_proyecto")
-	private List<Monitoreo> monitoreo ; 
 	
 	//relacion con area
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -80,12 +75,12 @@ public class Proyecto implements Serializable {
 		this.id_administrador = id_administrador;
 	}
 
-	public Long getId_ubicacion() {
-		return id_ubicacion;
+	public Long getId_parroquia() {
+		return id_parroquia;
 	}
 
-	public void setId_ubicacion(Long id_ubicacion) {
-		this.id_ubicacion = id_ubicacion;
+	public void setId_parroquia(Long id_parroquia) {
+		this.id_parroquia = id_parroquia;
 	}
 
 	public String getNombre() {
@@ -134,14 +129,6 @@ public class Proyecto implements Serializable {
 
 	public void setAsignacion_proyectoacti(List<Asignacion_proyectoActi> asignacion_proyectoacti) {
 		this.asignacion_proyectoacti = asignacion_proyectoacti;
-	}
-	
-	public List<Monitoreo> getMonitoreo() {
-		return monitoreo;
-	}
-
-	public void setMonitoreo(List<Monitoreo> monitoreo) {
-		this.monitoreo = monitoreo;
 	}
 	
 	public List<Area> getArea() {

@@ -21,11 +21,17 @@ public class Asignacion_proyectoActi implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_asignacionproyecto;
+	
 	@Column(name = "create_as")
     @Temporal(TemporalType.DATE)
     private Date createAs;
+	
 	private Long id_proyecto;
-	private Long id_actividades;
+	
+	private Long id_tipoActividades;
+	private Boolean estado;
+	private String meta_real;
+	private String meta_deseada;
 
     @PrePersist
     public void prePersist() {
@@ -58,13 +64,12 @@ public class Asignacion_proyectoActi implements Serializable {
 		this.id_proyecto = id_proyecto;
 	}
 
-	public Long getId_actividades() {
-		return id_actividades;
+	public Long getId_tipoActividades() {
+		return id_tipoActividades;
 	}
 
-	public void setId_actividades(Long id_actividades) {
-		this.id_actividades = id_actividades;
+	public void setId_tipoActividades(Long id_tipoActividades) {
+		this.id_tipoActividades = id_tipoActividades;
 	}
-
     
 }

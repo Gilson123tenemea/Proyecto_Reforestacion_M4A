@@ -35,7 +35,10 @@ public class Plantas implements Serializable {
 	@JoinColumn(name ="id_plantas")
 	private List<Parcelas> parcelas; 
 	
-	
+	//relacion con monitoreo
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@JoinColumn(name ="id_plantas")
+  	private List<Monitoreo> monitoreo  ; 
 	
 
 	public Long getId_plantas() {
@@ -93,6 +96,24 @@ public class Plantas implements Serializable {
 	public void setColor_hojas(String color_hojas) {
 		this.color_hojas = color_hojas;
 	}
+	
+
+	public List<Parcelas> getParcelas() {
+		return parcelas;
+	}
+
+	public void setParcelas(List<Parcelas> parcelas) {
+		this.parcelas = parcelas;
+	}
+
+	public List<Monitoreo> getMonitoreo() {
+		return monitoreo;
+	}
+
+	public void setMonitoreo(List<Monitoreo> monitoreo) {
+		this.monitoreo = monitoreo;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 

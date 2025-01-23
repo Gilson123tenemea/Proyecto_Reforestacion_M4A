@@ -13,14 +13,14 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_equipo","id_actividades","id_suelo","id_asignacionActividades"})})
+@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_equipo","id_tipoActividades","id_suelo","id_asignacionActividades"})})
 public class Intervencion_Suelo implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_asignacionActividades;
 	
-	private Long id_actividades;
+	private Long id_tipoActividades;
 	private Long id_suelo;
 	private Long id_equipo;
 	
@@ -38,12 +38,12 @@ public class Intervencion_Suelo implements Serializable{
 		this.id_asignacionActividades = id_asignacionActividades;
 	}
 
-	public Long getId_actividades() {
-		return id_actividades;
+	public Long getId_tipoActividades() {
+		return id_tipoActividades;
 	}
 
-	public void setId_actividades(Long id_actividades) {
-		this.id_actividades = id_actividades;
+	public void setId_tipoActividades(Long id_tipoActividades) {
+		this.id_tipoActividades = id_tipoActividades;
 	}
 
 	public Long getId_suelo() {

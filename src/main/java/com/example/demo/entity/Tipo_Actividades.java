@@ -28,12 +28,21 @@ public class Tipo_Actividades implements Serializable{
     private String descripcion;
     
     
-  //relacion con actividades
+  //relacion con monitoreo
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
-  	private List<Actividades> actividades ; 
+  	private List<Monitoreo> monitoreo  ; 
+  	
+  //relacion con asignacion_proyecto
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@JoinColumn(name ="id_tipoActividades")
+  	private List<Asignacion_proyectoActi> asignacion_proyectoacti   ; 
     
-    
+   //relacion con intervencion_suelo
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name ="id_tipoActividades")
+   private List<Intervencion_Suelo> intervencionsuelo   ; 
+  	
     private static final long serialVersionUID = 1L;
     
     public Long getId_tipoActividades() {
@@ -92,14 +101,29 @@ public class Tipo_Actividades implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public List<Actividades> getActividades() {
-		return actividades;
+	public List<Monitoreo> getMonitoreo() {
+		return monitoreo;
 	}
 
-	public void setActividades(List<Actividades> actividades) {
-		this.actividades = actividades;
+	public void setMonitoreo(List<Monitoreo> monitoreo) {
+		this.monitoreo = monitoreo;
+	}
+
+	public List<Asignacion_proyectoActi> getAsignacion_proyectoacti() {
+		return asignacion_proyectoacti;
+	}
+
+	public void setAsignacion_proyectoacti(List<Asignacion_proyectoActi> asignacion_proyectoacti) {
+		this.asignacion_proyectoacti = asignacion_proyectoacti;
+	}
+
+	public List<Intervencion_Suelo> getIntervencionsuelo() {
+		return intervencionsuelo;
+	}
+
+	public void setIntervencionsuelo(List<Intervencion_Suelo> intervencionsuelo) {
+		this.intervencionsuelo = intervencionsuelo;
 	}
 	
-	
-	
+
 }

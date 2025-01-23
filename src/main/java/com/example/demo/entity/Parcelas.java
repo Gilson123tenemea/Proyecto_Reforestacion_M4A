@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="parcelas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_suelo","id_plantas","id_parcelas"})})
+@Table(name="parcelas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_suelo","id_plantas","id_area","id_parcelas"})})
 
 public class Parcelas implements Serializable {
 
@@ -25,15 +25,16 @@ public class Parcelas implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_parcelas;
 	private Long id_plantas;
+	private Long id_area;
 	private Long id_suelo;
 	private double altura;
 	private double ancho;
 	
 	
-	//relacion con area
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_parcelas")
-	private List<Area> area  ; 
+	//relacion con monitoreo
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@JoinColumn(name ="id_parcelas")
+  	private List<Monitoreo> monitoreo  ; 
 	
 	public Long getId_parcelas() {
 		return id_parcelas;
@@ -65,11 +66,19 @@ public class Parcelas implements Serializable {
 	public void setAncho(double ancho) {
 		this.ancho = ancho;
 	}
-	public List<Area> getArea() {
-		return area;
+	
+	public Long getId_area() {
+		return id_area;
 	}
-	public void setArea(List<Area> area) {
-		this.area = area;
+	public void setId_area(Long id_area) {
+		this.id_area = id_area;
 	}
+	public List<Monitoreo> getMonitoreo() {
+		return monitoreo;
+	}
+	public void setMonitoreo(List<Monitoreo> monitoreo) {
+		this.monitoreo = monitoreo;
+	}
+
 	
 }

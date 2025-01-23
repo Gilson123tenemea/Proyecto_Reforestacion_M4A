@@ -18,19 +18,18 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "voluntarios", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_usuarios","id_proyecto_participacion","id_voluntario"})})
+@Table(name = "voluntarios", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_usuarios","id_voluntario"})})
 public class Voluntarios implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_voluntario;
 	private String experiencia;
+	private Boolean estado;
+	private Boolean disponibilidad;
 	
 	@Temporal(TemporalType.DATE)	
 	private Date fechaRegistro;
-	
-	//relacion con proyectos partivipacion
-	private Long id_proyecto_participacion;
 	
 	//relacion con usuarios
 	private Long id_usuarios;
@@ -72,14 +71,6 @@ public class Voluntarios implements Serializable{
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
-
-	public Long getId_proyecto_participacion() {
-		return id_proyecto_participacion;
-	}
-
-	public void setId_proyecto_participacion(Long id_proyecto_participacion) {
-		this.id_proyecto_participacion = id_proyecto_participacion;
-	}
 	
 	public Long getId_usuarios() {
 		return id_usuarios;
@@ -88,7 +79,22 @@ public class Voluntarios implements Serializable{
 	public void setId_usuarios(Long id_usuarios) {
 		this.id_usuarios = id_usuarios;
 	}
+	
+	public Boolean getEstado() {
+		return estado;
+	}
 
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+	public Boolean getDisponibilidad() {
+		return disponibilidad;
+	}
+
+	public void setDisponibilidad(Boolean disponibilidad) {
+		this.disponibilidad = disponibilidad;
+	}
 
 	public List<Asignacion_equipo> getAsignacion_equipo() {
 		return asignacion_equipo;
