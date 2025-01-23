@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Voluntario</title>
+</head>
+<body>
+    <h1>Crear Nuevo Voluntario</h1>
+    <form action="/guardarvolun" method="post">
+        <!-- Datos del Usuario -->
+        <fieldset>
+            <legend>Datos del Usuario</legend>
+            <label for="cedula">Cédula:</label>
+            <input type="text" name="cedula" id="cedula" required>
+            <br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+            <br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required>
+            <br>
+            <label for="correo">Correo:</label>
+            <input type="email" name="correo" id="correo" required>
+            <br>
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" name="contraseña" id="contraseña" required>
+            <br>
+        </fieldset>
+        
+        <!-- Datos del Voluntario -->
+        <fieldset>
+            <legend>Datos del Voluntario</legend>
+            <label for="experiencia">Experiencia:</label>
+            <textarea name="experiencia" id="experiencia" required></textarea>
+            <br>
+            <label for="estado">Estado:</label>
+            <select name="estado" id="estado" required>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+            <br>
+            <label for="disponibilidad">Disponibilidad:</label>
+            <select name="disponibilidad" id="disponibilidad" required>
+                <option value="true">Disponible</option>
+                <option value="false">No Disponible</option>
+            </select>
+            <br>
+            <label for="fechaRegistro">Fecha de Registro:</label>
+            <input type="date" name="fechaRegistro" id="fechaRegistro" required>
+            <br>
+        </fieldset>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

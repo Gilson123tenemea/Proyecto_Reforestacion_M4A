@@ -45,5 +45,11 @@ public class ProvinciaServiceImpl implements IProvinciaService {
 		// TODO Auto-generated method stub
 		provinciadao.delete(id);
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Provincia> listarProvincias() {
+		return provinciadao.findAll();
+	}
 
 }

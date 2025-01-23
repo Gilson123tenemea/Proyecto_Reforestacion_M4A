@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Provincia</title>
+</head>
+<body>
+    <h1>Crear Nueva Provincia</h1>
+    <form action="/guardarProvincia" method="post">
+        <!-- Nombre de la Provincia -->
+        <label for="nombreProvincia">Nombre de la Provincia:</label>
+        <input type="text" name="nombreProvincia" id="nombreProvincia" required>
+        <br>
+        
+        <!-- Lista de Cantones (Opcional, se podría agregar con JavaScript dinámico en el futuro) -->
+        <fieldset>
+            <legend>Lista de Cantones</legend>
+            <!-- Aquí se pueden agregar campos para ingresar cantones si es necesario -->
+        </fieldset>
+        
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cantón</title>
+</head>
+<body>
+    <h1>Crear Nuevo Cantón</h1>
+    <form action="/guardarCanton" method="post">
+        <!-- Nombre del Cantón -->
+        <label for="nombreCanton">Nombre del Cantón:</label>
+        <input type="text" name="nombreCanton" id="nombreCanton" required>
+        <br>
+
+        <!-- Lista de Provincias -->
+        <label for="provinciaId">Seleccione la Provincia:</label>
+		<label for="provinciaId">Seleccione la Provincia:</label>
+		<select name="id_provincia" id="provinciaId" required>
+		    <option value="" disabled selected>Seleccione una Provincia</option>
+		    <th:block th:each="provincia : ${provincias}">
+		        <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+		    </th:block>
+		</select>
+        <br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

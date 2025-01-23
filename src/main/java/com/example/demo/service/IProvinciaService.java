@@ -10,4 +10,6 @@ public interface IProvinciaService {
 	public void save(Provincia provincia);
 	public Provincia findOne(Long id);
 	public void delete(Long id);
+	public List<Provincia> listarProvincias(); 
+	
 }
