@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Registrar Usuario</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/fondo.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+        }
+
+		.form-control,
+		.form-select {
+		    border-radius: 50px; 
+		}
+		
+		button {
+		    border-radius: 50px; 
+		}
+		.card {
+		    border-radius: 25px; 
+		    overflow: hidden;
+		}
+
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+		header h1 {
+		    font-family: 'Poppins', sans-serif; /* Fuente más gruesa */
+		    font-weight: 1000; /* Hacer la fuente más gruesa */
+		    font-size: 3rem; /* Ajusta el tamaño */
+		    color: white;
+		    text-align: left;
+		    margin-left: 20px;
+		}
+
+        .logo-container img {
+            max-width: 200px; 
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="text-center py-4 bg-danger">
+            <h1 class="display-5 text-white text-start">REFOREST</h1>
+        </div>
+    </header>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <div class="logo-container">
+                    <img src="/images/logo_cuenca.png" alt="Logo Cuenca" style="max-width: 150px;">
+                    <img src="/images/logoPrincipalReforest.png" alt="Logo Principal Reforest" style="max-width: 200px;">
+                </div>
+
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-danger text-white text-center">
+                        <h3 th:text="${titulo}" class="mb-0">Registrar Usuario</h3>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <form method="post" class="row g-4" onsubmit="return validarFormulario()">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" class="form-control" placeholder="Ingresa tu nombre" required>
+                                <div id="errorNombre" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="apellido" class="form-label">Apellido</label>
+                                <input type="text" id="apellido" class="form-control" placeholder="Ingresa tu apellido" required>
+                                <div id="errorApellido" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="email" id="correo" class="form-control" placeholder="correo@ejemplo.com" required>
+                                <div id="errorCorreo" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" id="fechaNacimiento" class="form-control" required>
+                                <div id="errorFechaNacimiento" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="genero" class="form-label">Género</label>
+                                <select id="genero" class="form-select" required>
+                                    <option selected disabled>Selecciona tu género</option>
+                                    <option value="MASCULINO">Masculino</option>
+                                    <option value="FEMENINO">Femenino</option>
+                                </select>
+                                <div id="errorGenero" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="participacion" class="form-label">Tipo de Participación</label>
+                                <select id="participacion" class="form-select" required>
+                                    <option selected disabled>Selecciona tu tipo de participación</option>
+                                    <option value="VOLUNTARIO">Voluntario</option>
+                                    <option value="PATROCINADOR">Patrocinador</option>
+                                </select>
+                                <div id="errorParticipacion" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="celular" class="form-label">Celular</label>
+                                <input type="text" id="celular" class="form-control" placeholder="Ingresa tu número de celular" required>
+                                <div id="errorCelular" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="cedula" class="form-label">Cédula</label>
+                                <input type="text" id="cedula" class="form-control" placeholder="Ingresa tu cédula" required>
+                                <div id="errorCedula" class="error-message" style="display:none;">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="contrasena" class="form-label">Contraseña</label>
+                                <input type="password" id="contrasena" class="form-control" placeholder="Crea una contraseña" required>
+                                <div id="errorContrasena" class="error-message" style="display:none;">Las contraseñas no coinciden</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="confirmarContrasena" class="form-label">Confirmar Contraseña</label>
+                                <input type="password" id="confirmarContrasena" class="form-control" placeholder="Confirma tu contraseña" required>
+                                <div id="errorConfirmarContrasena" class="error-message" style="display:none;">Las contraseñas no coinciden</div>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-danger btn-lg w-50">Registrarse</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3">
+        <p class="mb-0">Desarrollado por M4A de la carrera Tecnologia Superior de Desarrolllo de Software &copy; 2025</p>
+    </footer>
+    <script>
+        function validarFormulario() {
+            var contrasena = document.getElementById("contrasena").value;
+            var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+            var genero = document.getElementById("genero").value;
+            var participacion = document.getElementById("participacion").value;
+            var formularioValido = true;
+
+            var campos = ['nombre', 'apellido', 'correo', 'fechaNacimiento', 'celular', 'cedula'];
+            campos.forEach(function(campo) {
+                var input = document.getElementById(campo);
+                if (!input.value) {
+                    document.getElementById("error" + campo.charAt(0).toUpperCase() + campo.slice(1)).style.display = "block";
+                    formularioValido = false;
+                } else {
+                    document.getElementById("error" + campo.charAt(0).toUpperCase() + campo.slice(1)).style.display = "none";
+                }
+            });
+
+            if (contrasena !== confirmarContrasena) {
+                document.getElementById("errorContrasena").style.display = "block";
+                document.getElementById("errorConfirmarContrasena").style.display = "block";
+                formularioValido = false;
+            } else {
+                document.getElementById("errorContrasena").style.display = "none";
+                document.getElementById("errorConfirmarContrasena").style.display = "none";
+            }
+
+            if (!genero || genero === "Selecciona tu género") {
+                document.getElementById("errorGenero").style.display = "block";
+                formularioValido = false;
+            } else {
+                document.getElementById("errorGenero").style.display = "none";
+            }
+
+            if (!participacion || participacion === "Selecciona tu tipo de participación") {
+                document.getElementById("errorParticipacion").style.display = "block";
+                formularioValido = false;
+            } else {
+                document.getElementById("errorParticipacion").style.display = "none";
+            }
+
+            return formularioValido;
+        }
+    </script>
+
+</body>
+
+</html>
