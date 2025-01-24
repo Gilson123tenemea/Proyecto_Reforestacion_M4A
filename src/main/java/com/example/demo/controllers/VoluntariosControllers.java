@@ -62,7 +62,7 @@ public class VoluntariosControllers {
     }
     
     // Listar voluntarios
-    @GetMapping("/listar")
+    @GetMapping("/listarVoluntarios")
     public String listarVoluntarios(Model model) {
         model.addAttribute("titulo", "Lista de Voluntarios");
         model.addAttribute("voluntarios", voluntariosServices.findAll());
