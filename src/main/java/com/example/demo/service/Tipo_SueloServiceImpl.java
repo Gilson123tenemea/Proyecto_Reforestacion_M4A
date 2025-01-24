@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo.dao.ITipo_SueloDao;
 import com.example.demo.entity.Tipo_Suelo;
 
@@ -42,6 +41,12 @@ public class Tipo_SueloServiceImpl implements ITipo_SueloService {
 	public void delete(Long id) {
 		tpsueloDao.delete(id);
 		
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Tipo_Suelo> listartiposuelos() {
+		return tpsueloDao.findAll();
 	}
 
 }
