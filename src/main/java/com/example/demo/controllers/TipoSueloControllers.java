@@ -43,6 +43,7 @@ public class TipoSueloControllers {
         return "listartiposuelo";
     }
 	
+	
 	@GetMapping("/tiposuelo/eliminar/{id}")
 	public String eliminarTipoSuelo(@PathVariable("id") Long id, RedirectAttributes attributes) {
 	    try {
