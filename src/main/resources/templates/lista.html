@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Listado de Patrocinadores y Usuarios</title>
+</head>
+<body>
+    <h1 th:text="${titulo}">Listado de Patrocinadores y Usuarios</h1>
+    
+    <h2>Patrocinadores y Usuarios</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Empresa</th>
+                <th>Cedula</th>
+				<th>Nombre</th>
+
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${combinados}">
+                <td th:text="${item[0].id_patrocinador}"></td>
+                <td th:text="${item[0].nombreEmpresa}"></td>
+                <td th:text="${item[1].nombre}"></td>
+				<td th:text="${item[1].cedula}"></td>
+				<td th:text="${item[1].correo}"></td>
+
+
+
+              
+            </tr>
+        </tbody>
+    </table>
+    
+    <a href="/formulario">Agregar Patrocinador</a>
+</body>
+</html>
