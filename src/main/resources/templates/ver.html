@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Actividad</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJf+1jDlBb+00md+OVTrjiFxOMyk" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container my-5">
+        <!-- Título -->
+        <h2 class="text-secondary text-center mb-4" th:text="${titulo}"></h2>
+
+        <!-- Detalles de la Actividad -->
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td><strong>ID:</strong></td>
+                    <td><span th:text="${tactividad.id_tipoActividades}"></span></td>
+                </tr>
+                <tr>
+                    <td><strong>Nombre:</strong></td>
+                    <td><span th:text="${tactividad.nombre_act}"></span></td>
+                </tr>
+                <tr>
+                    <td><strong>Duración:</strong></td>
+                    <td><span th:text="${tactividad.duracion}"></span></td>
+                </tr>
+                <tr>
+                    <td><strong>Frecuencia:</strong></td>
+                    <td><span th:text="${tactividad.frecuencia}"></span></td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción:</strong></td>
+                    <td><span th:text="${tactividad.descripcion}"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón Regresar -->
+        <div class="text-center">
+            <a href="/listartipo" class="btn btn-primary">
+                Regresar al listado
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
+
