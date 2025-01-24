@@ -12,14 +12,12 @@
         <label for="nombreProvincia">Nombre de la Provincia:</label>
         <input type="text" name="nombreProvincia" id="nombreProvincia" required>
         <br>
-        
-        <!-- Lista de Cantones (Opcional, se podría agregar con JavaScript dinámico en el futuro) -->
-        <fieldset>
-            <legend>Lista de Cantones</legend>
-            <!-- Aquí se pueden agregar campos para ingresar cantones si es necesario -->
-        </fieldset>
-        
         <button type="submit">Guardar</button>
+    </form>
+
+    <!-- Botón para listar provincias -->
+    <form action="/listarProvincias" method="get">
+        <button type="submit">Listar Provincias</button>
     </form>
 </body>
 </html>
