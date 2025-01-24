@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tipos de Suelos</title>
+</head>
+<body>
+    <h1 style="text-align: center;">${titulo}</h1>
+	<div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+	<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    
+    <table border="1" cellpadding="5" cellspacing="0" style="margin: 0 auto; text-align: center; width: 90%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Suelo</th>
+                <th>Descripción</th>
+                <th>Color</th>
+                <th>Textura</th>
+                <th>Densidad</th>
+                <th>pH</th>
+                <th>Composición</th>
+                <th>Fertilidad</th>
+                <th>Uso del Suelo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tiposuelo : ${tiposuelos}">
+                <td th:text="${tiposuelo.id_tiposuelo}"></td>
+                <td th:text="${tiposuelo.nombre_suelo}"></td>
+                <td th:text="${tiposuelo.descripcion}"></td>
+                <td th:text="${tiposuelo.color}"></td>
+                <td th:text="${tiposuelo.textura}"></td>
+                <td th:text="${tiposuelo.densidad}"></td>
+                <td th:text="${tiposuelo.ph}"></td>
+                <td th:text="${tiposuelo.composicion}"></td>
+                <td th:text="${tiposuelo.fertilidad}"></td>
+                <td th:text="${tiposuelo.uso_del_suelo}"></td>
+                <td>
+                    <a th:href="@{/tiposuelo/eliminar/{id}(id=${tiposuelo.id_tiposuelo})}" 
+                       style="color: red; text-decoration: none; font-weight: bold;">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/tiposuelos" style="text-decoration: none; color: blue; font-weight: bold;">Regresar</a>
+    </div>
+</body>
+</html>

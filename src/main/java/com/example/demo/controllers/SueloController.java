@@ -22,14 +22,14 @@ public class SueloController {
     private ITipo_SueloService tipo_SueloService;
 	
 	@GetMapping("/suelo")
-    public String creartiposueloform(Model model) {
+    public String crearsuelo(Model model) {
         model.addAttribute("suelos", new Suelo());
         model.addAttribute("tiposuelos", tipo_SueloService.listartiposuelos());
         return "suelo";
     }
 	
 	@PostMapping("/guardarsuelo")
-    public String guardarProvincia(@ModelAttribute Suelo suelo, Model model) {
+    public String guardarSuelo(@ModelAttribute Suelo suelo, Model model) {
 		try {
             
             if (suelo.getId_tiposuelo() == null) {
@@ -48,7 +48,7 @@ public class SueloController {
     public String listarSuelos(Model model) {
         model.addAttribute("titulo", "Lista de suelos");
         model.addAttribute("tiposuelos", tipo_SueloService.findAll());
-        return "listartiposuelo";
+        return "listarsuelo";
     }
 
 

@@ -39,8 +39,20 @@ public class Tipo_SueloServiceImpl implements ITipo_SueloService {
 	@Transactional
 	@Override
 	public void delete(Long id) {
-		tpsueloDao.delete(id);
-		
+	    // Buscar el Tipo_Suelo por ID
+	    Tipo_Suelo tipoSuelo = tpsueloDao.findOne(id);
+	    
+	    if (tipoSuelo == null) {
+	        throw new IllegalArgumentException("Tipo de Suelo no encontrado");
+	    }
+	    
+	    // Verificar si tiene suelos asociados
+	    if (tipoSuelo.getSuelo() != null && !tipoSuelo.getSuelo().isEmpty()) {
+	        throw new IllegalStateException("No se puede eliminar el Tipo de Suelo porque tiene Suelos asociados");
+	    }
+	    
+	    // Eliminar el Tipo_Suelo
+	    tpsueloDao.delete(id);
 	}
 	
 	@Transactional(readOnly = true)
