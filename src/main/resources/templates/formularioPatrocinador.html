@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ingreso de datos</title>
+</head>
+<body>
+    <h1 th:if="${patrocinador.id_patrocinador == null}">Agregar Patrocinador</h1>
+    <h1 th:if="${patrocinador.id_patrocinador != null}">Modificar Patrocinador</h1>
+    
+    <form action="#" th:action="@{/enviar}" th:object="${patrocinador}" method="post">
+        <input type="hidden" th:field="*{id_patrocinador}" /> <!-- Campo oculto para el ID -->
+        
+        <label for="nombreEmpresa">Nombre de la Empresa:</label>
+        <input type="text" th:field="*{nombreEmpresa}" required />
+        
+		<label for="cedula">Cedula:</label>    
+	    <input type="text" th:field="${usuario.cedula}" required />
+		       
+        
+        <label for="nombre">Nombre:</label>
+        <input type="text" th:field="${usuario.nombre}" required />
+		
+		<label for="cedula">Email:</label>    
+	    <input type="text" th:field="${usuario.correo}" required />
+				       
+        
+        
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+    
+    <a href="/listar">Volver a la lista</a>
+</body>
+</html>

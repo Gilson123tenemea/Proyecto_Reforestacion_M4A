@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Suelo</title>
+</head>
+<body>
+    <h1>Crear Nuevo Suelo</h1>
+    <form action="/guardarsuelo" method="post">
+        <!-- ID del Tipo de Suelo -->
+        <label for="tipoSueloId">Seleccione el Tipo de Suelo:</label>
+        <select name="id_tiposuelo" id="tipoSueloId" required>
+            <option value="" disabled selected>Seleccione un Tipo de Suelo</option>
+            <th:block th:each="tiposuelo : ${tiposuelos}">
+                <option th:value="${tiposuelo.id_tiposuelo}" th:text="${tiposuelo.nombre_suelo}"></option>
+            </th:block>
+        </select>
+        <br>
+
+        <!-- Composición -->
+        <label for="composicion">Composición:</label>
+        <textarea name="composicion" id="composicion" rows="4" required></textarea>
+        <br>
+
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" id="descripcion" rows="4" required></textarea>
+        <br>
+
+        
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

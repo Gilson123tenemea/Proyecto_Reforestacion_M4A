@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.Tipo_Suelo;
 
 @Service
@@ -16,4 +15,6 @@ public interface ITipo_SueloService {
 	public Tipo_Suelo findOne (Long id);
 
 	public void delete(Long id);
+	
+	public List<Tipo_Suelo> listartiposuelos(); 
 }

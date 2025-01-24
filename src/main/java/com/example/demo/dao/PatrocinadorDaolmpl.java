@@ -18,7 +18,7 @@ public class PatrocinadorDaolmpl implements IPatrocinadorDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Patrocinador> findAll() {
-		return em.createQuery("from Patrocinador").getResultList();
+		return em.createQuery("from Patrocinador ").getResultList();
 	}
 
 	@Override

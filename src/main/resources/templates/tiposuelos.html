@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Tipo de Suelo</title>
+</head>
+<body>
+    <h1>Crear Nuevo Tipo de Suelo</h1>
+    <form action="/guardartiposuelo" method="post">
+        <!-- Nombre del Suelo -->
+        <label for="nombreSuelo">Nombre del Suelo:</label>
+        <input type="text" name="nombre_suelo" id="nombre_suelo" required>
+        <br>
+        
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" id="descripcion" rows="4" required></textarea>
+        <br>
+        
+        <!-- Color -->
+        <label for="color">Color:</label>
+        <input type="text" name="color" id="color" required>
+        <br>
+        
+        <!-- Textura -->
+        <label for="textura">Textura:</label>
+        <input type="text" name="textura" id="textura" required>
+        <br>
+        
+        <!-- Densidad -->
+        <label for="densidad">Densidad:</label>
+        <input type="text" name="densidad" id="densidad" required>
+        <br>
+        
+        <!-- PH -->
+        <label for="ph">pH:</label>
+        <input type="text" name="ph" id="ph" required>
+        <br>
+        
+        <!-- Composición -->
+        <label for="composicion">Composición:</label>
+        <textarea name="composicion" id="composicion" rows="4" required></textarea>
+        <br>
+        
+        <!-- Fertilidad -->
+        <label for="fertilidad">Fertilidad:</label>
+        <input type="text" name="fertilidad" id="fertilidad" required>
+        <br>
+        
+        <!-- Uso del Suelo -->
+        <label for="usoDelSuelo">Uso del Suelo:</label>
+        <textarea name="uso_del_suelo" id="uso_del_suelo" rows="4" required></textarea>
+        <br>
+        
+        
+        <button type="submit">Guardar</button>	
+    </form>
+	
+	<!-- Botón para listar provincias -->
+	    <form action="/listartiposuelo" method="get">
+	        <button type="submit">Listar Tipo SueloS</button>
+	    </form>
+</body>
+</html>
