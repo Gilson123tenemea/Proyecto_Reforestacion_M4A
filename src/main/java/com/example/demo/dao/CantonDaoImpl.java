@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Canton;
+import com.example.demo.entity.Parroquia;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -30,7 +31,12 @@ public class CantonDaoImpl implements ICantonDao {
 	@Override
 	public void save(Canton canton) {
 		// TODO Auto-generated method stub
-		
+	    if (canton.getParroquia() != null) {
+	        for (Parroquia parroquia : canton.getParroquia()) {
+	        	parroquia.setId_canton(canton.getId_canton()); // Establecer la relación
+	            en.merge(parroquia); // Guardar o actualizar el canton
+	        }
+	    }
 	    if(canton.getId_canton() == null || canton.getId_canton() <= 0) {
 	        en.persist(canton); // Usar persist solo si es una entidad nueva
 	    } else {
