@@ -15,7 +15,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="asignacion_proyecto",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_asignacionproyecto","id_actividades","id_proyecto"})})
+@Table(name="asignaciones",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_asignacionproyecto","id_actividades","id_proyecto"})})
 public class Asignacion_proyectoActi implements Serializable {
 	
 	@Id

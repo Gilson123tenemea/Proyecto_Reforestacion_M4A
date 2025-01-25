@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${titulo}</title>
+</head>
+<body>
+    <h1>${titulo}</h1>
+
+    <a href="/inscripcion">Nueva Inscripción</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Voluntario</th>
+                <th>Actividad</th>
+                <th>Fecha de Creación</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="inscripcion : ${inscripciones}">
+                <td th:text="${inscripcion.id_inscripcionactividades}"></td>
+                <td th:text="${inscripcion.id_voluntario}"></td>
+                <td th:text="${inscripcion.id_tipoActividades}"></td>
+                <td th:text="${inscripcion.createAs}"></td>
+                <td>
+                    <a th:href="@{/inscripcion/editar/{id}(id=${inscripcion.id_inscripcionactividades})}">Editar</a>
+                    <a th:href="@{/inscripcion/eliminar/{id}(id=${inscripcion.id_inscripcionactividades})}" onclick="return confirm('¿Está seguro de eliminar esta inscripción?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

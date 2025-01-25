@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IProyectoDao;
+import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Proyecto;
 
 @Service
@@ -39,4 +40,10 @@ public class ProyectoServicelmpl implements IProyectoServices{
 		proyectodao.delete(id);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public List<Proyecto> listarproyectos() {
+		return proyectodao.findAll();
+	}
+	
 }

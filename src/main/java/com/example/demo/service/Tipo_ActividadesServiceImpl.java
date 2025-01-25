@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.ITipo_ActividadesDao;
+import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Tipo_Actividades;
 
 @Service
@@ -40,6 +41,12 @@ public class Tipo_ActividadesServiceImpl implements ITipo_ActividadesService {
 	public void delete(Long id) {
 		tpactividadesDao.delete(id);
 		
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Tipo_Actividades> listaractividades() {
+		return tpactividadesDao.findAll();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Tipo_Actividades;
 @Service
 public interface ITipo_ActividadesService {
@@ -15,4 +16,6 @@ public interface ITipo_ActividadesService {
 	public Tipo_Actividades findOne (Long id);
 
 	public void delete(Long id);
+	
+	public List<Tipo_Actividades> listaractividades(); 
 }

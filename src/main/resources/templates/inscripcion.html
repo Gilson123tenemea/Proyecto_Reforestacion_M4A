@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Formulario Inscripción</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 th:text="${titulo}">Formulario Inscripción</h2>
+
+    <!-- Mensajes Flash -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Formulario -->
+    <form action="/inscripcion" method="post">
+        <!-- Campo oculto para el ID -->
+        <input type="hidden" name="id_inscripcionactividades" th:value="${inscripcion.id_inscripcionactividades}">
+
+        <!-- Selección de Voluntario -->
+        <div class="form-group">
+            <label for="voluntario">Voluntario</label>
+            <select name="id_voluntario" id="voluntario" class="form-control" required>
+                <option th:each="voluntario : ${voluntarios}" 
+                        th:value="${voluntario.id_voluntario}" 
+                        ></option>
+            </select>
+        </div>
+
+        <!-- Selección de Tipo de Actividad -->
+		<div class="form-group">
+		            <label for="actividad">Voluntario</label>
+		            <select name="id_tipoActividades" id="actividad" class="form-control" required>
+		                <option th:each="actividad : ${actividades}" 
+		                        th:value="${actividad.id_tipoActividades}" 
+		                        th:text="${actividad.nombre_act}"></option>
+		            </select>
+		        </div>
+
+        <!-- Fecha de Inscripción -->
+        <div class="form-group">
+            <label for="fechaCreacion">Fecha de Inscripción</label>
+            <input type="date" name="createAs" id="fechaCreacion" th:value="${inscripcion.createAs}" class="form-control" required>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-between">
+            <!-- Botón de Guardar -->
+            <button type="submit" class="btn btn-success">
+                Guardar
+            </button>
+
+            <!-- Enlace de Volver -->
+            <a href="/listarinscripciones" class="btn btn-secondary">Volver al listado</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
