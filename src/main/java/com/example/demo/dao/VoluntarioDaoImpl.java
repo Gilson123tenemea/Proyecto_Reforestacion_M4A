@@ -38,4 +38,13 @@ public class VoluntarioDaoImpl implements IVoluntarioDao{
 		em.remove(findOne(id));
 	}
 
+	@Override
+	public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {
+		 String query = "SELECT a FROM Voluntarios a JOIN FETCH a.usuario WHERE a.id_voluntario = :iVoluntario";
+	        return em.createQuery(query, Voluntarios.class)
+	                 .setParameter("iVoluntario", iVoluntario)
+	                 .getResultList();
+		}
+	
+
 }
