@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title th:text="${titulo}">Listado de Administradores y Usuarios</title>
+</head>
+
+<body>
+	<h1 th:text="${titulo}">Listado de Administradores y Usuarios</h1>
+
+	<h2>Administradores y Usuarios</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>ID Administrador</th>
+				<th>Cédula</th>
+				<th>Nombre Usuario</th>
+				<th>Apellido Usuario</th>
+				<th>Correo</th>
+				<th>Fecha Nacimiento</th>
+				<th>Genero</th>
+				<th>Celular</th>
+				<th>Contraseña</th>
+				<th>Actividades Gestionadas</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="item : ${combinados}">
+				<td th:text="${item['administrador'].id_administrador}"></td>
+				<td th:text="${item['usuario'].cedula}"></td>
+				<td th:text="${item['usuario'].nombre}"></td>
+				<td th:text="${item['usuario'].apellido}"></td>
+				<td th:text="${item['usuario'].correo}"></td>
+				<td th:text="${item['usuario'].fecha_nacimiento}"></td>
+				<td th:text="${item['usuario'].genero}"></td>
+				<td th:text="${item['usuario'].celular}"></td>
+				<td th:text="${item['usuario'].contraseña}"></td>
+				<td th:text="${item['administrador'].actividades_gestionadas}"></td>
+				<td>
+					<!-- Enlace para Editar: apunta a la vista de editar con el ID del administrador -->
+					<a th:href="@{/Inicio?id={id}(id=${item['administrador'].id_administrador})}" class="btn btn-warning">Editar</a>
+
+				</td>
+				<td>
+					<!-- Enlace para Eliminar: apunta al controlador de eliminación -->
+					<form th:action="@{/delete/{id}(id=${item['administrador'].id_administrador})}" method="post"
+						onsubmit="return confirm('¿Estás seguro de que quieres eliminar este administrador?');">
+						<button type="submit" class="btn btn-danger">Eliminar</button>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+	<a href="/Inicio">Agregar Administrador</a>
+</body>
+
+</html>

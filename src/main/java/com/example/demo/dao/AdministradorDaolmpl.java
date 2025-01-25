@@ -55,4 +55,12 @@ public class AdministradorDaolmpl implements IAdministradorDao {
 	    
 	    return results;
 	}
+
+	@Override
+	public List<Administrador> findAdministradoresWithUsuarios(Long idAdministrador) {
+        String query = "SELECT a FROM Administrador a JOIN FETCH a.usuario WHERE a.id_administrador = :idAdministrador";
+        return em.createQuery(query, Administrador.class)
+                 .setParameter("idAdministrador", idAdministrador)
+                 .getResultList();
+	}
 }
