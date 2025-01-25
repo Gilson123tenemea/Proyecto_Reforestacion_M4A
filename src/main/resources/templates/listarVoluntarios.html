@@ -1,13 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voluntarios</title>
+	<title th:text="${titulo}">Listado de Voluntarios y Usuarios</title>
 </head>
+
 <body>
-    <h1>Guardaste datos</h1>
-    <p>Los datos del voluntario se guardaron correctamente.</p>
-    <a href="/listarVoluntarios">Volver a la lista de voluntarios</a>
+	<h1 th:text="${titulo}">Listado de Voluntarios y Usuarios</h1>
+
+	<h2>Voluntarios y Usuarios</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>ID Voluntario</th>
+				<th>Cédula</th>
+				<th>Nombre Usuario</th>
+				<th>Apellido Usuario</th>
+				<th>Correo</th>
+				<th>Fecha Nacimiento</th>
+				<th>Genero</th>
+				<th>Celular</th>
+				<th>Contraseña</th>
+				<th>Experiencia</th>
+				<th>Estado</th>
+				<th>Disponibilidad</th>
+				<th>Fecha Registro</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="item : ${combinados}">
+				<td th:text="${item['voluntarios'].id_voluntario}"></td>
+				<td th:text="${item['usuario'].cedula}"></td>
+				<td th:text="${item['usuario'].nombre}"></td>
+				<td th:text="${item['usuario'].apellido}"></td>
+				<td th:text="${item['usuario'].correo}"></td>
+				<td th:text="${item['usuario'].fecha_nacimiento}"></td>
+				<td th:text="${item['usuario'].genero}"></td>
+				<td th:text="${item['usuario'].celular}"></td>
+				<td th:text="${item['usuario'].contraseña}"></td>
+				<td th:text="${item['voluntarios'].experiencia}"></td>
+				<td th:text="${item['voluntarios'].estado}"></td>
+				<td th:text="${item['voluntarios'].disponibilidad}"></td>
+				<td th:text="${item['voluntarios'].fechaRegistro}"></td>
+
+				<td>
+					<!-- Enlace para Editar: apunta a la vista de editar con el ID del administrador -->
+					<a th:href="@{/voluntarios?id={id}(id=${item['voluntarios'].id_voluntario})}" class="btn btn-warning">Editar</a>
+
+				</td>
+				<td>
+					<!-- Enlace para Eliminar: apunta al controlador de eliminación -->
+					<form th:action="@{/deletevoluntario/{id}(id=${item['voluntarios'].id_voluntario})}" method="post"
+						onsubmit="return confirm('¿Estás seguro de que quieres eliminar este voluntario?');">
+						<button type="submit" class="btn btn-danger">Eliminar</button>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+	<a href="/voluntarios">Agregar Voluntario</a>
 </body>
+
 </html>

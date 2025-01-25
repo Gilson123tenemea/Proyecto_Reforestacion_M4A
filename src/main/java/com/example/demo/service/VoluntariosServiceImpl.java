@@ -40,5 +40,10 @@ public class VoluntariosServiceImpl implements IVoluntariosService {
 		voluntarioDao.delete(id);
 		
 	}
+	
+	 @Transactional(readOnly = true)
+	    public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {
+	        return voluntarioDao.findAdministradoresWithUsuarios(iVoluntario);
+	    }
 
 }
