@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IPlantasDao;
+import com.example.demo.entity.Area;
 import com.example.demo.entity.Plantas;
 
 
@@ -40,5 +42,13 @@ public class PlantaServiceImpl implements IPlantasService {
 		plantadao.delete(id);
 		
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Plantas> listarPlantas() {
+		return plantadao.findAll();
+	}
+	
+	
 
 }

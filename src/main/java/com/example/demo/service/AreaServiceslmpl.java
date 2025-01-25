@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IAreaDao;
 import com.example.demo.entity.Area;
+import com.example.demo.entity.Suelo;
 
 @Service
 public class AreaServiceslmpl implements IAreaServices{
@@ -37,6 +38,12 @@ public class AreaServiceslmpl implements IAreaServices{
 	@Override
 	public void delete(Long id) {
 		areadao.delete(id);
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Area> listarAreas() {
+		return areadao.findAll();
 	}
 
 }
