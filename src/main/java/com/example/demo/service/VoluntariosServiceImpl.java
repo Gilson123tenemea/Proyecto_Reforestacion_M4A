@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.IVoluntarioDao;
-<<<<<<< Updated upstream
+
 import com.example.demo.entity.Usuarios;
-=======
+
 import com.example.demo.entity.Tipo_Actividades;
->>>>>>> Stashed changes
+
 import com.example.demo.entity.Voluntarios;
 @Service
 public class VoluntariosServiceImpl implements IVoluntariosService {
