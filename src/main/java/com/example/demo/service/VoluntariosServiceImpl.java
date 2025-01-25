@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.IVoluntarioDao;
+import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 @Service
 public class VoluntariosServiceImpl implements IVoluntariosService {
 
 	@Autowired
 	private IVoluntarioDao voluntarioDao;
+	
+	@Autowired
+    private IUsuarioServices usuariosService; 
 	
 	@Transactional(readOnly=true)
 	@Override
@@ -40,6 +44,27 @@ public class VoluntariosServiceImpl implements IVoluntariosService {
 		voluntarioDao.delete(id);
 		
 	}
+	
+	@Transactional
+	public void eliminarVoluntarioYUsuario(Long id) {
+	    System.out.println("Intentando eliminar el voluntario con ID: " + id);
+	    Voluntarios voluntario = findOne(id);
+	    if (voluntario != null) {
+	        System.out.println("Eliminando el voluntario con ID: " + id);
+	        delete(id);  // Elimina el voluntario
+	        Usuarios usuario = usuariosService.findOne(voluntario.getId_usuarios());
+	        if (usuario != null) {
+	            System.out.println("Eliminando el usuario con ID: " + usuario.getId_usuarios());
+	            // Verifica si el usuario no tiene más voluntarios
+	            if (usuario.getVoluntarios() == null || usuario.getVoluntarios().isEmpty()) {
+	                usuariosService.delete(usuario.getId_usuarios());  // Elimina el usuario si no tiene más voluntarios
+	            }
+	        }
+	    }
+	}
+
+
+
 	
 	 @Transactional(readOnly = true)
 	    public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {

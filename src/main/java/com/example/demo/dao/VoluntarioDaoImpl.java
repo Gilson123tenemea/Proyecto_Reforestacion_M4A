@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.Voluntarios;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class VoluntarioDaoImpl implements IVoluntarioDao{
@@ -37,6 +38,15 @@ public class VoluntarioDaoImpl implements IVoluntarioDao{
 	public void delete(Long id) {
 		em.remove(findOne(id));
 	}
+	
+	public List<Object[]> findAllVoluntariosUserDetails() {
+	    String jpql = "SELECT v.id_voluntario, u.cedula, u.nombre, u.apellido, u.correo, "
+	                 + "v.actividades_gestionadas "
+	                 + "FROM Voluntarios v JOIN Usuarios u ON v.id_usuarios = u.id_usuarios";
+	    TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+	    return query.getResultList();
+	}
+
 
 	@Override
 	public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {

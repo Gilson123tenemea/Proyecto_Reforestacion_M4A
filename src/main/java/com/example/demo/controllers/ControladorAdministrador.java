@@ -68,43 +68,69 @@ public class ControladorAdministrador {
 	}
 
 	@RequestMapping(value = "/Inicio", method = RequestMethod.GET)
-	public String listarYEditar(@RequestParam(value = "id", required = false) Long id, 
-	                             Map<String, Object> model, 
-	                             RedirectAttributes flash) {
-	    Administrador administrador = null;
-	    
-	    // Si se pasa un id, se obtiene el administrador para editarlo
+	public String listarYEditar(
+	        @RequestParam(value = "id", required = false) Long id,
+	        Map<String, Object> model,
+	        RedirectAttributes flash) {
+	    Administrador administrador = new Administrador();
+	    Usuarios usuario = new Usuarios();
+
 	    if (id != null && id > 0) {
 	        administrador = administradorServices.findOne(id);
-	        if (administrador == null) {
+	        if (administrador != null) {
+	            usuario = usuarioServices.findOne(administrador.getId_usuarios());
+	        } else {
 	            flash.addFlashAttribute("info", "El administrador no existe en la base de datos");
-	            return "redirect:/Inicio"; // Redirige si no encuentra al administrador
+	            return "redirect:/Inicio";
 	        }
 	    }
-	    
+
 	    model.put("administrador", administrador);
-	    model.put("usuarios", usuarioServices.findAll());
+	    model.put("usuario", usuario);
 	    model.put("titulo", "Editar o Crear Administrador");
-	    return "Inicio"; // Devuelve la misma vista "Inicio"
+	    return "Inicio";
 	}
 
 
 
- 
-	   @PostMapping("/guardar")
-	    public String guardarAdministradorYUsuario(@ModelAttribute Administrador administrador, @ModelAttribute Usuarios usuario, Model model) {
-	        try {
-	            usuarioServices.save(usuario);
-	            administrador.setId_usuarios(usuario.getId_usuarios());
-	            administradorServices.save(administrador);
 
-	            model.addAttribute("mensaje", "Administrador y Usuario guardados exitosamente");
-	            return "redirect:/listarAdministradores"; 
-	        } catch (Exception e) {
-	            model.addAttribute("mensaje", "Error al guardar el Administrador y Usuario: " + e.getMessage());
-	            return "error";
-	        }
+	@PostMapping("/guardar")
+	public String guardarAdministradorYUsuario(
+	        @ModelAttribute("administrador") Administrador administrador,
+	        @ModelAttribute("usuario") Usuarios usuario,
+	        Model model) {
+	    try {
+	    	if (usuario.getId_usuarios() != null) {
+	    	    Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
+	    	    if (usuarioExistente != null) {
+	    	        usuarioExistente.setCedula(usuario.getCedula());
+	    	        usuarioExistente.setNombre(usuario.getNombre());
+	    	        usuarioExistente.setApellido(usuario.getApellido());
+	    	        usuarioExistente.setCorreo(usuario.getCorreo());
+	    	        
+	    	        if (usuario.getFecha_nacimiento() != null) {
+	    	            usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+	    	        }
+	    	        
+	    	        usuarioExistente.setGenero(usuario.getGenero());
+	    	        usuarioExistente.setCelular(usuario.getCelular());
+	    	        usuarioExistente.setContraseña(usuario.getContraseña());
+	    	        usuario = usuarioExistente;
+	    	    }
+	    	}
+
+	    	usuarioServices.save(usuario);
+
+	        administrador.setId_usuarios(usuario.getId_usuarios());
+	        administradorServices.save(administrador);
+	        return "redirect:/listarAdministradores";
+	    } catch (Exception e) {
+	        model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
+	        return "error";
 	    }
+	}
+
+
 
     
     @RequestMapping("/Inicio")

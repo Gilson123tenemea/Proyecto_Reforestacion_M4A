@@ -8,7 +8,8 @@
 <body>
     <h1>Crear Nuevo Voluntario</h1>
     <form action="/guardarvolun" method="post">
-        <!-- Datos del Usuario -->
+		<input type="hidden" name="id_voluntario" th:value="${voluntarios != null ? voluntarios.id_voluntario : ''}" />
+
         <fieldset>
             <legend>Datos del Usuario</legend>
             <label for="cedula">Cédula:</label>
@@ -26,7 +27,7 @@
 			<label for="fecha_nacimiento">Fecha de Nacimiento:</label>
 			<input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
 			<br>
-			<label for="genero">Genero:</label>
+			<label for="genero">Género:</label>
 			<select name="genero" id="genero" required>
 				<option value="true">Masculino</option>
 				<option value="false">Femenino</option>
@@ -39,8 +40,9 @@
             <input type="password" name="contraseña" id="contraseña" required>
             <br>
         </fieldset>
+		<input type="hidden" name="id_usuarios" th:value="${usuario != null ? usuario.id_usuarios : ''}" />
         <fieldset>
-            <legend></legend>
+            <legend>Datos del Voluntario</legend>
             <label for="experiencia">Experiencia:</label>
             <textarea name="experiencia" id="experiencia" required></textarea>
             <br>
@@ -59,6 +61,7 @@
             <label for="fechaRegistro">Fecha de Registro:</label>
             <input type="date" name="fechaRegistro" id="fechaRegistro" required>
             <br>
+			<input type="hidden" name="id_usuarios" th:value="${usuario != null ? usuario.id_usuarios : ''}" />
         </fieldset>
 
         <button type="submit">Guardar</button>

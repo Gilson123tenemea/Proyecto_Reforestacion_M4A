@@ -11,5 +11,6 @@ public interface IVoluntariosService {
 	public void save(Voluntarios voluntarios);
 	public Voluntarios findOne (Long id);
 	public void delete(Long id);
+	public void eliminarVoluntarioYUsuario(Long id);
 	
 }

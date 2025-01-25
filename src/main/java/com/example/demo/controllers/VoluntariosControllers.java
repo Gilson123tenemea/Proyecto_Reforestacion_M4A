@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Usuarios;
@@ -43,26 +46,70 @@ public class VoluntariosControllers {
     }
 
     
- // Guardar voluntario y usuario
-    @PostMapping("/guardarvolun")
-    public String guardarVoluntarioYUsuario(@ModelAttribute Voluntarios voluntario, @ModelAttribute Usuarios usuario, Model model) {
-        try {
-            usuarioServices.save(usuario);
-            voluntario.setId_usuarios(usuario.getId_usuarios());
-            voluntariosServices.save(voluntario);
+    @RequestMapping(value = "/voluntarios", method = RequestMethod.GET)
+    public String listarYEditar(
+            @RequestParam(value = "id", required = false) Long id,
+            Map<String, Object> model,
+            RedirectAttributes flash) {
+        Voluntarios voluntario = new Voluntarios();
+        Usuarios usuario = new Usuarios();
 
-            model.addAttribute("mensaje", "Voluntario y Usuario guardados exitosamente");
-            return "redirect:/listarVoluntarios"; 
+        if (id != null && id > 0) {
+            voluntario = voluntariosServices.findOne(id);
+            if (voluntario != null) {
+                usuario = usuarioServices.findOne(voluntario.getId_usuarios());
+            } else {
+                flash.addFlashAttribute("info", "El voluntario no existe en la base de datos");
+                return "redirect:/voluntarios";
+            }
+        }
+
+        model.put("voluntarios", voluntario); 
+        model.put("usuario", usuario);
+        model.put("titulo", "Editar o Crear Voluntario");
+        return "voluntarios";
+    }
+
+    @PostMapping("/guardarvolun")
+    public String guardarVoluntarioYUsuario(
+            @ModelAttribute("voluntarios") Voluntarios voluntarios,
+            @ModelAttribute("usuario") Usuarios usuario,
+            Model model) {
+        try {
+            if (usuario.getId_usuarios() != null) {
+                Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
+                if (usuarioExistente != null) {
+                    usuarioExistente.setCedula(usuario.getCedula());
+                    usuarioExistente.setNombre(usuario.getNombre());
+                    usuarioExistente.setApellido(usuario.getApellido());
+                    usuarioExistente.setCorreo(usuario.getCorreo());
+                    
+                    if (usuario.getFecha_nacimiento() != null) {
+                        usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                    }
+                    
+                    usuarioExistente.setGenero(usuario.getGenero());
+                    usuarioExistente.setCelular(usuario.getCelular());
+                    usuarioExistente.setContraseña(usuario.getContraseña());
+                    usuario = usuarioExistente;
+                }
+            }
+
+            usuarioServices.save(usuario);
+            voluntarios.setId_usuarios(usuario.getId_usuarios());
+            voluntariosServices.save(voluntarios);
+
+            return "redirect:/listarVoluntarios";
         } catch (Exception e) {
-            model.addAttribute("mensaje", "Error al guardar el Voluntario y Usuario: " + e.getMessage());
+            model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
             return "error";
         }
     }
 
-    // Crear nuevo voluntario
-    @RequestMapping("/voluntarios")
-    public String crear(Map<String, Object> model) {
-        model.put("voluntario", new Voluntarios()); 
+    @GetMapping("/crearVoluntario")
+    public String crearVoluntario(Map<String, Object> model) {
+    	model.put("voluntarios", new Voluntarios());
+        model.put("usuarios", usuarioServices.findAll());
         return "voluntarios"; 
     }
     
@@ -75,7 +122,7 @@ public class VoluntariosControllers {
 
         List<Map<String, Object>> combinados = new ArrayList<>();
         for (Usuarios usuario : usuarios) {
-            if (!usuario.getVoluntarios().isEmpty()) {
+            if (usuario.getVoluntarios() != null && !usuario.getVoluntarios().isEmpty()) {
                 Voluntarios voluntario = usuario.getVoluntarios().get(0); 
                 Map<String, Object> datosCombinados = new HashMap<>();
                 datosCombinados.put("voluntarios", voluntario);
@@ -87,10 +134,12 @@ public class VoluntariosControllers {
         model.addAttribute("combinados", combinados);
         return "listarVoluntarios";
     }
+
     
     @PostMapping("/deletevoluntario/{id}")
     public String deleteVoluntarios(@PathVariable Long id, Model model) {
         try {
+            System.out.println("Eliminando voluntario con ID: " + id);  // Debugging log
             Voluntarios voluntarios = voluntariosServices.findOne(id);
 
             if (voluntarios == null) {
@@ -98,13 +147,16 @@ public class VoluntariosControllers {
                 return "error";
             }
 
-            voluntariosServices.delete(id);
-            model.addAttribute("mensaje", "Voluntario eliminado exitosamente");
-            return "redirect:/listarVoluntarios";
+            voluntariosServices.eliminarVoluntarioYUsuario(id);
+            model.addAttribute("mensaje", "Voluntario y Usuario eliminados exitosamente");
+            return "redirect:/listarVoluntarios";  // Asegúrate de que esta URL sea correcta
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al eliminar el voluntario: " + e.getMessage());
             return "error";
         }
     }
+
+
+
 
 }

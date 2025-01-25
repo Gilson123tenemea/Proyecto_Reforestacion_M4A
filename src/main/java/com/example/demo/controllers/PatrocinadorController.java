@@ -24,7 +24,6 @@ import com.example.demo.service.IUsuarioServices;
 
 public class PatrocinadorController {
 	
-	
 	@Autowired
 	private IPatrocinadorServices patrocinadorservice;
 	@Autowired
@@ -102,10 +101,6 @@ public class PatrocinadorController {
         return "redirect:/listar"; // Redirige a la lista de patrocinadores
     }
 	
-	
-	
-	
 
-	
 	
 }
