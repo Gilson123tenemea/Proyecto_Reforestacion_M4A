@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tipos de Suelos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .alert {
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        table tr:hover {
+            background-color: #ddd;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .action-link {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .action-link:hover {
+            text-decoration: underline;
+        }
+        .center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${titulo}">Lista de Tipos de Suelos</h1>
+    
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Suelo</th>
+                <th>Descripción</th>
+                <th>Color</th>
+                <th>Textura</th>
+                <th>Densidad</th>
+                <th>pH</th>
+                <th>Composición</th>
+                <th>Fertilidad</th>
+                <th>Uso del Suelo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tiposuelo : ${tiposuelos}">
+                <td th:text="${tiposuelo.id_tiposuelo}">1</td>
+                <td th:text="${tiposuelo.nombre_suelo}">Nombre del Suelo</td>
+                <td th:text="${tiposuelo.descripcion}">Descripción</td>
+                <td th:text="${tiposuelo.color}">Color</td>
+                <td th:text="${tiposuelo.textura}">Textura</td>
+                <td th:text="${tiposuelo.densidad}">Densidad</td>
+                <td th:text="${tiposuelo.ph}">pH</td>
+                <td th:text="${tiposuelo.composicion}">Composición</td>
+                <td th:text="${tiposuelo.fertilidad}">Fertilidad</td>
+                <td th:text="${tiposuelo.uso_del_suelo}">Uso del Suelo</td>
+                <td>
+                    <a th:href="@{/tiposuelo/eliminar/{id}(id=${tiposuelo.id_tiposuelo})}" 
+                       class="action-link">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="center">
+        <a href="/tiposuelos">Regresar</a>
+    </div>
+</body>
+</html>
