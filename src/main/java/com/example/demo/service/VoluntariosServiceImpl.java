@@ -45,27 +45,6 @@ public class VoluntariosServiceImpl implements IVoluntariosService {
 		
 	}
 	
-	@Transactional
-	public void eliminarVoluntarioYUsuario(Long id) {
-	    System.out.println("Intentando eliminar el voluntario con ID: " + id);
-	    Voluntarios voluntario = findOne(id);
-	    if (voluntario != null) {
-	        System.out.println("Eliminando el voluntario con ID: " + id);
-	        delete(id);  // Elimina el voluntario
-	        Usuarios usuario = usuariosService.findOne(voluntario.getId_usuarios());
-	        if (usuario != null) {
-	            System.out.println("Eliminando el usuario con ID: " + usuario.getId_usuarios());
-	            // Verifica si el usuario no tiene más voluntarios
-	            if (usuario.getVoluntarios() == null || usuario.getVoluntarios().isEmpty()) {
-	                usuariosService.delete(usuario.getId_usuarios());  // Elimina el usuario si no tiene más voluntarios
-	            }
-	        }
-	    }
-	}
-
-
-
-	
 	 @Transactional(readOnly = true)
 	    public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {
 	        return voluntarioDao.findAdministradoresWithUsuarios(iVoluntario);
