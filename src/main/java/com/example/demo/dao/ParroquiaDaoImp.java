@@ -31,13 +31,11 @@ public class ParroquiaDaoImp implements IParroquiaDao {
 	public void save(Parroquia parroquia) {
 		// TODO Auto-generated method stub
 		
-		if(parroquia.getId_parroquia() != null && parroquia.getId_parroquia()>0) {
-			
-			en.persist(parroquia);
-			
-		}else {
-			en.merge(parroquia);
-		}
+	    if (parroquia.getId_parroquia() == null) {
+	        en.persist(parroquia); // Si es nueva provincia
+	    } else {
+	        en.merge(parroquia); // Si es una provincia existente
+	    }
 		
 	}
 

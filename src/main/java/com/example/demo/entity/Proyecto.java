@@ -76,6 +76,7 @@ public class Proyecto implements Serializable {
 		this.id_administrador = id_administrador;
 	}
 
+
 	public Long getId_parroquia() {
 		return id_parroquia;
 	}

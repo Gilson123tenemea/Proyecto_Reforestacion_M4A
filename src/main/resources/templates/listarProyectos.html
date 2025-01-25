@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${titulo}">Listado de Proyectos</title>
+</head>
+
+<body>
+    <h1 th:text="${titulo}">Listado de Proyectos</h1>
+
+    <h2>Proyectos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Proyecto</th>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Voluntarios Max</th>
+                <th>Administrar</th>
+				<th>ID Provincia</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${proyectos}">
+                <td th:text="${item.id_proyecto}"></td>
+                <td th:text="${item.nombre}"></td>
+                <td th:text="${item.fecha_inicio}"></td>
+                <td th:text="${item.fecha_fin}"></td>
+                <td th:text="${item.estado}"></td>
+                <td th:text="${item.voluntariosmax}"></td>
+
+                <td>
+                    <!-- Enlace para Editar -->
+					<a th:href="@{/proyectos/editar/{id}(id=${item.id_proyecto})}" class="btn btn-warning btn-sm">
+					    Editar
+					</a>
+                </td>
+                <td>
+                    <!-- Enlace para Eliminar -->
+					<form th:action="@{/proyectos/eliminar/{id}(id=${item.id_proyecto})}" method="post"
+					    onsubmit="return confirm('¿Estás seguro de que quieres eliminar este proyecto?');">
+					    <button type="submit" class="btn btn-danger">Eliminar</button>
+					</form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/proyectos/agregar">Agregar Proyecto</a>
+</body>
+
+</html>

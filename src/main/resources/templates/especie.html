@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Especie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .plantas-list {
+            margin-bottom: 15px;
+        }
+    </style>
+    <script>
+        function agregarPlanta() {
+            const plantasDiv = document.getElementById('plantasDiv');
+            const nuevaPlanta = document.createElement('div');
+            nuevaPlanta.className = 'plantas-list';
+            nuevaPlanta.innerHTML = `
+                <input type="text" name="plantas[]" placeholder="Nombre de la planta" required>
+                <button type="button" onclick="eliminarPlanta(this)">Eliminar</button>
+            `;
+            plantasDiv.appendChild(nuevaPlanta);
+        }
+
+        function eliminarPlanta(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+    <h1>Crear Nueva Especie</h1>
+    <form action="/guardarespecie" method="post">
+        <!-- Nombre de la Especie -->
+        <label for="nombre">Nombre de la Especie:</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la especie" required>
+        
+        <!-- Lista de Plantas -->
+        <label>Plantas Asociadas:</label>
+        <div id="plantasDiv"></div>
+        <button type="button" onclick="agregarPlanta()">Agregar Planta</button>
+        
+        <button type="submit">Guardar Especie</button>
+    </form>
+    
+    <!-- Botón para listar especies -->
+    <form action="/listarespecies" method="get">
+        <button type="submit">Listar Especies</button>
+    </form>
+</body>
+</html>
