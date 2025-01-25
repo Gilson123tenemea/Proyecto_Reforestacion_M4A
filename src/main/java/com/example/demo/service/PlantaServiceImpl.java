@@ -22,7 +22,8 @@ public class PlantaServiceImpl implements IPlantasService {
 		// TODO Auto-generated method stub
 		return plantadao.findAll();
 	}
-
+    
+	@Transactional
 	@Override
 	public void save(Plantas plantas) {
 		// TODO Auto-generated method stub
@@ -35,7 +36,8 @@ public class PlantaServiceImpl implements IPlantasService {
 		// TODO Auto-generated method stub
 		return plantadao.findOne(id);
 	}
-
+    
+	@Transactional	
 	@Override
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
