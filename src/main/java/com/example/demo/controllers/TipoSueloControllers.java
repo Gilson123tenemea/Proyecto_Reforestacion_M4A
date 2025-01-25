@@ -14,20 +14,20 @@ import com.example.demo.service.ITipo_SueloService;
 
 @Controller
 public class TipoSueloControllers {
-	
-	@Autowired
+    
+    @Autowired
     private ITipo_SueloService tipo_SueloService;
-	
-	@GetMapping("/tiposuelos")
+    
+    @GetMapping("/tiposuelos")
     public String creartiposueloform(Model model) {
         model.addAttribute("tiposuelo", new Tipo_Suelo());
         return "tiposuelos";
     }
-	
-	@PostMapping("/guardartiposuelo")
+    
+    @PostMapping("/guardartiposuelo")
     public String guardarTiposuelo(@ModelAttribute Tipo_Suelo tipo_suelos, Model model) {
         try {
-        	tipo_SueloService.save(tipo_suelos);
+            tipo_SueloService.save(tipo_suelos);
             model.addAttribute("mensaje", "Tipo de suelo guardado exitosamente");
             return "redirect:/listartiposuelo";
         } catch (Exception e) {
@@ -35,27 +35,42 @@ public class TipoSueloControllers {
             return "error";
         }
     }
-	
-	@GetMapping("/listartiposuelo")
+    
+    @GetMapping("/listartiposuelo")
     public String listarTipoSuelos(Model model) {
         model.addAttribute("titulo", "Lista de Tipo de suelos");
         model.addAttribute("tiposuelos", tipo_SueloService.findAll());
         return "listartiposuelo";
     }
-	
-	
-	@GetMapping("/tiposuelo/eliminar/{id}")
-	public String eliminarTipoSuelo(@PathVariable("id") Long id, RedirectAttributes attributes) {
-	    try {
-	        tipo_SueloService.delete(id);
-	        attributes.addFlashAttribute("mensaje", "Tipo de suelo eliminado correctamente");
-	    } catch (IllegalStateException e) {
-	        attributes.addFlashAttribute("error", e.getMessage());
-	    } catch (Exception e) {
-	        attributes.addFlashAttribute("error", "Error al eliminar el Tipo de Suelo");
-	    }
-	    return "redirect:/listartiposuelo";
-	}
-
-
+    
+    @GetMapping("/tiposuelo/eliminar/{id}")
+    public String eliminarTipoSuelo(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        try {
+            tipo_SueloService.delete(id);
+            attributes.addFlashAttribute("mensaje", "Tipo de suelo eliminado correctamente");
+        } catch (IllegalStateException e) {
+            attributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error al eliminar el Tipo de Suelo");
+        }
+        return "redirect:/listartiposuelo";
+    }
+    
+    // Método para editar un Tipo_Suelo
+    @GetMapping("/tiposuelo/editar/{id}")
+    public String editarTipoSuelo(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+        try {
+            Tipo_Suelo tipoSuelo = tipo_SueloService.findOne(id);
+            if (tipoSuelo == null) {
+                attributes.addFlashAttribute("error", "El Tipo de Suelo no existe");
+                return "redirect:/listartiposuelo";
+            }
+            model.addAttribute("tiposuelo", tipoSuelo);
+            model.addAttribute("titulo", "Editar Tipo de Suelo");
+            return "tiposuelos";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error al cargar el Tipo de Suelo: " + e.getMessage());
+            return "redirect:/listartiposuelo";
+        }
+    }
 }

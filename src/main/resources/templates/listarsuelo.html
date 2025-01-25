@@ -28,6 +28,9 @@
                 <td th:text="${suelo.composicion}"></td>
                 <td th:text="${suelo.descripcion}"></td>
                 <td>
+					<!-- Botón para Editar -->
+					                      <a th:href="@{/suelo/editar/{id}(id=${suelo.id_suelo})}" 
+					                         class="btn btn-primary btn-sm">Editar</a>
                     <a th:href="@{/suelo/eliminar/{id}(id=${suelo.id_suelo})}" 
                        style="color: red; text-decoration: none; font-weight: bold;">Eliminar</a>
                 </td>

@@ -31,10 +31,10 @@ public class Tipo_Suelo implements Serializable {
     private String uso_del_suelo;
     
   //relacion con tipo de suelo
-  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@OneToMany(fetch = FetchType.LAZY)
   	@JoinColumn(name ="id_tiposuelo")
-  	private List<Suelo> suelo  ; 
-    
+  	private List<Suelo> suelo;
+  	
     private static final long serialVersionUID = 1L;
 
 	public Long getId_tiposuelo() {

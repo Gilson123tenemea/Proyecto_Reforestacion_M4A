@@ -31,20 +31,23 @@ public class SueloController {
     }
 	
 	@PostMapping("/guardarsuelo")
-    public String guardarSuelo(@ModelAttribute Suelo suelo, Model model) {
-		try {
-            
-            if (suelo.getId_tiposuelo() == null) {
-                throw new Exception("Debe seleccionar un Tipo de suelo.");
-			}
-        	sueloservice.save(suelo);
-            model.addAttribute("mensaje", "Suelo guardado exitosamente");
-            return "redirect:/listarsuelo";
-        } catch (Exception e) {
-            model.addAttribute("mensaje", "Error al guardar el suelo: " + e.getMessage());
-            return "error";
-        }
-    }
+	public String guardarSuelo(@ModelAttribute Suelo suelo, Model model) {
+	    try {
+	        // Validar que se ha seleccionado un tipo de suelo
+	        if (suelo.getId_tiposuelo() == null) {
+	            throw new Exception("Debe seleccionar un Tipo de suelo.");
+	        }
+	        
+	        // Guardamos el suelo
+	        sueloservice.save(suelo);
+	        model.addAttribute("mensaje", "Suelo guardado exitosamente");
+	        return "redirect:/listarsuelo";
+	    } catch (Exception e) {
+	        model.addAttribute("mensaje", "Error al guardar el suelo: " + e.getMessage());
+	        return "error";
+	    }
+	}
+
 	
 	@GetMapping("/listarsuelo")
     public String listarSuelos(Model model) {
@@ -65,6 +68,28 @@ public class SueloController {
 	    }
 	    return "redirect:/listarsuelo";
 	}
+	
+	
+	
+	@GetMapping("/suelo/editar/{id}")
+    public String editarSuelo(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+        try {
+            Suelo suelo = sueloservice.findOne(id);
+            if (suelo == null) {
+                attributes.addFlashAttribute("error", "El Suelo no existe");
+                return "redirect:/listarsuelo";
+            }
+            model.addAttribute("suelos", suelo);
+            model.addAttribute("tiposuelos", tipo_SueloService.listartiposuelos());
+            model.addAttribute("titulo", "Editar Suelo");
+            return "suelo"; // Redirige al formulario de edición
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error al cargar el Suelo: " + e.getMessage());
+            return "redirect:/listarsuelo";
+        }
+    }
+
+
 
 
 }
