@@ -1,49 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Administradores y Usuarios</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lista de Administradores y Usuarios</title>
 </head>
+
 <body>
-    <h1>Lista de Administradores y Usuarios</h1>
+	<h1>Lista de Administradores y Usuarios</h1>
 
-    <h2>Crear Nuevo Administrador</h2>
-    <form action="/guardar" method="post">
-		
-        <!-- Datos del Usuario -->
-        <fieldset>
-            <legend>Datos del Usuario</legend>
-            <label for="cedula">Cédula:</label>
-            <input type="text" name="cedula" id="cedula" required>
-            <br>
-            <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" required>
-            <br>
-            <label for="apellido">Apellido:</label>
-            <input type="text" name="apellido" id="apellido" required>
-            <br>
-            <label for="correo">Correo:</label>
-            <input type="email" name="correo" id="correo" required>
-            <br>
-            <label for="contraseña">Contraseña:</label>
-            <input type="password" name="contraseña" id="contraseña" required>
-            <br>
-        </fieldset>
-        
-        <!-- Datos del Administrador -->
-        <fieldset>
-            <legend>Datos del Administrador</legend>
-            <label for="actividades_gestionadas">Actividades Gestionadas:</label>
-            <input type="number" name="actividades_gestionadas" id="actividades_gestionadas" required>
-            <br>
-            <label for="id_super_administrador">ID del Super Administrador:</label>
-            <input type="number" name="id_super_administrador" id="id_super_administrador" required>
-            <br>
-        </fieldset>
+	<h2>Crear Nuevo Administrador</h2>
+	<form action="/guardar" method="post">
 
-        <button type="submit">Guardar</button>
+		<!-- Datos del Usuario -->
+		<fieldset>
+			<legend>Datos del Usuario</legend>
+			<label for="cedula">Cédula:</label>
+			<input type="text" name="cedula" id="cedula" required>
+			<br>
+			<label for="nombre">Nombre:</label>
+			<input type="text" name="nombre" id="nombre" required>
+			<br>
+			<label for="apellido">Apellido:</label>
+			<input type="text" name="apellido" id="apellido" required>
+			<br>
+			<label for="correo">Correo:</label>
+			<input type="email" name="correo" id="correo" required>
+			<br>
+			<label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+			<input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+			<br>
+			<label for="genero">Genero:</label>
+			<select name="genero" id="genero" required>
+				<option value="true">Masculino</option>
+				<option value="false">Femenino</option>
+			</select>
+			<br>
+			<label for="celular">Celular:</label>
+		    <input type="text" name="celular" id="celular" required>
+			<br>
+			<label for="contraseña">Contraseña:</label>
+			<input type="password" name="contraseña" id="contraseña" required>
+			<br>
+		</fieldset>
+		<fieldset>
+			<label for="actividades_gestionadas">Actividades Gestionadas:</label>
+			<input type="number" name="actividades_gestionadas" id="actividades_gestionadas" required>
+			<br>
+			<label for="id_super_administrador">ID del Super Administrador:</label>
+			<input type="number" name="id_super_administrador" id="id_super_administrador" required>
+			<br>
+		</fieldset>
+
+		<button type="submit">Guardar</button>
 		<a href="/listarAdministradores">Volver a la lista</a>
-  
+
 </body>
+
 </html>

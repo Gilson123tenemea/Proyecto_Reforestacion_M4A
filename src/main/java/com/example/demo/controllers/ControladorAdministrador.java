@@ -1,14 +1,18 @@
 package com.example.demo.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +34,14 @@ public class ControladorAdministrador {
 	
 	@Autowired
 	private IUsuarioServices usuarioServices;
+	
+	 @InitBinder
+	    public void initBinder(WebDataBinder binder) {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        dateFormat.setLenient(false);
+	        binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
+	    }
+
 	
 
 	@GetMapping("/listarAdministradores")
