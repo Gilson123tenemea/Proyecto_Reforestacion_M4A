@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Listado de Patrocinios</title>
+</head>
+<body>
+    <h1 th:text="${titulo}">Listado de Patrocinios</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Tipo de Patrocinio</th>
+                <th>Cantidad Estimada</th>
+                <th>ID Proyecto</th>
+                <th>ID Patrocinador</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="patrocinio : ${patrocinios}">
+                <td th:text="${patrocinio.id_patrocina}"></td>
+                <td th:text="${#dates.format(patrocinio.fechainicio, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(patrocinio.fechafin, 'yyyy-MM-dd')}"></td>
+                <td th:text="${patrocinio.tipo_patrocinio}"></td>
+                <td th:text="${patrocinio.cantiad_estimada}"></td>
+                <td th:text="${patrocinio.id_proyecto}"></td>
+                <td th:text="${patrocinio.id_patrocinador}"></td>
+                <td>
+                    <a th:href="@{/formularioPatrocinio/{id}(id=${patrocinio.id_patrocina})}">Editar</a>
+                    <a th:href="@{/eliminarPatrocinio/{id}(id=${patrocinio.id_patrocina})}" 
+                       onclick="return confirm('¿Estás seguro de que deseas eliminar este patrocinio?');">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/formularioPatrocinio">Crear Nuevo Patrocinio</a>
+</body>
+</html>

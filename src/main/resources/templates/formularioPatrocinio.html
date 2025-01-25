@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Formulario de Patrocinio</title>
+</head>
+<body>
+    <h1 th:text="${titulo}">Formulario de Patrocinio</h1>
+    <form th:action="@{/formularioPatrocinio}" th:object="${patrocinio}" method="post">
+        <div>
+            <label for="fechainicio">Fecha Inicio:</label>
+            <input type="date" id="fechainicio" th:field="*{fechainicio}" required />
+        </div>
+        <div>
+            <label for="fechafin">Fecha Fin:</label>
+            <input type="date" id="fechafin" th:field="*{fechafin}" required />
+        </div>
+        <div>
+            <label for="tipo_patrocinio">Tipo de Patrocinio:</label>
+            <input type="text" id="tipo_patrocinio" th:field="*{tipo_patrocinio}" required />
+        </div>
+        <div>
+            <label for="cantiad_estimada">Cantidad Estimada:</label>
+            <input type="number" id="cantiad_estimada" th:field="*{cantiad_estimada}" step="0.01" required />
+        </div>
+        <div>
+            <label for="id_proyecto">ID Proyecto:</label>
+            <input type="number" id="id_proyecto" th:field="*{id_proyecto}" required />
+        </div>
+        <div>
+            <label for="id_patrocinador">ID Patrocinador:</label>
+            <input type="number" id="id_patrocinador" th:field="*{Id_patrocinador}" required />
+        </div>
+        <div>
+            <input type="hidden" th:field="*{Id_patrocina}" />
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+    <a href="/listarPatrocinios">Volver al Listado</a>
+</body>
+</html>
