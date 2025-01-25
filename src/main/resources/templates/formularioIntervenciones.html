@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Formulario de Intervenciones</title>
+</head>
+<body>
+    <h1 th:text="${titulo}">Formulario de Intervenciones</h1>
+    <form th:action="@{/formularioIntervenciones}" th:object="${intervencion}" method="post">
+        <div>
+            <label for="id_tipoActividades">Tipo Actividad:</label>
+            <input type="number" id="id_tipoActividades" th:field="*{id_tipoActividades}" required />
+        </div>
+        <div>
+            <label for="id_suelo">Suelo:</label>
+            <input type="number" id="id_suelo" th:field="*{id_suelo}" required />
+        </div>
+        <div>
+            <label for="id_voluntario">Voluntario:</label>
+            <input type="number" id="id_voluntario" th:field="*{id_voluntario}" required />
+        </div>
+        <div>
+            <label for="fecha_asignacion">Fecha Asignación:</label>
+            <input type="date" id="fecha_asignacion" th:field="*{fecha_asignacion}" required />
+        </div>
+        <div>
+            <label for="hora_asignacion">Hora Asignación:</label>
+            <input type="time" id="hora_asignacion" th:field="*{hora_asignacion}" required />
+        </div>
+        <div>
+            <label for="observaciones">Observaciones:</label>
+            <textarea id="observaciones" th:field="*{observaciones}"></textarea>
+        </div>
+        <div>
+            <input type="hidden" th:field="*{id_asignacionActividades}" />
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+    <a href="/listarIntervenciones">Volver al Listado</a>
+</body>
+</html>

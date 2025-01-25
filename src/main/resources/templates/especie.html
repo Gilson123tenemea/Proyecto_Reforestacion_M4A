@@ -1,75 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Nueva Especie</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .plantas-list {
-            margin-bottom: 15px;
-        }
-    </style>
-    <script>
-        function agregarPlanta() {
-            const plantasDiv = document.getElementById('plantasDiv');
-            const nuevaPlanta = document.createElement('div');
-            nuevaPlanta.className = 'plantas-list';
-            nuevaPlanta.innerHTML = `
-                <input type="text" name="plantas[]" placeholder="Nombre de la planta" required>
-                <button type="button" onclick="eliminarPlanta(this)">Eliminar</button>
-            `;
-            plantasDiv.appendChild(nuevaPlanta);
-        }
-
-        function eliminarPlanta(button) {
-            button.parentElement.remove();
-        }
-    </script>
+    <title th:text="${titulo}">Formulario Especie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Crear Nueva Especie</h1>
-    <form action="/guardarespecie" method="post">
-        <!-- Nombre de la Especie -->
-        <label for="nombre">Nombre de la Especie:</label>
-        <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la especie" required>
-        
-        <!-- Lista de Plantas -->
-        <label>Plantas Asociadas:</label>
-        <div id="plantasDiv"></div>
-        <button type="button" onclick="agregarPlanta()">Agregar Planta</button>
-        
-        <button type="submit">Guardar Especie</button>
+
+<div class="container mt-5">
+    <h2 th:text="${titulo}">Formulario Especie</h2>
+
+    <!-- Mensajes Flash -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Formulario -->
+    <form th:action="@{/especie}" th:object="${especie}" method="post">
+        <!-- Campo oculto para el ID -->
+        <input type="hidden" th:field="*{id_especie}" />
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre de la Especie</label>
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Ingrese el nombre de la especie" required>
+        </div>
+
+       
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-between">
+            <!-- Botón de Guardar o Actualizar -->
+            <button type="submit" class="btn btn-success">
+                <span th:text="${especie.id_especie != null ? 'Actualizar' : 'Guardar'}">Guardar</span>
+            </button>
+
+            <!-- Enlace de Cancelar -->
+            <a href="/listarespecie" class="btn btn-secondary">Cancelar</a>
+        </div>
     </form>
-    
-    <!-- Botón para listar especies -->
-    <form action="/listarespecies" method="get">
-        <button type="submit">Listar Especies</button>
-    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

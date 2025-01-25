@@ -21,50 +21,46 @@ public class IntervencionSueloController {
     @Autowired
     private IIntervencionSueloServices intervencionservice;
 
-    @RequestMapping(value="/listarPatrocinios", method=RequestMethod.GET)
+    @RequestMapping(value="/listarIntervenciones", method=RequestMethod.GET)
     public String listar(Model model) {
         model.addAttribute("titulo", "Listado de intervenciones");
         model.addAttribute("Intervenciones", intervencionservice.findAll());
-        return "  ";
+        return "Listaintervencion";
     }
 
-    @RequestMapping("/form")
+    @RequestMapping("/formularioIntervenciones")
     public String crear(Map<String, Object> model) {
         Intervencion_Suelo intervencion = new Intervencion_Suelo();
         model.put("intervencion", intervencion);
         model.put("titulo", "Patrocinio");
-        return "form"; 
+        return "formularioIntervenciones"; 
     }
 
-    @RequestMapping(value="/form", method=RequestMethod.POST)
-    public String guardar(Intervencion_Suelo inter, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("titulo", "Patrocinio");
-            return "form"; 
-        }  
+    @RequestMapping(value="/formularioIntervenciones", method=RequestMethod.POST)
+    public String guardar(Intervencion_Suelo inter, Model model) {
         intervencionservice.save(inter);
-        return "redirect:/listar"; 
+        return "redirect:/listarIntervenciones"; 
     }
 
-    @RequestMapping(value="/form/{id}")
+    @RequestMapping(value="/formularioIntervenciones/{id}")
     public String editar(@PathVariable(value="id") Long id, Map<String, Object> model) {
         Intervencion_Suelo intervencion = null;
         if (id > 0) {
         	intervencion = intervencionservice.findOne(id);
         } else {
-            return "redirect:/listar";
+            return "redirect:/Listaintervencion";
         }
         model.put("intervencion", intervencion);
         model.put("titulo", "Editar Intervenciones");
-        return "form";
+        return "formularioIntervenciones";
     }
 
-    @RequestMapping(value="/eliminar/{id}")
+    @RequestMapping(value="/eliminarintervenciones/{id}")
     public String eliminar(@PathVariable(value="id") Long id) {
         if (id > 0) {
             intervencionservice.delete(id);
         }
-        return "redirect:/listar";
+        return "redirect:/listarIntervenciones";
     }
 	
 }

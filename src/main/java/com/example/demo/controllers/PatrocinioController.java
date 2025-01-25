@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,46 +25,45 @@ public class PatrocinioController {
     public String listar(Model model) {
         model.addAttribute("titulo", "Listado de clientes");
         model.addAttribute("patrocinios", patrocinioservice.findAll());
-        return "  ";
+        return "ListaPatrocinio";
     }
 
-    @RequestMapping("/form")
+    @RequestMapping("/formularioPatrocinio")
     public String crear(Map<String, Object> model) {
         Patrocinio patrocinio = new Patrocinio();
         model.put("patrocinio", patrocinio);
         model.put("titulo", "Patrocinio");
-        return "form"; 
+        return "formularioPatrocinio"; 
     }
 
-    @RequestMapping(value="/form", method=RequestMethod.POST)
-    public String guardar(Patrocinio cliente, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("titulo", "Patrocinio");
-            return "form"; 
-        }  
+    @RequestMapping(value="/formularioPatrocinio", method=RequestMethod.POST)
+    public String guardar(@ModelAttribute Patrocinio cliente,Model model) {
+        
+        model.addAttribute("titulo", "Patrocinio");
+            
         patrocinioservice.save(cliente);
-        return "redirect:/listar"; 
+        return "redirect:/listarPatrocinios"; 
     }
 
-    @RequestMapping(value="/form/{id}")
+    @RequestMapping(value="/formularioPatrocinio/{id}")
     public String editar(@PathVariable(value="id") Long id, Map<String, Object> model) {
         Patrocinio patrocinio = null;
         if (id > 0) {
         	patrocinio = patrocinioservice.findOne(id);
         } else {
-            return "redirect:/listar";
+            return "redirect:/listarPatrocinios";
         }
         model.put("patrocinio", patrocinio);
         model.put("titulo", "Editar patrocinio");
-        return "form";
+        return "formularioPatrocinio";
     }
 
-    @RequestMapping(value="/eliminar/{id}")
+    @RequestMapping(value="/eliminarPatrocinio/{id}")
     public String eliminar(@PathVariable(value="id") Long id) {
         if (id > 0) {
             patrocinioservice.delete(id);
         }
-        return "redirect:/listar";
+        return "redirect:/listarPatrocinios";
     }
 	
 	

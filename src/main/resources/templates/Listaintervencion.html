@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Listado de Intervenciones</title>
+</head>
+<body>
+    <h1 th:text="${titulo}">Listado de Intervenciones</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo Actividad</th>
+                <th>Suelo</th>
+                <th>Voluntario</th>
+                <th>Fecha Asignación</th>
+                <th>Hora Asignación</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="intervencion : ${Intervenciones}">
+                <td th:text="${intervencion.id_asignacionActividades}"></td>
+                <td th:text="${intervencion.id_tipoActividades}"></td>
+                <td th:text="${intervencion.id_suelo}"></td>
+                <td th:text="${intervencion.id_voluntario}"></td>
+                <td th:text="${#dates.format(intervencion.fecha_asignacion, 'yyyy-MM-dd')}"></td>
+                <td th:text="${intervencion.hora_asignacion}"></td>
+                <td th:text="${intervencion.observaciones}"></td>
+                <td>
+                    <a th:href="@{/formularioIntervenciones/{id}(id=${intervencion.id_asignacionActividades})}">Editar</a>
+                    <a th:href="@{/eliminarintervenciones/{id}(id=${intervencion.id_asignacionActividades})}" 
+                       onclick="return confirm('¿Estás seguro de que deseas eliminar esta intervención?');">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/formularioIntervenciones">Crear Nueva Intervención</a>
+</body>
+</html>

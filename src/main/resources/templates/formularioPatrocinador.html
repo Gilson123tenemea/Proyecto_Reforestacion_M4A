@@ -7,7 +7,7 @@
     <h1 th:if="${patrocinador.id_patrocinador == null}">Agregar Patrocinador</h1>
     <h1 th:if="${patrocinador.id_patrocinador != null}">Modificar Patrocinador</h1>
     
-    <form action="#" th:action="@{/enviar}" th:object="${patrocinador}" method="post">
+    <form action="#" th:action="@{/formulario}" th:object="${patrocinador}" method="post">
         <input type="hidden" th:field="*{id_patrocinador}" /> <!-- Campo oculto para el ID -->
         
         <label for="nombreEmpresa">Nombre de la Empresa:</label>

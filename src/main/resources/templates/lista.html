@@ -13,8 +13,8 @@
                 <th>ID</th>
                 <th>Empresa</th>
                 <th>Cedula</th>
-				<th>Nombre</th>
-
+                <th>Nombre</th>
+                <th>Correo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -22,13 +22,13 @@
             <tr th:each="item : ${combinados}">
                 <td th:text="${item[0].id_patrocinador}"></td>
                 <td th:text="${item[0].nombreEmpresa}"></td>
+                <td th:text="${item[1].cedula}"></td>
                 <td th:text="${item[1].nombre}"></td>
-				<td th:text="${item[1].cedula}"></td>
-				<td th:text="${item[1].correo}"></td>
-
-
-
-              
+                <td th:text="${item[1].correo}"></td>
+                <td>
+                    <!-- Botón de Editar que redirige al formulario de edición con los datos cargados -->
+                    <a th:href="@{/formulario/{id}(id=${item[0].id_patrocinador})}">Editar</a>
+                </td>
             </tr>
         </tbody>
     </table>

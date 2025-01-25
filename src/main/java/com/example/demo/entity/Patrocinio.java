@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +22,10 @@ public class Patrocinio implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id_patrocina;
 	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Especifica el formato de fecha
 	private Date fechainicio;
 	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Especifica el formato de fecha
 	private Date fechafin;
 	private String tipo_patrocinio;
 	private Double cantiad_estimada;

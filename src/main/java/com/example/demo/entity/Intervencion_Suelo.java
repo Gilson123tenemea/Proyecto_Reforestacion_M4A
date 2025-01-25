@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,6 +32,8 @@ public class Intervencion_Suelo implements Serializable{
 	private Long id_voluntario;
 	
 	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Especifica el formato de fecha
+
 	private Date fecha_asignacion;
 	
 	private String hora_asignacion;
