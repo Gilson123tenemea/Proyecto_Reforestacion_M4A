@@ -64,12 +64,10 @@ public class ProvinciaControllers {
         if (provincia.getId_provincia() != null) {
             Provincia provinciaActual = provinciaService.findOne(provincia.getId_provincia());
             if (provinciaActual != null) {
-                // Mantener los cantones existentes y sincronizar
                 provincia.setCanton(provinciaActual.getCanton());
             }
         }
 
-        // Sincronizar relaciones y guardar
         if (provincia.getCanton() != null) {
             for (Canton canton : provincia.getCanton()) {
                 canton.setId_provincia(provincia.getId_provincia());
@@ -83,7 +81,6 @@ public class ProvinciaControllers {
     }
 
 
-    // Eliminar provincia
     @RequestMapping(value="/eliminarprovincia/{id}", method=RequestMethod.GET)
     public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
         try {
