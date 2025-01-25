@@ -9,5 +9,6 @@ public interface IPatrocinadorServices {
 	public void save(Patrocinador patrocinador);
 	public Patrocinador findOne(Long id);
 	public void delete(Long id);
+	public List<Patrocinador> patrocinadorUsuario(Long id_patrocinador);
 
 }

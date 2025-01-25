@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Patrocinador;
+import com.example.demo.entity.Voluntarios;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -39,5 +40,13 @@ public class PatrocinadorDaolmpl implements IPatrocinadorDao{
 	@Override
 	public void delete(Long id) {
 		em.remove(findOne(id));
+	}
+
+	@Override
+	public List<Patrocinador> PatrocinadorUsuario(Long id_patrocinador) {
+		 String query = "SELECT a FROM Patrocinador a JOIN FETCH a.usuario WHERE a.id_patrocinador = :id_patrocinador";
+	        return em.createQuery(query, Patrocinador.class)
+	                 .setParameter("id_patrocinador", id_patrocinador)
+	                 .getResultList();
 	}
 }

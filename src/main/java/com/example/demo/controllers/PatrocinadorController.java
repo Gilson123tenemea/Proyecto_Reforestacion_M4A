@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Usuarios;
@@ -87,26 +90,66 @@ public class PatrocinadorController {
         }
     }	
 	
-	
+    @RequestMapping(value = "/patrocinadores", method = RequestMethod.GET)
+    public String listarYEditar(
+            @RequestParam(value = "id", required = false) Long id,
+            Map<String, Object> model,
+            RedirectAttributes flash) {
+        Patrocinador patrocinador = new Patrocinador();
+        Usuarios usuario = new Usuarios();
+
+        if (id != null && id > 0) {
+        	patrocinador = patrocinadorservice.findOne(id);
+            if (patrocinador != null) {
+                usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
+            } else {
+                flash.addFlashAttribute("info", "El patrocinador no existe en la base de datos");
+                return "redirect:/formularioPatrocinador";
+            }
+        }
+
+        model.put("patrocinadores", patrocinador); 
+        model.put("usuario", usuario);
+        model.put("titulo", "Editar o Crear Patrocinadores");
+        return "formularioPatrocinador";
+    }
+
 
   
     @RequestMapping(value="/formulario/{id}")
-    public String modificar(@PathVariable("id") Long id,
-    		Map<String, Object> model) {
-    	
-    	
-    	Patrocinador patrocinador =null;
-    	Usuarios usuario=null;
-    	if (id > 0) {
-    		usuario = usuarioservice.findOne(id);
-    		patrocinador=patrocinadorservice.findOne(usuario.getId_usuarios());
-        } else {
-            return "redirect:/listar";
-        }
-    	
-    	 
+    public String guardarVoluntarioYUsuario(
+            @ModelAttribute("patrocinador") Patrocinador patrocinador,
+            @ModelAttribute("usuario") Usuarios usuario,
+            Model model) {
+        try {
+            if (usuario.getId_usuarios() != null) {
+                Usuarios usuarioExistente = usuarioservice.findOne(usuario.getId_usuarios());
+                if (usuarioExistente != null) {
+                    usuarioExistente.setCedula(usuario.getCedula());
+                    usuarioExistente.setNombre(usuario.getNombre());
+                    usuarioExistente.setApellido(usuario.getApellido());
+                    usuarioExistente.setCorreo(usuario.getCorreo());
+                    
+                    if (usuario.getFecha_nacimiento() != null) {
+                        usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                    }
+                    
+                    usuarioExistente.setGenero(usuario.getGenero());
+                    usuarioExistente.setCelular(usuario.getCelular());
+                    usuarioExistente.setContraseña(usuario.getContraseña());
+                    usuario = usuarioExistente;
+                }
+            }
 
-        return "formularioPatrocinador";
+            usuarioservice.save(usuario);
+            patrocinador.setId_usuarios(usuario.getId_usuarios());
+            patrocinadorservice.save(patrocinador);
+
+            return "redirect:/listar";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
+            return "error";
+        }
     }
 	
     @RequestMapping(value="/eliminar/{id}")

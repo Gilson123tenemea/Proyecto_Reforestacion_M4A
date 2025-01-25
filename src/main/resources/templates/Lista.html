@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${titulo}">Listado de Patrocinadores y Usuarios</title>
+</head>
+
+<body>
+    <h1 th:text="${titulo}">Listado de Patrocinadores y Usuarios</h1>
+
+    <h2>Patrocinadores y Usuarios</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Patrocinador</th>
+                <th>ID Usuario</th>
+                <th>Nombre Empresa</th>
+                <th>Cédula</th>
+                <th>Nombre Usuario</th>
+                <th>Apellido Usuario</th>
+                <th>Correo</th>
+                <th>Fecha Nacimiento</th>
+                <th>Genero</th>
+                <th>Celular</th>
+                <th>Contraseña</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${combinados}">
+                <td th:text="${item['patrocinadores'].id_patrocinador}"></td>
+                <td th:text="${item['usuario'].id_usuarios}"></td>
+                <td th:text="${item['patrocinadores'].nombreEmpresa}"></td>
+                <td th:text="${item['usuario'].cedula}"></td>
+                <td th:text="${item['usuario'].nombre}"></td>
+                <td th:text="${item['usuario'].apellido}"></td>
+                <td th:text="${item['usuario'].correo}"></td>
+                <td th:text="${item['usuario'].fecha_nacimiento}"></td>
+                <td th:text="${item['usuario'].genero}"></td>
+                <td th:text="${item['usuario'].celular}"></td>
+                <td th:text="${item['usuario'].contraseña}"></td>
+
+                <td>
+                    <!-- Enlace para Editar: apunta a la vista de editar con el ID del patrocinador -->
+
+					<a th:href="@{/patrocinadores?id={id}(id=${item['patrocinadores'].id_patrocinador})}" class="btn btn-warning">Editar</a>
+
+					                </td>
+                <td>
+                    <!-- Enlace para Eliminar: apunta al controlador de eliminación -->
+                    <form th:action="@{/eliminar/{id}(id=${item['patrocinadores'].id_patrocinador})}" method="post"
+                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar este patrocinador?');">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/formulario">Agregar Patrocinador</a>
+</body>
+
+</html>

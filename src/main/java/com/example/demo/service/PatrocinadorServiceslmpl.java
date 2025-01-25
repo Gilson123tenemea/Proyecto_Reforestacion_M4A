@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IPatrocinadorDao;
 import com.example.demo.entity.Patrocinador;
+import com.example.demo.entity.Voluntarios;
 
 @Service
 public class PatrocinadorServiceslmpl implements IPatrocinadorServices{
@@ -38,5 +39,12 @@ public class PatrocinadorServiceslmpl implements IPatrocinadorServices{
 	public void delete(Long id) {
 		patrocinadordao.delete(id);
 	}
+
+	
+	 @Transactional(readOnly = true)
+     @Override
+	 public List<Patrocinador> patrocinadorUsuario(Long iVoluntario) {
+	        return patrocinadordao.PatrocinadorUsuario(iVoluntario);
+	 }
 
 }

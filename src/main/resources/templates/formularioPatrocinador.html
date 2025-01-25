@@ -1,34 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Ingreso de datos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Patrocinador</title>
 </head>
 <body>
-    <h1 th:if="${patrocinador.id_patrocinador == null}">Agregar Patrocinador</h1>
-    <h1 th:if="${patrocinador.id_patrocinador != null}">Modificar Patrocinador</h1>
-    
-    <form action="#" th:action="@{/formulario}" th:object="${patrocinador}" method="post">
-        <input type="hidden" th:field="*{id_patrocinador}" /> <!-- Campo oculto para el ID -->
+    <h1>Crear Nuevo Patrocinador</h1>
+    <form action="/guardarPatrocinador" method="post">
+        <!-- Datos del Usuario -->
+        <fieldset>
+            <legend>Datos del Usuario</legend>
+            <label for="cedula">Cédula:</label>
+            <input type="text" name="cedula" id="cedula" required>
+            <br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+            <br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required>
+            <br>
+            <label for="correo">Correo:</label>
+            <input type="email" name="correo" id="correo" required>
+            <br>
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+            <br>
+            <label for="genero">Género:</label>
+            <select name="genero" id="genero" required>
+                <option value="true">Masculino</option>
+                <option value="false">Femenino</option>
+            </select>
+            <br>
+            <label for="celular">Celular:</label>
+            <input type="text" name="celular" id="celular" required>
+            <br>
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" name="contraseña" id="contraseña" required>
+            <br>
+        </fieldset>
         
-        <label for="nombreEmpresa">Nombre de la Empresa:</label>
-        <input type="text" th:field="*{nombreEmpresa}" required />
-        
-		<label for="cedula">Cedula:</label>    
-	    <input type="text" th:field="${usuario.cedula}" required />
-		       
-        
-        <label for="nombre">Nombre:</label>
-        <input type="text" th:field="${usuario.nombre}" required />
-		
-		<label for="cedula">Email:</label>    
-	    <input type="text" th:field="${usuario.correo}" required />
-				       
-        
-        
-        <br>
+        <!-- Datos del Patrocinador -->
+        <fieldset>
+            <legend>Datos del Patrocinador</legend>
+            <label for="nombreEmpresa">Nombre de la Empresa:</label>
+            <input type="text" name="nombreEmpresa" id="nombreEmpresa" required>
+            <br>
+        </fieldset>
+
         <button type="submit">Guardar</button>
+        <a href="/listar">Volver a la lista</a>
     </form>
-    
-    <a href="/listar">Volver a la lista</a>
 </body>
 </html>
