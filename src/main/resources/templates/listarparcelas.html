@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 th:text="${titulo}"></h2>
+    <div>
+        <a href="/formparcela" class="btn btn-primary mb-3">Agregar Nueva Parcela</a>
+    </div>
+    <div th:if="${success != null}" class="alert alert-success" role="alert">
+        <p th:text="${success}"></p>
+    </div>
+    <div th:if="${error != null}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID Planta</th>
+                <th>ID Suelo</th>
+                <th>ID Área</th>
+                <th>Largo</th>
+                <th>Ancho</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="parcela : ${parcelas}">
+                <td th:text="${parcela.id_parcelas}"></td>
+                <td th:text="${parcela.id_plantas}"></td>
+                <td th:text="${parcela.id_suelo}"></td>
+                <td th:text="${parcela.id_area}"></td>
+                <td th:text="${parcela.largo}"></td>
+                <td th:text="${parcela.ancho}"></td>
+                <td th:text="${parcela.x}"></td>
+                <td th:text="${parcela.y}"></td>
+                <td>
+                    <a th:href="@{/parcela/editar/{id}(id=${parcela.id_parcelas})}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{/parcela/eliminar/{id}(id=${parcela.id_parcelas})}" class="btn btn-danger" 
+                       onclick="return confirm('¿Estás seguro de eliminar esta parcela?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

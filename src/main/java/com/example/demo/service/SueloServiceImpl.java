@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.ISueloDao;
 import com.example.demo.entity.Suelo;
+import com.example.demo.entity.Tipo_Suelo;
 @Service
 public class SueloServiceImpl implements ISueloService {
 	
@@ -42,6 +43,12 @@ public class SueloServiceImpl implements ISueloService {
 		// TODO Auto-generated method stub
 		suelodao.delete(id);
 		
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Suelo> listarsuelos() {
+		return suelodao.findAll();
 	}
 
 }

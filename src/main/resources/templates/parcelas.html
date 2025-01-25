@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${titulo}">Formulario Parcela</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 th:text="${titulo}">Formulario Parcela</h2>
+
+    <!-- Mensajes Flash -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Formulario -->
+    <form th:action="@{/parcelas}" th:object="${parcela}" method="post">
+        <!-- Campo oculto para el ID -->
+        <input type="hidden" th:field="*{id_parcelas}" />
+
+        <!-- Selección de Suelo -->
+        <div class="form-group">
+            <label for="id_suelo">Seleccionar Suelo</label>
+            <select th:field="*{id_suelo}" class="form-control" id="id_suelo" required>
+                <option th:each="suelo : ${suelos}" th:value="${suelo.id_suelo}" th:text="${suelo.id_suelo}"></option>
+            </select>
+        </div>
+
+        <!-- Selección de Planta -->
+        <div class="form-group">
+            <label for="id_plantas">Seleccionar Planta</label>
+            <select th:field="*{id_plantas}" class="form-control" id="id_plantas" required>
+                <option th:each="planta : ${plantas}" th:value="${planta.id_plantas}" th:text="${planta.nombre_comun}"></option>
+            </select>
+        </div>
+
+        <!-- Selección de Área -->
+        <div class="form-group">
+            <label for="id_area">Seleccionar Área</label>
+            <select th:field="*{id_area}" class="form-control" id="id_area" required>
+                <option th:each="area : ${areas}" th:value="${area.id_area}" th:text="${area.nombre}"></option>
+            </select>
+        </div>
+
+        <!-- Largo -->
+        <div class="form-group">
+            <label for="largo">Largo</label>
+            <input type="number" step="0.01" th:field="*{largo}" class="form-control" id="largo" placeholder="Ingrese el largo de la parcela" required>
+        </div>
+
+        <!-- Ancho -->
+        <div class="form-group">
+            <label for="ancho">Ancho</label>
+            <input type="number" step="0.01" th:field="*{ancho}" class="form-control" id="ancho" placeholder="Ingrese el ancho de la parcela" required>
+        </div>
+
+        <!-- Coordenada X -->
+        <div class="form-group">
+            <label for="x">Coordenada X</label>
+            <input type="number" step="0.01" th:field="*{x}" class="form-control" id="x" placeholder="Ingrese la coordenada X" required>
+        </div>
+
+        <!-- Coordenada Y -->
+        <div class="form-group">
+            <label for="y">Coordenada Y</label>
+            <input type="number" step="0.01" th:field="*{y}" class="form-control" id="y" placeholder="Ingrese la coordenada Y" required>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-between">
+            <!-- Botón de Guardar o Actualizar -->
+            <button type="submit" class="btn btn-success">
+                <span th:text="${parcela.id_parcelas != null ? 'Actualizar' : 'Guardar'}">Guardar</span>
+            </button>
+
+            <!-- Enlace de Cancelar -->
+            <a href="/listarparcelas" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
