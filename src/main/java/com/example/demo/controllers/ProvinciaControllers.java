@@ -59,26 +59,29 @@ public class ProvinciaControllers {
         return "formprovincia";
     }
 
-    // Guardar provincia (crear o editar)
     @RequestMapping(value = "/formprovincia", method = RequestMethod.POST)
     public String guardar(Provincia provincia, RedirectAttributes flash) {
-        // Si la provincia tiene cantones asociados, asegúrate de que cada canton tenga la provincia correcta.
-        if (provincia.getCanton() != null) {
-            for (Canton canton : provincia.getCanton()) {
-                if (canton.getId_provincia() == null) {
-                    canton.setId_provincia(provincia.getId_provincia());  // Establecer la relación si no existe
-                }
+        if (provincia.getId_provincia() != null) {
+            Provincia provinciaActual = provinciaService.findOne(provincia.getId_provincia());
+            if (provinciaActual != null) {
+                // Mantener los cantones existentes y sincronizar
+                provincia.setCanton(provinciaActual.getCanton());
             }
         }
 
-        String mensajeFls = (provincia.getId_provincia() != null)
-            ? "El registro de la provincia se ha editado con éxito"
-            : "El registro de la provincia se ha creado con éxito";
-        
-        provinciaService.save(provincia);  // Guardar la provincia y sus cantones relacionados
+        // Sincronizar relaciones y guardar
+        if (provincia.getCanton() != null) {
+            for (Canton canton : provincia.getCanton()) {
+                canton.setId_provincia(provincia.getId_provincia());
+            }
+        }
+
+        provinciaService.save(provincia);
+        String mensajeFls = "La provincia se ha guardado correctamente.";
         flash.addFlashAttribute("success", mensajeFls);
         return "redirect:/listarprovincia";
     }
+
 
     // Eliminar provincia
     @RequestMapping(value="/eliminarprovincia/{id}", method=RequestMethod.GET)
