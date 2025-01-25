@@ -1,17 +1,10 @@
 package com.example.demo.controllers;
 
-<<<<<<< Updated upstream
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
->>>>>>> Stashed changes
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,12 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-<<<<<<< Updated upstream
-=======
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
->>>>>>> Stashed changes
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.IAdministradorServices;
@@ -89,17 +79,20 @@ public class ControladorAdministrador {
 
 
  
-    @RequestMapping(value = "/guardar", method = RequestMethod.POST)
-    public String guardar(Administrador administrador, RedirectAttributes flash) {
-        String mensajeFls = (administrador.getId_administrador() != null) 
-                ? "El administrador se ha editado con éxito"
-                : "El administrador se ha creado con éxito";
-        
-        administradorServices.save(administrador);
-        flash.addFlashAttribute("success", mensajeFls);
-        return "redirect:/listarAdministradores"; // Redirige a la lista de administradores
-    }
+	   @PostMapping("/guardar")
+	    public String guardarAdministradorYUsuario(@ModelAttribute Administrador administrador, @ModelAttribute Usuarios usuario, Model model) {
+	        try {
+	            usuarioServices.save(usuario);
+	            administrador.setId_usuarios(usuario.getId_usuarios());
+	            administradorServices.save(administrador);
 
+	            model.addAttribute("mensaje", "Administrador y Usuario guardados exitosamente");
+	            return "redirect:/listarAdministradores"; 
+	        } catch (Exception e) {
+	            model.addAttribute("mensaje", "Error al guardar el Administrador y Usuario: " + e.getMessage());
+	            return "error";
+	        }
+	    }
 
     
     @RequestMapping("/Inicio")
