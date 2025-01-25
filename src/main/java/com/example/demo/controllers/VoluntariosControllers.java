@@ -147,16 +147,14 @@ public class VoluntariosControllers {
                 return "error";
             }
 
-            voluntariosServices.eliminarVoluntarioYUsuario(id);
+            voluntariosServices.delete(id);
             model.addAttribute("mensaje", "Voluntario y Usuario eliminados exitosamente");
-            return "redirect:/listarVoluntarios";  // Asegúrate de que esta URL sea correcta
+            return "redirect:/listarVoluntarios";  // Verifica que esta URL sea correcta
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al eliminar el voluntario: " + e.getMessage());
             return "error";
         }
     }
-
-
 
 
 }
