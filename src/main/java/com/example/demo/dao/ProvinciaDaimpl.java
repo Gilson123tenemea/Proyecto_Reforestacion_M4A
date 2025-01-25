@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.entity.Canton;
 import com.example.demo.entity.Provincia;
 
 import jakarta.persistence.EntityManager;
@@ -30,11 +31,17 @@ public class ProvinciaDaimpl implements IProvinciaDao {
 	@Override
 	public void save(Provincia provincia) {
 		// TODO Auto-generated method stub
-		if(provincia.getId_provincia() != null && provincia.getId_provincia()>0) {
-			en.persist(provincia);
-		}else {
-			en.merge(provincia);
-		}
+	    if (provincia.getCanton() != null) {
+	        for (Canton canton : provincia.getCanton()) {
+	            canton.setId_provincia(provincia.getId_provincia()); // Establecer la relación
+	            en.merge(canton); // Guardar o actualizar el canton
+	        }
+	    }
+	    if (provincia.getId_provincia() == null) {
+	        en.persist(provincia); // Si es nueva provincia
+	    } else {
+	        en.merge(provincia); // Si es una provincia existente
+	    }
 		
 	}
 

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 
 @Controller
 public class CantonControllers {
@@ -30,12 +29,9 @@ public class CantonControllers {
     @PostMapping("/guardarCanton")
     public String guardarCanton(@ModelAttribute Canton canton, Model model) {
         try {
-            // Validar que el id de provincia no sea nulo
             if (canton.getId_provincia() == null) {
                 throw new Exception("Debe seleccionar una provincia.");
             }
-
-            // Guardar el cantón
             cantonService.save(canton);
             model.addAttribute("mensaje", "Cantón guardado exitosamente");
             return "redirect:/listarCantones";
@@ -52,4 +48,5 @@ public class CantonControllers {
         model.addAttribute("cantones", cantonService.findAll());
         return "listarCantones"; 
     }
+    
 }

@@ -31,11 +31,11 @@ public class CantonDaoImpl implements ICantonDao {
 	public void save(Canton canton) {
 		// TODO Auto-generated method stub
 		
-		if(canton.getId_canton() != null && canton.getId_canton()>0) {
-			en.persist(canton);
-		}else {
-			en.merge(canton);
-		}
+	    if(canton.getId_canton() == null || canton.getId_canton() <= 0) {
+	        en.persist(canton); // Usar persist solo si es una entidad nueva
+	    } else {
+	        en.merge(canton); // Usar merge para actualizar una entidad existente
+	    }
 		
 	}
 
