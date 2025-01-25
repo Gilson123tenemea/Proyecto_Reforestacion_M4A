@@ -10,5 +10,6 @@ public interface IAdministradorDao {
 	public void save(Administrador administrador);
 	public Administrador findOne(Long id);
 	public void delete(Long id);
+	List<Administrador> findAdministradoresWithUsuarios(Long idAdministrador);
 
 }

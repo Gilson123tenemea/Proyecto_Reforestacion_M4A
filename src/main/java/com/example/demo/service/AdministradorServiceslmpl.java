@@ -38,5 +38,10 @@ public class AdministradorServiceslmpl implements IAdministradorServices{
 	public void delete(Long id) {
 		administradordao.delete(id);
 	}
+	
+	 @Transactional(readOnly = true)
+	    public List<Administrador> findAdministradoresWithUsuarios(Long idAdministrador) {
+	        return administradordao.findAdministradoresWithUsuarios(idAdministrador);
+	    }
 
 }
