@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo}">Editar Cantón</title>
+    <title th:text="${titulo}">Formulario de Cantón</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4" th:text="${titulo}">Formulario de Edición de Cantón</h1>
-        <form th:action="@{/guardarCanton}" th:object="${canton}" method="post">
+        <h1 class="mb-4" th:text="${titulo}">Formulario de Cantón</h1>
+        <form th:action="@{/cantones}" th:object="${canton}" method="post">
             <!-- Campo oculto para el ID del Cantón -->
             <input type="hidden" th:field="*{id_canton}" />
 
@@ -31,11 +31,10 @@
                 <input type="text" th:field="*{nombreCanton}" class="form-control" required />
             </div>
 
-
             <!-- Botones -->
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <a th:href="@{/listarCanton}" class="btn btn-secondary">Cancelar</a>
+                <a th:href="@{/listarcantones}" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
