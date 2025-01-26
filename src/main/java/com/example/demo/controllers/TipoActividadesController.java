@@ -87,7 +87,7 @@ public class TipoActividadesController {
             }
             return "redirect:/listartipo";
         } catch (Exception e) {
-            // En caso de error de integridad referencial, mostrar mensaje adecuado
+           
             flash.addFlashAttribute("error", "No se puede eliminar la actividad porque está siendo referenciada por otras entidades.");
             return "redirect:/listartipo";
         }

@@ -38,6 +38,30 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 	public void delete(Long id) {
 		usuariosDao.delete(id);
 	}
+	
+	 public String authenticate(String cedula, String contraseña) {
+	        Usuarios usuario = usuariosDao.findAll().stream()
+	                .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
+	                .findFirst()
+	                .orElse(null);
+
+	        if (usuario == null) {
+	            return null; 
+	        }
+	        if (!usuario.getSuper_administrador().isEmpty()) {
+	            return "superadmin"; 
+	        }
+
+	        if (!usuario.getAdministrador().isEmpty()) {
+	            return "administrador"; 
+	        }
+
+	        if (!usuario.getVoluntarios().isEmpty()) {
+	            return "voluntario"; 
+	        }
+
+	        return null; 
+	    }
 
 }
 

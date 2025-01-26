@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Formulario de Cantón</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4" th:text="${titulo}">Formulario de Cantón</h1>
+        <form th:action="@{/cantones}" th:object="${canton}" method="post">
+            <!-- Campo oculto para el ID del Cantón -->
+            <input type="hidden" th:field="*{id_canton}" />
+
+			
+			
+            <!-- Selección de la Provincia -->
+            <div class="mb-3">
+                <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                <select th:field="*{id_provincia}" class="form-control" required>
+                    <option value="" disabled selected>Seleccione una Provincia</option>
+                    <th:block th:each="provincia : ${provincias}">
+                        <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <!-- Nombre del Cantón -->
+            <div class="mb-3">
+                <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
+                <input type="text" th:field="*{nombreCanton}" class="form-control" required />
+            </div>
+
+            <!-- Botones -->
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a th:href="@{/listarcantones}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.IVoluntarioDao;
+
 import com.example.demo.entity.Usuarios;
+
+import com.example.demo.entity.Tipo_Actividades;
+
 import com.example.demo.entity.Voluntarios;
 @Service
 public class VoluntariosServiceImpl implements IVoluntariosService {
@@ -49,5 +53,11 @@ public class VoluntariosServiceImpl implements IVoluntariosService {
 	    public List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario) {
 	        return voluntarioDao.findAdministradoresWithUsuarios(iVoluntario);
 	    }
+	 
+	 @Transactional(readOnly = true)
+		@Override
+		public List<Voluntarios> listarvoluntarios() {
+			return 	voluntarioDao.findAll();
+		}
 
 }

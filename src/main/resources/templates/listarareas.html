@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Áreas</title>
+</head>
+<body>
+    <h1 style="text-align: center;" th:text="${titulo}"></h1>
+
+    <div th:if="${mensaje}" style="color: green; text-align: center;" th:text="${mensaje}"></div>
+    <div th:if="${error}" style="color: red; text-align: center;" th:text="${error}"></div>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="margin: 0 auto; text-align: center; width: 90%;">
+        <thead>
+            <tr>
+                <th>ID Área</th>
+                <th>Nombre</th>
+                <th>Tipo de Terreno</th>
+                <th>Tipo de Vegetación</th>
+                <th>Observaciones</th>
+                <th>ID Proyecto</th>
+                
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="area : ${areas}">
+                <td th:text="${area.id_area}"></td>
+                <td th:text="${area.nombre}"></td>
+                <td th:text="${area.tipo_terreno}"></td>
+                <td th:text="${area.tipo_vegetacion}"></td>
+                <td th:text="${area.observaciones}"></td>
+                <td th:text="${area.id_proyecto}"></td>
+                
+                <td>
+                    <!-- Botón para Editar -->
+                    <a th:href="@{/area/editar/{id}(id=${area.id_area})}" class="btn btn-primary btn-sm">Editar</a>
+                    <!-- Botón para Eliminar -->
+                    <a th:href="@{/area/eliminar/{id}(id=${area.id_area})}" style="color: red; text-decoration: none; font-weight: bold;">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/area" style="text-decoration: none; color: blue; font-weight: bold;">Regresar</a>
+    </div>
+</body>
+</html>

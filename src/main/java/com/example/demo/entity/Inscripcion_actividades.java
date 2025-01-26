@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +16,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "inscripcion_actividades",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_tipoActividades","id_inscripcionactividades"})})
+@Table(name = "inscripcion_actividades",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_tipoActividades","id_voluntario","id_inscripcionactividades"})})
 public class Inscripcion_actividades implements Serializable{
 
 	@Id
@@ -25,6 +28,7 @@ public class Inscripcion_actividades implements Serializable{
 	
 	@Column(name = "create_as")
     @Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAs;
 	
 	 @PrePersist
