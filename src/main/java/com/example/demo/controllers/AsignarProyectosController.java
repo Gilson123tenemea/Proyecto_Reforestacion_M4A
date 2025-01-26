@@ -27,31 +27,31 @@ public class AsignarProyectosController {
     @Autowired
     private IAsignacion_proyectoActiService asignar_p;
 
-    // Listar Asignaciones de Proyecto
+    
     @RequestMapping(value = "/listarAsignaciones", method = RequestMethod.GET)
     public String listarAsignaciones(Model model) {
         model.addAttribute("titulo", "Listado de Asignaciones de Proyecto");
-        model.addAttribute("asignaciones", asignar_p.findAll()); // Adaptar si es necesario
+        model.addAttribute("asignaciones", asignar_p.findAll()); 
         return "listarAsignaciones";
     }
 
-    // Crear una nueva Asignación
+    
     @RequestMapping(value = "/asignacion", method = RequestMethod.GET)
     public String crear(Map<String, Object> model) {
         Asignacion_proyectoActi asignacion = new Asignacion_proyectoActi();
         model.put("asignacion", asignacion);
         model.put("titulo", "Formulario de Nueva Asignación");
-        model.put("proyectos", proyectoService.listarproyectos()); // Lista de proyectos
-        model.put("actividades", actividadService.listaractividades()); // Lista de actividades
+        model.put("proyectos", proyectoService.listarproyectos()); 
+        model.put("actividades", actividadService.listaractividades());
         return "asignacion";
     }
 
-    // Editar Asignación
+    
     @RequestMapping(value = "/asignacion/editar/{id}", method = RequestMethod.GET)
     public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         Asignacion_proyectoActi asignacion = null;
         if (id > 0) {
-            asignacion = asignar_p.findOne(id); // Adaptar si es necesario
+            asignacion = asignar_p.findOne(id); 
             if (asignacion == null) {
                 flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
                 return "redirect:/listarAsignaciones";
@@ -67,29 +67,29 @@ public class AsignarProyectosController {
         return "asignacion";
     }
 
-    // Guardar Asignación (Crear o Actualizar)
+   
     @RequestMapping(value = "/asignacion", method = RequestMethod.POST)
     public String guardarAsignacion(Asignacion_proyectoActi asignacion, RedirectAttributes flash) {
         try {
             if (asignacion.getId_asignacionproyecto() != null) {
-                // Si el ID existe, es una actualización
-                Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto()); // Adaptar si es necesario
+          
+                Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto()); 
                 if (asignacionExistente == null) {
                     flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
                     return "redirect:/listarAsignaciones";
                 }
-                // Actualizar los campos necesarios (si es necesario)
+                
                 asignacionExistente.setId_proyecto(asignacion.getId_proyecto());
                 asignacionExistente.setId_tipoActividades(asignacion.getId_tipoActividades());
                 asignacionExistente.setEstado(asignacion.getEstado());
                 asignacionExistente.setMeta_real(asignacion.getMeta_real());
                 asignacionExistente.setMeta_deseada(asignacion.getMeta_deseada());
 
-                asignar_p.save(asignacionExistente); // Adaptar si es necesario
+                asignar_p.save(asignacionExistente);
                 flash.addFlashAttribute("success", "Asignación actualizada exitosamente");
             } else {
-                // Si el ID no existe, es una creación
-            	asignar_p.save(asignacion); // Adaptar si es necesario
+                
+            	asignar_p.save(asignacion); 
                 flash.addFlashAttribute("success", "Asignación guardada exitosamente");
             }
             return "redirect:/listarAsignaciones";
@@ -99,11 +99,11 @@ public class AsignarProyectosController {
         }
     }
 
-    // Eliminar Asignación
+
     @RequestMapping(value = "/asignacion/eliminar/{id}", method = RequestMethod.GET)
     public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
-        	asignar_p.delete(id); // Adaptar si es necesario
+        	asignar_p.delete(id); 
             flash.addFlashAttribute("success", "Asignación eliminada correctamente");
         } catch (IllegalStateException e) {
             flash.addFlashAttribute("error", e.getMessage());

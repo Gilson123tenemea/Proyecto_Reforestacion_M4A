@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Inscripcion_actividades;
 import com.example.demo.service.IInscripcion_actividadesService;
-import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.ITipo_ActividadesService;
 import com.example.demo.service.IVoluntariosService;
 
@@ -31,7 +30,7 @@ public class InscripcionActividadesController {
     
   
 
-    // Listar Inscripciones de Actividades
+    
     @RequestMapping(value = "/listarinscripciones", method = RequestMethod.GET)
     public String listarInscripciones(Model model) {
         model.addAttribute("titulo", "Listado de Inscripciones a Actividades");
@@ -39,18 +38,18 @@ public class InscripcionActividadesController {
         return "listarinscripciones";
     }
 
-    // Crear una nueva Inscripción
+    
     @RequestMapping(value = "/inscripcion", method = RequestMethod.GET)
     public String crear(Map<String, Object> model) {
         Inscripcion_actividades inscripcion = new Inscripcion_actividades();
         model.put("inscripcion", inscripcion);
         model.put("titulo", "Formulario de Nueva Inscripción");
-        model.put("actividades", actividadService.listaractividades()); // Lista de actividades
-        model.put("voluntarios", voluntarioService.listarvoluntarios()); // Lista de voluntarios
+        model.put("actividades", actividadService.listaractividades()); 
+        model.put("voluntarios", voluntarioService.listarvoluntarios());
         return "inscripcion";
     }
 
-    // Editar Inscripción
+    
     @RequestMapping(value = "/inscripcion/editar/{id}", method = RequestMethod.GET)
     public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         Inscripcion_actividades inscripcion = null;
@@ -71,18 +70,18 @@ public class InscripcionActividadesController {
         return "inscripcion";
     }
 
-    // Guardar Inscripción (Crear o Actualizar)
+   
     @RequestMapping(value = "/inscripcion", method = RequestMethod.POST)
     public String guardarInscripcion(Inscripcion_actividades inscripcion, RedirectAttributes flash) {
         try {
             if (inscripcion.getId_inscripcionactividades() != null) {
-                // Si el ID existe, es una actualización
+                
                 Inscripcion_actividades inscripcionExistente = inscripcionActividadesService.findOne(inscripcion.getId_inscripcionactividades());
                 if (inscripcionExistente == null) {
                     flash.addFlashAttribute("error", "La Inscripción con ese ID no existe");
                     return "redirect:/listarinscripciones";
                 }
-                // Actualizar los campos necesarios (si es necesario)
+               
                 inscripcionExistente.setId_voluntario(inscripcion.getId_voluntario());
                 inscripcionExistente.setId_tipoActividades(inscripcion.getId_tipoActividades());
                 inscripcionExistente.setCreateAs(inscripcion.getCreateAs());
@@ -90,7 +89,7 @@ public class InscripcionActividadesController {
                 inscripcionActividadesService.save(inscripcionExistente);
                 flash.addFlashAttribute("success", "Inscripción actualizada exitosamente");
             } else {
-                // Si el ID no existe, es una creación
+               
                 inscripcionActividadesService.save(inscripcion);
                 flash.addFlashAttribute("success", "Inscripción guardada exitosamente");
             }
@@ -101,7 +100,7 @@ public class InscripcionActividadesController {
         }
     }
 
-    // Eliminar Inscripción
+  
     @RequestMapping(value = "/inscripcion/eliminar/{id}", method = RequestMethod.GET)
     public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
