@@ -31,7 +31,8 @@
                     <td th:text="${asignacion.id_asignacionproyecto}"></td>
                     <td th:text="${asignacion.id_proyecto}"></td>
                     <td th:text="${asignacion.id_tipoActividades}"></td>
-                    <td th:text="${asignacion.estado}"></td>
+                    <!-- Mostrar "Activo" o "Inactivo" dependiendo del estado -->
+                    <td th:text="${asignacion.estado ? 'Activo' : 'Inactivo'}"></td>
                     <td th:text="${asignacion.meta_real}"></td>
                     <td th:text="${asignacion.meta_deseada}"></td>
                     <td>
@@ -50,4 +51,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
 
