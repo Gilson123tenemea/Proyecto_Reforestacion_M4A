@@ -16,81 +16,104 @@ import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.ITipo_ActividadesService;
 
 @Controller
-@RequestMapping("/asignaciones") 
 public class AsignarProyectosController {
-
-    @Autowired
-    private IAsignacion_proyectoActiService asignacionService;
 
     @Autowired
     private IProyectoServices proyectoService;
 
     @Autowired
-    private ITipo_ActividadesService tpactividadService;
+    private ITipo_ActividadesService actividadService;
+    
+    @Autowired
+    private IAsignacion_proyectoActiService asignar_p;
 
-    @RequestMapping(value = "/listar", method = RequestMethod.GET)
-    public String listarAsignacion(Model model) {
-        model.addAttribute("titulo", "Listado de Asignaciones");
-        model.addAttribute("asignaciones", asignacionService.findAll());
-        return "listarasignacion";
+    // Listar Asignaciones de Proyecto
+    @RequestMapping(value = "/listarAsignaciones", method = RequestMethod.GET)
+    public String listarAsignaciones(Model model) {
+        model.addAttribute("titulo", "Listado de Asignaciones de Proyecto");
+        model.addAttribute("asignaciones", asignar_p.findAll()); // Adaptar si es necesario
+        return "listarAsignaciones";
     }
 
-    @RequestMapping(value = "/nuevo", method = RequestMethod.GET)
+    // Crear una nueva Asignación
+    @RequestMapping(value = "/asignacion", method = RequestMethod.GET)
     public String crear(Map<String, Object> model) {
-        Asignacion_proyectoActi asignarpro = new Asignacion_proyectoActi();
-        model.put("asignacion", asignarpro);
-        model.put("titulo", "Formulario de Nueva Asignación de Actividades");
-        model.put("tipo_actividades", tpactividadService.listaractividades());
-        model.put("proyectos", proyectoService.listarproyectos());
-        return "asignaciones";
+        Asignacion_proyectoActi asignacion = new Asignacion_proyectoActi();
+        model.put("asignacion", asignacion);
+        model.put("titulo", "Formulario de Nueva Asignación");
+        model.put("proyectos", proyectoService.listarproyectos()); // Lista de proyectos
+        model.put("actividades", actividadService.listaractividades()); // Lista de actividades
+        return "asignacion";
     }
 
-    @RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
-    public String editar(@PathVariable("id") Long id, Map<String, Object> model, RedirectAttributes flash) {
-        if (id == null || id <= 0) {
-            flash.addFlashAttribute("error", "El ID de la Asignación es inválido");
-            return "redirect:/asignaciones/listar";
-        }
-        Asignacion_proyectoActi asignacion = asignacionService.findOne(id);
-        if (asignacion == null) {
-            flash.addFlashAttribute("error", "El ID de la Asignación no existe en la base de datos");
-            return "redirect:/asignaciones/listar";
+    // Editar Asignación
+    @RequestMapping(value = "/asignacion/editar/{id}", method = RequestMethod.GET)
+    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+        Asignacion_proyectoActi asignacion = null;
+        if (id > 0) {
+            asignacion = asignar_p.findOne(id); // Adaptar si es necesario
+            if (asignacion == null) {
+                flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
+                return "redirect:/listarAsignaciones";
+            }
+        } else {
+            flash.addFlashAttribute("error", "El Id de la Asignación no puede ser 0");
+            return "redirect:/listarAsignaciones";
         }
         model.put("asignacion", asignacion);
         model.put("titulo", "Editar Asignación");
-        model.put("tipo_actividades", tpactividadService.listaractividades());
         model.put("proyectos", proyectoService.listarproyectos());
-        return "asignaciones";
+        model.put("actividades", actividadService.listaractividades());
+        return "asignacion";
     }
 
-    @RequestMapping(value = "/guardar", method = RequestMethod.POST)
+    // Guardar Asignación (Crear o Actualizar)
+    @RequestMapping(value = "/asignacion", method = RequestMethod.POST)
     public String guardarAsignacion(Asignacion_proyectoActi asignacion, RedirectAttributes flash) {
         try {
             if (asignacion.getId_asignacionproyecto() != null) {
-                asignacionService.save(asignacion); 
+                // Si el ID existe, es una actualización
+                Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto()); // Adaptar si es necesario
+                if (asignacionExistente == null) {
+                    flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
+                    return "redirect:/listarAsignaciones";
+                }
+                // Actualizar los campos necesarios (si es necesario)
+                asignacionExistente.setId_proyecto(asignacion.getId_proyecto());
+                asignacionExistente.setId_tipoActividades(asignacion.getId_tipoActividades());
+                asignacionExistente.setEstado(asignacion.getEstado());
+                asignacionExistente.setMeta_real(asignacion.getMeta_real());
+                asignacionExistente.setMeta_deseada(asignacion.getMeta_deseada());
+
+                asignar_p.save(asignacionExistente); // Adaptar si es necesario
                 flash.addFlashAttribute("success", "Asignación actualizada exitosamente");
             } else {
-                asignacionService.save(asignacion);
+                // Si el ID no existe, es una creación
+            	asignar_p.save(asignacion); // Adaptar si es necesario
                 flash.addFlashAttribute("success", "Asignación guardada exitosamente");
             }
-            return "redirect:/asignaciones/listar";
+            return "redirect:/listarAsignaciones";
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "Error al guardar la asignación: " + e.getMessage());
-            return "redirect:/asignaciones/listar";
+            flash.addFlashAttribute("error", "Error al guardar la Asignación: " + e.getMessage());
+            return "redirect:/listarAsignaciones";
         }
     }
 
-    @RequestMapping(value = "/eliminar/{id}", method = RequestMethod.GET)
-    public String eliminar(@PathVariable("id") Long id, RedirectAttributes flash) {
+    // Eliminar Asignación
+    @RequestMapping(value = "/asignacion/eliminar/{id}", method = RequestMethod.GET)
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
-            asignacionService.delete(id);
+        	asignar_p.delete(id); // Adaptar si es necesario
             flash.addFlashAttribute("success", "Asignación eliminada correctamente");
+        } catch (IllegalStateException e) {
+            flash.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "Error al eliminar la asignación: " + e.getMessage());
+            flash.addFlashAttribute("error", "Error al eliminar la Asignación");
         }
-        return "redirect:/asignaciones/listar";
+        return "redirect:/listarAsignaciones";
     }
 }
+
 
 
 	

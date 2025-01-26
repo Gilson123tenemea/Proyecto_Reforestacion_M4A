@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${titulo}</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">${Formulacio Asignar Proyectos}</h1>
+
+        <!-- Formulario de Asignación -->
+        <form th:action="@{/asignacion}" th:object="${asignacion}" method="POST">
+            <div class="form-group">
+                <label for="proyecto">Proyecto</label>
+                <select class="form-control" th:field="*{id_proyecto}">
+                    <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id_proyecto}" th:text="${proyecto.nombre}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="actividad">Actividad</label>
+                <select class="form-control" th:field="*{id_tipoActividades}">
+                    <option th:each="actividad : ${actividades}" th:value="${actividad.id_tipoActividades}" th:text="${actividad.nombre_act}"></option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <label for="estado" class="form-check-label">Activo</label>
+                <input type="checkbox" class="form-check-input" th:field="*{estado}" />
+            </div>
+
+            <div class="form-group">
+                <label for="meta_real">Meta Real</label>
+                <input type="text" class="form-control" th:field="*{meta_real}" />
+            </div>
+
+            <div class="form-group">
+                <label for="meta_deseada">Meta Deseada</label>
+                <input type="text" class="form-control" th:field="*{meta_deseada}" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+			<input type="hidden" th:field="*{id_asignacionproyecto}"/>
+        </form>
+    </div>
+
+    <!-- Enlace a Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

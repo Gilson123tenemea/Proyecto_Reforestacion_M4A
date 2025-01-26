@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Asignaciones</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">${titulo}</h1>
+
+        <!-- Tabla de asignaciones -->
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID Asignación</th>
+                    <th>Proyecto</th>
+                    <th>Actividad</th>
+                    <th>Estado</th>
+                    <th>Meta Real</th>
+                    <th>Meta Deseada</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="asignacion : ${asignaciones}">
+                    <td th:text="${asignacion.id_asignacionproyecto}"></td>
+                    <td th:text="${asignacion.id_proyecto}"></td>
+                    <td th:text="${asignacion.id_tipoActividades}"></td>
+                    <td th:text="${asignacion.estado}"></td>
+                    <td th:text="${asignacion.meta_real}"></td>
+                    <td th:text="${asignacion.meta_deseada}"></td>
+                    <td>
+                        <!-- Acciones de editar y eliminar -->
+                        <a href="#" class="btn btn-warning btn-sm" th:href="@{/asignacion/editar/{id}(id=${asignacion.id_asignacionproyecto})}">Editar</a>
+                        <a href="#" class="btn btn-danger btn-sm" th:href="@{/asignacion/eliminar/{id}(id=${asignacion.id_asignacionproyecto})}" onclick="return confirm('¿Estás seguro de eliminar esta asignación?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Enlace a Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
