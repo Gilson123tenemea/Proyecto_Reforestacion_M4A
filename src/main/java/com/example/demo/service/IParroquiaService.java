@@ -10,4 +10,5 @@ public interface IParroquiaService {
 	public void save(Parroquia parroquia);
 	public Parroquia findOne(Long id);
 	public void delete(Long id);
+	 public List<Parroquia> findByCanton(Long idCanton);
 }

@@ -33,14 +33,14 @@ public class CantonDaoImpl implements ICantonDao {
 		// TODO Auto-generated method stub
 	    if (canton.getParroquia() != null) {
 	        for (Parroquia parroquia : canton.getParroquia()) {
-	        	parroquia.setId_canton(canton.getId_canton()); // Establecer la relación
-	            en.merge(parroquia); // Guardar o actualizar el canton
+	        	parroquia.setId_canton(canton.getId_canton()); 
+	            en.merge(parroquia); 
 	        }
 	    }
 	    if(canton.getId_canton() == null || canton.getId_canton() <= 0) {
-	        en.persist(canton); // Usar persist solo si es una entidad nueva
+	        en.persist(canton); 
 	    } else {
-	        en.merge(canton); // Usar merge para actualizar una entidad existente
+	        en.merge(canton); 
 	    }
 		
 	}
@@ -62,4 +62,10 @@ public class CantonDaoImpl implements ICantonDao {
 		
 	}
 
+	@Override
+	public List<Canton> findByProvincia(Long idProvincia) {
+	    return en.createQuery("SELECT c FROM Canton c WHERE c.id_provincia = :idProvincia", Canton.class)
+	             .setParameter("idProvincia", idProvincia)
+	             .getResultList();
+	}
 }

@@ -44,5 +44,10 @@ public class ParroquiaServiceImpl implements IParroquiaService{
 		parroquiadao.delete(id);
 		
 	}
+	@Transactional(readOnly = true)
+	@Override
+	public List<Parroquia> findByCanton(Long idCanton) {
+	     return parroquiadao.findByCanton(idCanton); 
+	}
 
 }

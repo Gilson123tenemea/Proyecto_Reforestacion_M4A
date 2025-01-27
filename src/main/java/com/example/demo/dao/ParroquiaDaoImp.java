@@ -32,9 +32,9 @@ public class ParroquiaDaoImp implements IParroquiaDao {
 		// TODO Auto-generated method stub
 		
 	    if (parroquia.getId_parroquia() == null) {
-	        en.persist(parroquia); // Si es nueva provincia
+	        en.persist(parroquia); 
 	    } else {
-	        en.merge(parroquia); // Si es una provincia existente
+	        en.merge(parroquia); 
 	    }
 		
 	}
@@ -54,6 +54,13 @@ public class ParroquiaDaoImp implements IParroquiaDao {
 		// TODO Auto-generated method stub
 		en.remove(findOne(id));
 		
+	}
+
+	@Override
+	public List<Parroquia> findByCanton(Long idCanton) {
+	    return en.createQuery("SELECT p FROM Parroquia p WHERE p.id_canton = :idCanton", Parroquia.class)
+	             .setParameter("idCanton", idCanton)
+	             .getResultList();
 	}
 	
 }

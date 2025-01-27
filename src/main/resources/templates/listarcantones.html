@@ -21,8 +21,6 @@
         <!-- Tabla de Cantones -->
         <table class="table table-bordered mt-4">
             <thead>
-				
-				
                 <tr>
                     <th>ID</th>
                     <th>Nombre Canton</th>
@@ -30,7 +28,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody>	
                 <tr th:each="canton : ${cantones}">
                     <td th:text="${canton.id_canton}"></td>
                     <td th:text="${canton.nombreCanton}"></td>

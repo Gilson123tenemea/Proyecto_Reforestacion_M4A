@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
+import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IProyectoServices;
 
 @Controller
@@ -29,11 +34,19 @@ public class ProyectosControllers {
     
     @Autowired
     private IParroquiaService parroquiaService;
-
+    
+    @Autowired
+    private ICantonService cantonService; 
+    
+    @Autowired
+    private IProvinciaService provinciaService; 
+    
+    
     @GetMapping("/proyectos")
     public String crear(Model model) {
         model.addAttribute("proyecto", new Proyecto()); // Formulario vacío para un nuevo proyecto
         model.addAttribute("parroquia", parroquiaService.findAll());
+        model.addAttribute("provincias", provinciaService.findAll()); // Cargar provincias en el modelo
         return "proyectos"; // Vista para el formulario del proyecto
     }
 
@@ -91,10 +104,24 @@ public class ProyectosControllers {
             model.addAttribute("proyecto", proyecto);
             model.addAttribute("parroquia", parroquiaService.findAll());
             model.addAttribute("titulo", "Editar Proyecto");
-            return "proyectos"; // Redirige al formulario de edición
+            return "proyectos"; 
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al cargar la proyecto: " + e.getMessage());
             return "redirect:/listarProyectos";
         }
+    }
+    
+    
+    
+    @GetMapping("/cantones/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvincia(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
+    }
+
+    @GetMapping("/parroquias/{idCanton}")
+    @ResponseBody
+    public List<Parroquia> getParroquiasByCanton(@PathVariable Long idCanton) {
+        return parroquiaService.findByCanton(idCanton);
     }
 }

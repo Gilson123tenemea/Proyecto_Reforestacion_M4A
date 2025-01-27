@@ -10,5 +10,6 @@ public interface ICantonDao {
 	public void save(Canton canton);
 	public Canton findOne(Long id);
 	public void delete(Long id);
+    public List<Canton> findByProvincia(Long idProvincia);
 
 }

@@ -62,4 +62,12 @@ public class CantonServiceImpl implements ICantonService {
 		return cantondao.findAll();
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public List<Canton> findByProvincia(Long idProvincia) {
+		 return cantondao.findByProvincia(idProvincia); 
+	}
+	
+	
+
 }
