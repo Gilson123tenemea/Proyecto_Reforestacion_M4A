@@ -22,6 +22,11 @@ public class LoginControlador {
     public String loginForm() {
         return "login"; 
     }
+    
+    @GetMapping({"/","","/Inicio"})
+	public String Inicio() {
+		return "/layout/layout";
+	}
 
     @PostMapping("/login")
     public String login(@RequestParam String cedula, @RequestParam String contraseña, Model model) {
