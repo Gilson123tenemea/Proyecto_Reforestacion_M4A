@@ -44,6 +44,12 @@ public class VoluntariosControllers {
         dateFormat.setLenient(false);
         binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
     }
+    
+    @GetMapping("/iniciovoluntario")
+    public String mostrarInicioVoluntario(Model model) {
+        model.addAttribute("titulo", "Inicio Vountario");
+        return "iniciovoluntario";
+    }
 
     
     @RequestMapping(value = "/voluntarios", method = RequestMethod.GET)
