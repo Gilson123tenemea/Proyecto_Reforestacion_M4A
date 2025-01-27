@@ -2,8 +2,6 @@ package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -14,10 +12,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Proyecto;
@@ -44,13 +40,13 @@ public class ProyectosControllers {
     
     @GetMapping("/proyectos")
     public String crear(Model model) {
-        model.addAttribute("proyecto", new Proyecto()); // Formulario vacío para un nuevo proyecto
+        model.addAttribute("proyecto", new Proyecto()); 
         model.addAttribute("parroquia", parroquiaService.findAll());
-        model.addAttribute("provincias", provinciaService.findAll()); // Cargar provincias en el modelo
-        return "proyectos"; // Vista para el formulario del proyecto
+        model.addAttribute("provincias", provinciaService.findAll());
+        return "proyectos"; 
     }
 
-    // Configuración de formato de fecha
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,12 +54,12 @@ public class ProyectosControllers {
         binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    // Listar proyectos
+
     @GetMapping("/listarProyectos")
     public String listarProyectos(Model model) {
         model.addAttribute("titulo", "Lista de Proyectos");
         model.addAttribute("proyectos", proyectoService.findAll());
-        return "listarProyectos"; // Vista para mostrar la lista de proyectos
+        return "listarProyectos"; 
     }
 
     @PostMapping("/guardarProyecto")
@@ -81,7 +77,6 @@ public class ProyectosControllers {
         }
     }
     
- // Método para eliminar proyecto
     @PostMapping("/proyectos/eliminar/{id}")
     public String eliminarProyecto(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
@@ -110,8 +105,6 @@ public class ProyectosControllers {
             return "redirect:/listarProyectos";
         }
     }
-    
-    
     
     @GetMapping("/cantones/{idProvincia}")
     @ResponseBody
