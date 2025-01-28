@@ -75,21 +75,22 @@ public class InscripcionActividadesController {
     public String guardarInscripcion(Inscripcion_actividades inscripcion, RedirectAttributes flash) {
         try {
             if (inscripcion.getId_inscripcionactividades() != null) {
-                
+                // Busca la inscripción existente
                 Inscripcion_actividades inscripcionExistente = inscripcionActividadesService.findOne(inscripcion.getId_inscripcionactividades());
                 if (inscripcionExistente == null) {
                     flash.addFlashAttribute("error", "La Inscripción con ese ID no existe");
                     return "redirect:/listarinscripciones";
                 }
-               
+                // Actualiza solo los campos necesarios
                 inscripcionExistente.setId_voluntario(inscripcion.getId_voluntario());
                 inscripcionExistente.setId_tipoActividades(inscripcion.getId_tipoActividades());
                 inscripcionExistente.setCreateAs(inscripcion.getCreateAs());
 
+                // Guarda la entidad actualizada
                 inscripcionActividadesService.save(inscripcionExistente);
                 flash.addFlashAttribute("success", "Inscripción actualizada exitosamente");
             } else {
-               
+                // Guarda una nueva inscripción
                 inscripcionActividadesService.save(inscripcion);
                 flash.addFlashAttribute("success", "Inscripción guardada exitosamente");
             }

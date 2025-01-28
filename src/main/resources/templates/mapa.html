@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymelaef.org">
+<head>
+    <title>Mapa de Parcelas - Cajas, Ecuador</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.3/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder@2.0.10/dist/Control.Geocoder.js"></script>
+    <style>
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(0, 128, 0);
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: rgb(255, 255, 255);
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        
+        #map {
+            height: 100vh; 
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            transition: all 0.5s ease;
+        }
+
+        
+        .controls-container {
+            display: flex;
+            justify-content: center;
+            margin: 25px auto;
+        }
+
+        
+        .button {
+            background-color: rgb(0, 166, 0);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            margin: 0 10px;
+        }
+
+        
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-5px);
+        }
+
+       
+        .leaflet-popup-content {
+            font-size: 18px;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .leaflet-popup-content b {
+            color: #3498db;
+        }
+
+        
+        .leaflet-control-layers,
+        .leaflet-control-zoom {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+       
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out {
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .leaflet-control-zoom-in:hover,
+        .leaflet-control-zoom-out:hover {
+            background-color: #2980b9;
+        }
+
+        
+        .leaflet-popup-tip {
+            display: none;
+        }
+
+        
+        .leaflet-control-layers {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        
+        .loading-bar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            padding: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mapa de Parcelas - Cajas, Ecuador</h1>
+
+    
+    <div class="controls-container">
+        <button id="howToGetBtn" class="button">Cómo Llegar</button>
+    </div>
+
+    
+    <div id="map"></div>
+    
+    
+    <div class="loading-bar" id="loading-bar">Cargando...</div>
+
+    <script th:inline="javascript">
+        
+        document.getElementById("loading-bar").style.display = "block";
+
+      
+        var map = L.map('map').setView([-2.838080, -79.224942], 13); 
+
+       
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+       
+        var sateliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        });
+		
+		var streetsLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+		    attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
+		    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+		});
+
+        
+        var baseLayers = {
+            "Mapa Base": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+            "Satelital": sateliteLayer
+        };
+		
+		
+		L.control.layers(baseLayers).addTo(map);
+
+       
+        L.control.scale().addTo(map);
+
+       
+        var parcelas = /*[[${parcelas}]]*/ []; 
+
+        
+        var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
+
+        
+        parcelas.forEach(function(parcela, index) {
+            var centro = [parcela.y, parcela.x]; 
+
+            
+            var esquinaSuperiorIzquierda = [
+                centro[0] + (parcela.largo / 2 / 111320), 
+                centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180))) 
+            ];
+            var esquinaInferiorDerecha = [
+                centro[0] - (parcela.largo / 2 / 111320), 
+                centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180))) 
+            ];
+
+            
+            var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
+                color: colores[index % colores.length],
+                weight: 3,
+                fillOpacity: 0.3
+            }).addTo(map);
+
+            
+            rectangulo.bindPopup(
+                '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
+                '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
+                '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
+                '<b>Ancho:</b> ' + parcela.ancho + ' m<br>' 
+                
+            );
+
+            
+            rectangulo.on('mouseover', function() {
+                rectangulo.setStyle({ fillOpacity: 0.5 });
+            });
+            rectangulo.on('mouseout', function() {
+                rectangulo.setStyle({ fillOpacity: 0.3 });
+            });
+
+            
+            rectangulo.on('click', function() {
+                rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
+            });
+        });
+
+        
+        setTimeout(function() {
+            document.getElementById("loading-bar").style.display = "none"; 
+        }, 1000);
+
+		
+		var routeControl; 
+		document.getElementById('howToGetBtn').addEventListener('click', function() {
+		    
+		    var inicio = map.getCenter();
+		    
+		    
+		    var destinoMarker;
+		    map.once('click', function(event) {
+		        if (destinoMarker) {
+		            map.removeLayer(destinoMarker); 
+		        }
+		        
+		        
+		        destinoMarker = L.marker(event.latlng, {
+		            draggable: true
+		        }).addTo(map).bindPopup('Destino seleccionado').openPopup();
+
+		        var destino = event.latlng;
+
+		        
+		        if (routeControl) {
+		            map.removeControl(routeControl);
+		        }
+
+		        
+		        routeControl = L.Routing.control({
+		            waypoints: [
+		                L.latLng(inicio.lat, inicio.lng),
+		                L.latLng(destino.lat, destino.lng)
+		            ],
+		            routeWhileDragging: true
+		        }).addTo(map);
+		    });
+		});
+
+        
+    </script>
+</body>
+</html>

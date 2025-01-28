@@ -32,19 +32,23 @@
             <select name="id_voluntario" id="voluntario" class="form-control" required>
                 <option th:each="voluntario : ${voluntarios}" 
                         th:value="${voluntario.id_voluntario}" 
-                        ></option>
+                       
+                        th:selected="${voluntario.id_voluntario == inscripcion.id_voluntario}">
+                </option>
             </select>
         </div>
 
         <!-- Selección de Tipo de Actividad -->
-		<div class="form-group">
-		            <label for="actividad">Voluntario</label>
-		            <select name="id_tipoActividades" id="actividad" class="form-control" required>
-		                <option th:each="actividad : ${actividades}" 
-		                        th:value="${actividad.id_tipoActividades}" 
-		                        th:text="${actividad.nombre_act}"></option>
-		            </select>
-		        </div>
+        <div class="form-group">
+            <label for="actividad">Tipo de Actividad</label>
+            <select name="id_tipoActividades" id="actividad" class="form-control" required>
+                <option th:each="actividad : ${actividades}" 
+                        th:value="${actividad.id_tipoActividades}" 
+                        th:text="${actividad.nombre_act}" 
+                        th:selected="${actividad.id_tipoActividades == inscripcion.id_tipoActividades}">
+                </option>
+            </select>
+        </div>
 
         <!-- Fecha de Inscripción -->
         <div class="form-group">

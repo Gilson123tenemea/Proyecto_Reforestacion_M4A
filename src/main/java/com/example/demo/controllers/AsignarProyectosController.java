@@ -72,24 +72,25 @@ public class AsignarProyectosController {
     public String guardarAsignacion(Asignacion_proyectoActi asignacion, RedirectAttributes flash) {
         try {
             if (asignacion.getId_asignacionproyecto() != null) {
-          
-                Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto()); 
+                // Busca la asignación existente
+                Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto());
                 if (asignacionExistente == null) {
                     flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
                     return "redirect:/listarAsignaciones";
                 }
-                
+                // Actualiza solo los campos necesarios
                 asignacionExistente.setId_proyecto(asignacion.getId_proyecto());
                 asignacionExistente.setId_tipoActividades(asignacion.getId_tipoActividades());
                 asignacionExistente.setEstado(asignacion.getEstado());
                 asignacionExistente.setMeta_real(asignacion.getMeta_real());
                 asignacionExistente.setMeta_deseada(asignacion.getMeta_deseada());
 
+                // Guarda la entidad actualizada
                 asignar_p.save(asignacionExistente);
                 flash.addFlashAttribute("success", "Asignación actualizada exitosamente");
             } else {
-                
-            	asignar_p.save(asignacion); 
+                // Guarda una nueva asignación
+                asignar_p.save(asignacion);
                 flash.addFlashAttribute("success", "Asignación guardada exitosamente");
             }
             return "redirect:/listarAsignaciones";
