@@ -50,8 +50,24 @@ public class VoluntariosControllers {
         model.addAttribute("titulo", "Inicio Vountario");
         return "iniciovoluntario";
     }
-
     
+    @GetMapping("/proyectosvoluntario")
+    public String proyectos (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "proyectosvoluntario";
+    }
+    
+    @GetMapping("/inscribirproyecto")
+    public String inscribirproyectos (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "inscribirproyecto";
+    }
+    
+    @GetMapping("/proyectosinscritos")
+    public String proyectosinscritos (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "proyectosinscritos";
+    }
     @RequestMapping(value = "/voluntarios", method = RequestMethod.GET)
     public String listarYEditar(
             @RequestParam(value = "id", required = false) Long id,
