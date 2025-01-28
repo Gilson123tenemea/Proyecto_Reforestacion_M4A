@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymelaef.org">
 <head>
-    <title>Mapa de Parcelas - Cajas, Ecuador</title>
+    <title>Mapa, Ecuador</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.3/dist/leaflet-routing-machine.js"></script>
@@ -124,7 +124,7 @@
     </style>
 </head>
 <body>
-    <h1>Mapa de Parcelas - Cajas, Ecuador</h1>
+    <h1>REFOREST - Cajas, Ecuador</h1>
 
     
     <div class="controls-container">
@@ -137,133 +137,111 @@
     
     <div class="loading-bar" id="loading-bar">Cargando...</div>
 
-    <script th:inline="javascript">
-        
-        document.getElementById("loading-bar").style.display = "block";
+	<script th:inline="javascript">
+	    document.getElementById("loading-bar").style.display = "block";
 
-      
-        var map = L.map('map').setView([-2.838080, -79.224942], 13); 
+	    var map = L.map('map').setView([-2.838080, -79.224942], 13);
 
-       
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	    }).addTo(map);
 
-       
-        var sateliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-            attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        });
-		
-		var streetsLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-		    attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
-		    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-		});
+	    var sateliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+	        attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
+	        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+	    });
 
-        
-        var baseLayers = {
-            "Mapa Base": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-            "Satelital": sateliteLayer
-        };
-		
-		
-		L.control.layers(baseLayers).addTo(map);
+	    var streetsLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+	        attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
+	        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+	    });
 
-       
-        L.control.scale().addTo(map);
+	    var baseLayers = {
+	        "Mapa Base": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+	        "Satelital": sateliteLayer
+	    };
 
-       
-        var parcelas = /*[[${parcelas}]]*/ []; 
+	    L.control.layers(baseLayers).addTo(map);
 
-        
-        var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
+	    L.control.scale().addTo(map);
 
-        
-        parcelas.forEach(function(parcela, index) {
-            var centro = [parcela.y, parcela.x]; 
+	    var parcelas = /*[[${parcelas}]]*/ [];
+	    var parcelaSeleccionada = /*[[${parcelaSeleccionada}]]*/ null;
 
-            
-            var esquinaSuperiorIzquierda = [
-                centro[0] + (parcela.largo / 2 / 111320), 
-                centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180))) 
-            ];
-            var esquinaInferiorDerecha = [
-                centro[0] - (parcela.largo / 2 / 111320), 
-                centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180))) 
-            ];
+	    var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
 
-            
-            var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
-                color: colores[index % colores.length],
-                weight: 3,
-                fillOpacity: 0.3
-            }).addTo(map);
+	    parcelas.forEach(function(parcela, index) {
+	        var centro = [parcela.y, parcela.x];
 
-            
-            rectangulo.bindPopup(
-                '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
-                '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
-                '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
-                '<b>Ancho:</b> ' + parcela.ancho + ' m<br>' 
-                
-            );
+	        var esquinaSuperiorIzquierda = [
+	            centro[0] + (parcela.largo / 2 / 111320),
+	            centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+	        ];
+	        var esquinaInferiorDerecha = [
+	            centro[0] - (parcela.largo / 2 / 111320),
+	            centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+	        ];
 
-            
-            rectangulo.on('mouseover', function() {
-                rectangulo.setStyle({ fillOpacity: 0.5 });
-            });
-            rectangulo.on('mouseout', function() {
-                rectangulo.setStyle({ fillOpacity: 0.3 });
-            });
+	        var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
+	            color: colores[index % colores.length],
+	            weight: 3,
+	            fillOpacity: 0.3
+	        }).addTo(map);
 
-            
-            rectangulo.on('click', function() {
-                rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
-            });
-        });
+	        rectangulo.bindPopup(
+	            '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
+	            '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
+	            '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
+	            '<b>Ancho:</b> ' + parcela.ancho + ' m<br>'
+	        );
 
-        
-        setTimeout(function() {
-            document.getElementById("loading-bar").style.display = "none"; 
-        }, 1000);
+	        rectangulo.on('mouseover', function() {
+	            rectangulo.setStyle({ fillOpacity: 0.5 });
+	        });
+	        rectangulo.on('mouseout', function() {
+	            rectangulo.setStyle({ fillOpacity: 0.3 });
+	        });
 
-		
-		var routeControl; 
-		document.getElementById('howToGetBtn').addEventListener('click', function() {
-		    
-		    var inicio = map.getCenter();
-		    
-		    
-		    var destinoMarker;
-		    map.once('click', function(event) {
-		        if (destinoMarker) {
-		            map.removeLayer(destinoMarker); 
-		        }
-		        
-		        
-		        destinoMarker = L.marker(event.latlng, {
-		            draggable: true
-		        }).addTo(map).bindPopup('Destino seleccionado').openPopup();
+	        rectangulo.on('click', function() {
+	            rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
+	        });
 
-		        var destino = event.latlng;
+	       
+	        if (parcelaSeleccionada && parcela.id_parcelas === parcelaSeleccionada.id_parcelas) {
+	            map.setView(centro, 15);
+	            rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
+	            rectangulo.openPopup();
+	        }
+	    });
 
-		        
-		        if (routeControl) {
-		            map.removeControl(routeControl);
-		        }
+	    setTimeout(function() {
+	        document.getElementById("loading-bar").style.display = "none";
+	    }, 1000);
 
-		        
-		        routeControl = L.Routing.control({
-		            waypoints: [
-		                L.latLng(inicio.lat, inicio.lng),
-		                L.latLng(destino.lat, destino.lng)
-		            ],
-		            routeWhileDragging: true
-		        }).addTo(map);
-		    });
-		});
-
-        
-    </script>
+	    var routeControl;
+	    document.getElementById('howToGetBtn').addEventListener('click', function() {
+	        var inicio = map.getCenter();
+	        var destinoMarker;
+	        map.once('click', function(event) {
+	            if (destinoMarker) {
+	                map.removeLayer(destinoMarker);
+	            }
+	            destinoMarker = L.marker(event.latlng, {
+	                draggable: true
+	            }).addTo(map).bindPopup('Destino seleccionado').openPopup();
+	            var destino = event.latlng;
+	            if (routeControl) {
+	                map.removeControl(routeControl);
+	            }
+	            routeControl = L.Routing.control({
+	                waypoints: [
+	                    L.latLng(inicio.lat, inicio.lng),
+	                    L.latLng(destino.lat, destino.lng)
+	                ],
+	                routeWhileDragging: true
+	            }).addTo(map);
+	        });
+	    });
+	</script>
 </body>
 </html>

@@ -129,6 +129,19 @@ public class ParcelaController {
         model.addAttribute("parcelas", parcelas);
         return "mapa";
     }
+    @GetMapping("/mapa/{id}")
+    public String mostrarMapaParcela(@PathVariable(value = "id") Long id, Model model) {
+        List<Parcelas> parcelas = parcelaservice.findAll();
+        Parcelas parcelaSeleccionada = parcelaservice.findOne(id);
+        
+        if (parcelaSeleccionada == null) {
+            return "redirect:/listarparcelas";
+        }
+        
+        model.addAttribute("parcelas", parcelas);
+        model.addAttribute("parcelaSeleccionada", parcelaSeleccionada);
+        return "mapa";
+    }
 
     
   

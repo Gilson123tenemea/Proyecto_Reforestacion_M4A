@@ -43,9 +43,10 @@
                 <td th:text="${parcela.x}"></td>
                 <td th:text="${parcela.y}"></td>
                 <td>
-                    <a th:href="@{/parcela/editar/{id}(id=${parcela.id_parcelas})}" class="btn btn-warning">Editar</a>
-                    <a th:href="@{/parcela/eliminar/{id}(id=${parcela.id_parcelas})}" class="btn btn-danger" 
-                       onclick="return confirm('¿Estás seguro de eliminar esta parcela?')">Eliminar</a>
+					<a th:href="@{/parcela/editar/{id}(id=${parcela.id_parcelas})}" class="btn btn-warning">Editar</a>
+					   <a th:href="@{/parcela/eliminar/{id}(id=${parcela.id_parcelas})}" class="btn btn-danger" 
+					      onclick="return confirm('¿Estás seguro de eliminar esta parcela?')">Eliminar</a>
+					   <a th:href="@{/mapa/{id}(id=${parcela.id_parcelas})}" class="btn btn-info">Ver en Mapa</a>
                 </td>
             </tr>
         </tbody>
