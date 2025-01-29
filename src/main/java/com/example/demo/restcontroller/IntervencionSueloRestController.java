@@ -63,7 +63,7 @@ public class IntervencionSueloRestController {
 	            return ResponseEntity.badRequest().body("Intervencion no existe en la base de datos.");
 	        }
 
-	        intervencion.setId_asignacionActividades(id); // Asignar el ID para la actualización
+	        intervencion.setId_intervencion_suelo(id); // Asignar el ID para la actualización
 	        IntervencionService.save(intervencion);
 
 	        return ResponseEntity.ok("La intervencion se ha editado con éxito.");

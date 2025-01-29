@@ -22,7 +22,7 @@ public class Intervencion_SueloDaolmpl implements IIntervencion_SueloDao {
 
 	@Override
 	public void save(Intervencion_Suelo intervencion_Suelo) {
-		if (intervencion_Suelo.getId_asignacionActividades() != null && intervencion_Suelo.getId_asignacionActividades() > 0) {
+		if (intervencion_Suelo.getId_intervencion_suelo() != null && intervencion_Suelo.getId_intervencion_suelo() > 0) {
 			em.merge(intervencion_Suelo);
 		} else {
 			em.persist(intervencion_Suelo);
