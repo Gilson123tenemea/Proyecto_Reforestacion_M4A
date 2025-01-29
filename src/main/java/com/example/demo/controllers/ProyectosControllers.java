@@ -88,6 +88,7 @@ public class ProyectosControllers {
             }
 
             if (!imagenArchivo.isEmpty()) {
+            	
                 BufferedImage originalImage = ImageIO.read(imagenArchivo.getInputStream());
                 BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 300, 300);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
