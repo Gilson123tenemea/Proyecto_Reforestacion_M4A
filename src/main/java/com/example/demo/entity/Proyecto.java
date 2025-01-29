@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -38,6 +40,10 @@ public class Proyecto implements Serializable {
 	private String estado;
 	private int voluntariosmax;
 	
+    @Lob // Indica que es un campo grande (para imágenes o archivos)
+    @Column(name = "imagen", columnDefinition = "LONGBLOB")
+    private byte[] imagen;
+	
 	//relacion con incripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
@@ -59,6 +65,15 @@ public class Proyecto implements Serializable {
 	private List<Patrocinio> patrocinio; 
 
 	
+
+
+	public byte[] getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
 
 	public Long getId_proyecto() {
 		return id_proyecto;

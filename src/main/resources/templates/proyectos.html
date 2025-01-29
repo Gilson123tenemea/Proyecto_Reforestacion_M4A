@@ -12,19 +12,29 @@
     <div class="container mt-5">
         <h1 class="mb-4" th:text="${titulo}">Formulario de Proyecto</h1>
 
-        <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post">
+        <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id_proyecto}" />
 
-			<!-- Selección de la Provincia -->
-			<div class="mb-3">
-			    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-			    <select id="id_provincia" class="form-control" required>
-			        <option value="" disabled selected>Seleccione una Provincia</option>
-			        <th:block th:each="provincia : ${provincias}">
-			            <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
-			        </th:block>
-			    </select>
-			</div>
+            <div th:if="${mensaje}" class="alert alert-success" role="alert">
+                <span th:text="${mensaje}"></span>
+            </div>
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Selección de la Provincia -->
+            <div class="mb-3">
+                <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                <select id="id_provincia" class="form-control" required>
+                    <option value="" disabled selected>Seleccione una Provincia</option>
+                    <th:block th:each="provincia : ${provincias}">
+                        <option th:value="${provincia.id_provincia}"
+                                th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+                                th:text="${provincia.nombreProvincia}">
+                        </option>
+                    </th:block>
+                </select>
+            </div>
 
             <!-- Selección de Cantón -->
             <div class="mb-3">
@@ -40,6 +50,17 @@
                 <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required disabled>
                     <option value="" disabled selected>Seleccione una Parroquia</option>
                 </select>
+            </div>
+
+            <!-- Mostrar imagen existente -->
+            <div class="mb-3 text-center">
+                <img th:if="${proyecto.imagen}" th:src="@{${proyecto.imagen}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
+            </div>
+
+            <!-- Campo para cargar la imagen -->
+            <div class="mb-3">
+                <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+                <input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*" />
             </div>
 
             <!-- Otros campos del formulario -->
@@ -81,33 +102,54 @@
     </div>
 
     <script>
-        document.getElementById('id_provincia').addEventListener('change', function() {
-            const idProvincia = this.value;
+        const provinciaSelect = document.getElementById('id_provincia');
+        const cantonSelect = document.getElementById('id_canton');
+        const parroquiaSelect = document.getElementById('id_parroquia');
+
+        const provinciaSeleccionada = /*[[${provinciaSeleccionada}]]*/ null;
+        const cantonSeleccionado = /*[[${cantonSeleccionado?.id_canton}]]*/ null;
+        const parroquiaSeleccionada = /*[[${parroquiaSeleccionada?.id_parroquia}]]*/ null;
+
+        if (provinciaSeleccionada) {
+            cargarCantones(provinciaSeleccionada, cantonSeleccionado, parroquiaSeleccionada);
+        }
+
+        provinciaSelect.addEventListener('change', () => {
+            cargarCantones(provinciaSelect.value);
+        });
+
+        cantonSelect.addEventListener('change', () => {
+            cargarParroquias(cantonSelect.value);
+        });
+
+        function cargarCantones(idProvincia, idCantonSeleccionado = null, idParroquiaSeleccionada = null) {
             fetch(`/cantones/${idProvincia}`)
                 .then(response => response.json())
                 .then(data => {
-                    const cantonSelect = document.getElementById('id_canton');
                     cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
                     data.forEach(canton => {
-                        cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+                        const selected = canton.id_canton == idCantonSeleccionado ? 'selected' : '';
+                        cantonSelect.innerHTML += `<option value="${canton.id_canton}" ${selected}>${canton.nombreCanton}</option>`;
                     });
                     cantonSelect.disabled = false;
+                    if (idCantonSeleccionado) {
+                        cargarParroquias(idCantonSeleccionado, idParroquiaSeleccionada);
+                    }
                 });
-        });
+        }
 
-        document.getElementById('id_canton').addEventListener('change', function() {
-            const idCanton = this.value;
+        function cargarParroquias(idCanton, idParroquiaSeleccionada = null) {
             fetch(`/parroquias/${idCanton}`)
                 .then(response => response.json())
                 .then(data => {
-                    const parroquiaSelect = document.getElementById('id_parroquia');
                     parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
                     data.forEach(parroquia => {
-                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+                        const selected = parroquia.id_parroquia == idParroquiaSeleccionada ? 'selected' : '';
+                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}" ${selected}>${parroquia.nombreParroquia}</option>`;
                     });
                     parroquiaSelect.disabled = false;
                 });
-        });
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

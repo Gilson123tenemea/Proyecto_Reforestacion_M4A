@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
@@ -21,6 +25,18 @@ import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
 import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IProyectoServices;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.UUID;
+
+import javax.imageio.ImageIO;
+import org.imgscalr.Scalr;
 
 @Controller
 public class ProyectosControllers {
@@ -63,30 +79,71 @@ public class ProyectosControllers {
     }
 
     @PostMapping("/guardarProyecto")
-    public String guardarProyecto(@ModelAttribute Proyecto proyecto, Model model) {
+    public String guardarProyecto(@ModelAttribute Proyecto proyecto,
+                                  @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
+                                  RedirectAttributes redirectAttributes) {
         try {
             if (proyecto.getId_parroquia() == null) {
                 throw new Exception("Debe seleccionar una Parroquia.");
             }
+
+            if (!imagenArchivo.isEmpty()) {
+                BufferedImage originalImage = ImageIO.read(imagenArchivo.getInputStream());
+                BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 300, 300);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(resizedImage, "jpg", baos);
+                proyecto.setImagen(baos.toByteArray());
+            } else {
+                proyecto.setImagen(null);
+            }
+
             proyectoService.save(proyecto);
-            model.addAttribute("mensaje", "Proyecto guardado exitosamente");
+            redirectAttributes.addFlashAttribute("mensaje", "Proyecto guardado exitosamente");
             return "redirect:/listarProyectos";
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
+            return "redirect:/proyectos";
         } catch (Exception e) {
-            model.addAttribute("mensaje", "Error al guardar el proyecto: " + e.getMessage());
-            return "error";
+            redirectAttributes.addFlashAttribute("error", "Error al guardar el proyecto: " + e.getMessage());
+            return "redirect:/proyectos";
+        }
+    }    
+    
+    @GetMapping("/proyecto/imagen/{id}")
+    @ResponseBody
+    public byte[] obtenerImagenProyecto(@PathVariable("id") Long id) {
+        Proyecto proyecto = proyectoService.findOne(id);
+        if (proyecto != null && proyecto.getImagen() != null) {
+            return proyecto.getImagen(); // Devuelve los bytes de la imagen
+        }
+        return new byte[0]; // Si no existe la imagen, devuelve un array vacío
+    }
+    
+    public void eliminarProyecto(Long id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TuUnidadDePersistencia");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            
+            Proyecto proyecto = em.find(Proyecto.class, id);
+            
+            if (proyecto != null) {
+                em.remove(proyecto);
+                em.getTransaction().commit();
+                System.out.println("Proyecto eliminado correctamente.");
+            } else {
+                System.out.println("Proyecto no encontrado.");
+            }
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+            emf.close();
         }
     }
     
-    @PostMapping("/proyectos/eliminar/{id}")
-    public String eliminarProyecto(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        try {
-            proyectoService.delete(id);
-            attributes.addFlashAttribute("mensaje", "Proyecto eliminado correctamente");
-        } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Error al eliminar el proyecto");
-        }
-        return "redirect:/listarProyectos";
-    }
     
     @GetMapping("/proyectos/editar/{id}")
     public String editarProyecto(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
@@ -96,15 +153,31 @@ public class ProyectosControllers {
                 attributes.addFlashAttribute("error", "El proyecto no existe");
                 return "redirect:/listarProyectos";
             }
+
+            // Obtener la parroquia relacionada con el proyecto
+            Parroquia parroquia = parroquiaService.findOne(proyecto.getId_parroquia());
+            if (parroquia != null) {
+                model.addAttribute("parroquiaSeleccionada", parroquia);
+                // Obtener el cantón relacionado con la parroquia
+                Canton canton = cantonService.findOne(parroquia.getId_canton());
+                if (canton != null) {
+                    model.addAttribute("cantonSeleccionado", canton);
+                    // Obtener la provincia relacionada con el cantón
+                    Long idProvincia = canton.getId_provincia();
+                    model.addAttribute("provinciaSeleccionada", idProvincia);
+                }
+            }
+
             model.addAttribute("proyecto", proyecto);
-            model.addAttribute("parroquia", parroquiaService.findAll());
-            model.addAttribute("titulo", "Editar Proyecto");
+            model.addAttribute("parroquia", parroquiaService.findAll()); // Todas las parroquias
+            model.addAttribute("provincias", provinciaService.findAll()); // Todas las provincias
             return "proyectos"; 
         } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Error al cargar la proyecto: " + e.getMessage());
+            attributes.addFlashAttribute("error", "Error al cargar el proyecto: " + e.getMessage());
             return "redirect:/listarProyectos";
         }
     }
+    
     
     @GetMapping("/cantones/{idProvincia}")
     @ResponseBody
