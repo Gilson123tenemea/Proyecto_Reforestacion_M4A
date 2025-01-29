@@ -38,9 +38,6 @@ public class Tipo_Actividades implements Serializable{
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Asignacion_proyectoActi> asignacion_proyectoacti   ; 
 
- 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
- 	@JoinColumn(name ="id_tipoActividades")
- 	private List<asignacion_actividad> inscripcion_actividades  ; 	
   	
     private static final long serialVersionUID = 1L;
     
@@ -115,15 +112,6 @@ public class Tipo_Actividades implements Serializable{
 	public void setAsignacion_proyectoacti(List<Asignacion_proyectoActi> asignacion_proyectoacti) {
 		this.asignacion_proyectoacti = asignacion_proyectoacti;
 	}
-
-	public List<asignacion_actividad> getInscripcion_actividades() {
-		return inscripcion_actividades;
-	}
-
-	public void setInscripcion_actividades(List<asignacion_actividad> inscripcion_actividades) {
-		this.inscripcion_actividades = inscripcion_actividades;
-	}
-	
 	
 
 }

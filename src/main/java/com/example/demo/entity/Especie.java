@@ -22,6 +22,7 @@ public class Especie implements Serializable {
 	private Long id_especie;
 
 	private String nombre;
+	 private boolean activo = true;
 	
 	//relacion con plantas
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -52,6 +53,15 @@ public class Especie implements Serializable {
 	public void setPlantas(List<Plantas> plantas) {
 		this.plantas = plantas;
 	}
+	
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 
 
 	private static final long serialVersionUID = 1L;

@@ -29,6 +29,8 @@ public class Patrocinio implements Serializable{
 	private Date fechafin;
 	private String tipo_patrocinio;
 	private Double cantiad_estimada;
+	private String beneficios;
+	private String detalledpnado;
 	// llaves FK
 	
 	private Long id_proyecto;
@@ -90,6 +92,24 @@ public class Patrocinio implements Serializable{
 	public void setId_patrocinador(Long id_patrocinador) {
 		Id_patrocinador = id_patrocinador;
 	}
+	
+
+	public String getBeneficios() {
+		return beneficios;
+	}
+
+	public void setBeneficios(String beneficios) {
+		this.beneficios = beneficios;
+	}
+
+	public String getDetalledpnado() {
+		return detalledpnado;
+	}
+
+	public void setDetalledpnado(String detalledpnado) {
+		this.detalledpnado = detalledpnado;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 

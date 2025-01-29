@@ -36,6 +36,11 @@ public class Parcelas implements Serializable {
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_parcelas")
   	private List<Monitoreo> monitoreo  ; 
+  	
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_parcelas")
+	private List<Intervencion_Suelo> equipos ; 
+
 	
 	public Long getId_parcelas() {
 		return id_parcelas;
@@ -93,6 +98,11 @@ public class Parcelas implements Serializable {
 	public void setMonitoreo(List<Monitoreo> monitoreo) {
 		this.monitoreo = monitoreo;
 	}
-
+	public List<Intervencion_Suelo> getEquipos() {
+		return equipos;
+	}
+	public void setEquipos(List<Intervencion_Suelo> equipos) {
+		this.equipos = equipos;
+	}
 	
 }

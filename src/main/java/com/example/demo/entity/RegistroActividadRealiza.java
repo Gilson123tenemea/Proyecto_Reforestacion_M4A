@@ -22,6 +22,9 @@ public class RegistroActividadRealiza implements Serializable{
 	private String descripcion;
 	private String foto;
 	
+	private Boolean validacion_admin_tareaRealizada;
+	private Boolean validacion_voluntario_tareaRealizada;
+	
 	public Long getId_registroactividadrealizada() {
 		return id_registroactividadrealizada;
 	}
@@ -69,6 +72,24 @@ public class RegistroActividadRealiza implements Serializable{
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
+
+	public Boolean getValidacion_admin_tareaRealizada() {
+		return validacion_admin_tareaRealizada;
+	}
+
+	public void setValidacion_admin_tareaRealizada(Boolean validacion_admin_tareaRealizada) {
+		this.validacion_admin_tareaRealizada = validacion_admin_tareaRealizada;
+	}
+
+	public Boolean getValidacion_voluntario_tareaRealizada() {
+		return validacion_voluntario_tareaRealizada;
+	}
+
+	public void setValidacion_voluntario_tareaRealizada(Boolean validacion_voluntario_tareaRealizada) {
+		this.validacion_voluntario_tareaRealizada = validacion_voluntario_tareaRealizada;
+	}
+
+
 
 	private static final long serialVersionUID = 1L;
 

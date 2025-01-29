@@ -40,9 +40,12 @@ public class Inscripcion implements Serializable{
 		 fecha = new Date();
 	    }
 	 
-	 @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	 @JoinColumn(name ="id_inscripcion")
-	 private List<asignacion_actividad> asignacionactividades  ; 	
+	 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_inscripcion")
+	private List<Equipos> equipos ; 
+
+	 
 	
 	public Long getId_inscripcion() {
 		return id_inscripcion;
@@ -83,14 +86,16 @@ public class Inscripcion implements Serializable{
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
-	public List<asignacion_actividad> getAsignacionactividades() {
-		return asignacionactividades;
+	
+	
+	public List<Equipos> getEquipos() {
+		return equipos;
 	}
 
-	public void setAsignacionactividades(List<asignacion_actividad> asignacionactividades) {
-		this.asignacionactividades = asignacionactividades;
+	public void setEquipos(List<Equipos> equipos) {
+		this.equipos = equipos;
 	}
+
 
 	private static final long serialVersionUID = 1L;
 

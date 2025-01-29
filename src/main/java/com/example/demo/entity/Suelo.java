@@ -25,12 +25,7 @@ public class Suelo implements Serializable{
 	private String composicion;
 	private String descripcion;
 	
-	//relacion con intervencion_suelo
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_suelo")
-	private List<Intervencion_Suelo> intervencion_suelo ; 
-	
-	
+
 	//relacion con parcelas
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_suelo")
@@ -59,13 +54,6 @@ public class Suelo implements Serializable{
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	
-	public List<Intervencion_Suelo> getIntervencion_suelo() {
-		return intervencion_suelo;
-	}
-	public void setIntervencion_suelo(List<Intervencion_Suelo> intervencion_suelo) {
-		this.intervencion_suelo = intervencion_suelo;
 	}
 	
 	public List<Parcelas> getParcelas() {

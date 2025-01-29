@@ -20,14 +20,15 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"asignacion_actividades","id_suelo","id_asignacionActividades"})})
+@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_parcelas","id_equipos","id_asignacionActividades"})})
 public class Intervencion_Suelo implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_asignacionActividades;
-	private Long id_suelo;
-	private Long asignacion_actividades;
+	private Long id_parcelas;
+	private Long id_equipos;	
+
 	
 	@Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd") 
@@ -49,22 +50,6 @@ public class Intervencion_Suelo implements Serializable{
 
 	public void setId_asignacionActividades(Long id_asignacionActividades) {
 		this.id_asignacionActividades = id_asignacionActividades;
-	}
-
-	public Long getId_suelo() {
-		return id_suelo;
-	}
-
-	public void setId_suelo(Long id_suelo) {
-		this.id_suelo = id_suelo;
-	}
-
-	public Long getAsignacion_actividades() {
-		return asignacion_actividades;
-	}
-
-	public void setAsignacion_actividades(Long asignacion_actividades) {
-		this.asignacion_actividades = asignacion_actividades;
 	}
 
 	public Date getFecha_asignacion() {
@@ -98,6 +83,24 @@ public class Intervencion_Suelo implements Serializable{
 	public void setRegistroactividadesrealizada(List<RegistroActividadRealiza> registroactividadesrealizada) {
 		this.registroactividadesrealizada = registroactividadesrealizada;
 	}
+	
+
+	public Long getId_parcelas() {
+		return id_parcelas;
+	}
+
+	public void setId_parcelas(Long id_parcelas) {
+		this.id_parcelas = id_parcelas;
+	}
+
+	public Long getId_equipos() {
+		return id_equipos;
+	}
+
+	public void setId_equipos(Long id_equipos) {
+		this.id_equipos = id_equipos;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 	
