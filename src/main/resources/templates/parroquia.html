@@ -28,7 +28,10 @@
             <!-- Nombre de la Parroquia -->
             <div class="mb-3">
                 <label for="nombreParroquia" class="form-label">Nombre de la Parroquia:</label>
-                <input type="text" th:field="*{nombreParroquia}" class="form-control" required />
+				<input type="text" th:field="*{nombreParroquia}" class="form-control" 
+				       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
+				       title="Solo se permiten letras y espacios" 
+				       placeholder="Ingrese el nombre de la parroquia" />
             </div>
 
             <!-- Botones -->

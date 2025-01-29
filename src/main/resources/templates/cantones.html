@@ -30,8 +30,9 @@
             <!-- Nombre del Cantón -->
             <div class="mb-3">
                 <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
-                <input type="text" th:field="*{nombreCanton}" class="form-control" required />
-            </div>
+				<input type="text" id="nombreCanton" name="nombreCanton" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
+				    title="Solo se permiten letras y espacios" />            
+				</div>
 
             <!-- Botones -->
             <div class="mb-3">

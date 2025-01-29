@@ -12,7 +12,10 @@
     <form th:action="@{/formprovincia}" th:object="${provincia}" method="post">
         <div class="form-group">
             <label for="nombreProvincia">Nombre de la Provincia</label>
-            <input type="text" th:field="*{nombreProvincia}" class="form-control" id="nombreProvincia" placeholder="Ingrese el nombre de la provincia" required>
+			<input type="text" id="nombreProvincia" name="nombreProvincia" 
+			       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
+			       title="Solo se permiten letras y espacios" 
+			       placeholder="Ingrese el nombre de la provincia" class="form-control" />
         </div>
         <button type="submit" class="btn btn-success">Guardar</button>
 		<input type="hidden" th:field="*{id_provincia}" />

@@ -17,6 +17,8 @@ import com.example.demo.entity.Canton;
 import com.example.demo.entity.Provincia;
 import com.example.demo.service.IProvinciaService;
 
+import jakarta.validation.Valid;
+
 
 
 @Controller
@@ -62,7 +64,7 @@ public class ProvinciaControllers {
     }
 
     @RequestMapping(value = "/formprovincia", method = RequestMethod.POST)
-    public String guardar(Provincia provincia, RedirectAttributes flash) {
+    public String guardar(@Valid @ModelAttribute("provincia") Provincia provincia, RedirectAttributes flash) {
         if (provincia.getId_provincia() != null) {
             Provincia provinciaActual = provinciaService.findOne(provincia.getId_provincia());
             if (provinciaActual != null) {

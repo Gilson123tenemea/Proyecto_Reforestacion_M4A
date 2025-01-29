@@ -13,6 +13,8 @@ import com.example.demo.entity.Parroquia;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
 
+import jakarta.validation.Valid;
+
 
 @Controller
 public class ParroquiaControllers {
@@ -30,7 +32,7 @@ public class ParroquiaControllers {
     }
 
     @PostMapping("/guardarParroquia")
-    public String guardarParroquia(@ModelAttribute Parroquia parroquia, Model model) {
+    public String guardarParroquia(@Valid @ModelAttribute("parroquia") Parroquia parroquia, Model model) {
         try {
             if (parroquia.getId_canton() == null) {
                 throw new Exception("Debe seleccionar un Cantón.");

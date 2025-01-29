@@ -5,6 +5,8 @@ import com.example.demo.entity.Parroquia;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IProvinciaService;
 
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -79,7 +81,7 @@ public class CantonControllers {
 
     // Guardar un Canton (Crear o Actualizar)
     @RequestMapping(value = "/cantones", method = RequestMethod.POST)
-    public String guardarCanton(Canton canton, RedirectAttributes flash) {
+    public String guardarCanton(@Valid @ModelAttribute("canton") Canton canton, RedirectAttributes flash) {
         try {
             // Verificar si la lista de parroquias es null y, en tal caso, inicializarla como una lista vacía
             if (canton.getParroquia() == null) {
