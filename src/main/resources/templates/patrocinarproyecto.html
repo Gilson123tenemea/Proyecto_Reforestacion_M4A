@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscribir Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        header {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .card {
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-inscribirse {
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+        .btn-inscribirse:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="d-flex justify-content-between align-items-center">
+        <img src="imagenes/logo_cuenca.png" alt="Logo Cuenca" style="max-height: 40px;">
+        <h1 class="text-white m-0 text-center">Reforest</h1>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#proyectos">Proyecto</a>
+            <a href="#editar-perfil">Editar Perfil</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-white text-center">
+                <h2>Proyecto C</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Fecha de Inicio del Patrocinio:</strong> 15/01/2025</p>
+                <p><strong>Fecha de Fin del Patrocinio:</strong> 15/07/2025</p>
+                <p><strong>Selecciona los tipos de patrocinio:</strong></p>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="patrocinioDinero" onchange="toggleInput('opcionDinero')">
+                    <label class="form-check-label" for="patrocinioDinero">Dinero</label>
+                </div>
+                <div id="opcionDinero" class="mt-3" style="display: none;">
+                    <label for="cantidadDinero" class="form-label">Cantidad en dólares:</label>
+                    <input type="number" class="form-control" id="cantidadDinero" placeholder="Ingrese el monto">
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="patrocinioHerramientas" onchange="toggleInput('opcionHerramientas')">
+                    <label class="form-check-label" for="patrocinioHerramientas">Herramientas</label>
+                </div>
+                <div id="opcionHerramientas" class="mt-3" style="display: none;">
+                    <label for="herramientas" class="form-label">Selecciona herramientas:</label>
+                    <select class="form-select" id="herramientas">
+                        <option value="pala">Pala</option>
+                        <option value="rastrillo">Rastrillo</option>
+                        <option value="tijeras">Tijeras de podar</option>
+                    </select>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="patrocinioArboles" onchange="toggleInput('opcionArboles')">
+                    <label class="form-check-label" for="patrocinioArboles">Árboles</label>
+                </div>
+                <div id="opcionArboles" class="mt-3" style="display: none;">
+                    <label for="arboles" class="form-label">Selecciona árboles a donar:</label>
+                    <select class="form-select" id="arboles">
+                        <option value="pino">Pino</option>
+                        <option value="cedro">Cedro</option>
+                        <option value="mango">Mango</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-inscribirse mt-4" onclick="inscribirProyecto()">Inscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA MENSAJES -->
+    <div class="modal fade" id="modalMensaje" tabindex="-1" aria-labelledby="modalMensajeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalMensajeLabel">Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body text-dark" id="modalMensajeTexto">
+                    <!-- Aquí se insertará el mensaje dinámico -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="p-3 text-center bg-dark text-white">
+        <p>&copy; 2025 Proyecto Reforest. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleInput(id) {
+            let element = document.getElementById(id);
+            element.style.display = element.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function inscribirProyecto() {
+            let seleccionados = [];
+            if (document.getElementById('patrocinioDinero').checked) {
+                let cantidad = document.getElementById('cantidadDinero').value;
+                seleccionados.push(`Dinero: $${cantidad}`);
+            }
+            if (document.getElementById('patrocinioHerramientas').checked) {
+                let herramienta = document.getElementById('herramientas').value;
+                seleccionados.push(`Herramienta: ${herramienta}`);
+            }
+            if (document.getElementById('patrocinioArboles').checked) {
+                let arbol = document.getElementById('arboles').value;
+                seleccionados.push(`Árbol: ${arbol}`);
+            }
+
+            let modalMensajeTexto = document.getElementById('modalMensajeTexto');
+
+            if (seleccionados.length > 0) {
+                modalMensajeTexto.innerHTML = `Inscripción completada con los siguientes patrocinios:<br>${seleccionados.join('<br>')}`;
+            } else {
+                modalMensajeTexto.innerHTML = 'Por favor, selecciona al menos un tipo de patrocinio.';
+            }
+
+            let modal = new bootstrap.Modal(document.getElementById('modalMensaje'));
+            modal.show();
+        }
+    </script>
+</body>
+
+</html>

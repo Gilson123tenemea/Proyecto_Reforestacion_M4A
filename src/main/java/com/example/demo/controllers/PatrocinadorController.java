@@ -78,6 +78,24 @@ public class PatrocinadorController {
         model.addAttribute("combinados", combinados);
         return "Lista";
     }
+	
+    @GetMapping("/verproyectospatrocinador")
+    public String verproyectos (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "verproyectospatrocinador";
+    }
+    
+    @GetMapping("/patrocinarproyecto")
+    public String patrocinarproyecto (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "patrocinarproyecto";
+    }
+    
+    @GetMapping("/proyectospatrocinados")
+    public String proyectospatrocinados (Model model) {
+        model.addAttribute("titulo", "proyectos");
+        return "proyectospatrocinados";
+    }
 
 	@GetMapping("/formularioPatrocinador")
 	public String crear(Model model) {

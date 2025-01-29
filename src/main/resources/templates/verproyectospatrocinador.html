@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        header {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
+            background-color: #dc3545;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 8px;
+        }
+
+        .btn-view {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            padding: 5px 15px;
+        }
+
+        .btn-view:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #000;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="d-flex justify-content-between align-items-center">
+        <img src="imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
+        <h1 class="text-white m-0 text-center">Reforest</h1>
+        <nav>
+            <a href="#" class="text-white mx-2">Inicio</a>
+            <a href="#proyectos" class="text-white mx-2">Proyecto</a>
+            <a href="#editar-perfil" class="text-white mx-2">Editar Perfil</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Proyectos Patrocinados -->
+        <div class="card">
+            <div class="card-header text-white text-center">
+                <h3>Proyectos Patrocinados</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table table-bordered table-light">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre del Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Tipo de Patrocinio</th>
+                                <th>Cantidad Estimada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Proyecto A</td>
+                                <td>01/01/2025</td>
+                                <td>31/12/2025</td>
+                                <td>Financiero</td>
+                                <td>$10,000</td>
+                                <td>
+                                    <button class="btn btn-view" onclick="window.location.href='proyectospatrocinados';">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proyecto B</td>
+                                <td>01/03/2025</td>
+                                <td>30/06/2025</td>
+                                <td>Materiales</td>
+                                <td>$5,000</td>
+                                <td>
+                                    <button class="btn btn-view" onclick="window.location.href='proyectospatrocinados';">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Más Proyectos que Puedes Patrocinar -->
+        <div class="card">
+            <div class="card-header text-white text-center">
+                <h3>Más Proyectos que Puedes Patrocinar</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table table-bordered table-light">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre del Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Tipo de Patrocinio</th>
+                                <th>Cantidad Estimada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Proyecto C</td>
+                                <td>15/01/2025</td>
+                                <td>15/07/2025</td>
+                                <td>Logístico</td>
+                                <td>$8,000</td>
+                                <td>
+                                    <button class="btn btn-view" onclick="window.location.href='patrocinarproyecto';">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proyecto D</td>
+                                <td>01/04/2025</td>
+                                <td>30/09/2025</td>
+                                <td>Financiero</td>
+                                <td>$12,000</td>
+                                <td>
+                                    <button class="btn btn-view" onclick="window.location.href='patrocinarproyecto';">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="p-3 text-center bg-dark text-white">
+        <p>&copy; 2025 Proyecto Deforest. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

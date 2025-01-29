@@ -27,10 +27,6 @@
             margin: 0 10px;
         }
 
-        nav a:hover {
-            text-decoration: underline;
-        }
-
         .card {
             margin: 20px auto;
             border-radius: 12px;
@@ -43,43 +39,11 @@
             color: white;
         }
 
-        .card-body {
-            padding: 20px;
-        }
-
         .table th,
         .table td {
             text-align: center;
             vertical-align: middle;
             border-radius: 8px;
-        }
-
-        .btn-inscribirse {
-            background-color: #28a745;
-            color: white;
-            border-radius: 8px;
-            padding: 10px 20px;
-            margin-top: 20px;
-        }
-
-        .btn-inscribirse:hover {
-            background-color: #218838;
-        }
-
-        footer {
-            background-color: #000;
-            color: white;
-            padding: 20px 0;
-        }
-
-        .project-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        .modal-body p {
-            color: black; /* Color negro para el texto */
         }
     </style>
 </head>
@@ -96,16 +60,14 @@
     </header>
 
     <div class="container">
-        <!-- Detalles del Proyecto -->
         <div class="card">
             <div class="card-header text-white text-center">
                 <h3>Detalles del Proyecto</h3>
             </div>
             <div class="card-body">
-                <!-- Imagen del Proyecto al principio del card -->
                 <div class="row mb-3 text-center">
                     <div class="col-md-12">
-                        <img src="imagenes/proyecto_c.jpg" alt="Proyecto C" class="project-img mb-3">
+                        <img src="imagenes/proyecto_c.jpg" alt="Proyecto C" class="img-fluid mb-3">
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -134,38 +96,25 @@
                         <input type="text" class="form-control" id="estado" value="Disponible" disabled>
                     </div>
                 </div>
-
-                <!-- ComboBox de Actividades -->
                 <div class="row mb-3">
-                    <div class="col-md-12">
-                        <label for="actividad" class="form-label">Actividad</label>
-                        <input type="text" class="form-control" id="actividad" value="Plantar Árboles" disabled>
+                    <div class="col-md-6">
+                        <label for="patrocinador" class="form-label">Patrocinador</label>
+                        <input type="text" class="form-control" id="patrocinador" value="Fundación Verde" disabled>
                     </div>
                 </div>
-
-                <!-- Botones de Confirmación -->
-                <div class="text-center mb-3">
-                    <p>¿Vas a asistir a este proyecto?</p>
-                    <button class="btn btn-success" onclick="confirmarAsistencia(true)">Sí</button>
-                    <button class="btn btn-danger" onclick="confirmarAsistencia(false)">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalConfirmacionLabel">Confirmación de Asistencia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <p id="mensajeConfirmacion"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <a href="proyectosvoluntario" id="aceptarBtn" class="btn btn-primary" style="display:none;">Aceptar</a>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="arboles" class="form-label">Árboles Patrocinados</label>
+                        <input type="text" class="form-control" id="arboles" value="Cedro, Caoba" disabled>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dinero" class="form-label">Cantidad de Dinero</label>
+                        <input type="text" class="form-control" id="dinero" value="$5000" disabled>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="herramientas" class="form-label">Herramientas</label>
+                        <input type="text" class="form-control" id="herramientas" value="Palas, Azadones" disabled>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,19 +123,6 @@
     <footer class="p-3 text-center bg-dark text-white">
         <p>&copy; 2025 Proyecto Deforest. Todos los derechos reservados.</p>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function confirmarAsistencia(assist) {
-            const mensaje = assist ? 
-                "¡Gracias por confirmar tu asistencia al proyecto!" : 
-                "Lamentamos que no puedas asistir al proyecto.";
-            document.getElementById("mensajeConfirmacion").textContent = mensaje;
-            const aceptarBtn = document.getElementById("aceptarBtn");
-            aceptarBtn.style.display = assist ? "inline-block" : "none";
-            new bootstrap.Modal(document.getElementById('modalConfirmacion')).show();
-        }
-    </script>
 </body>
 
 </html>
