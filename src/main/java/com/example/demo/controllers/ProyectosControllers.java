@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,7 @@ import com.example.demo.service.IProyectoServices;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.validation.Valid;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -79,7 +82,7 @@ public class ProyectosControllers {
     }
 
     @PostMapping("/guardarProyecto")
-    public String guardarProyecto(@ModelAttribute Proyecto proyecto,
+    public String guardarProyecto(@Valid @ModelAttribute("proyecto") Proyecto proyecto,
                                   @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
                                   RedirectAttributes redirectAttributes) {
         try {
@@ -88,7 +91,6 @@ public class ProyectosControllers {
             }
 
             if (!imagenArchivo.isEmpty()) {
-            	
                 BufferedImage originalImage = ImageIO.read(imagenArchivo.getInputStream());
                 BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 300, 300);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -120,29 +122,15 @@ public class ProyectosControllers {
         return new byte[0]; // Si no existe la imagen, devuelve un array vacío
     }
     
-    public void eliminarProyecto(Long id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TuUnidadDePersistencia");
-        EntityManager em = emf.createEntityManager();
-
+    @PostMapping("/proyectos/eliminar/{id}")
+    public String eliminarProyecto(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
-            em.getTransaction().begin();
-            
-            Proyecto proyecto = em.find(Proyecto.class, id);
-            
-            if (proyecto != null) {
-                em.remove(proyecto);
-                em.getTransaction().commit();
-                System.out.println("Proyecto eliminado correctamente.");
-            } else {
-                System.out.println("Proyecto no encontrado.");
-            }
+            proyectoService.delete(id);
+            flash.addFlashAttribute("success", "Proyecto eliminado correctamente");
         } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-            emf.close();
+            flash.addFlashAttribute("error", "Error al eliminar el Proyecto: " + e.getMessage());
         }
+        return "redirect:/listarProyectos"; // Asegúrate de tener esta ruta definida
     }
     
     

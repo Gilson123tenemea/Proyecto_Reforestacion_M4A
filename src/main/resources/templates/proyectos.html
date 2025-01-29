@@ -66,7 +66,9 @@
             <!-- Otros campos del formulario -->
             <div class="mb-3">
                 <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-                <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto" required />
+				<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto" 
+				       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
+				       title="Solo se permiten letras y espacios" />
             </div>
 
             <div class="mb-3">
@@ -91,8 +93,9 @@
 
             <div class="mb-3">
                 <label for="voluntariosMax" class="form-label">Voluntarios Max:</label>
-                <input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" required />
-            </div>
+				<input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" 
+				       min="1" required />
+			</div>
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -102,6 +105,21 @@
     </div>
 
     <script>
+		
+		const fechaInicio = document.getElementById('fechaInicio');
+		const fechaFin = document.getElementById('fechaFin');
+
+		// Validar fecha de fin
+		fechaFin.addEventListener('change', () => {
+		    const inicio = new Date(fechaInicio.value);
+		    const fin = new Date(fechaFin.value);
+		    if (fin <= inicio) {
+		        alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
+		        fechaFin.value = ""; // Limpiar el campo de fecha fin
+		    }
+		});
+
+		
         const provinciaSelect = document.getElementById('id_provincia');
         const cantonSelect = document.getElementById('id_canton');
         const parroquiaSelect = document.getElementById('id_parroquia');
@@ -151,6 +169,8 @@
                 });
         }
     </script>
+	
+	
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
