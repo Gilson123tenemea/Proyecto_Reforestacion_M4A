@@ -25,6 +25,7 @@ public class Patrocinador implements Serializable {
 	//Relacion con usuarios
 	private Long id_usuarios;
 	private String nombreEmpresa;
+	private String ruc;
 	
 	//relacion con patrocinio
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -66,6 +67,13 @@ public class Patrocinador implements Serializable {
 		this.patrocinio = patrocinio;
 	}
 
+	public String getRuc() {
+		return ruc;
+	}
+
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
 
 
 	private static final long serialVersionUID = 1L;

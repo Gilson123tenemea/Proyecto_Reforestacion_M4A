@@ -59,6 +59,10 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 	        if (!usuario.getVoluntarios().isEmpty()) {
 	            return "voluntario"; 
 	        }
+	        
+	        if (!usuario.getPatrocinador().isEmpty()) {
+	            return "patrocinador"; 
+	        }
 
 	        return null; 
 	    }

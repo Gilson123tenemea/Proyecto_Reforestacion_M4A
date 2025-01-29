@@ -20,12 +20,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Canton;
+import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
+import com.example.demo.service.ICantonService;
+import com.example.demo.service.IParroquiaService;
 import com.example.demo.service.IPatrocinadorServices;
+import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
 @Controller
@@ -37,6 +43,12 @@ public class PatrocinadorController {
 	private IPatrocinadorServices patrocinadorservice;
 	@Autowired
 	private IUsuarioServices usuarioservice;
+    @Autowired
+    private IParroquiaService parroquiaService;
+    @Autowired
+	private ICantonService cantonService; 
+	@Autowired
+	private IProvinciaService provinciaService; 
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -67,12 +79,12 @@ public class PatrocinadorController {
         return "Lista";
     }
 
-    // Método para mostrar el formulario
-    @GetMapping("/formulario")
-    public String crear(Map<String, Object> model) {
-        model.put("patrocinador", new Patrocinador()); 
-        return "formularioPatrocinador"; 
-    }
+	@GetMapping("/formularioPatrocinador")
+	public String crear(Model model) {
+	    model.addAttribute("patrocinador", new Patrocinador());
+	    model.addAttribute("provincias", provinciaService.findAll());
+	    return "formularioPatrocinador"; 
+	}
 
     // Método para guardar el patrocinador
     @PostMapping("/guardarPatrocinador")
@@ -129,6 +141,8 @@ public class PatrocinadorController {
                     usuarioExistente.setNombre(usuario.getNombre());
                     usuarioExistente.setApellido(usuario.getApellido());
                     usuarioExistente.setCorreo(usuario.getCorreo());
+                    // Aquí se asegura de que el ID de la parroquia se esté estableciendo
+                    usuarioExistente.setId_parroquia(usuario.getId_parroquia());
                     
                     if (usuario.getFecha_nacimiento() != null) {
                         usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
@@ -145,7 +159,7 @@ public class PatrocinadorController {
             patrocinador.setId_usuarios(usuario.getId_usuarios());
             patrocinadorservice.save(patrocinador);
 
-            return "redirect:/listar";
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
             return "error";
@@ -159,10 +173,15 @@ public class PatrocinadorController {
         return "redirect:/listar"; // Redirige a la lista de patrocinadores
     }
 	
-	
-	
-	
+    @GetMapping("/patrocinador/cantones/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvinciaPatrocinador(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
+    }
 
-	
-	
+    @GetMapping("/patrocinador/parroquias/{idCanton}")
+    @ResponseBody
+    public List<Parroquia> getParroquiasByCanton(@PathVariable Long idCanton) {
+        return parroquiaService.findByCanton(idCanton);
+    }
 }
