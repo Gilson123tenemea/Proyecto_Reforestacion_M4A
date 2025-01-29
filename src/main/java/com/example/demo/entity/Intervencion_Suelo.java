@@ -20,19 +20,17 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_tipoActividades","id_suelo","id_asignacionActividades"})})
+@Table(name = "Intervencion_Suelo",uniqueConstraints = {@UniqueConstraint(columnNames = {"asignacion_actividades","id_suelo","id_asignacionActividades"})})
 public class Intervencion_Suelo implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_asignacionActividades;
-	
-	private Long id_tipoActividades;
 	private Long id_suelo;
-	private Long id_voluntario;
+	private Long asignacion_actividades;
 	
 	@Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd") // Especifica el formato de fecha
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
 
 	private Date fecha_asignacion;
 	
@@ -53,14 +51,6 @@ public class Intervencion_Suelo implements Serializable{
 		this.id_asignacionActividades = id_asignacionActividades;
 	}
 
-	public Long getId_tipoActividades() {
-		return id_tipoActividades;
-	}
-
-	public void setId_tipoActividades(Long id_tipoActividades) {
-		this.id_tipoActividades = id_tipoActividades;
-	}
-
 	public Long getId_suelo() {
 		return id_suelo;
 	}
@@ -69,13 +59,12 @@ public class Intervencion_Suelo implements Serializable{
 		this.id_suelo = id_suelo;
 	}
 
-
-	public Long getId_voluntario() {
-		return id_voluntario;
+	public Long getAsignacion_actividades() {
+		return asignacion_actividades;
 	}
 
-	public void setId_voluntario(Long id_voluntario) {
-		this.id_voluntario = id_voluntario;
+	public void setAsignacion_actividades(Long asignacion_actividades) {
+		this.asignacion_actividades = asignacion_actividades;
 	}
 
 	public Date getFecha_asignacion() {
@@ -109,7 +98,6 @@ public class Intervencion_Suelo implements Serializable{
 	public void setRegistroactividadesrealizada(List<RegistroActividadRealiza> registroactividadesrealizada) {
 		this.registroactividadesrealizada = registroactividadesrealizada;
 	}
-
 
 	private static final long serialVersionUID = 1L;
 	

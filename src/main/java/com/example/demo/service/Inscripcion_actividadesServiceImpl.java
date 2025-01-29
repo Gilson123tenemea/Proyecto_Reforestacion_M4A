@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IInscripcionActividadesDao;
 
-import com.example.demo.entity.Inscripcion_actividades;
+import com.example.demo.entity.asignacion_actividad;
 
 @Service
 public class Inscripcion_actividadesServiceImpl implements IInscripcion_actividadesService  {
@@ -18,19 +18,19 @@ public class Inscripcion_actividadesServiceImpl implements IInscripcion_activida
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<Inscripcion_actividades> findAll() {
+	public List<asignacion_actividad> findAll() {
 		return inscripciondao.findAll();
 	}
 
 	@Transactional
 	@Override
-	public void save(Inscripcion_actividades inscripcion) {	
+	public void save(asignacion_actividad inscripcion) {	
 		inscripciondao.save(inscripcion);
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public Inscripcion_actividades findOne(Long id) {
+	public asignacion_actividad findOne(Long id) {
 		return inscripciondao.findOne(id);
 	}
 

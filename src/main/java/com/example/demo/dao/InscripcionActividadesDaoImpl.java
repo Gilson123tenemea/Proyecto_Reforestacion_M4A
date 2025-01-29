@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 
-import com.example.demo.entity.Inscripcion_actividades;
+import com.example.demo.entity.asignacion_actividad;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,13 +18,13 @@ public class InscripcionActividadesDaoImpl  implements IInscripcionActividadesDa
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Inscripcion_actividades> findAll() {
+	public List<asignacion_actividad> findAll() {
 		return em.createQuery("from Inscripcion_actividades").getResultList();
 		
 	}
 
 	@Override
-	public void save(Inscripcion_actividades inscripcionact) {
+	public void save(asignacion_actividad inscripcionact) {
 		if (inscripcionact.getId_inscripcionactividades() != null && inscripcionact.getId_inscripcionactividades() > 0) {
 			em.merge(inscripcionact);
 		} else {
@@ -33,8 +33,8 @@ public class InscripcionActividadesDaoImpl  implements IInscripcionActividadesDa
 	}
 
 	@Override
-	public Inscripcion_actividades findOne(Long id) {
-		return em.find(Inscripcion_actividades.class, id);
+	public asignacion_actividad findOne(Long id) {
+		return em.find(asignacion_actividad.class, id);
 	
 	}
 

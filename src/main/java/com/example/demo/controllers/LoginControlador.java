@@ -43,7 +43,7 @@ public class LoginControlador {
             case "administrador":
                 return "redirect:/suelo"; // Redirigir al dashboard del administrador
             case "voluntario":
-                return "redirect:/voluntarios"; // Redirigir al dashboard del voluntario
+                return "redirect:/proyectosvoluntario"; // Redirigir al dashboard del voluntario
             default:
                 return "login"; // En caso de que no se reconozca el rol
         }

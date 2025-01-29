@@ -27,14 +27,12 @@ public class Voluntarios implements Serializable{
 	private String experiencia;
 	private Boolean estado;
 	private Boolean disponibilidad;
+	private Boolean asiste_si_no = false;
 	
 	@Temporal(TemporalType.DATE)	
 	private Date fechaRegistro;
-	
-	//relacion con usuarios
 	private Long id_usuarios;
 	
-	//relacion con inscripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_voluntario")
 	private List<Inscripcion> inscripcion ; 
@@ -42,17 +40,8 @@ public class Voluntarios implements Serializable{
 	//relacion con inscripcion actividades
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_voluntario")
-	private List<Inscripcion_actividades> inscripcion_actividades  ; 	
+	private List<asignacion_actividad> inscripcion_actividades  ; 	
 	
-	//relacion con intervencion suelo
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_voluntario")
-	private List<Intervencion_Suelo> intervencion_suelo;
-	
-	//relacion con RegsitroctividadesRealiza
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_voluntario")
-	private List<RegistroActividadRealiza>  registroactividadrealiza  ; 	
 
 	public Long getId_voluntario() {
 		return id_voluntario;
@@ -110,30 +99,23 @@ public class Voluntarios implements Serializable{
 		this.inscripcion = inscripcion;
 	}
 
-	public List<Inscripcion_actividades> getInscripcion_actividades() {
+	public List<asignacion_actividad> getInscripcion_actividades() {
 		return inscripcion_actividades;
 	}
 
-	public void setInscripcion_actividades(List<Inscripcion_actividades> inscripcion_actividades) {
+	public void setInscripcion_actividades(List<asignacion_actividad> inscripcion_actividades) {
 		this.inscripcion_actividades = inscripcion_actividades;
 	}
 	
-	public List<Intervencion_Suelo> getIntervencion_suelo() {
-		return intervencion_suelo;
+
+	public Boolean getAsiste_si_no() {
+		return asiste_si_no;
 	}
 
-	public void setIntervencion_suelo(List<Intervencion_Suelo> intervencion_suelo) {
-		this.intervencion_suelo = intervencion_suelo;
-	}
-	
-
-	public List<RegistroActividadRealiza> getRegistroactividadrealiza() {
-		return registroactividadrealiza;
+	public void setAsiste_si_no(Boolean asiste_si_no) {
+		this.asiste_si_no = asiste_si_no;
 	}
 
-	public void setRegistroactividadrealiza(List<RegistroActividadRealiza> registroactividadrealiza) {
-		this.registroactividadrealiza = registroactividadrealiza;
-	}
 
 	private static final long serialVersionUID = 1L;
 
