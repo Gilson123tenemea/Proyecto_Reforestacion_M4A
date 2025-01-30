@@ -65,11 +65,7 @@ public class ProyectosControllers {
         return "proyectos"; 
     }
     
-<<<<<<< Updated upstream
-    
-    
-    
-=======
+
     @GetMapping("/proyectosestados")
     public String mostrarProyectosActivos(Model model) {
         
@@ -83,7 +79,7 @@ public class ProyectosControllers {
         return "ReporteGrafico"; // Nombre de la vista (HTML con Thymeleaf)
     }
 
->>>>>>> Stashed changes
+
 
 
     @InitBinder
