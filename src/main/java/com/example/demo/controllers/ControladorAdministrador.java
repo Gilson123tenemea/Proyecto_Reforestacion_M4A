@@ -67,7 +67,7 @@ public class ControladorAdministrador {
 	    return "listarAdministradores";
 	}
 
-	@RequestMapping(value = "/Inicio", method = RequestMethod.GET)
+	@RequestMapping(value = "/administrador", method = RequestMethod.GET)
 	public String listarYEditar(
 	        @RequestParam(value = "id", required = false) Long id,
 	        Map<String, Object> model,
@@ -81,14 +81,14 @@ public class ControladorAdministrador {
 	            usuario = usuarioServices.findOne(administrador.getId_usuarios());
 	        } else {
 	            flash.addFlashAttribute("info", "El administrador no existe en la base de datos");
-	            return "redirect:/Inicio";
+	            return "redirect:/administrador";
 	        }
 	    }
 
 	    model.put("administrador", administrador);
 	    model.put("usuario", usuario);
 	    model.put("titulo", "Editar o Crear Administrador");
-	    return "Inicio";
+	    return "administrador";
 	}
 
 
@@ -133,11 +133,11 @@ public class ControladorAdministrador {
 
 
     
-    @RequestMapping("/Inicio")
+    @RequestMapping("/administrador")
     public String crear(Map<String, Object> model) {
         model.put("administrador", new Administrador());
         model.put("usuarios", usuarioServices.findAll());
-        return "Inicio"; 
+        return "administrador"; 
     }
    
     

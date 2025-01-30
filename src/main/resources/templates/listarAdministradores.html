@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -40,7 +40,7 @@
 				<td th:text="${item['administrador'].actividades_gestionadas}"></td>
 				<td>
 					<!-- Enlace para Editar: apunta a la vista de editar con el ID del administrador -->
-					<a th:href="@{/Inicio?id={id}(id=${item['administrador'].id_administrador})}" class="btn btn-warning">Editar</a>
+					<a th:href="@{/administrador?id={id}(id=${item['administrador'].id_administrador})}" class="btn btn-warning">Editar</a>
 
 				</td>
 				<td>
@@ -55,7 +55,7 @@
 
 	</table>
 
-	<a href="/Inicio">Agregar Administrador</a>
+	<a href="/administrador">Agregar Administrador</a>
 </body>
 
 </html>
