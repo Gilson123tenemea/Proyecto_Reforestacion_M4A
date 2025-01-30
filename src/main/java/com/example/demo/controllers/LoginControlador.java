@@ -22,8 +22,6 @@ public class LoginControlador {
     public String loginForm() {
         return "login";
         
-        
-        
     }
     
     @GetMapping({"/","","/Inicio"})

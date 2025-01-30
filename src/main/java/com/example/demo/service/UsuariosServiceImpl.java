@@ -20,6 +20,8 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 	public List<Usuarios> findAll() {
 		return usuariosDao.findAll();
 	}
+	
+	
 
 	@Transactional
 	@Override
