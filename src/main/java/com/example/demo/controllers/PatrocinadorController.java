@@ -80,11 +80,7 @@ public class PatrocinadorController {
         return "Lista";
     }
 	
-    @GetMapping("/verproyectospatrocinador")
-    public String verproyectos (Model model) {
-        model.addAttribute("titulo", "proyectos");
-        return "verproyectospatrocinador";
-    }
+    
     
     @GetMapping("/patrocinarproyecto")
     public String patrocinarproyecto (Model model) {
