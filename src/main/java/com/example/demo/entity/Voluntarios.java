@@ -37,6 +37,12 @@ public class Voluntarios implements Serializable{
 	@JoinColumn(name ="id_voluntario")
 	private List<Inscripcion> inscripcion ; 
 	
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_voluntario")
+	private List<RegistroActividadRealiza> registroactividadrealisada  ; 
+	
+	
 
 	public Long getId_voluntario() {
 		return id_voluntario;
@@ -102,6 +108,17 @@ public class Voluntarios implements Serializable{
 	public void setAsiste_si_no(Boolean asiste_si_no) {
 		this.asiste_si_no = asiste_si_no;
 	}
+	
+	
+	public List<RegistroActividadRealiza> getRegistroactividadrealisada() {
+		return registroactividadrealisada;
+	}
+
+	public void setRegistroactividadrealisada(List<RegistroActividadRealiza> registroactividadrealisada) {
+		this.registroactividadrealisada = registroactividadrealisada;
+	}
+
+
 
 
 	private static final long serialVersionUID = 1L;
