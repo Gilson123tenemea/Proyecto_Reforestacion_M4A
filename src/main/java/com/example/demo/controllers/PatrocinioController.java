@@ -26,6 +26,8 @@ public class PatrocinioController {
         model.addAttribute("titulo", "Listado de clientes");
         model.addAttribute("patrocinios", patrocinioservice.findAll());
         return "ListaPatrocinio";
+        
+        
     }
 
     @RequestMapping("/formularioPatrocinio")

@@ -20,7 +20,10 @@ public class LoginControlador {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "login"; 
+        return "login";
+        
+        
+        
     }
     
     @GetMapping({"/","","/Inicio"})
