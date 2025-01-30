@@ -44,4 +44,32 @@ public class ProyectoDaoImpl implements IProyectoDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Proyecto> findActivos() {
+		// TODO Auto-generated method stub
+		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
+	             .setParameter("estado", "activo")
+	             .getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Proyecto> findInactivos() {
+		// TODO Auto-generated method stub
+		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
+	             .setParameter("estado", "inactivo")
+	             .getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Proyecto> findFinalizados() {
+		// TODO Auto-generated method stub
+
+		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
+	             .setParameter("estado", "Finalizado")
+	             .getResultList();
+	}
+
 }

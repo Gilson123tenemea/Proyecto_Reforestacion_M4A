@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reporte Gráfico</title>
+    <!-- Incluir el CDN de Apache ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+    <style>
+        /* Contenedor principal de los gráficos (alineados uno al lado del otro) */
+        .charts-container {
+            display: flex;
+            justify-content: space-evenly;  /* Distribuir uniformemente los gráficos */
+            gap: 20px;  /* Espacio entre los gráficos */
+            flex-wrap: wrap;  /* Permitir que los gráficos se envuelvan si no caben en una sola fila */
+            margin-top: 20px;  /* Espacio desde el título */
+        }
+
+        /* Estilo individual de cada gráfico */
+        .chart {
+            width: 30%;  /* Asignar un ancho relativo para cada gráfico */
+            height: 400px; /* Altura fija para los gráficos */
+        }
+
+        /* En dispositivos pequeños, los gráficos ocuparán toda la fila */
+        @media (max-width: 768px) {
+            .chart {
+                width: 100%; /* Hacer los gráficos más pequeños en pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Reportes Gráficos de Proyectos</h1>
+
+<!-- Contenedor donde se mostrarán los gráficos -->
+<div class="charts-container">
+    <div id="chartActivos" class="chart"></div>
+    <div id="chartInactivos" class="chart"></div>
+    <div id="chartFinalizados" class="chart"></div>
+</div>
+
+<script th:inline="javascript">
+    // Obtener los datos de proyectos desde el modelo
+    var nombresProyectosActivos = [[${nombresProyectosActivos}]];
+    var nombresProyectosInactivos = [[${nombresProyectosInactivos}]];
+    var nombresProyectosFinalizados = [[${nombresProyectosFinalizados}]];
+
+    // Función para preparar los datos del gráfico
+    function prepararDatos(proyectos) {
+        return proyectos.map(function(proyecto) {
+            return { name: proyecto, value: 10 };  // Ajusta el valor como lo necesites
+        });
+    }
+
+    // Inicializar los gráficos
+    var myChartActivos = echarts.init(document.getElementById('chartActivos'));
+    var myChartInactivos = echarts.init(document.getElementById('chartInactivos'));
+    var myChartFinalizados = echarts.init(document.getElementById('chartFinalizados'));
+
+    // Configuración de los gráficos de pastel
+    function crearGrafico(chart, title, data, nombres) {
+        var option = {
+            title: {
+                text: title,
+                subtext: 'Distribución de proyectos',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: nombres
+            },
+            series: [
+                {
+                    name: 'Proyectos',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        chart.setOption(option);
+    }
+
+    // Crear los tres gráficos
+    crearGrafico(myChartActivos, 'Proyectos Activos', prepararDatos(nombresProyectosActivos), nombresProyectosActivos);
+    crearGrafico(myChartInactivos, 'Proyectos Inactivos', prepararDatos(nombresProyectosInactivos), nombresProyectosInactivos);
+    crearGrafico(myChartFinalizados, 'Proyectos Finalizados', prepararDatos(nombresProyectosFinalizados), nombresProyectosFinalizados);
+
+</script>
+
+</body>
+</html>

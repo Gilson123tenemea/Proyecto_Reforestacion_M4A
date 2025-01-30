@@ -65,9 +65,25 @@ public class ProyectosControllers {
         return "proyectos"; 
     }
     
+<<<<<<< Updated upstream
     
     
     
+=======
+    @GetMapping("/proyectosestados")
+    public String mostrarProyectosActivos(Model model) {
+        
+    	
+        model.addAttribute("nombresProyectosActivos", proyectoService.findActivos());
+        model.addAttribute("nombresProyectosInactivos", proyectoService.findInactivos());
+        model.addAttribute("nombresProyectosFinalizados", proyectoService.findFinalizados());
+
+
+
+        return "ReporteGrafico"; // Nombre de la vista (HTML con Thymeleaf)
+    }
+
+>>>>>>> Stashed changes
 
 
     @InitBinder

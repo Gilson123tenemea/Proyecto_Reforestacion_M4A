@@ -19,4 +19,8 @@ public interface IProyectoServices {
 	public void delete(Long id);
 	
 	public List<Proyecto> listarproyectos(); 
+	
+	public List<Proyecto> findActivos();
+	public List<Proyecto> findInactivos();
+	public List<Proyecto> findFinalizados();
 }

@@ -55,6 +55,23 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> listarproyectos() {
 		return proyectodao.findAll();
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Proyecto> findActivos() {
+		// TODO Auto-generated method stub
+		return proyectodao.findActivos();
+	}
+
+	@Override
+	public List<Proyecto> findInactivos() {
+		// TODO Auto-generated method stub
+		return proyectodao.findInactivos();	}
+
+	@Override
+	public List<Proyecto> findFinalizados() {
+		// TODO Auto-generated method stub
+		return proyectodao.findFinalizados();	}
 	
 	
 }
