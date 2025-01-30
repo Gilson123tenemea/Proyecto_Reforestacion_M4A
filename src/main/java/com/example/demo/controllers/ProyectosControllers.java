@@ -64,6 +64,10 @@ public class ProyectosControllers {
         model.addAttribute("provincias", provinciaService.findAll());
         return "proyectos"; 
     }
+    
+    
+    
+    
 
 
     @InitBinder

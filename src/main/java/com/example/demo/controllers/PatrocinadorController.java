@@ -41,6 +41,7 @@ public class PatrocinadorController {
 	
 	@Autowired
 	private IPatrocinadorServices patrocinadorservice;
+	
 	@Autowired
 	private IUsuarioServices usuarioservice;
     @Autowired
