@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -24,7 +25,9 @@ public class Suelo implements Serializable{
 	private Long id_tiposuelo;
 	private String composicion;
 	private String descripcion;
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_tiposuelo", referencedColumnName = "id_tiposuelo", insertable = false, updatable = false)
+	private Tipo_Suelo tipo_suelos;
 
 	//relacion con parcelas
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -64,5 +67,17 @@ public class Suelo implements Serializable{
 	}
 
 	private static final long serialVersionUID = 1L;
+
+	public Tipo_Suelo getTipo_suelos() {
+		return tipo_suelos;
+	}
+	public void setTipo_suelos(Tipo_Suelo tipo_suelos) {
+		this.tipo_suelos = tipo_suelos;
+	}
+
+	
+
+	
+	
 	
 }

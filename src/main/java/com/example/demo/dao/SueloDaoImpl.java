@@ -48,5 +48,11 @@ public class SueloDaoImpl implements ISueloDao {
 		en.remove(findOne(id));
 		
 	}
+	
+	@Transactional
+	@Override
+	public List<Suelo> listarsuelos() {
+	    return en.createQuery("SELECT s FROM Suelo s JOIN FETCH s.tipo_suelos", Suelo.class).getResultList();
+	}
 
 }

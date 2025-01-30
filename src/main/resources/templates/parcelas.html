@@ -24,8 +24,10 @@
         <div class="form-group">
             <label for="id_suelo">Seleccionar Suelo</label>
             <select th:field="*{id_suelo}" class="form-control" id="id_suelo" required>
-                <option value="">Seleccione una opción</option>
-                <option th:each="suelo : ${suelos}" th:value="${suelo.id_suelo}" th:text="${suelo.descripcion}"></option>
+				<option value="">Seleccione una opción</option>
+				<option th:each="suelo : ${suelos}" 
+				        th:value="${suelo.id_suelo}" 
+				        th:text="${suelo.tipo_suelos != null ? suelo.tipo_suelos.nombre_suelo : 'Tipo no disponible'}"></option>
             </select>
         </div>
 

@@ -10,6 +10,7 @@ public interface ISueloDao {
 	public void save(Suelo suelo);
 	public Suelo findOne(Long id);
 	public void delete(Long id);
+	public List<Suelo> listarsuelos(); 
 	
 
 }
