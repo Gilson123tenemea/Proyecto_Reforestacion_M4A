@@ -42,7 +42,7 @@ public class Intervencion_Suelo implements Serializable{
 	
 	//relacion con RegistroActividadSuelo
 	 @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	 @JoinColumn(name ="id_asignacionActividades")
+	 @JoinColumn(name ="id_intervencion_suelo")
 	 private List<RegistroActividadRealiza> registroactividadesrealizada   ; 	
 	
 
