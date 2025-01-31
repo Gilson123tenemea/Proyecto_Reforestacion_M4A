@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -27,6 +28,9 @@ public class Equipos implements Serializable {
 	private Long id_asignacionproyecto;
 	private int cantidad_equipo;
 	private Boolean asistencia;
+	private String nombre;
+	
+	private Date fecha;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_equipos")
@@ -106,6 +110,28 @@ public class Equipos implements Serializable {
 	public void setEquipos(List<Intervencion_Suelo> equipos) {
 		this.equipos = equipos;
 	}
+
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
 
 
 
