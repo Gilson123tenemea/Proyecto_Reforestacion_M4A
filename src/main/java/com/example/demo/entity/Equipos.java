@@ -15,14 +15,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "equipo", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_inscripcion","id_administrador","id_asignacionproyecto","id_equipos"})})
+@Table(name = "equipo", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_administrador","id_asignacionproyecto","id_equipos"})})
 public class Equipos implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_equipos;
 	
-	private Long id_inscripcion;
+	private Long id_voluntario;
 	private Long id_administrador;
 	private Long id_asignacionproyecto;
 	private int cantidad_equipo;
@@ -44,13 +44,16 @@ public class Equipos implements Serializable {
 	}
 
 
-	public Long getId_inscripcion() {
-		return id_inscripcion;
+	
+
+
+	public Long getId_voluntario() {
+		return id_voluntario;
 	}
 
 
-	public void setId_inscripcion(Long id_inscripcion) {
-		this.id_inscripcion = id_inscripcion;
+	public void setId_voluntario(Long id_voluntario) {
+		this.id_voluntario = id_voluntario;
 	}
 
 
