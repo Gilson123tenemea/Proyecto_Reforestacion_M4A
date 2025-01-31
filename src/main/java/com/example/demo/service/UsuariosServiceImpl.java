@@ -41,33 +41,38 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 		usuariosDao.delete(id);
 	}
 	
-	 public String authenticate(String cedula, String contraseña) {
-	        Usuarios usuario = usuariosDao.findAll().stream()
-	                .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
-	                .findFirst()
-	                .orElse(null);
+	public String authenticate(String cedula, String contraseña) {
+	    Usuarios usuario = usuariosDao.findAll().stream()
+	            .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
+	            .findFirst()
+	            .orElse(null);
 
-	        if (usuario == null) {
-	            return null; 
-	        }
-	        if (!usuario.getSuper_administrador().isEmpty()) {
-	            return "superadmin"; 
-	        }
-
-	        if (!usuario.getAdministrador().isEmpty()) {
-	            return "administrador"; 
-	        }
-
-	        if (!usuario.getVoluntarios().isEmpty()) {
-	            return "voluntario"; 
-	        }
-	        
-	        if (!usuario.getPatrocinador().isEmpty()) {
-	            return "patrocinador"; 
-	        }
-
+	    if (usuario == null) {
 	        return null; 
 	    }
+
+	    if (!usuario.getSuper_administrador().isEmpty()) {
+	        return "superadmin"; 
+	    }
+
+	    if (!usuario.getAdministrador().isEmpty()) {
+	    	Long idAdminstradir = usuario.getAdministrador().get(0).getId_administrador();
+	    	 System.out.println("ID del administrador: " + idAdminstradir); 
+	        return "administrador"; 
+	    }
+
+	    if (!usuario.getVoluntarios().isEmpty()) {
+	        return "voluntario"; 
+	    }
+	    
+	    if (!usuario.getPatrocinador().isEmpty()) {
+	        Long idPatrocinador = usuario.getPatrocinador().get(0).getId_patrocinador();
+	        System.out.println("ID del Patrocinador: " + idPatrocinador); 
+	        return "patrocinador"; 
+	    }
+
+	    return null; 
+	}
 
 }
 

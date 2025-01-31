@@ -40,15 +40,16 @@ public class LoginControlador {
 
         switch (rol) {
             case "superadmin":
-                return "redirect:/formprovincia"; // Redirigir al dashboard del superadmin
+                return "redirect:/formprovincia";
             case "administrador":
-                return "redirect:/suelo"; // Redirigir al dashboard del administrador
+                return "redirect:/suelo";
             case "voluntario":
-                return "redirect:/proyectosvoluntario"; // Redirigir al dashboard del voluntario
+                return "redirect:/proyectosvoluntario";
             case "patrocinador":
-            	 return "redirect:/cantones"; 
+                return "redirect:/verproyectospatrocinador"; 
             default:
-                return "login"; // En caso de que no se reconozca el rol
+                return "login"; 
         }
     }
+    
     }
