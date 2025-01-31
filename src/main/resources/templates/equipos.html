@@ -43,7 +43,8 @@
             font-weight: bold;
         }
 
-        .table th, .table td {
+        .table th,
+        .table td {
             text-align: center;
             vertical-align: middle;
         }
@@ -66,18 +67,24 @@
     </header>
 
     <div class="container">
+        <!-- Selección de Proyecto -->
         <div class="card">
             <div class="card-header text-center">
                 <h3>Seleccionar Proyecto</h3>
             </div>
             <div class="card-body text-center">
-                <select class="form-select">
-                    <option selected>Selecciona un proyecto</option>
-                    <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
-                </select>
+                <form id="proyectoForm" method="post" th:action="@{/Enviar}">
+                    <select class="form-select" name="idProyecto" id="proyecto" onchange="enviarProyecto()">
+                        <option selected>Selecciona un proyecto</option>
+                        <option th:each="proyecto : ${proyectos}" 
+                                th:value="${proyecto.id_proyecto}" 
+                                th:text="${proyecto.nombre}"></option>
+                    </select>
+                </form>
             </div>
         </div>
 
+        <!-- Lista de Voluntarios -->
         <div class="card">
             <div class="card-header text-center">
                 <h3>Voluntarios</h3>
@@ -108,6 +115,7 @@
             </div>
         </div>
 
+        <!-- Lista de Equipos -->
         <div class="card">
             <div class="card-header text-center">
                 <h3>Equipos</h3>
@@ -141,6 +149,13 @@
     <footer class="p-3 text-center bg-dark text-white">
         <p>&copy; 2025 Proyecto Reforest. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- JavaScript para envío automático -->
+    <script>
+        function enviarProyecto() {
+            document.getElementById("proyectoForm").submit();
+        }
+    </script>
 </body>
 
 </html>

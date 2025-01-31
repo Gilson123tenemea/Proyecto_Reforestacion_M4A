@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
+import com.example.demo.entity.Voluntarios;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -46,16 +47,19 @@ public class EquiposDaoImpl implements IEquiposDao {
 		
 	}
 
-	@Override
-	public List<Equipos> listarEquipos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<Equipos> findByEquipos(Long id_equipos) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Voluntarios> listarVoluntariosPorProyecto(Long id) {
+		// TODO Auto-generated method stub
+		return em.createQuery("from Voluntarios").getResultList();
 	}
 
 }
