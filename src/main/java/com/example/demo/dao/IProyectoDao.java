@@ -13,6 +13,7 @@ public interface IProyectoDao {
 	public void save(Proyecto proyecto);
 	public Proyecto findOne(Long id);
 	public void delete(Long id);
+	public List<Proyecto> findByAreaId(Long idArea);
 
 }
 

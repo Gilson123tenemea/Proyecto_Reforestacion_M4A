@@ -47,4 +47,9 @@ public class ParcelaServiceImpl implements IParcelaService{
 		
 	}
 
+	@Override
+	public List<Parcelas> findByAreaId(Long idArea) {
+		return parceladao.findByAreaId(idArea);
+	}
+
 }

@@ -40,5 +40,13 @@ public class Intervencion_SueloDaolmpl implements IIntervencion_SueloDao {
 		em.remove(findOne(id));		
 		
 	}
+	
+	@Override
+	public List<Intervencion_Suelo> findByAreaAndProyecto(Long idArea, Long idProyecto) {
+	    return em.createQuery("FROM Intervencion_Suelo i WHERE i.id_parcelas IN (SELECT p.id_parcelas FROM Parcelas p WHERE p.id_area = :idArea) AND i.id_equipos = :idProyecto")
+	             .setParameter("idArea", idArea)
+	             .setParameter("idProyecto", idProyecto)
+	             .getResultList();
+	}
 
 }

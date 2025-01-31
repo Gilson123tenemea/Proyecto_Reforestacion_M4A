@@ -39,4 +39,10 @@ public class IntervencionSueloServiceslmpl implements IIntervencionSueloServices
 		intervenciondao.delete(id);
 	}
 
+	@Override
+	public List<Intervencion_Suelo> findByAreaAndProyecto(Long idArea, Long idProyecto) {
+		 return intervenciondao.findByAreaAndProyecto(idArea, idProyecto);
+	
+	}
+
 }

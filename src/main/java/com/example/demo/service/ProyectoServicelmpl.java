@@ -72,6 +72,12 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> findFinalizados() {
 		// TODO Auto-generated method stub
 		return proyectodao.findFinalizados();	}
+
+	@Override
+	public List<Proyecto> findByAreaId(Long idArea) {
+		return proyectodao.findByAreaId(idArea); 
+		
+	}
 	
 	
 }

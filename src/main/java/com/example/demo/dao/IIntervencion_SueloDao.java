@@ -10,5 +10,6 @@ public interface IIntervencion_SueloDao {
 	public void save(Intervencion_Suelo intervencion_Suelo);
 	public Intervencion_Suelo findOne(Long id);
 	public void delete(Long id);
+	List<Intervencion_Suelo> findByAreaAndProyecto(Long idArea, Long idProyecto);
 
 }

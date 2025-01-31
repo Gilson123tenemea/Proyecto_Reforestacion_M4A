@@ -48,7 +48,7 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	@Override
 	public List<Proyecto> findActivos() {
 		// TODO Auto-generated method stub
-		return em.createQuery("from Proyecto p where p.estado = :estado")
+		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
 	             .setParameter("estado", "activo")
 	             .getResultList();
 	}
@@ -71,5 +71,15 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	             .setParameter("estado", "Finalizado")
 	             .getResultList();
 	}
+
+	@Override
+	public List<Proyecto> findByAreaId(Long idArea) {
+		return em.createQuery("SELECT p FROM Proyecto p JOIN Area a ON p.id_proyecto = a.id_proyecto WHERE a.id_area = :idArea", Proyecto.class)
+                .setParameter("idArea", idArea)
+                .getResultList();
+	
+	}
+	
+	
 
 }

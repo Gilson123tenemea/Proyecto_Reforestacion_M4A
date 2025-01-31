@@ -51,4 +51,18 @@ public class ParcelaDaoImpl implements IParcelaDao{
 		
 	}
 
+
+	@Override
+	public List<Parcelas> findByAreaId(Long idArea) {
+		return en.createQuery("SELECT p FROM Parcelas p WHERE p.id_area = :idArea", Parcelas.class)
+                .setParameter("idArea", idArea)
+                .getResultList();
+		
+	}
+
+	
+	
+	
+	
+
 }

@@ -9,6 +9,7 @@ public interface IParcelaService {
 	public void save(Parcelas parcela);
 	public Parcelas findOne(Long id);
 	public void delete(Long id);
+	List<Parcelas> findByAreaId(Long idArea);
 
 
 }
