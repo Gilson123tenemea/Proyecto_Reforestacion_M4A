@@ -107,23 +107,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${proyectos}">
-								<td th:text="${item.id_proyecto}"></td>
-								<td th:text="${item.nombre}"></td>
-								<td th:text="${item.fecha_inicio}"></td>
-								<td th:text="${item.fecha_fin}"></td>
-								<td th:text="${item.estado}"></td>
-								<td th:text="${item.voluntariosmax}"></td>
-								<td>
-									<img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}"
-										alt="Imagen del Proyecto" style="width: 100px; height: 100px;">
-								</td>
-								
-								<td>
-									<button class="btn btn-view"
-										onclick="window.location.href='proyectospatrocinados';">Ver</button>
-								</td>
-							</tr>
+						    <tr th:each="item : ${proyectos}">
+						        <td th:text="${item.id_proyecto}"></td>
+						        <td th:text="${item.nombre}"></td>
+						        <td th:text="${item.fecha_inicio}"></td>
+						        <td th:text="${item.fecha_fin}"></td>
+						        <td th:text="${item.estado}"></td>
+						        <td th:text="${item.voluntariosmax}"></td>
+						        <td>
+						            <img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}"
+						                alt="Imagen del Proyecto" style="width: 100px; height: 100px;">
+						        </td>
+						        <td>
+						            <a class="btn btn-view" th:href="@{/patrocinarproyecto/{id}(id=${item.id_proyecto})}">Ver</a>
+						        </td>
+						    </tr>
 						</tbody>
 					</table>
 				</div>
@@ -157,7 +155,7 @@
 								<td>$8,000</td>
 								<td>
 									<button class="btn btn-view"
-										onclick="window.location.href='patrocinarproyecto';">Ver</button>
+										onclick="window.location.href='proyectospatrocinados';">Ver</button>
 								</td>
 							</tr>
 							<tr>
@@ -168,7 +166,7 @@
 								<td>$12,000</td>
 								<td>
 									<button class="btn btn-view"
-										onclick="window.location.href='patrocinarproyecto';">Ver</button>
+										onclick="window.location.href='proyectospatrocinados';">Ver</button>
 								</td>
 							</tr>
 						</tbody>

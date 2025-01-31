@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1 th:text="${titulo}">Formulario de Patrocinio</h1>
-    <form th:action="@{/formularioPatrocinio}" th:object="${patrocinio}" method="post">
+    <form th:action="@{/c}" th:object="${patrocinio}" method="post">
         <div>
             <label for="fechainicio">Fecha Inicio:</label>
             <input type="date" id="fechainicio" th:field="*{fechainicio}" required />

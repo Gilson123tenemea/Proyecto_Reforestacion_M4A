@@ -6,12 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.UsuariosServiceImpl;
 
+
 @Controller
+@SessionAttributes("idPatrocinador")
 public class LoginControlador {
 
 	
@@ -36,6 +39,17 @@ public class LoginControlador {
         if (rol == null) {
             model.addAttribute("error", "Credenciales inválidas");
             return "login"; 
+        }
+
+        // Obtener el ID del patrocinador aquí
+        Usuarios usuario = usuarioService.findAll().stream()
+            .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
+            .findFirst()
+            .orElse(null);
+
+        if (usuario != null && !usuario.getPatrocinador().isEmpty()) {
+            Long idPatrocinador = usuario.getPatrocinador().get(0).getId_patrocinador();
+            model.addAttribute("idPatrocinador", idPatrocinador); // Guardar en la sesión
         }
 
         switch (rol) {

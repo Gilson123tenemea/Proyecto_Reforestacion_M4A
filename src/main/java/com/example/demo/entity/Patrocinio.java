@@ -109,6 +109,7 @@ public class Patrocinio implements Serializable{
 	public void setDetalledpnado(String detalledpnado) {
 		this.detalledpnado = detalledpnado;
 	}
+	
 
 
 	private static final long serialVersionUID = 1L;
