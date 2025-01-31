@@ -68,14 +68,12 @@
     <div class="container">
         <div class="card">
             <div class="card-header text-center">
-                <h3>Seleccionar Actividad</h3>
+                <h3>Seleccionar Proyecto</h3>
             </div>
             <div class="card-body text-center">
                 <select class="form-select">
-                    <option selected>Selecciona una actividad</option>
-                    <option value="1">Reforestación</option>
-                    <option value="2">Limpieza de ríos</option>
-                    <option value="3">Educación ambiental</option>
+                    <option selected>Selecciona un proyecto</option>
+                    <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
                 </select>
             </div>
         </div>
