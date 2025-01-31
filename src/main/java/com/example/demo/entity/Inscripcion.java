@@ -28,7 +28,6 @@ public class Inscripcion implements Serializable{
 	private Long id_inscripcion;
 	
 	private Long id_voluntario;
-	private Long id_actividades;
 	private Long id_proyecto;
 	
 	@Column(name = "create_as")
@@ -39,14 +38,7 @@ public class Inscripcion implements Serializable{
 	    public void prePersist() {
 		 fecha = new Date();
 	    }
-	 
-	 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_inscripcion")
-	private List<Equipos> equipos ; 
 
-	 
-	
 	public Long getId_inscripcion() {
 		return id_inscripcion;
 	}
@@ -63,14 +55,6 @@ public class Inscripcion implements Serializable{
 		this.id_voluntario = id_voluntario;
 	}
 
-	public Long getId_actividades() {
-		return id_actividades;
-	}
-
-	public void setId_actividades(Long id_actividades) {
-		this.id_actividades = id_actividades;
-	}
-
 	public Long getId_proyecto() {
 		return id_proyecto;
 	}
@@ -85,15 +69,6 @@ public class Inscripcion implements Serializable{
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
-	}
-	
-	
-	public List<Equipos> getEquipos() {
-		return equipos;
-	}
-
-	public void setEquipos(List<Equipos> equipos) {
-		this.equipos = equipos;
 	}
 
 

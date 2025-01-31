@@ -29,7 +29,6 @@ public class Equipos implements Serializable {
 	private int cantidad_equipo;
 	private Boolean asistencia;
 	private String nombre;
-	
 	private Date fecha;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
