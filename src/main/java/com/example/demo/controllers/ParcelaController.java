@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Parcelas;
@@ -142,7 +143,13 @@ public class ParcelaController {
         model.addAttribute("parcelaSeleccionada", parcelaSeleccionada);
         return "mapa";
     }
-
+    
+    @GetMapping("/parcelasPorArea/{idArea}")
+    @ResponseBody
+    public List<Parcelas> getParcelasPorArea(@PathVariable Long idArea) {
+        return parcelaservice.findByAreaId(idArea);
+    }
+    
     
   
 }
