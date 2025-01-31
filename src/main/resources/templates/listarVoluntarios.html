@@ -1,68 +1,210 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<title th:text="${titulo}">Listado de Voluntarios y Usuarios</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Listado de Voluntarios y Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        header {
+            background-color: #d32f2f;
+            padding: 10px 0;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-container img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header-container h1 {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .table-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: auto;
+            margin-top: 50px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .table-container:hover {
+            transform: scale(1.02);
+        }
+
+        .table-container h1 {
+            text-align: center;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            width: 120px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-danger {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        .btn-warning {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table td {
+            padding: 12px;
+        }
+
+        .table th {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-
 <body>
-	<h1 th:text="${titulo}">Listado de Voluntarios y Usuarios</h1>
 
-	<h2>Voluntarios y Usuarios</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>ID Voluntario</th>
-				<th>Cédula</th>
-				<th>Nombre Usuario</th>
-				<th>Apellido Usuario</th>
-				<th>Correo</th>
-				<th>Fecha Nacimiento</th>
-				<th>Genero</th>
-				<th>Celular</th>
-				<th>Contraseña</th>
-				<th>Experiencia</th>
-				<th>Estado</th>
-				<th>Disponibilidad</th>
-				<th>Fecha Registro</th>
-				<th>Editar</th>
-				<th>Eliminar</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="item : ${combinados}">
-				<td th:text="${item['voluntarios'].id_voluntario}"></td>
-				<td th:text="${item['usuario'].cedula}"></td>
-				<td th:text="${item['usuario'].nombre}"></td>
-				<td th:text="${item['usuario'].apellido}"></td>
-				<td th:text="${item['usuario'].correo}"></td>
-				<td th:text="${item['usuario'].fecha_nacimiento}"></td>
-				<td th:text="${item['usuario'].genero}"></td>
-				<td th:text="${item['usuario'].celular}"></td>
-				<td th:text="${item['usuario'].contraseña}"></td>
-				<td th:text="${item['voluntarios'].experiencia}"></td>
-				<td th:text="${item['voluntarios'].estado}"></td>
-				<td th:text="${item['voluntarios'].disponibilidad}"></td>
-				<td th:text="${item['voluntarios'].fechaRegistro}"></td>
+    <header>
+        <div class="header-container">
+            <img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca">
+            <h1>Reforest</h1>
+        </div>
+    </header>
 
-				<td>
-					<!-- Enlace para Editar: apunta a la vista de editar con el ID del administrador -->
-					<a th:href="@{/voluntarios?id={id}(id=${item['voluntarios'].id_voluntario})}" class="btn btn-warning">Editar</a>
+    <div class="container">
+        <div class="table-container">
+            <h1 th:text="${titulo}">Listado de Voluntarios y Usuarios</h1>
 
-				</td>
-				<td>
-					<!-- Enlace para Eliminar: apunta al controlador de eliminación -->
-					<form th:action="@{/deletevoluntario/{id}(id=${item['voluntarios'].id_voluntario})}" method="post"
-						onsubmit="return confirm('¿Estás seguro de que quieres eliminar este voluntario?');">
-						<button type="submit" class="btn btn-danger">Eliminar</button>
-					</form>
-				</td>
-			</tr>
-		</tbody>
+            <!-- Mensajes de éxito o error -->
+            <div th:if="${success}" class="alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
 
-	</table>
+            <!-- Contenedor con scroll para la tabla -->
+            <div class="table-wrapper">
+                <table class="table table-bordered mt-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID Voluntario</th>
+                            <th>Cédula</th>
+                            <th>Nombre Usuario</th>
+                            <th>Apellido Usuario</th>
+                            <th>Correo</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Genero</th>
+                            <th>Celular</th>
+                            <th>Contraseña</th>
+                            <th>Experiencia</th>
+                            <th>Estado</th>
+                            <th>Disponibilidad</th>
+                            <th>Fecha Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${combinados}">
+                            <td th:text="${item['voluntarios'].id_voluntario}"></td>
+                            <td th:text="${item['usuario'].cedula}"></td>
+                            <td th:text="${item['usuario'].nombre}"></td>
+                            <td th:text="${item['usuario'].apellido}"></td>
+                            <td th:text="${item['usuario'].correo}"></td>
+                            <td th:text="${item['usuario'].fecha_nacimiento}"></td>
+                            <td th:text="${item['usuario'].genero}"></td>
+                            <td th:text="${item['usuario'].celular}"></td>
+                            <td th:text="${item['usuario'].contraseña}"></td>
+                            <td th:text="${item['voluntarios'].experiencia}"></td>
+                            <td th:text="${item['voluntarios'].estado}"></td>
+                            <td th:text="${item['voluntarios'].disponibilidad}"></td>
+                            <td th:text="${item['voluntarios'].fechaRegistro}"></td>
 
-	<a href="/voluntarios">Agregar Voluntario</a>
+                            <td class="btn-group">
+                                <!-- Botón Editar -->
+                                <a th:href="@{/voluntarios?id={id}(id=${item['voluntarios'].id_voluntario})}" class="btn btn-warning btn-sm">Editar</a>
+                                <!-- Botón Eliminar -->
+                                <form th:action="@{/deletevoluntario/{id}(id=${item['voluntarios'].id_voluntario})}" method="post"
+                                    onsubmit="return confirm('¿Estás seguro de que quieres eliminar este voluntario?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón para agregar un nuevo voluntario -->
+            <div class="btn-group">
+                <a href="/voluntarios" class="btn btn-danger">Agregar Voluntario</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

@@ -4,46 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo}">Formulario de Cantón</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        header {
+            background-color: #d32f2f;
+            padding: 10px 0;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-container img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header-container h1 {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            margin-top: 50px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .form-control {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: #d32f2f;
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-danger:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary:hover {
+            background-color: #757575;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4" th:text="${titulo}">Formulario de Cantón</h1>
-        <form th:action="@{/cantones}" th:object="${canton}" method="post">
-            <!-- Campo oculto para el ID del Cantón -->
-            <input type="hidden" th:field="*{id_canton}" />
+    <header>
+        <div class="header-container">
+            <img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca">
+            <h1>Reforest</h1>
+        </div>
+    </header>
 
-			
-			
-            <!-- Selección de la Provincia -->
-            <div class="mb-3">
-                <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-                <select th:field="*{id_provincia}" class="form-control" required>
-                    <option value="" disabled selected>Seleccione una Provincia</option>
-                    <th:block th:each="provincia : ${provincias}">
-                        <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
-                    </th:block>
-                </select>
-            </div>
-
-            <!-- Nombre del Cantón -->
-            <div class="mb-3">
-                <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
-				<input type="text" id="nombreCanton" name="nombreCanton" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
-				    title="Solo se permiten letras y espacios" />            
-				</div>
-
-            <!-- Botones -->
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a th:href="@{/listarcantones}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+    <div class="container">
+        <div class="form-container">
+            <h1 th:text="${titulo}">Formulario de Cantón</h1>
+            <form th:action="@{/cantones}" th:object="${canton}" method="post">
+                <input type="hidden" th:field="*{id_canton}" />
+                
+                <div class="mb-3">
+                    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                    <select th:field="*{id_provincia}" class="form-control" required>
+                        <option value="" disabled selected>Seleccione una Provincia</option>
+                        <th:block th:each="provincia : ${provincias}">
+                            <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
+                    <input type="text" id="nombreCanton" name="nombreCanton" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" class="form-control" required title="Solo se permiten letras y espacios">
+                </div>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-danger">Guardar</button>
+                    <a th:href="@{/listarcantones}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <footer class="footer">
+        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

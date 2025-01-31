@@ -27,7 +27,7 @@ public class PatrocinioController {
 
     @RequestMapping(value="/listarPatrocinios", method=RequestMethod.GET)
     public String listar(Model model) {
-        model.addAttribute("titulo", "Listado de clientes");
+        model.addAttribute("titulo", "Listado de Patrocinio");
         model.addAttribute("patrocinios", patrocinioservice.findAll());
         return "ListaPatrocinio";
         
