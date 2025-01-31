@@ -24,10 +24,10 @@
         <div class="form-group">
             <label for="id_suelo">Seleccionar Suelo</label>
             <select th:field="*{id_suelo}" class="form-control" id="id_suelo" required>
-				<option value="">Seleccione una opción</option>
-				<option th:each="suelo : ${suelos}" 
-				        th:value="${suelo.id_suelo}" 
-				        th:text="${suelo.tipo_suelos != null ? suelo.tipo_suelos.nombre_suelo : 'Tipo no disponible'}"></option>
+                <option value="">Seleccione una opción</option>
+                <option th:each="suelo : ${suelos}" 
+                        th:value="${suelo.id_suelo}" 
+                        th:text="${suelo.tipo_suelos != null ? suelo.tipo_suelos.nombre_suelo : 'Tipo no disponible'}"></option>
             </select>
         </div>
 
@@ -49,22 +49,22 @@
 
         <div class="form-group">
             <label for="largo">Largo</label>
-            <input type="number" step="0.01" th:field="*{largo}" class="form-control" id="largo" placeholder="Ingrese el largo de la parcela en metros" required>
+            <input type="text" th:field="*{largo}" class="form-control" id="largo" placeholder="Ingrese el largo de la parcela en metros" required>
         </div>
 
         <div class="form-group">
             <label for="ancho">Ancho</label>
-            <input type="number" step="0.01" th:field="*{ancho}" class="form-control" id="ancho" placeholder="Ingrese el ancho de la parcela en metros" required>
+            <input type="text" th:field="*{ancho}" class="form-control" id="ancho" placeholder="Ingrese el ancho de la parcela en metros" required>
         </div>
 
         <div class="form-group">
             <label for="x">Coordenada X</label>
-            <input type="number" step="0.00000000000001" th:field="*{x}" class="form-control" id="x" placeholder="Ingrese o Seleccione la coordenada X " required>
+            <input type="text" th:field="*{x}" class="form-control" id="x" placeholder="Ingrese o Seleccione la coordenada X" required>
         </div>
 
         <div class="form-group">
             <label for="y">Coordenada Y</label>
-            <input type="number" step="0.0000000000000001" th:field="*{y}" class="form-control" id="y" placeholder="Ingrese o Seleccione la coordenada Y " required>
+            <input type="text" th:field="*{y}" class="form-control" id="y" placeholder="Ingrese o Seleccione la coordenada Y" required>
         </div>
 
         <div class="form-group">
@@ -86,8 +86,6 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-	
-	
 
     map.on('click', function(e) {
         document.getElementById('x').value = e.latlng.lng;
@@ -101,18 +99,16 @@
                 alert('Por favor seleccione una opción en todos los campos.');
                 return false;
             }
-			
         }
-		
 
-        var inputs = document.querySelectorAll('input[type="number"]');
+        var inputs = document.querySelectorAll('input[type="text"]');
         for (var input of inputs) {
             if (input.value.trim() === '') {
-                alert('Todos los campos numéricos deben estar completos.');
+                alert('Todos los campos deben estar completos.');
                 return false;
             }
-            if (/^0+/.test(input.value)) {
-                alert('El campo de ' + input.id + ' debe estar completo.');
+            if (!/^[0-9]+(\.[0-9]+)?$/.test(input.value)) {
+                alert('El campo de ' + input.id + ' debe contener solo números válidos.');
                 return false;
             }
         }
@@ -123,4 +119,3 @@
 
 </body>
 </html>
-
