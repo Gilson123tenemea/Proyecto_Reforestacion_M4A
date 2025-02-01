@@ -16,14 +16,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "equipo", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_administrador","id_asignacionproyecto","id_equipos"})})
+@Table(name = "equipo", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_asignacionproyecto","id_equipos"})})
 public class Equipos implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_equipos;
-	
-	private Long id_voluntario;
+
 	private Long id_administrador;
 	private Long id_asignacionproyecto;
 	private int cantidad_equipo;
@@ -34,6 +33,10 @@ public class Equipos implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_equipos")
 	private List<Intervencion_Suelo> equipos ; 
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_equipos")
+	private List<Asignar_equipos> asignarequipos ; 
 
 	
 	
@@ -44,19 +47,6 @@ public class Equipos implements Serializable {
 
 	public void setId_equipos(Long id_equipos) {
 		this.id_equipos = id_equipos;
-	}
-
-
-	
-
-
-	public Long getId_voluntario() {
-		return id_voluntario;
-	}
-
-
-	public void setId_voluntario(Long id_voluntario) {
-		this.id_voluntario = id_voluntario;
 	}
 
 
@@ -130,6 +120,20 @@ public class Equipos implements Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
+	
+
+
+
+	public List<Asignar_equipos> getAsignarequipos() {
+		return asignarequipos;
+	}
+
+
+	public void setAsignarequipos(List<Asignar_equipos> asignarequipos) {
+		this.asignarequipos = asignarequipos;
+	}
+
+
 
 
 

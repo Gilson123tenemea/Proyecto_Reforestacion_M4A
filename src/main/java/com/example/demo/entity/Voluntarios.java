@@ -41,12 +41,10 @@ public class Voluntarios implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_voluntario")
 	private List<RegistroActividadRealiza> registroactividadrealisada  ; 
-	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_voluntario")
-	private List<Equipos>   equipos ; 
-	
-	
+	private List<Asignar_equipos> asignarequipos ; 
 
 	public Long getId_voluntario() {
 		return id_voluntario;
@@ -122,13 +120,13 @@ public class Voluntarios implements Serializable{
 		this.registroactividadrealisada = registroactividadrealisada;
 	}
 	
-
-	public List<Equipos> getEquipos() {
-		return equipos;
+	
+	public List<Asignar_equipos> getAsignarequipos() {
+		return asignarequipos;
 	}
 
-	public void setEquipos(List<Equipos> equipos) {
-		this.equipos = equipos;
+	public void setAsignarequipos(List<Asignar_equipos> asignarequipos) {
+		this.asignarequipos = asignarequipos;
 	}
 
 
