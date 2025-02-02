@@ -49,7 +49,7 @@
             max-width: 100%;
             height: auto;
             border-radius: 10px;
-            border: 2px solid #dc3545; /* Borde para la imagen */
+            border: 2px solid #dc3545; 
         }
 
         .image-container {
@@ -62,7 +62,7 @@
         }
 
         .details-card {
-            padding: 30px; /* Aumentar el tamaño del cuadro */
+            padding: 30px; 
         }
     </style>
 </head>
@@ -81,15 +81,15 @@
     <div class="container">
         <div class="card">
             <div class="card-header text-white text-center">
-                <h2>Ingrese los detalles a patrocinar</h2> <!-- Cambiado a "Ingrese los detalles a patrocinar" -->
+                <h2>Ingrese los detalles a patrocinar</h2>
             </div>
            
 			<div class="details-card">
 				<div class="image-container">
 				    <img th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}"
-				         alt="Foto del Proyecto" class="project-image"> <!-- Imagen del proyecto -->
+				         alt="Foto del Proyecto" class="project-image"> 
 				</div>
-				<p><strong>Nombre del Proyecto:</strong> <span th:text="${proyecto.nombre}"></span></p> <!-- Nombre del proyecto -->
+				<p><strong>Nombre del Proyecto:</strong> <span th:text="${proyecto.nombre}"></span></p> 
 				
                 
 				<form action="/formularioPatrocinio" method="post">
@@ -124,7 +124,6 @@
         </div>
     </div>
 
-    <!-- MODAL PARA MENSAJES -->
     <div class="modal fade" id="modalMensaje" tabindex="-1" aria-labelledby="modalMensajeLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -133,7 +132,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body text-dark" id="modalMensajeTexto">
-                    <!-- Aquí se insertará el mensaje dinámico -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -149,7 +147,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function inscribirProyecto() {
-            // Aquí puedes agregar la lógica para manejar el envío del formulario
         }
     </script>
 </body>

@@ -15,6 +15,7 @@ import com.example.demo.service.UsuariosServiceImpl;
 
 @Controller
 @SessionAttributes("idPatrocinador")
+
 public class LoginControlador {
 
 	
@@ -41,7 +42,6 @@ public class LoginControlador {
             return "login"; 
         }
 
-        // Obtener el ID del patrocinador aquí
         Usuarios usuario = usuarioService.findAll().stream()
             .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
             .findFirst()
@@ -49,7 +49,7 @@ public class LoginControlador {
 
         if (usuario != null && !usuario.getPatrocinador().isEmpty()) {
             Long idPatrocinador = usuario.getPatrocinador().get(0).getId_patrocinador();
-            model.addAttribute("idPatrocinador", idPatrocinador); // Guardar en la sesión
+            model.addAttribute("idPatrocinador", idPatrocinador);
         }
 
         switch (rol) {

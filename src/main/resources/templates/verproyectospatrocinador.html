@@ -107,31 +107,31 @@
 							</tr>
 						</thead>
 						<tbody>
-						    <tr th:each="item : ${proyectos}">
-						        <td th:text="${item.id_proyecto}"></td>
-						        <td th:text="${item.nombre}"></td>
-						        <td th:text="${item.fecha_inicio}"></td>
-						        <td th:text="${item.fecha_fin}"></td>
-						        <td th:text="${item.estado}"></td>
-						        <td th:text="${item.voluntariosmax}"></td>
-						        <td>
-						            <img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}"
-						                alt="Imagen del Proyecto" style="width: 100px; height: 100px;">
-						        </td>
-						        <td>
-						            <a class="btn btn-view" th:href="@{/patrocinarproyecto/{id}(id=${item.id_proyecto})}">Ver</a>
-						        </td>
-						    </tr>
+							<tr th:each="item : ${proyectos}">
+								<td th:text="${item.id_proyecto}"></td>
+								<td th:text="${item.nombre}"></td>
+								<td th:text="${item.fecha_inicio}"></td>
+								<td th:text="${item.fecha_fin}"></td>
+								<td th:text="${item.estado}"></td>
+								<td th:text="${item.voluntariosmax}"></td>
+								<td>
+									<img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}"
+										alt="Imagen del Proyecto" style="width: 100px; height: 100px;">
+								</td>
+								<td>
+									<a class="btn btn-view"
+										th:href="@{/patrocinarproyecto/{id}(id=${item.id_proyecto})}">Ver</a>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 
-		<!-- Más Proyectos que Puedes Patrocinar -->
 		<div class="card">
 			<div class="card-header text-white text-center">
-				<h3>Más Proyectos que Puedes Patrocinar</h3>
+				<h3>Mis Proyectos Patrocinados</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-container">
@@ -147,26 +147,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Proyecto C</td>
-								<td>15/01/2025</td>
-								<td>15/07/2025</td>
-								<td>Logístico</td>
-								<td>$8,000</td>
+							<tr th:each="patrocinio : ${patrocinios}">
 								<td>
-									<button class="btn btn-view"
-										onclick="window.location.href='proyectospatrocinados';">Ver</button>
+									<span th:each="proyecto : ${proyectos}"
+										th:if="${proyecto.id_proyecto == patrocinio.id_proyecto}"
+										th:text="${proyecto.nombre}"></span>
 								</td>
-							</tr>
-							<tr>
-								<td>Proyecto D</td>
-								<td>01/04/2025</td>
-								<td>30/09/2025</td>
-								<td>Financiero</td>
-								<td>$12,000</td>
+								<td th:text="${#dates.format(patrocinio.fechainicio, 'yyyy-MM-dd')}"></td>
+								<td th:text="${#dates.format(patrocinio.fechafin, 'yyyy-MM-dd')}"></td>
+								<td th:text="${patrocinio.tipo_patrocinio}"></td>
+								<td th:text="${patrocinio.cantiad_estimada}"></td>
 								<td>
-									<button class="btn btn-view"
-										onclick="window.location.href='proyectospatrocinados';">Ver</button>
+								    <a class="btn btn-view"
+								       th:href="@{/proyectospatrocinados/{id}(id=${patrocinio.id_patrocina})}">
+								        Ver
+								    </a>
 								</td>
 							</tr>
 						</tbody>
@@ -174,13 +169,12 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer class="p-3 text-center bg-dark text-white">
-		<p>&copy; 2025 Proyecto Deforest. Todos los derechos reservados.</p>
-	</footer>
+		<footer class="p-3 text-center bg-dark text-white">
+			<p>&copy; 2025 Proyecto Deforest. Todos los derechos reservados.</p>
+		</footer>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

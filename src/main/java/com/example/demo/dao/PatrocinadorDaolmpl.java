@@ -44,9 +44,10 @@ public class PatrocinadorDaolmpl implements IPatrocinadorDao{
 
 	@Override
 	public List<Patrocinador> PatrocinadorUsuario(Long id_patrocinador) {
-		 String query = "SELECT a FROM Patrocinador a JOIN FETCH a.usuario WHERE a.id_patrocinador = :id_patrocinador";
-	        return em.createQuery(query, Patrocinador.class)
-	                 .setParameter("id_patrocinador", id_patrocinador)
-	                 .getResultList();
+	    String query = "SELECT a FROM Patrocinador a JOIN FETCH a.usuario WHERE a.id_patrocinador = :id_patrocinador";
+	    return em.createQuery(query, Patrocinador.class)
+	             .setParameter("id_patrocinador", id_patrocinador)
+	             .getResultList();
 	}
+	
 }

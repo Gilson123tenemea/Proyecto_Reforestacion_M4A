@@ -97,7 +97,7 @@ public class ProyectosControllers {
         return "listarProyectos"; 
     }
     
-    @GetMapping("/verproyectospatrocinador")
+    //@GetMapping("/verproyectospatrocinador")
     public String proyectospatrocinador(Model model) {
         model.addAttribute("titulo", "Lista de Proyectos");
         model.addAttribute("proyectos", proyectoService.findAll());
