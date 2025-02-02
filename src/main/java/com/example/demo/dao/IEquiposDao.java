@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
 public interface IEquiposDao {
@@ -12,7 +13,7 @@ public interface IEquiposDao {
 	public void save(Equipos equipos);
 	public Equipos findOne(Long id);
 	public void delete(Long id);
-	public List<Voluntarios> listarVoluntariosPorProyecto(Long id);
-	 public List<Equipos> findByEquipos(Long id_equipos); 
+	public List<Usuarios> listarVoluntariosPorProyecto(Long id);
+	 public List<Voluntarios> ObtenerVoluntario(String cedula); 
 
 }

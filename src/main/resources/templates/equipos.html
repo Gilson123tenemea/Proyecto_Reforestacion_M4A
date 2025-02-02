@@ -52,6 +52,20 @@
         .btn {
             border-radius: 20px;
         }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .d-flex .card {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .d-flex .card:last-child {
+            margin-right: 0;
+        }
     </style>
 </head>
 
@@ -84,63 +98,57 @@
             </div>
         </div>
 
-        <!-- Lista de Voluntarios -->
-        <div class="card">
-            <div class="card-header text-center">
-                <h3>Voluntarios</h3>
+        <!-- Contenedor con flexbox para las dos tablas -->
+        <div class="d-flex">
+            <!-- Lista de Voluntarios -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Voluntarios</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="voluntariosTable">
+                            <tr th:each="voluntario : ${voluntarios}">
+                                <td th:text="${voluntario.cedula}"></td>
+                                <td th:text="${voluntario.nombre}+' '+${voluntario.apellido}"></td>
+                                <td><button class="btn btn-primary" onclick="inscribirVoluntario(event)">Inscribir</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="card-body">
-                <table class="table table-bordered text-center">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Reforestación</td>
-                            <td><button class="btn btn-primary">Inscribir</button></td>
-                        </tr>
-                        <tr>
-                            <td>Limpieza de ríos</td>
-                            <td><button class="btn btn-primary">Inscribir</button></td>
-                        </tr>
-                        <tr>
-                            <td>Educación ambiental</td>
-                            <td><button class="btn btn-primary">Inscribir</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- Lista de Equipos -->
-        <div class="card">
-            <div class="card-header text-center">
-                <h3>Equipos</h3>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered text-center">
-                    <thead>
-                        <tr>
-                            <th>Cédula</th>
-                            <th>Nombre</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0102030405</td>
-                            <td>Juan Pérez</td>
-                        </tr>
-                        <tr>
-                            <td>0607080910</td>
-                            <td>María López</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="text-center mt-3">
-                    <button class="btn btn-success">Registrar</button>
+            <!-- Lista de Equipos -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>N° Integrantes <span id="equiposCount">0</span></h3>
+                    <!-- Campo de texto para ingresar nombre del equipo -->
+                    <h4><label for="nombreEquipo">Nombre del equipo:</label></h4>
+                    <input type="text" id="nombreEquipo" name="nombreEquipo" placeholder="Ingresa el nombre del equipo" class="form-control my-2">
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equiposTable">
+                            <!-- Los voluntarios inscritos aparecerán aquí -->
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-success" onclick="registrarEquipo()">Registrar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,10 +158,98 @@
         <p>&copy; 2025 Proyecto Reforest. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- JavaScript para envío automático -->
+    <!-- JavaScript para envío automático y manejo de tablas -->
     <script>
         function enviarProyecto() {
             document.getElementById("proyectoForm").submit();
+        }
+
+        function inscribirVoluntario(event) {
+            // Obtener el voluntario
+            const tr = event.target.closest('tr');
+            const cedula = tr.querySelector('td:nth-child(1)').textContent;
+            const nombre = tr.querySelector('td:nth-child(2)').textContent;
+
+            // Crear una fila para la tabla de equipos
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td>${cedula}</td>
+                <td>${nombre}</td>
+                <td><button class="btn btn-danger" onclick="eliminarDeEquipo(event)">Eliminar</button></td>
+            `;
+
+            // Agregar la fila a la tabla de equipos
+            document.getElementById('equiposTable').appendChild(nuevaFila);
+
+            // Actualizar el contador de equipos
+            const equiposCount = document.getElementById('equiposCount');
+            equiposCount.textContent = parseInt(equiposCount.textContent) + 1;
+
+            // Opcional: Puedes eliminar el voluntario de la tabla de voluntarios
+            tr.remove();
+        }
+
+        function eliminarDeEquipo(event) {
+            // Obtener la fila que contiene el voluntario
+            const tr = event.target.closest('tr');
+            const cedula = tr.querySelector('td:nth-child(1)').textContent;
+            const nombre = tr.querySelector('td:nth-child(2)').textContent;
+
+            // Crear una fila para la tabla de voluntarios
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td>${cedula}</td>
+                <td>${nombre}</td>
+                <td><button class="btn btn-primary" onclick="inscribirVoluntario(event)">Inscribir</button></td>
+            `;
+
+            // Agregar la fila a la tabla de voluntarios
+            document.getElementById('voluntariosTable').appendChild(nuevaFila);
+
+            // Actualizar el contador de equipos
+            const equiposCount = document.getElementById('equiposCount');
+            equiposCount.textContent = parseInt(equiposCount.textContent) - 1;
+
+            // Eliminar la fila de la tabla de equipos
+            tr.remove();
+        }
+
+        function obtenerDatosEquipo() {
+            const equipos = [];
+            const rows = document.querySelectorAll("#equiposTable tr");
+
+            rows.forEach(row => {
+                const cedula = row.querySelector('td:nth-child(1)').textContent;
+                const nombre = row.querySelector('td:nth-child(2)').textContent;
+                equipos.push({ cedula, nombre });  // Añadimos los datos de cada voluntario
+            });
+
+            return equipos;  // Retornamos el array con los datos
+        }
+
+        function registrarEquipo() {
+            const equipos = obtenerDatosEquipo();  // Obtener los datos de la tabla
+            const nombreEquipo = document.getElementById("nombreEquipo").value;
+
+            // Enviar los datos al backend usando un formulario oculto
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/guardarEquipos';  // URL del backend donde recibes los datos
+
+            const inputEquipos = document.createElement('input');
+            inputEquipos.type = 'hidden';
+            inputEquipos.name = 'equipos';  // Nombre del parámetro que recibirás en el backend
+            inputEquipos.value = JSON.stringify(equipos);  // Convertir los datos de equipos a una cadena JSON
+            form.appendChild(inputEquipos);
+
+            const inputNombreEquipo = document.createElement('input');
+            inputNombreEquipo.type = 'hidden';
+            inputNombreEquipo.name = 'nombreEquipo';
+            inputNombreEquipo.value = nombreEquipo;  // Nombre del equipo
+            form.appendChild(inputNombreEquipo);
+
+            document.body.appendChild(form);  // Agregar el formulario al cuerpo del documento
+            form.submit();  // Enviar el formulario al backend
         }
     </script>
 </body>

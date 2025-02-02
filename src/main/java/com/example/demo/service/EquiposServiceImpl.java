@@ -12,6 +12,8 @@ import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
 import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Usuarios;
+import com.example.demo.entity.Voluntarios;
 
 @Service
 public class EquiposServiceImpl implements IEquiposService {
@@ -80,16 +82,19 @@ public class EquiposServiceImpl implements IEquiposService {
 	}
 		
 
+
+
+	
 	@Override
-	public List<Equipos> listarEquipos() {
+	public List<Usuarios> listarVoluntariosPorProyecto(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return equiposdao.listarVoluntariosPorProyecto(id);
 	}
 
 	@Override
-	public List<Equipos> findByEquipos(Long id_equipos) {
+	public List<Voluntarios> ObtenerVoluntario(String cedula) {
 		// TODO Auto-generated method stub
-		return null;
+		return equiposdao.ObtenerVoluntario(cedula);
 	}
 
 }

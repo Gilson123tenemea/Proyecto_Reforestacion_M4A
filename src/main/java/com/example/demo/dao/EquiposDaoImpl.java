@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
+import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
 import jakarta.persistence.EntityManager;
@@ -49,17 +50,31 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 	
 
-	@Override
-	public List<Equipos> findByEquipos(Long id_equipos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Voluntarios> listarVoluntariosPorProyecto(Long id) {
-		// TODO Auto-generated method stub
-		return em.createQuery("from Voluntarios").getResultList();
+	public List<Usuarios> listarVoluntariosPorProyecto(Long id) {
+	    return em.createQuery(
+	        "SELECT u FROM Usuarios u " +
+	        "JOIN Voluntarios v ON u.id_usuarios = v.id_usuarios " +
+	        "JOIN Inscripcion i ON v.id_voluntario = i.id_voluntario " +
+	        "WHERE i.id_proyecto = :id", Usuarios.class)
+	        .setParameter("id", id)
+	        .getResultList();
+	}
+
+	
+	
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Voluntarios> ObtenerVoluntario(String cedula) {
+		System.out.println("ced"+cedula);
+	    return em.createQuery("FROM Voluntarios v JOIN Usuarios u ON u.id_usuarios = v.id_usuarios where u.cedula = :cedula",Voluntarios.class)
+	             .setParameter("cedula", cedula)
+	             .getResultList();
 	}
 
 }
