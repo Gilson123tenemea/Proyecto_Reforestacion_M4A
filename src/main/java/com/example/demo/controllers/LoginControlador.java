@@ -14,8 +14,12 @@ import com.example.demo.service.UsuariosServiceImpl;
 
 
 @Controller
+<<<<<<< Updated upstream
 @SessionAttributes("idPatrocinador")
 
+=======
+@SessionAttributes({"idPatrocinador","idVoluntario"})
+>>>>>>> Stashed changes
 public class LoginControlador {
 
 	
@@ -51,6 +55,11 @@ public class LoginControlador {
             Long idPatrocinador = usuario.getPatrocinador().get(0).getId_patrocinador();
             model.addAttribute("idPatrocinador", idPatrocinador);
         }
+        
+        if (usuario != null && !usuario.getVoluntarios().isEmpty()) {
+            Long idVoluntario = usuario.getVoluntarios().get(0).getId_voluntario();
+            model.addAttribute("idVoluntario", idVoluntario); 
+        }
 
         switch (rol) {
             case "superadmin":
@@ -58,7 +67,7 @@ public class LoginControlador {
             case "administrador":
                 return "redirect:/suelo";
             case "voluntario":
-                return "redirect:/proyectosvoluntario";
+                return "redirect:/iniciovoluntario";
             case "patrocinador":
                 return "redirect:/verproyectospatrocinador"; 
             default:

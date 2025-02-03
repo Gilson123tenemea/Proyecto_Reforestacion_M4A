@@ -19,11 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Administrador;
+import com.example.demo.entity.Canton;
+import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
+import com.example.demo.service.ICantonService;
+import com.example.demo.service.IParroquiaService;
+import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 
@@ -36,6 +43,14 @@ public class VoluntariosControllers {
     
     @Autowired
     private IUsuarioServices usuarioServices;
+    
+    @Autowired
+    private IParroquiaService parroquiaService;
+    @Autowired
+	private ICantonService cantonService; 
+	@Autowired
+	private IProvinciaService provinciaService; 
+
 
     
     @InitBinder
@@ -46,8 +61,14 @@ public class VoluntariosControllers {
     }
     
     @GetMapping("/iniciovoluntario")
-    public String mostrarInicioVoluntario(Model model) {
-        model.addAttribute("titulo", "Inicio Vountario");
+    public String mostrarInicioVoluntario(Model model,@SessionAttribute("idVoluntario") Long idVoluntario) {
+        Voluntarios voluntario=voluntariosServices.findOne(idVoluntario);
+        
+       Usuarios usuario= usuarioServices.findOne(voluntario.getId_usuarios());
+    	
+       model.addAttribute("usuario",usuario);
+    	model.addAttribute("titulo", "Inicio Vountario");
+        
         return "iniciovoluntario";
     }
     
@@ -177,6 +198,129 @@ public class VoluntariosControllers {
             return "error";
         }
     }
+    
+    
+    
+    
+    
+    
+    @GetMapping("/editarVoluntario")
+    public String editarVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Map<String, Object> model) {
+        Voluntarios voluntario = voluntariosServices.findOne(idVoluntario);
+
+        // Si el voluntario no existe, inicializa uno vacío
+        if (voluntario == null) {
+            voluntario = new Voluntarios();
+        }
+
+        Usuarios usuario = usuarioServices.findOne(voluntario.getId_usuarios());
+
+        // Si el usuario no existe, inicializa uno vacío
+        if (usuario == null) {
+            usuario = new Usuarios();
+        }
+
+        model.put("voluntarios", voluntario);
+        model.put("usuario", usuario);
+        model.put("provincias", provinciaService.findAll());
+
+        return "EditarVoluntario";
+    }
+    
+    @PostMapping("/ActualizarVoluntario")
+    public String guardarVoluntario(
+            @RequestParam(value = "id_voluntario", required = false) Long idVoluntario,
+            @RequestParam(value = "id_usuarios", required = false) Long idUsuario,
+            @ModelAttribute("usuario") Usuarios usuario,
+            @ModelAttribute("voluntarios") Voluntarios voluntarios,
+            Model model) {
+        try {
+            // Validación de IDs
+            if (idUsuario == null || idVoluntario == null) {
+                model.addAttribute("mensaje", "Error: El ID de usuario o de voluntario no puede estar vacío.");
+                return "error";
+            }
+
+            // Procesamiento de Usuario
+            Usuarios usuarioExistente = usuarioServices.findOne(idUsuario);
+            if (usuarioExistente != null) {
+                usuarioExistente.setId_usuarios(idUsuario);
+                
+                // Validación de cada campo para no asignar valores nulos
+                if (usuario.getCedula() != null) {
+                    usuarioExistente.setCedula(usuario.getCedula());
+                }
+                if (!usuario.getNombre().equalsIgnoreCase("")) {
+                    usuarioExistente.setNombre(usuario.getNombre());
+                }
+                if (!usuario.getApellido().equalsIgnoreCase("")) {
+                    usuarioExistente.setApellido(usuario.getApellido());
+                }
+                if (!usuario.getCorreo().equalsIgnoreCase("")) {
+                    usuarioExistente.setCorreo(usuario.getCorreo());
+                }
+                if (usuario.getFecha_nacimiento()!= null) {
+                    usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                }
+                if (usuario.getId_parroquia()!= null) {
+                    usuarioExistente.setId_parroquia(usuario.getId_parroquia());
+                }
+                if (!usuario.getCelular().equalsIgnoreCase("")) {
+                    usuarioExistente.setCelular(usuario.getCelular());
+                }
+                if (!usuario.getContraseña().equalsIgnoreCase("")) {
+                    usuarioExistente.setContraseña(usuario.getContraseña());
+                }
+                usuarioServices.save(usuarioExistente);
+            } else {
+                model.addAttribute("mensaje", "Error: Usuario no encontrado.");
+                return "error";
+            }
+
+            // Procesamiento de Voluntario
+            Voluntarios voluntarioExistente = voluntariosServices.findOne(idVoluntario);
+            if (voluntarioExistente != null) {
+                voluntarioExistente.setId_voluntario(idVoluntario);
+
+                // Validación de cada campo para no asignar valores nulos
+                if (voluntarios.getEstado() != null) {
+                    voluntarioExistente.setEstado(voluntarios.getEstado());
+                }
+                if (!voluntarios.getExperiencia().equalsIgnoreCase("")) {
+                    voluntarioExistente.setExperiencia(voluntarios.getExperiencia());
+                }
+                voluntarioExistente.setId_usuarios(usuario.getId_usuarios());
+                voluntariosServices.save(voluntarioExistente);
+            } else {
+                voluntarios.setId_usuarios(usuario.getId_usuarios());
+                voluntariosServices.save(voluntarios);
+            }
+
+            return "redirect:/listarVoluntarios";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
+            return "error";
+        }
+    }
+
+
+
+    @GetMapping("/voluntario/cantones/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvinciaVoluntario(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
+    }
+
+    @GetMapping("/voluntario/parroquias/{idCanton}")
+    @ResponseBody
+    public List<Parroquia> getParroquiasByCantonVoluntario(@PathVariable Long idCanton) {
+        return parroquiaService.findByCanton(idCanton);
+    }
+
+    
+    
+    
+    
 
 
 }

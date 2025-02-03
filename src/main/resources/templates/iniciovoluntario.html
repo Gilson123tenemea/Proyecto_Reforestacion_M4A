@@ -90,10 +90,19 @@
         <h1 class="text-white m-0 text-center">Reforest</h1>
         <nav>
             <a href="#" class="text-white mx-2">Inicio</a>
-            <a href="#proyectos" class="text-white mx-2">Proyecto</a>
-            <a href="#editar-perfil" class="text-white mx-2">Editar Perfil</a>
+            <a href="/proyectosvoluntario" class="text-white mx-2">Proyecto</a>
+            <a href="/editarVoluntario" class="text-white mx-2">Editar Perfil</a>
         </nav>
     </header>
+	
+	<div class="login-container">
+		<h1>Bienvenido, <span th:text="${usuario.nombre +' '+usuario.apellido}"></span></h1>
+	</div>
+	
+	
+	
+	
+	
 
     <div class="container">
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
