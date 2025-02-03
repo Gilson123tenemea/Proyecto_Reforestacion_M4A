@@ -14,9 +14,7 @@ import com.example.demo.service.UsuariosServiceImpl;
 
 
 @Controller
-
-
-@SessionAttributes({"idPatrocinador","idVoluntario"})
+@SessionAttributes({"idPatrocinador","idVoluntario","idAdministrador"})
 
 public class LoginControlador {
 
@@ -57,6 +55,11 @@ public class LoginControlador {
         if (usuario != null && !usuario.getVoluntarios().isEmpty()) {
             Long idVoluntario = usuario.getVoluntarios().get(0).getId_voluntario();
             model.addAttribute("idVoluntario", idVoluntario); 
+        }
+        
+        if (usuario != null && !usuario.getAdministrador().isEmpty()) {
+            Long idAdministrador = usuario.getAdministrador().get(0).getId_administrador();
+            model.addAttribute("idAdministrador", idAdministrador); 
         }
 
         switch (rol) {

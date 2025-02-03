@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.Equipos;
@@ -22,6 +23,7 @@ import com.example.demo.service.IEquiposService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
+@SessionAttributes("idAdministrador")
 public class EquiposControllers {
 	
 	   @Autowired
@@ -35,6 +37,7 @@ public class EquiposControllers {
 	    @GetMapping("/Combobox")
 	    public String MostrarProyectosActivos(Model model) {
 	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
+	      
 	        return "equipos";
 	    }
 
@@ -50,6 +53,7 @@ public class EquiposControllers {
 	                                 @RequestParam("equipos") String equiposJson, Asignar_equipos Asignarequipo) {
 
 	        // Usamos ObjectMapper para convertir el JSON a un List
+	    	// Long idAdministrador = (Long) model.asMap().get("idAdministrador");
 	        ObjectMapper objectMapper = new ObjectMapper();
 	        List<Map<String, String>> equipos = null;
 	        try {
