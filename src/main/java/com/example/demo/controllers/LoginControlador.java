@@ -14,12 +14,10 @@ import com.example.demo.service.UsuariosServiceImpl;
 
 
 @Controller
-<<<<<<< Updated upstream
-@SessionAttributes("idPatrocinador")
 
-=======
+
 @SessionAttributes({"idPatrocinador","idVoluntario"})
->>>>>>> Stashed changes
+
 public class LoginControlador {
 
 	
