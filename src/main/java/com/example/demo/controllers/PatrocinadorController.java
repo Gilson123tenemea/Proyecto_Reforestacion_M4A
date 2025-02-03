@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Canton;
@@ -35,7 +37,7 @@ import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
 @Controller
-
+@SessionAttributes("idPatrocinador")
 public class PatrocinadorController {
 	
 	
@@ -86,6 +88,11 @@ public class PatrocinadorController {
 	    model.addAttribute("provincias", provinciaService.findAll());
 	    return "formularioPatrocinador"; 
 	}
+	
+	//@GetMapping("/editarPatrocinador")
+	public String listar (Model model) {
+		return "editarPatrocinador";
+	}
 
     // Método para guardar el patrocinador
     @PostMapping("/guardarPatrocinador")
@@ -103,16 +110,17 @@ public class PatrocinadorController {
         }
     }	
 	
-    @RequestMapping(value = "/patrocinadores", method = RequestMethod.GET)
+    //@RequestMapping(value = "/patrocinadores", method = RequestMethod.GET)
     public String listarYEditar(
-            @RequestParam(value = "id", required = false) Long id,
-            Map<String, Object> model,
-            RedirectAttributes flash) {
+        @RequestParam(value = "id", required = false) Long id,
+        Map<String, Object> model,
+        RedirectAttributes flash) {
+
         Patrocinador patrocinador = new Patrocinador();
         Usuarios usuario = new Usuarios();
 
         if (id != null && id > 0) {
-        	patrocinador = patrocinadorservice.findOne(id);
+            patrocinador = patrocinadorservice.findOne(id);
             if (patrocinador != null) {
                 usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
             } else {
@@ -121,10 +129,11 @@ public class PatrocinadorController {
             }
         }
 
-        model.put("patrocinadores", patrocinador); 
+        model.put("patrocinadores", patrocinador);
         model.put("usuario", usuario);
         model.put("titulo", "Editar o Crear Patrocinadores");
-        return "formularioPatrocinador";
+
+        return "";
     }
 
 
@@ -166,7 +175,43 @@ public class PatrocinadorController {
             return "error";
         }
     }
-	
+    
+    
+    
+    
+    
+    
+    @GetMapping("/editarPatrocinador")
+    public String editarPatrocinador(@SessionAttribute Long idPatrocinador, Map<String, Object> model) {
+        Patrocinador patrocinador = patrocinadorservice.findOne(idPatrocinador);
+
+        // Si el voluntario no existe, inicializa uno vacío
+        if (patrocinador == null) {
+        	patrocinador = new Patrocinador();
+        }
+
+        Usuarios usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
+
+        // Si el usuario no existe, inicializa uno vacío
+        if (usuario == null) {
+            usuario = new Usuarios();
+        }
+
+        model.put("patrocinadores", patrocinador);
+        model.put("usuario", usuario);
+        model.put("provincias", provinciaService.findAll());
+
+        return "editarPatrocinador";
+    }
+    
+    
+    
+
+    
+    
+    
+    
+    
     @RequestMapping(value="/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id) {
         patrocinadorservice.delete(id); 
