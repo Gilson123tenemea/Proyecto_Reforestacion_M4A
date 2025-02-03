@@ -2,8 +2,10 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
@@ -14,6 +16,8 @@ public interface IEquiposDao {
 	public Equipos findOne(Long id);
 	public void delete(Long id);
 	public List<Usuarios> listarVoluntariosPorProyecto(Long id);
-	 public List<Voluntarios> ObtenerVoluntario(String cedula); 
+	public List<Tipo_Actividades> listarActividades(Long id_proyecto);
+
+	public List<Voluntarios> ObtenerVoluntario(String cedula); 
 
 }

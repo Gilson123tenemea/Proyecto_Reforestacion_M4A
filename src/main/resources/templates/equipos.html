@@ -132,6 +132,14 @@
                     <!-- Campo de texto para ingresar nombre del equipo -->
                     <h4><label for="nombreEquipo">Nombre del equipo:</label></h4>
                     <input type="text" id="nombreEquipo" name="nombreEquipo" placeholder="Ingresa el nombre del equipo" class="form-control my-2">
+                    
+                    <!-- ComboBox de Actividades -->
+                    <select class="form-select" id="actividad" name="actividad">
+						<option selected>Selecciona una Actividad</option>
+					    <option th:each="actividad : ${actividades}" 
+						        th:value="${actividad[1]}"
+						        th:text="${actividad[0]}"></option>
+                    </select>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered text-center">
@@ -230,6 +238,7 @@
         function registrarEquipo() {
             const equipos = obtenerDatosEquipo();  // Obtener los datos de la tabla
             const nombreEquipo = document.getElementById("nombreEquipo").value;
+            const actividad = document.getElementById("actividad").value;  // Obtener la actividad seleccionada
 
             // Enviar los datos al backend usando un formulario oculto
             const form = document.createElement('form');
@@ -247,6 +256,12 @@
             inputNombreEquipo.name = 'nombreEquipo';
             inputNombreEquipo.value = nombreEquipo;  // Nombre del equipo
             form.appendChild(inputNombreEquipo);
+
+            const inputActividad = document.createElement('input');
+            inputActividad.type = 'hidden';
+            inputActividad.name = 'actividad';
+            inputActividad.value = actividad;  // La actividad seleccionada
+            form.appendChild(inputActividad);
 
             document.body.appendChild(form);  // Agregar el formulario al cuerpo del documento
             form.submit();  // Enviar el formulario al backend

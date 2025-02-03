@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IEquiposDao;
 import com.example.demo.dao.IProyectoDao;
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
 import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
@@ -95,6 +97,12 @@ public class EquiposServiceImpl implements IEquiposService {
 	public List<Voluntarios> ObtenerVoluntario(String cedula) {
 		// TODO Auto-generated method stub
 		return equiposdao.ObtenerVoluntario(cedula);
+	}
+
+	@Override
+	public List<Tipo_Actividades> listarActividades(Long id_proyecto) {
+		// TODO Auto-generated method stub
+		return equiposdao.listarActividades(id_proyecto);
 	}
 
 }

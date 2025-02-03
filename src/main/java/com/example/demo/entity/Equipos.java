@@ -25,8 +25,6 @@ public class Equipos implements Serializable {
 
 	private Long id_administrador;
 	private Long id_asignacionproyecto;
-	private int cantidad_equipo;
-	private Boolean asistencia;
 	private String nombre;
 
 	
@@ -79,26 +77,6 @@ public class Equipos implements Serializable {
 		this.id_asignacionproyecto = id_asignacionproyecto;
 	}
 
-
-	public int getCantidad_equipo() {
-		return cantidad_equipo;
-	}
-
-
-	public void setCantidad_equipo(int cantidad_equipo) {
-		this.cantidad_equipo = cantidad_equipo;
-	}
-
-
-	public Boolean getAsistencia() {
-		return asistencia;
-	}
-
-
-	public void setAsistencia(Boolean asistencia) {
-		this.asistencia = asistencia;
-	}
-	
 
 
 	public List<Intervencion_Suelo> getEquipos() {

@@ -37,6 +37,7 @@ public class EquiposControllers {
 	    @GetMapping("/Combobox")
 	    public String MostrarProyectosActivos(Model model) {
 	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
+	        
 	      
 	        return "equipos";
 	    }
@@ -45,12 +46,15 @@ public class EquiposControllers {
 	    public String CargarTabla(@RequestParam("idProyecto") Long id, Model model) {
 	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
 	        model.addAttribute("voluntarios", equiposimpl.listarVoluntariosPorProyecto(id));
+	        model.addAttribute("actividades", equiposimpl.listarActividades(id));
+
 	        return "equipos";
 	    }
 
 	    @PostMapping("/guardarEquipos")
 	    public String guardarEquipos(@RequestParam("nombreEquipo") String nombreEquipo, 
-	                                 @RequestParam("equipos") String equiposJson, Asignar_equipos Asignarequipo) {
+	    		                     @RequestParam("actividad") Long actividadId,
+	                                 @RequestParam("equipos") String equiposJson, Asignar_equipos Asignarequipo,Model model) {
 
 	        // Usamos ObjectMapper para convertir el JSON a un List
 	    	// Long idAdministrador = (Long) model.asMap().get("idAdministrador");
@@ -64,6 +68,8 @@ public class EquiposControllers {
 
 	        Equipos Miequipo = new Equipos();
 	        Miequipo.setNombre(nombreEquipo);
+	        System.out.println(actividadId);
+	        Miequipo.setId_asignacionproyecto(actividadId);
 	        equiposService.save(Miequipo);
 
 	        Date date = new Date();
@@ -89,6 +95,8 @@ public class EquiposControllers {
 	                AsignarService.save(nuevaAsignacion);
 	            }
 	        }
+	        
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
 
 	        return "equipos";  // Redirigir a la vista o mostrar un mensaje
 	    }

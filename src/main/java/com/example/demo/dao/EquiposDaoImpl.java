@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
+import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
@@ -74,6 +76,15 @@ public class EquiposDaoImpl implements IEquiposDao {
 		System.out.println("ced"+cedula);
 	    return em.createQuery("FROM Voluntarios v JOIN Usuarios u ON u.id_usuarios = v.id_usuarios where u.cedula = :cedula",Voluntarios.class)
 	             .setParameter("cedula", cedula)
+	             .getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Tipo_Actividades> listarActividades(Long id_proyecto) {
+		// TODO Auto-generated method stub
+		return em.createQuery("Select T.nombre_act, a.id_asignacionproyecto from Tipo_Actividades T JOIN Asignacion_proyectoActi a on T.id_tipoActividades = a.id_tipoActividades where  a.id_proyecto = :id_proyecto")
+				.setParameter("id_proyecto", id_proyecto)
 	             .getResultList();
 	}
 

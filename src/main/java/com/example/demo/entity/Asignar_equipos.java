@@ -21,7 +21,6 @@ public class Asignar_equipos implements Serializable{
 	private Long id_voluntario;
 	private Long id_equipos;
 	private Date fecha_asinacionequi;
-	private String nombre;
 
 	
 	
@@ -51,17 +50,6 @@ public class Asignar_equipos implements Serializable{
 
 
 	
-	public String getNombre() {
-		return nombre;
-	}
-
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-
 
 	public Long getId_equipos() {
 		return id_equipos;
