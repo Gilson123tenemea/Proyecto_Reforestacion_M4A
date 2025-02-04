@@ -1,77 +1,147 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo}">Formulario de Edición de Planta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
         body {
-            padding-top: 80px; 
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #d32f2f;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-top: a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .form-control:focus {
+            border-color: #d32f2f;
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+        }
+
+        .btn {
+            background-color: #d32f2f;
+            color: white;
+            border-radius: 5px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutAdmin :: menu"></div>
+    <div class="main-content">
+        <div class="form-container">
+            <h1>Formulario de Planta</h1>
+            <form th:action="@{/guardarplanta}" th:object="${planta}" method="post">
+                <input type="hidden" th:field="*{id_plantas}" />
 
-    <div class="container mt-5">
-        <h1 class="mb-4" th:text="${titulo}">Formulario de Edición de Planta</h1>
-        <form th:action="@{/guardarplanta}" th:object="${planta}" method="post">
-            <!-- Campo oculto para el ID de la Planta -->
-            <input type="hidden" th:field="*{id_plantas}" />
+                <div class="mb-3">
+                    <label for="especieId" class="form-label">Seleccione la Especie:</label>
+                    <select th:field="*{id_especie}" class="form-control" required>
+                        <option value="" disabled selected>Seleccione una Especie</option>
+                        <th:block th:each="especie : ${especies}">
+                            <option th:value="${especie.id_especie}" th:text="${especie.nombre}"></option>
+                        </th:block>
+                    </select>
+                </div>
 
-            <!-- Selección de Especie -->
-            <div class="mb-3">
-                <label for="especieId" class="form-label">Seleccione la Especie:</label>
-                <select th:field="*{id_especie}" class="form-control" required>
-                    <option value="" disabled selected>Seleccione una Especie</option>
-                    <th:block th:each="especie : ${especies}">
-                        <option th:value="${especie.id_especie}" th:text="${especie.nombre}"></option>
-                    </th:block>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Nombre Científico:</label>
+                    <input type="text" th:field="*{nombre_cientifico}" class="form-control" required />
+                </div>
 
-            <!-- Nombre Científico -->
-            <div class="mb-3">
-                <label for="nombreCientifico" class="form-label">Nombre Científico:</label>
-                <input type="text" th:field="*{nombre_cientifico}" class="form-control" required />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Clima:</label>
+                    <input type="text" th:field="*{clima}" class="form-control" required />
+                </div>
 
-            <!-- Clima -->
-            <div class="mb-3">
-                <label for="clima" class="form-label">Clima:</label>
-                <input type="text" th:field="*{clima}" class="form-control" required />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Nombre Común:</label>
+                    <input type="text" th:field="*{nombre_comun}" class="form-control" required />
+                </div>
 
-            <!-- Nombre Común -->
-            <div class="mb-3">
-                <label for="nombreComun" class="form-label">Nombre Común:</label>
-                <input type="text" th:field="*{nombre_comun}" class="form-control" required />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Tamaño (en metros):</label>
+                    <input type="number" th:field="*{tamaño}" class="form-control" step="0.1" required />
+                </div>
 
-            <!-- Tamaño -->
-            <div class="mb-3">
-                <label for="tamano" class="form-label">Tamaño (en metros):</label>
-                <input type="number" th:field="*{tamaño}" class="form-control" step="0.1" required />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Color de Hojas:</label>
+                    <input type="text" th:field="*{color_hojas}" class="form-control" required />
+                </div>
 
-            <!-- Color de Hojas -->
-            <div class="mb-3">
-                <label for="colorHojas" class="form-label">Color de Hojas:</label>
-                <input type="text" th:field="*{color_hojas}" class="form-control" required />
-            </div>
-
-            <!-- Botones -->
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a th:href="@{/listarplantas}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+                <div class="mb-3 d-flex gap-2">
+                    <button type="submit" class="btn">Guardar</button>
+                    <a th:href="@{/listarplantas}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
+	</br>
+    <footer class="footer">
+        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

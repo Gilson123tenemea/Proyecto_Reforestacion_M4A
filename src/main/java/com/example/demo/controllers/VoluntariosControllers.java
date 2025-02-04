@@ -33,6 +33,7 @@ import com.example.demo.service.EquiposServiceImpl;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
 import com.example.demo.service.IProvinciaService;
+import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 import com.example.demo.service.RegistroActividadRealizadaService;
@@ -61,6 +62,8 @@ public class VoluntariosControllers {
 
 	@Autowired
 	private EquiposDaoImpl equipoDao;
+	@Autowired
+	private IProyectoServices proyectoService; 
 
 	// Método para obtener las actividades pendientes de un voluntario
 	@GetMapping("/{voluntarioId}/actividades")
@@ -139,10 +142,13 @@ public class VoluntariosControllers {
 	}
 
 	@GetMapping("/proyectosvoluntario")
-	public String proyectos(Model model) {
-		model.addAttribute("titulo", "proyectos");
-		return "proyectosvoluntario";
-	}
+    public String proyectos (Model model,@SessionAttribute("idVoluntario") Long idVoluntario) {
+
+          model.addAttribute("proyectos", proyectoService.findAll());
+         
+        model.addAttribute("titulo", "proyectos");
+        return "proyectosvoluntario";
+    }
 
 	@GetMapping("/inscribirproyecto")
 	public String inscribirproyectos(Model model) {

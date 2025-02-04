@@ -8,6 +8,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #ffffff;
@@ -15,6 +21,14 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+			margin-top: auto;
         }
 
         header {
@@ -91,24 +105,22 @@
             transform: scale(1.05);
         }
 
-        .footer {
-            background-color: #d32f2f;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
+		.footer {
+				            background-color: #d32f2f;
+				            color: white;
+				            text-align: center;
+				            margin-top: auto;
+				            font-size: 12px;
+				        }
+						
+						/* Alineación central para el texto del footer */
+						       .footer p {
+						           margin: 0;
+						       }
     </style>
 </head>
 <body>
-	<div th:replace="layout/layoutAdmin :: menu"></div>
-
-    <header>
-        <div class="header-container">
-            <img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca">
-            <h1>Reforest</h1>
-        </div>
-    </header>
+    <div th:replace="layout/layoutAdmin :: menu"></div>
 
     <div class="container">
         <div class="table-container">
@@ -155,7 +167,7 @@
             </div>
         </div>
     </div>
-
+	</br>
     <footer class="footer">
         &copy; 2025 Mi Proyecto. Todos los derechos reservados.
     </footer>

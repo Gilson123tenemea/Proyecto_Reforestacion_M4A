@@ -1,69 +1,139 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tipos de Suelos</title>
+    <title th:text="${titulo}">Lista de Tipos de Suelos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            background-image: url('/imagenes/cuenca.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-top: auto;
+        }
+
+        .table-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: auto;
+            margin-top: 50px;
+            transition: transform 0.3s ease-in-out;
+            text-align: center;
+        }
+
+        .table-container:hover {
+            transform: scale(1.02);
+        }
+
+        .table-container h1 {
+            color: #333;
+            font-weight: normal;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #d32f2f;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            margin-top: auto;
+            font-size: 12px;
+        }
+
+        /* Alineación central para el texto del footer */
+        .footer p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4" th:text="${titulo}">Lista de Tipos de Suelos</h1>
+    <div th:replace="layout/layoutAdmin :: menu"></div>
 
-        <!-- Mensajes de éxito o error -->
-        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div class="container main-content">
+        <div class="table-container">
+            <h1>Lista de Tipos de Suelos</h1>
 
-        <!-- Tabla de tipos de suelo -->
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre del Suelo</th>
-                    <th>Descripción</th>
-                    <th>Color</th>
-                    <th>Textura</th>
-                    <th>Densidad</th>
-                    <th>pH</th>
-                    <th>Composición</th>
-                    <th>Fertilidad</th>
-                    <th>Uso del Suelo</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="tiposuelo : ${tiposuelos}">
-                    <td th:text="${tiposuelo.id_tiposuelo}"></td>
-                    <td th:text="${tiposuelo.nombre_suelo}"></td>
-                    <td th:text="${tiposuelo.descripcion}"></td>
-                    <td th:text="${tiposuelo.color}"></td>
-                    <td th:text="${tiposuelo.textura}"></td>
-                    <td th:text="${tiposuelo.densidad}"></td>
-                    <td th:text="${tiposuelo.ph}"></td>
-                    <td th:text="${tiposuelo.composicion}"></td>
-                    <td th:text="${tiposuelo.fertilidad}"></td>
-                    <td th:text="${tiposuelo.uso_del_suelo}"></td>
-                    <td>
-                        <!-- Botón para Editar -->
-                        <a th:href="@{/tiposuelo/editar/{id}(id=${tiposuelo.id_tiposuelo})}" 
-                           class="btn btn-primary btn-sm">Editar</a>
-                        <!-- Botón para Eliminar -->
-                        <a th:href="@{/tiposuelo/eliminar/{id}(id=${tiposuelo.id_tiposuelo})}" 
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de suelo?');">
-                           Eliminar
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <!-- Mensajes de éxito o error -->
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-        <!-- Botón para regresar -->
-        <div class="text-center mt-4">
-            <a href="/tiposuelos" class="btn btn-secondary">Regresar</a>
+            <!-- Tabla de tipos de suelo -->
+            <table class="table table-bordered table-striped text-center">
+                <thead class="">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Suelo</th>
+                        <th>Descripción</th>
+                        <th>Color</th>
+                        <th>Textura</th>
+                        <th>Densidad</th>
+                        <th>pH</th>
+                        <th>Composición</th>
+                        <th>Fertilidad</th>
+                        <th>Uso del Suelo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tiposuelo : ${tiposuelos}">
+                        <td th:text="${tiposuelo.id_tiposuelo}"></td>
+                        <td th:text="${tiposuelo.nombre_suelo}"></td>
+                        <td th:text="${tiposuelo.descripcion}"></td>
+                        <td th:text="${tiposuelo.color}"></td>
+                        <td th:text="${tiposuelo.textura}"></td>
+                        <td th:text="${tiposuelo.densidad}"></td>
+                        <td th:text="${tiposuelo.ph}"></td>
+                        <td th:text="${tiposuelo.composicion}"></td>
+                        <td th:text="${tiposuelo.fertilidad}"></td>
+                        <td th:text="${tiposuelo.uso_del_suelo}"></td>
+                        <td>
+                            <a th:href="@{/tiposuelo/editar/{id}(id=${tiposuelo.id_tiposuelo})}" class="btn btn-primary btn-sm">Editar</a>
+                            <a th:href="@{/tiposuelo/eliminar/{id}(id=${tiposuelo.id_tiposuelo})}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de suelo?');">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Botón para agregar nueva parcela centrado -->
+            <div class="text-center">
+                <a href="/parcelas" class="btn btn-primary mb-3">Agregar Tipo Suelo</a>
+            </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
