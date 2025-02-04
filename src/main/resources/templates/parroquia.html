@@ -8,6 +8,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+	<div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+
     <div class="container mt-5">
         <h1 class="mb-4" th:text="${titulo}">Formulario de Edición de Parroquia</h1>
         <form th:action="@{/guardarParroquia}" th:object="${parroquia}" method="post">

@@ -2,46 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${titulo}"></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
 
-<div class="container mt-5">
-    <h2 th:text="${titulo}"></h2>
-    <div>
-        <a href="/formprovincia" class="btn btn-primary mb-3">Agregar Nueva Provincia</a>
+    <div class="container mt-5">
+        <h2 th:text="${titulo}"></h2>
+        <div>
+            <a href="/formprovincia" class="btn btn-primary mb-3">Agregar Nueva Provincia</a>
+        </div>
+        <div th:if="${success != null}" class="alert alert-success" role="alert">
+            <p th:text="${success}"></p>
+        </div>
+        <div th:if="${error != null}" class="alert alert-danger" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+        
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre Provincia</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="provincia : ${provincias}">
+                    <td th:text="${provincia.id_provincia}"></td>
+                    <td th:text="${provincia.nombreProvincia}"></td>
+                    <td>
+                        <a th:href="@{/formprovincia/{id}(id=${provincia.id_provincia})}" class="btn btn-warning">Editar</a>
+                        <a th:href="@{/eliminarprovincia/{id}(id=${provincia.id_provincia})}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de eliminar esta provincia?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div th:if="${success != null}" class="alert alert-success" role="alert">
-        <p th:text="${success}"></p>
-    </div>
-    <div th:if="${error != null}" class="alert alert-danger" role="alert">
-        <p th:text="${error}"></p>
-    </div>
-    
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nombre Provincia</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="provincia : ${provincias}">
-                <td th:text="${provincia.id_provincia}"></td>
-                <td th:text="${provincia.nombreProvincia}"></td>
-                <td>
-                    <a th:href="@{/formprovincia/{id}(id=${provincia.id_provincia})}" class="btn btn-warning">Editar</a>
-                    <a th:href="@{/eliminarprovincia/{id}(id=${provincia.id_provincia})}" class="btn btn-danger" 
-                       onclick="return confirm('¿Estás seguro de eliminar esta provincia?')">Eliminar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
