@@ -26,7 +26,9 @@ public class EquiposServiceImpl implements IEquiposService {
 	@Autowired
 	private IProyectoDao proyectodao;
 	
-	
+	public List<Object[]> obtenerActividadesPorHacer(Long voluntarioId) {
+        return equiposdao.findActividadesPorHacer(voluntarioId);
+    }
 	public List<Proyecto> findAllProyectos() {
 		// TODO Auto-generated method stub
 		return proyectodao.findActivos();

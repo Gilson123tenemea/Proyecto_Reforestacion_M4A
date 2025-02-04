@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades del Voluntario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Actividades del Voluntario</h1>
+
+        <!-- Sección: Actividades por Hacer -->
+        <section class="mt-4">
+            <h3>Actividades por Hacer</h3>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre del Voluntario</th>
+                        <th>Proyecto</th>
+                        <th>Actividad</th>
+                        <th>Cumplimiento</th>
+                        <th>Acciones</th> <!-- Nueva columna para botones -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mostrar solo actividades con cumplimiento "NO" -->
+                    <tr th:each="actividad, iterStat : ${actividadesPorHacer}" th:if="${actividad[3] == 'NO'}">
+                        <td th:text="${iterStat.index + 1}"></td> <!-- Índice -->
+                        <td th:text="${actividad[0]}"></td> <!-- Nombre del voluntario -->
+                        <td th:text="${actividad[1]}"></td> <!-- Nombre del proyecto -->
+                        <td th:text="${actividad[2]}"></td> <!-- Descripción de la actividad -->
+                        <td th:text="${actividad[3]}"></td> <!-- Cumplimiento -->
+                        <td>
+                            <button class="btn btn-success btn-sm">Registrar Actividad</button>
+                            <button class="btn btn-info btn-sm">Más Información</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección: Actividades en Espera de Aprobación -->
+        <section class="mt-5">
+            <h3>Actividades en Espera de Aprobación</h3>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre del Voluntario</th>
+                        <th>Proyecto</th>
+                        <th>Actividad</th>
+                        <th>Cumplimiento</th>
+                        <th>Acciones</th> <!-- Botón solo de "Más Información" -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mostrar solo actividades con cumplimiento "SI" -->
+                    <tr th:each="actividad, iterStat : ${actividadesPorHacer}" th:if="${actividad[3] == 'SI'}">
+                        <td th:text="${iterStat.index + 1}"></td> <!-- Índice -->
+                        <td th:text="${actividad[0]}"></td> <!-- Nombre del voluntario -->
+                        <td th:text="${actividad[1]}"></td> <!-- Nombre del proyecto -->
+                        <td th:text="${actividad[2]}"></td> <!-- Descripción de la actividad -->
+                        <td th:text="${actividad[3]}"></td> <!-- Cumplimiento -->
+                        <td>
+                            <button class="btn btn-info btn-sm">Más Información</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -10,14 +10,28 @@ import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 
 public interface IEquiposDao {
-	
+
 	public List<Equipos> findAll();
+
 	public void save(Equipos equipos);
+
 	public Equipos findOne(Long id);
+
 	public void delete(Long id);
+
 	public List<Usuarios> listarVoluntariosPorProyecto(Long id);
+
 	public List<Tipo_Actividades> listarActividades(Long id_proyecto);
 
-	public List<Voluntarios> ObtenerVoluntario(String cedula); 
+	public List<Voluntarios> ObtenerVoluntario(String cedula);
 
+	Equipos findByVoluntarioId(Long voluntarioId);
+
+	List<Equipos> findEquiposPorProyecto(Long idProyecto);
+
+	List<Object[]> findActividadesPorHacer(Long voluntarioId);
+
+	List<Object[]> findActividadesPorHacerDeTodos();
+
+	List<Object[]> findActividadesRealizadas(Long voluntarioId);
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Actividad</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Detalle de la Actividad</h1>
+
+        <div th:if="${actividadDetalle}">
+            <p><strong>Proyecto:</strong> <span th:text="${actividadDetalle[1]}"></span></p>
+            <p><strong>Tipo de Actividad:</strong> <span th:text="${actividadDetalle[2]}"></span></p>
+            <p><strong>Cantidad Realizada:</strong> <span th:text="${actividadDetalle[3]}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${actividadDetalle[4]}"></span></p>
+            <p><strong>Validación por Administrador:</strong> <span th:text="${actividadDetalle[6] ? 'Sí' : 'No'}"></span></p>
+            <p><strong>Validación por Voluntario:</strong> <span th:text="${actividadDetalle[7] ? 'Sí' : 'No'}"></span></p>
+            
+            <div th:if="${actividadDetalle[5] != null}">
+                <img th:src="@{${actividadDetalle[5]}}" alt="Foto de la actividad" class="img-fluid" width="200"/>
+            </div>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <a href="/voluntario/actividades-realizadas" class="btn btn-primary mt-3">Volver</a>
+    </div>
+
+</body>
+</html>

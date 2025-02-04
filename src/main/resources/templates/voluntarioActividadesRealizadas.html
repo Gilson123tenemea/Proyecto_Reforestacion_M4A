@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades Realizadas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Actividades Realizadas</h1>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Proyecto</th>
+                    <th>Tipo de Actividad</th>
+                    <th>Cantidad Realizada</th>
+                    <th>Descripción</th>
+                    <th>Foto</th>
+                    <th>Aceptado por el Administrador</th>
+                    <th>Subido por el Voluntario</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iterar sobre la lista de actividadesRealizadas -->
+                <tr th:each="actividadRealizada, iterStat : ${actividadesRealizadas}">
+                    <td th:text="${iterStat.count}"></td> <!-- Índice de la fila -->
+                    <td th:text="${actividadRealizada[1]}"></td> <!-- Nombre del proyecto -->
+                    <td th:text="${actividadRealizada[2]}"></td> <!-- Tipo de actividad -->
+                    <td th:text="${actividadRealizada[3]}"></td> <!-- Cantidad realizada -->
+                    <td th:text="${actividadRealizada[4]}"></td> <!-- Descripción -->
+                    <td>
+                        <!-- Mostrar la imagen solo si existe -->
+                        <img th:if="${actividadRealizada[5] != null}" th:src="@{${actividadRealizada[5]}}" alt="Foto de la actividad" class="img-fluid" width="100"/>
+                    </td>
+                    <td th:text="${actividadRealizada[6] ? 'Sí' : 'No'}"></td> <!-- Validación por administrador -->
+                    <td th:text="${actividadRealizada[7] ? 'Sí' : 'No'}"></td> <!-- Validación por voluntario -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

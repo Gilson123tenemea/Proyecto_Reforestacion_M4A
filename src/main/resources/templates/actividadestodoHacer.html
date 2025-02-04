@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades por Hacer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1>Actividades por Hacer</h1>
+
+        <!-- Sección para mostrar actividades por hacer -->
+        <h3 class="mt-4">Listado de Actividades</h3>
+		
+		
+		<table class="table table-striped">
+		    <thead>
+		        <tr>
+		            <th>#</th>
+		            <th>Nombre del Voluntario</th>
+		            <th>Proyecto</th>
+		            <th>Actividad</th>
+		            <th>Cumplimiento</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <tr th:each="actividad, iterStat : ${actividadesPorHacer}">
+		            <td th:text="${iterStat.index + 1}"></td> <!-- Índice -->
+		            <td th:text="${actividad[0]}"></td> <!-- Nombre del voluntario -->
+		            <td th:text="${actividad[1]}"></td> <!-- Nombre del proyecto -->
+		            <td th:text="${actividad[2]}"></td> <!-- Descripción de la actividad -->
+		            <td th:text="${actividad[3]}"></td> <!-- Cumplimiento (SI/NO) -->
+		        </tr>
+		    </tbody>
+		</table>
+
+		
+		
+		
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -16,9 +16,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "equipo", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_asignacionproyecto","id_equipos"})})
+@Table(name = "equipo", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_inscripcion", "id_administrador",
+		"id_asignacionproyecto", "id_equipos", "id_asignacionproyecto" }) })
 public class Equipos implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_equipos;
@@ -26,88 +27,73 @@ public class Equipos implements Serializable {
 	private Long id_administrador;
 	private Long id_asignacionproyecto;
 	private String nombre;
+	private Long id_inscripcion;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_equipos")
+	private List<Intervencion_Suelo> equipos;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_equipos")
+	private List<Asignar_equipos> asignarequipos;
 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_equipos")
-	private List<Intervencion_Suelo> equipos ; 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_equipos")
-	private List<Asignar_equipos> asignarequipos ; 
+	public Long getId_inscripcion() {
+		return id_inscripcion;
+	}
 
-	
-	
+	public void setId_inscripcion(Long id_inscripcion) {
+		this.id_inscripcion = id_inscripcion;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
-
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-
 	public Long getId_equipos() {
 		return id_equipos;
 	}
-
 
 	public void setId_equipos(Long id_equipos) {
 		this.id_equipos = id_equipos;
 	}
 
-
 	public Long getId_administrador() {
 		return id_administrador;
 	}
-
 
 	public void setId_administrador(Long id_administrador) {
 		this.id_administrador = id_administrador;
 	}
 
-
 	public Long getId_asignacionproyecto() {
 		return id_asignacionproyecto;
 	}
-
 
 	public void setId_asignacionproyecto(Long id_asignacionproyecto) {
 		this.id_asignacionproyecto = id_asignacionproyecto;
 	}
 
-
-
 	public List<Intervencion_Suelo> getEquipos() {
 		return equipos;
 	}
-
 
 	public void setEquipos(List<Intervencion_Suelo> equipos) {
 		this.equipos = equipos;
 	}
 
-
-
-
-	
-
-
-
 	public List<Asignar_equipos> getAsignarequipos() {
 		return asignarequipos;
 	}
 
-
 	public void setAsignarequipos(List<Asignar_equipos> asignarequipos) {
 		this.asignarequipos = asignarequipos;
 	}
-
-
-
-
-
 
 	private static final long serialVersionUID = 1L;
 
