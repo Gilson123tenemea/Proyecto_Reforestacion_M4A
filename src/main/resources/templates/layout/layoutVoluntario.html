@@ -1,92 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú voluntario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .nav-item {
-            border-bottom: 2px solid black; 
-            padding-bottom: 10px; 
-        }
-
-       
-        .nav-item:hover {
-            border-bottom: 2px solid #f8f9fa; 
-        }
-
-        .nav-item:last-child {
-            border-bottom: none;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Navbar con Bootstrap</title>
 
 
-        .navbar-nav .nav-item {
-            margin-bottom: 10px; 
-        }
-    </style>
+	<!-- Agregar enlace al CSS de Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KyZXEJ6H7B9Ue3V8ADkz5v3pVJf6g+Hk5CkF6FQllmhnzHXK0fse5BziwO1v4VYa" crossorigin="anonymous">
 </head>
+
 <body>
-    <!-- Fragmento para el menú -->
-    <div th:fragment="menuVoluntario">
-        <nav class="navbar" style="background-color: #dc3545; color: white; border-radius: 0px;">
-            <div class="container-fluid d-flex align-items-center">
-                <!-- Botón de tres rayas (hamburguesa) alineado a la izquierda -->
-                <button class="navbar-toggler ms-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span> <!-- Icono de tres rayas -->
-                </button>
-                
-                <!-- Título Menú Admin alineado al lado del botón -->
-                <a class="navbar-brand ms-2" href="/editarVoluntario" style="color: white;">Editar Perfil</a>
+	<div th:fragment="menuVoluntario">
+		<!-- Menú de navegación con Bootstrap -->
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/proyectosvoluntario">
+					<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" height="40" style="margin-right: 10px;">
+					<img src="/imagenes/LogoPrincipalReforest.png" alt="Logo Principal" height="50">
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+					aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarScroll">
+					<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+						<!-- Menú Proyectos -->
+						<li class="nav-item">
+							<a class="nav-link active" href="/proyectosvoluntario" id="navbarDropdown" role="button">
+								Proyectos
+							</a>
 
-                <!-- Menú Offcanvas -->
-                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header" style="background-color: #dc3545; color: white;">
-						<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú voluntario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="color: white;"></button>
-                    </div>
-                    <div class="offcanvas-body" style="background-color: #dc3545;">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <!-- Menú Provincia -->
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                                    Actividades
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#" th:href="@{/listarVoluntarios}">listas</a></li>
-									<li><a class="dropdown-item" href="#" th:href="@{/listarprovincia}">a2</a></li>
-                                </ul>
-                            </li>
-                            <!-- Menú Canton -->
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                                    Cumplimientos
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#" th:href="@{/cantones}">Crear </a></li>
-									<li><a class="dropdown-item" href="#" th:href="@{/listarcantones}">Lista </a></li>
-                                </ul>
-                            </li>
-                            <!-- Menú Parroquia -->
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                                    Actividades realizadas
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#" th:href="@{/parroquia}">Crear </a></li>
-                                    <li><a class="dropdown-item" href="#" th:href="@{/listarparroquia}">Lista </a></li>
-                                </ul>
-                            </li>
-                            
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+						</li>
+						<!-- Menú Actividades -->
+						<li class="nav-item">
+							<a class="nav-link active" href="/voluntario/actividades" id="navbarDropdown" role="button">
+								Actividades pendientes
+							</a>
 
-    <!-- Cargar los archivos JS de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" href="/actividades-realizadas" id="navbarDropdown" role="button">
+								Actividades realizadas
+							</a>
+
+						</li>
+					</ul>
+
+					<!-- Menú Suelo y Especie junto a Perfil -->
+					<ul class="navbar-nav ms-auto">
+						<!-- Menú Suelo -->
+
+
+						<!-- Menú Perfil -->
+						<li class="nav-item">
+							<a class="nav-link" href="/editarVoluntario">Perfil</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pzjw8f+ua7Kw1TIq0BfiW6v7cXw4b0uEK5T5Xn6Pffqb5Oo/fBfXnPA0fqnsOg3h"
+		crossorigin="anonymous"></script>
 </body>
+
 </html>

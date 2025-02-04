@@ -28,11 +28,21 @@
 			width: 100%;
 		}
 
+		.contenedor {
+		    display: flex;
+		    flex-direction: column;
+		    min-height: 100vh; /* Hace que el contenedor ocupe toda la pantalla */
+		}
+
+		main {
+		    flex: 1; /* Hace que el contenido ocupe el espacio disponible y empuje el footer hacia abajo */
+		}
+
 		footer {
-			text-align: center;
-			padding: 15px 0;
-			background-color: rgba(211, 47, 47, 0.8);
-			width: 100%;
+		    text-align: center;
+		    padding: 15px 0;
+		    background-color: rgba(211, 47, 47, 0.8);
+		    width: 100%;
 		}
 
 		.login-wrapper {
@@ -143,38 +153,8 @@
 </head>
 
 <body>
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container-fluid">
-				<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
-				<h1 class="text-white m-0" style="margin-left: 20px;"><strong>Deforest</strong></h1>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/layout">Inicio</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#proyectos">Proyectos</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#reportes">Reportes</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Registrarse</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/login">Iniciar Sesión</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-
+	
+	<div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
 
 	<div class="login-wrapper">
 		<div class="login-container">
