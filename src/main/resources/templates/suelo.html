@@ -19,7 +19,7 @@
             <!-- Selección del Tipo de Suelo -->
             <div class="mb-3">
                 <label for="tipoSueloId" class="form-label">Seleccione el Tipo de Suelo:</label>
-                <select th:field="*{id_tiposuelo}" class="form-control" required>
+                <select th:faield="*{id_tiposuelo}" class="form-control" required>
                     <option value="" disabled selected>Seleccione un Tipo de Suelo</option>
                     <th:block th:each="tiposuelo : ${tiposuelos}">
                         <option th:value="${tiposuelo.id_tiposuelo}" th:text="${tiposuelo.nombre_suelo}"></option>
