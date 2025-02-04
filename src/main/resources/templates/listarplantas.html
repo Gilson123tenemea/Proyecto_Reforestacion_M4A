@@ -8,6 +8,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+	<div th:replace="layout/layoutAdmin :: menu"></div>
+
     <h1 style="text-align: center;" th:text="${titulo}">Lista de Plantas</h1>
 
     <div th:if="${mensaje}" style="color: green; text-align: center;" th:text="${mensaje}"></div>
@@ -36,9 +38,7 @@
                 <td th:text="${planta.tamaño}"></td>
                 <td th:text="${planta.color_hojas}"></td>
                 <td>
-                    <!-- Botón para Editar -->
                     <a th:href="@{/planta/editar/{id}(id=${planta.id_plantas})}" class="btn btn-primary btn-sm">Editar</a>
-                    <!-- Botón para Eliminar -->
                     <a th:href="@{/planta/eliminar/{id}(id=${planta.id_plantas})}" style="color: red; text-decoration: none; font-weight: bold;">Eliminar</a>
                 </td>
             </tr>

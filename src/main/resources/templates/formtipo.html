@@ -15,11 +15,17 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            margin: 0;
+            padding: 0;
         }
 
         header {
             background-color: #d32f2f;
             padding: 10px 0;
+            position: fixed; /* Aseguramos que el menú sea fijo */
+            width: 100%;
+            top: 0;
+            z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
         }
 
         .header-container {
@@ -37,6 +43,11 @@
             color: white;
             font-weight: bold;
             margin: 0;
+        }
+
+        /* Añadir margen al contenido para que quede debajo del menú */
+        .main-content {
+            margin-top: 100px; /* Ajusta este valor según el tamaño del menú */
         }
 
         .form-container {
@@ -69,36 +80,12 @@
             box-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
         }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn {
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn-danger:hover {
-            background-color: #b71c1c;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary:hover {
-            background-color: #757575;
-            transform: scale(1.05);
-        }
-
         .footer {
             background-color: #d32f2f;
             color: white;
             text-align: center;
             padding: 10px;
             margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
         }
 
         .btn {
@@ -127,36 +114,33 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca">
-            <h1>Reforest</h1>
-        </div>
-    </header>
+    <div th:replace="layout/layoutAdmin :: menu"></div>
 
-    <div class="container">
-        <div class="form-container">
-            <h1 th:text="${titulo}">Formulario de Actividad</h1>
-            <form th:action="@{/formtipo}" th:object="${tactividad}" method="post">
-                <div class="mb-3">
-                    <label for="nombre_act" class="form-label">Nombre de la Actividad</label>
-                    <input type="text" class="form-control" id="nombre_act" th:field="*{nombre_act}" placeholder="Nombre">
-                </div>
-                <div class="mb-3">
-                    <label for="duracion" class="form-label">Duración Horas</label>
-                    <input type="text" step="0.01" class="form-control" id="duracion" th:field="*{duracion}" placeholder="Duración">
-                </div>
-                <div class="mb-3">
-                    <label for="frecuencia" class="form-label">Frecuencia</label>
-                    <input type="text" class="form-control" id="frecuencia" th:field="*{frecuencia}" placeholder="Frecuencia">
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" th:field="*{descripcion}" placeholder="Descripción"></textarea>
-                </div>
-                <button type="submit" class="btn">Guardar</button>
-                <input type="hidden" th:field="*{id_tipoActividades}"/>
-            </form>
+    <div class="main-content">
+        <div class="container">
+            <div class="form-container">
+                <h1 th:text="${titulo}">Formulario de Actividad</h1>
+                <form th:action="@{/formtipo}" th:object="${tactividad}" method="post">
+                    <div class="mb-3">
+                        <label for="nombre_act" class="form-label">Nombre de la Actividad</label>
+                        <input type="text" class="form-control" id="nombre_act" th:field="*{nombre_act}" placeholder="Nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="duracion" class="form-label">Duración Horas</label>
+                        <input type="text" step="0.01" class="form-control" id="duracion" th:field="*{duracion}" placeholder="Duración">
+                    </div>
+                    <div class="mb-3">
+                        <label for="frecuencia" class="form-label">Frecuencia</label>
+                        <input type="text" class="form-control" id="frecuencia" th:field="*{frecuencia}" placeholder="Frecuencia">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" th:field="*{descripcion}" placeholder="Descripción"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Guardar</button>
+                    <input type="hidden" th:field="*{id_tipoActividades}"/>
+                </form>
+            </div>
         </div>
     </div>
 
