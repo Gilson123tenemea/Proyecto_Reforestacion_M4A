@@ -70,15 +70,7 @@
 </head>
 
 <body>
-    <header class="d-flex justify-content-between align-items-center">
-        <img src="imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
-        <h1 class="text-white m-0 text-center">Reforest</h1>
-        <nav>
-            <a href="#" class="text-white mx-2">Inicio</a>
-            <a href="#proyectos" class="text-white mx-2">Proyecto</a>
-            <a href="#editar-perfil" class="text-white mx-2">Editar Perfil</a>
-        </nav>
-    </header>
+	<div th:replace="layout/layoutAdmin :: menu"></div>
 
     <div class="container">
         <!-- Selección de Proyecto -->
@@ -267,6 +259,9 @@
             form.submit();  // Enviar el formulario al backend
         }
     </script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
