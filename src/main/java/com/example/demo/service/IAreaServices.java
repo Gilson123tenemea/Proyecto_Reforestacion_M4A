@@ -11,5 +11,5 @@ public interface IAreaServices {
 	public Area findOne(Long id);
 	public void delete(Long id);
 	public List<Area> listarAreas(); 
-
+	public String findProyectoNameByAreaId(Long idArea);
 }

@@ -35,21 +35,17 @@ public class PatrocinioController {
     
     @GetMapping("/verproyectospatrocinador")
     public String listarProyectosYPatrocinios(Model model) {
-        // Recuperar el idPatrocinador de la sesión
+    	
         Long idPatrocinador = (Long) model.asMap().get("idPatrocinador");
-
-        // Obtener todos los proyectos y patrocinios
         List<Proyecto> proyectos = proyectoService.findAll();
         List<Patrocinio> allPatrocinios = patrocinioservice.findAll();
-
-        // Filtrar los patrocinios según el idPatrocinador
         List<Patrocinio> filteredPatrocinios = allPatrocinios.stream()
             .filter(patrocinio -> patrocinio.getId_patrocinador().equals(idPatrocinador))
             .collect(Collectors.toList());
 
         model.addAttribute("titulo", "Proyectos y Patrocinios");
         model.addAttribute("proyectos", proyectos);
-        model.addAttribute("patrocinios", filteredPatrocinios); // Pasar solo los patrocinios filtrados
+        model.addAttribute("patrocinios", filteredPatrocinios); 
         return "verproyectospatrocinador"; 
     }
 
@@ -121,7 +117,7 @@ public class PatrocinioController {
             if (patrocinio.getId_patrocinador() != null) {
                 Usuarios patrocinador = usuarioservice.findOne(patrocinio.getId_patrocinador());
                 model.addAttribute("patrocinador", patrocinador);
-                System.out.println("Patrocinador: " + patrocinador); // Log para verificar
+                System.out.println("Patrocinador: " + patrocinador); 
             }
 
             model.addAttribute("titulo", "Detalles del Patrocinio");

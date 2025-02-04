@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,14 +35,24 @@ public class ParcelaController {
     @Autowired
     private IPlantasService plantaService;
 
-    // Listar Parcelas
     @RequestMapping(value = "/listarparcelas", method = RequestMethod.GET)
     public String listarParcelas(Model model) {
         model.addAttribute("titulo", "Listado de Parcelas");
-        model.addAttribute("parcelas", parcelaservice.findAll());
+        List<Parcelas> parcelas = parcelaservice.findAll();
+        
+        // Crear un mapa para almacenar el nombre del proyecto por ID de parcela
+        Map<Long, String> proyectoNombres = new HashMap<>();
+        
+        // Agregar el nombre del proyecto a cada parcela
+        for (Parcelas parcela : parcelas) {
+            String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
+            proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
+        }
+        
+        model.addAttribute("parcelas", parcelas);
+        model.addAttribute("proyectoNombres", proyectoNombres);
         return "listarparcelas";
     }
-
     // Crear una nueva Parcela
     @RequestMapping(value = "/parcelas", method = RequestMethod.GET)
     public String crear(Map<String, Object> model) {
@@ -128,8 +139,17 @@ public class ParcelaController {
     public String mostrarMapa(Model model) {
         List<Parcelas> parcelas = parcelaservice.findAll();
         model.addAttribute("parcelas", parcelas);
+
+        Map<Long, String> proyectoNombres = new HashMap<>();
+        for (Parcelas parcela : parcelas) {
+            String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
+            proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
+        }
+
+        model.addAttribute("proyectoNombres", proyectoNombres);
         return "mapa";
     }
+    
     @GetMapping("/mapa/{id}")
     public String mostrarMapaParcela(@PathVariable(value = "id") Long id, Model model) {
         List<Parcelas> parcelas = parcelaservice.findAll();

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymelaef.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Mapa, Ecuador</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.3/dist/leaflet-routing-machine.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder@2.0.10/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <style>
-        
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -15,7 +13,6 @@
             background-color: rgb(0, 128, 0);
             color: #333;
         }
-
         h1 {
             text-align: center;
             margin-top: 40px;
@@ -23,8 +20,6 @@
             font-size: 36px;
             font-weight: bold;
         }
-
-        
         #map {
             height: 100vh; 
             width: 100%;
@@ -33,84 +28,6 @@
             margin: 0 auto;
             transition: all 0.5s ease;
         }
-
-        
-        .controls-container {
-            display: flex;
-            justify-content: center;
-            margin: 25px auto;
-        }
-
-        
-        .button {
-            background-color: rgb(0, 166, 0);
-            border: none;
-            color: white;
-            padding: 15px 35px;
-            font-size: 20px;
-            cursor: pointer;
-            border-radius: 30px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            margin: 0 10px;
-        }
-
-        
-        .button:hover {
-            background-color: #2980b9;
-            transform: translateY(-5px);
-        }
-
-       
-        .leaflet-popup-content {
-            font-size: 18px;
-            line-height: 1.6;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .leaflet-popup-content b {
-            color: #3498db;
-        }
-
-        
-        .leaflet-control-layers,
-        .leaflet-control-zoom {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-
-       
-        .leaflet-control-zoom-in,
-        .leaflet-control-zoom-out {
-            background-color: #3498db;
-            color: white;
-            border-radius: 50%;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .leaflet-control-zoom-in:hover,
-        .leaflet-control-zoom-out:hover {
-            background-color: #2980b9;
-        }
-
-        
-        .leaflet-popup-tip {
-            display: none;
-        }
-
-        
-        .leaflet-control-layers {
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        
         .loading-bar {
             position: absolute;
             top: 50%;
@@ -125,123 +42,73 @@
 </head>
 <body>
     <h1>REFOREST - Cajas, Ecuador</h1>
-
-    
-    <div class="controls-container">
-        <button id="howToGetBtn" class="button">Cómo Llegar</button>
-    </div>
-
-    
     <div id="map"></div>
-    
-    
     <div class="loading-bar" id="loading-bar">Cargando...</div>
 
-	<script th:inline="javascript">
-	    document.getElementById("loading-bar").style.display = "block";
+    <script th:inline="javascript">
+        document.getElementById("loading-bar").style.display = "block";
 
-	    var map = L.map('map').setView([-2.838080, -79.224942], 13);
+        var map = L.map('map').setView([-2.838080, -79.224942], 13);
 
-	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-	    }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-	    var sateliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-	        attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
-	        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-	    });
+        var parcelas = /*[[${parcelas}]]*/ [];
+        var proyectoNombres = /*[[${proyectoNombres}]]*/ {};
 
-	    var streetsLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-	        attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
-	        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-	    });
+        console.log(parcelas);
+        console.log(proyectoNombres);
 
-	    var baseLayers = {
-	        "Mapa Base": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-	        "Satelital": sateliteLayer
-	    };
+        var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
 
-	    L.control.layers(baseLayers).addTo(map);
+        parcelas.forEach(function(parcela, index) {
+            if (!parcela || !parcela.y || !parcela.x) {
+                console.warn("Parcela inválida:", parcela);
+                return; // Salta esta iteración si la parcela no es válida
+            }
 
-	    L.control.scale().addTo(map);
+            var centro = [parcela.y, parcela.x];
+            var esquinaSuperiorIzquierda = [
+                centro[0] + (parcela.largo / 2 / 111320),
+                centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+            ];
+            var esquinaInferiorDerecha = [
+                centro[0] - (parcela.largo / 2 / 111320),
+                centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+            ];
 
-	    var parcelas = /*[[${parcelas}]]*/ [];
-	    var parcelaSeleccionada = /*[[${parcelaSeleccionada}]]*/ null;
+            var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
+                color: colores[index % colores.length],
+                weight: 3,
+                fillOpacity: 0.3
+            }).addTo(map);
 
-	    var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
+            var proyectoNombre = proyectoNombres[parcela.id_parcelas] || "No disponible";
 
-	    parcelas.forEach(function(parcela, index) {
-	        var centro = [parcela.y, parcela.x];
+            rectangulo.bindPopup(
+				'<b>Proyecto:</b> ' + proyectoNombre + '<br>'+
+                '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
+                '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
+                '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
+                '<b>Ancho:</b> ' + parcela.ancho + ' m<br>' 
+               
+            );
 
-	        var esquinaSuperiorIzquierda = [
-	            centro[0] + (parcela.largo / 2 / 111320),
-	            centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
-	        ];
-	        var esquinaInferiorDerecha = [
-	            centro[0] - (parcela.largo / 2 / 111320),
-	            centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
-	        ];
+            rectangulo.on('mouseover', function() {
+                this.setStyle({ fillOpacity: 0.5 });
+            });
+            rectangulo.on('mouseout', function() {
+                this.setStyle({ fillOpacity: 0.3 });
+            });
+            rectangulo.on('click', function() {
+                this.openPopup();
+            });
+        });
 
-	        var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
-	            color: colores[index % colores.length],
-	            weight: 3,
-	            fillOpacity: 0.3
-	        }).addTo(map);
-
-	        rectangulo.bindPopup(
-	            '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
-	            '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
-	            '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
-	            '<b>Ancho:</b> ' + parcela.ancho + ' m<br>'
-	        );
-
-	        rectangulo.on('mouseover', function() {
-	            rectangulo.setStyle({ fillOpacity: 0.5 });
-	        });
-	        rectangulo.on('mouseout', function() {
-	            rectangulo.setStyle({ fillOpacity: 0.3 });
-	        });
-
-	        rectangulo.on('click', function() {
-	            rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
-	        });
-
-	       
-	        if (parcelaSeleccionada && parcela.id_parcelas === parcelaSeleccionada.id_parcelas) {
-	            map.setView(centro, 15);
-	            rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
-	            rectangulo.openPopup();
-	        }
-	    });
-
-	    setTimeout(function() {
-	        document.getElementById("loading-bar").style.display = "none";
-	    }, 1000);
-
-	    var routeControl;
-	    document.getElementById('howToGetBtn').addEventListener('click', function() {
-	        var inicio = map.getCenter();
-	        var destinoMarker;
-	        map.once('click', function(event) {
-	            if (destinoMarker) {
-	                map.removeLayer(destinoMarker);
-	            }
-	            destinoMarker = L.marker(event.latlng, {
-	                draggable: true
-	            }).addTo(map).bindPopup('Destino seleccionado').openPopup();
-	            var destino = event.latlng;
-	            if (routeControl) {
-	                map.removeControl(routeControl);
-	            }
-	            routeControl = L.Routing.control({
-	                waypoints: [
-	                    L.latLng(inicio.lat, inicio.lng),
-	                    L.latLng(destino.lat, destino.lng)
-	                ],
-	                routeWhileDragging: true
-	            }).addTo(map);
-	        });
-	    });
-	</script>
+        setTimeout(function() {
+            document.getElementById("loading-bar").style.display = "none";
+        }, 1000);
+    </script>
 </body>
 </html>
