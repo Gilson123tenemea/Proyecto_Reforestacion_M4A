@@ -8,108 +8,92 @@
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-        }
+		body {
+				    font-family: 'Roboto', sans-serif;
+				    background-color: #f4f4f9;
+				    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/imagenes/cuenca.png');
+				    background-size: cover;
+				    background-position: center;
+				    background-attachment: fixed;
+				    margin: 0;
+				    padding: 0;
+				}
 
-        header {
-            background-color: #d32f2f;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+				.main-content {
+				    margin-top: 50px;
+				}
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
+				.form-container {
+				    background: rgba(255, 255, 255, 0.9);
+				    padding: 40px;
+				    border-radius: 15px;
+				    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+				    max-width: 600px;
+				    margin: auto;
+				    transition: transform 0.3s ease-in-out;
+				}
 
-        .header-container img {
-            height: 50px;
-            margin-right: 10px;
-        }
+				.form-container:hover {
+				    transform: translateY(-5px);
+				}
 
-        .header-container h1 {
-            color: white;
-            font-weight: bold;
-            margin: 0;
-        }
+				.form-container h1 {
+				    text-align: center;
+				    color: #444;
+				    font-weight: 700;
+				    font-size: 24px;
+				}
 
-        .main-content {
-            margin-top: 100px;
-        }
+				.form-control {
+				    border-radius: 8px;
+				    border: 1px solid #ccc;
+				    padding: 10px;
+				    font-size: 16px;
+				    transition: all 0.3s ease-in-out;
+				}
 
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: auto;
-            margin-top: 50px;
-            transition: transform 0.3s ease-in-out;
-        }
+				.form-control:focus {
+				    border-color: #d32f2f;
+				    box-shadow: 0 0 12px rgba(211, 47, 47, 0.5);
+				}
 
-        .form-container:hover {
-            transform: scale(1.02);
-        }
+				.btn {
+				    background: linear-gradient(to right, #d32f2f, #b71c1c);
+				    color: white;
+				    border-radius: 8px;
+				    width: 100%;
+				    padding: 12px;
+				    font-size: 18px;
+				    font-weight: bold;
+				    transition: all 0.3s ease-in-out;
+				}
 
-        .form-container h1 {
-            text-align: center;
-            color: #333;
-            font-weight: 700;
-        }
+				.btn:hover {
+				    background: #b71c1c;
+				    transform: scale(1.07);
+				    box-shadow: 0 6px 15px rgba(183, 28, 28, 0.3);
+				}
 
-        .form-control {
-            transition: all 0.3s ease-in-out;
-        }
+				.btn:active {
+				    background: #d32f2f;
+				    transform: scale(0.98);
+				}
 
-        .form-control:focus {
-            border-color: #d32f2f;
-            box-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
-        }
+				.footer {
+				    background-color: #222;
+				    color: white;
+				    text-align: center;
+				    padding: auto;
+				    font-size: 14px;
+				    position: fixed;
+				    bottom: 0;
+				    width: 100%;
+				}
 
-        .footer {
-            background-color: #d32f2f;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
+				.footer p {
+				    margin: 0;
+				}
 
-        .btn {
-            background-color: #d32f2f;
-            color: white;
-            border-radius: 5px;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn:hover {
-            background-color: #b71c1c;
-            transform: scale(1.05);
-        }
-
-        .btn:active {
-            background-color: #d32f2f;
-            transform: scale(0.98);
-        }
-
-        input[type="hidden"] {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -118,7 +102,7 @@
     <div class="main-content">
         <div class="container">
             <div class="form-container">
-                <h1>Formulario de Edición de Suelo</h1>
+                <h1>Formulario de Suelo</h1>
                 <form th:action="@{/guardarsuelo}" th:object="${suelos}" method="post">
                     <input type="hidden" th:field="*{id_suelo}" />
 
@@ -144,15 +128,15 @@
 
                     <div class="mb-3">
                         <button type="submit" class="btn">Guardar</button>
-                        <a th:href="@{/listarsuelo}" class="btn btn-secondary">Cancelar</a>
+                       
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
+	</br>
     <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
+        &copy; 2025 Reforest. Todos los derechos reservados.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
