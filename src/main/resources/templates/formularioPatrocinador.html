@@ -226,7 +226,36 @@
 							</div>
 						</div>
 
-						<!-- Omití los campos de celular y otros no necesarios -->
+						<div class="col-md-6">
+							<label for="celular" class="form-label">Celular:</label>
+							<input type="text" name="celular" id="celular" class="form-control" required>
+						</div>
+
+
+						<div class="mb-3">
+							<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+							<select id="id_provincia" class="form-control" required>
+								<option value="" disabled selected>Seleccione una Provincia</option>
+								<th:block th:each="provincia : ${provincias}">
+									<option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
+									</option>
+								</th:block>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+							<select id="id_canton" class="form-control" required disabled>
+								<option value="" disabled selected>Seleccione un Cantón</option>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+							<select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+								<option value="" disabled selected>Seleccione una Parroquia</option>
+							</select>
+						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
