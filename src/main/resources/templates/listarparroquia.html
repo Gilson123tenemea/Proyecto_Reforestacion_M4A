@@ -1,151 +1,237 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo}">Lista de Parroquias</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${titulo}">Lista de Parroquias</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Importación de fuentes */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+    /* Animación de entrada y estilos generales */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #ffffff;
+      background-image: url('/imagenes/cuenca.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        header {
-            background-color: #d32f2f;
-            padding: 10px 0;
-        }
+    /* Contenedor principal centrado */
+    .container {
+      margin-top: 50px;
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
+    /* Caja contenedora de la tabla con gradiente, bordes redondeados, sombra y transición */
+    .table-container {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .table-container:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
-        .header-container img {
-            height: 50px;
-            margin-right: 10px;
-        }
+    /* Título de la sección */
+    h2 {
+      color: #333333;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 36px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-family: 'Montserrat', sans-serif;
+    }
 
-        .header-container h1 {
-            color: white;
-            font-weight: bold;
-            margin: 0;
-        }
+    /* Estilos de los botones */
+    .btn-primary {
+      background-color: #d32f2f;
+      border-color: #d32f2f;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease-in-out;
+    }
+    .btn-primary:hover {
+      background-color: #b71c1c;
+    }
+    .btn-primary i {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+    .btn-primary span {
+      font-weight: 600;
+    }
+    .btn-warning, .btn-danger {
+      transition: all 0.3s ease-in-out;
+      font-size: 14px;
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+    .btn-warning:hover {
+      background-color: #ff9800;
+    }
+    .btn-danger:hover {
+      background-color: #b71c1c;
+    }
 
-        .container {
-            margin-top: 50px;
-        }
+    /* Estilo para la tabla */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .table th, .table td {
+      text-align: center;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .table thead {
+      background-color: #007bff;
+      color: white;
+      font-weight: 600;
+    }
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
+      transform: scale(1.02);
+      transition: all 0.3s ease-in-out;
+    }
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .table tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+    /* Grupo de botones para acciones */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-group .btn {
+      font-size: 14px;
+      padding: 8px 12px;
+    }
+    .table tbody tr:hover td {
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+    }
 
-        .card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 90%;
-            margin: auto;
-        }
-
-        .card table {
-            width: 100%;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .card table th, .card table td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .card .btn {
-            transition: all 0.3s ease-in-out;
-        }
-
-        .card .btn-primary:hover {
-            background-color: #003366;
-            transform: scale(1.05);
-        }
-
-        .card .btn-danger:hover {
-            background-color: #b71c1c;
-            transform: scale(1.05);
-        }
-
-        .footer {
-            background-color: #d32f2f;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-back {
-            font-weight: bold;
-            text-decoration: none;
-            color: blue;
-        }
-
-        .btn-back:hover {
-            text-decoration: underline;
-        }
-
-        /* Estilo para el título en negrita */
-        .card h1 {
-            font-weight: bold;
-        }
-    </style>
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #e9ecef;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+  <!-- Menú (incluido mediante Thymeleaf) -->
+  <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
 
-    <div class="container">
-        <div class="card">
-            <h1 th:text="${titulo}" class="text-center">Lista de Parroquias</h1>
+  <div class="container">
+    <div class="table-container">
+      <h2 th:text="${titulo}">Lista de Parroquias</h2>
 
-            <div th:if="${mensaje}" class="alert alert-success text-center" role="alert" th:text="${mensaje}"></div>
-            <div th:if="${error}" class="alert alert-danger text-center" role="alert" th:text="${error}"></div>
+      <!-- Mensajes de éxito o error -->
+      <div th:if="${mensaje}" class="alert alert-success" role="alert" th:text="${mensaje}"></div>
+      <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
 
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID Parroquia</th>
-                        <th>Nombre de la Parroquia</th>
-                        <th>ID Cantón</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="parroquia : ${parroquias}">
-                        <td th:text="${parroquia.id_parroquia}"></td>
-                        <td th:text="${parroquia.nombreParroquia}"></td>
-                        <td th:text="${parroquia.id_canton}"></td>
-                        <td>
-                            <!-- Botón para Editar -->
-                            <a th:href="@{/parroquia/editar/{id}(id=${parroquia.id_parroquia})}" class="btn btn-primary btn-sm">Editar</a>
-                            <a th:href="@{/parroquia/eliminar/{id}(id=${parroquia.id_parroquia})}" class="btn btn-danger btn-sm">Eliminar</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+      <!-- Tabla de Parroquias -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID Parroquia</th>
+            <th>Nombre de la Parroquia</th>
+            <th>ID Cantón</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="parroquia : ${parroquias}">
+            <td th:text="${parroquia.id_parroquia}"></td>
+            <td th:text="${parroquia.nombreParroquia}"></td>
+            <td th:text="${parroquia.id_canton}"></td>
+            <td>
+              <div class="btn-group">
+                <a th:href="@{/parroquia/editar/{id}(id=${parroquia.id_parroquia})}" class="btn btn-warning">
+                  <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="#" class="btn btn-danger" th:attr="data-id=${parroquia.id_parroquia}" onclick="confirmarEliminacion(this)">
+                  <i class="fas fa-trash-alt"></i> Eliminar
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-            <div class="text-center mt-3">
-                <a href="/parroquia" class="btn-back">Regresar</a>
-            </div>
-        </div>
+      <!-- Botón de regresar -->
+      <div class="text-center mt-3">
+        <a href="/parroquia" class="btn btn-primary">
+          <i class="fas fa-arrow-left"></i> <span>Regresar</span>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 Mi Proyecto. Todos los derechos reservados.
+  </footer>
+
+  <!-- Script para confirmar eliminación -->
+  <script>
+    function confirmarEliminacion(element) {
+      let id = element.getAttribute("data-id");
+      if (confirm("¿Estás seguro de que deseas eliminar esta parroquia?")) {
+        window.location.href = `/parroquia/eliminar/${id}`;
+      }
+    }
+  </script>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
