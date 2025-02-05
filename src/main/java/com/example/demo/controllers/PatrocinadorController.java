@@ -206,11 +206,86 @@ public class PatrocinadorController {
     
     
     
+    @PostMapping("/ActualizarPatrocinador")
+    public String guardarPatrocinador(@RequestParam(value = "id_usuarios", required = false) Long idUsuario,
+            @RequestParam(value = "id_patrocinador", required = false) Long idPatrocinador,
+            @ModelAttribute("usuario") Usuarios usuario, 
+            @ModelAttribute("patrocinador") Patrocinador patrocinador, 
+            Model model) {
+        try {
+            // Validación de ID de usuario
+            if (idUsuario == null) {
+                model.addAttribute("mensaje", "Error: El ID de usuario no puede estar vacío.");
+                return "error";
+            }
 
-    
-    
-    
-    
+            // Procesamiento de Usuario
+            Usuarios usuarioExistente = usuarioservice.findOne(idUsuario);
+            if (usuarioExistente != null) {
+                usuarioExistente.setId_usuarios(idUsuario);
+
+                // Validación de cada campo para no asignar valores nulos
+                if (usuario.getCedula() != null) {
+                    usuarioExistente.setCedula(usuario.getCedula());
+                }
+                if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
+                    usuarioExistente.setNombre(usuario.getNombre());
+                }
+                if (usuario.getApellido() != null && !usuario.getApellido().isEmpty()) {
+                    usuarioExistente.setApellido(usuario.getApellido());
+                }
+                if (usuario.getCorreo() != null && !usuario.getCorreo().isEmpty()) {
+                    usuarioExistente.setCorreo(usuario.getCorreo());
+                }
+                if (usuario.getFecha_nacimiento() != null) {
+                    usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                }
+                if (usuario.getId_parroquia() != null) {
+                    usuarioExistente.setId_parroquia(usuario.getId_parroquia());
+                }
+                if (usuario.getCelular() != null && !usuario.getCelular().isEmpty()) {
+                    usuarioExistente.setCelular(usuario.getCelular());
+                }
+                if (usuario.getContraseña() != null && !usuario.getContraseña().isEmpty()) {
+                    usuarioExistente.setContraseña(usuario.getContraseña());
+                }
+                usuarioservice.save(usuarioExistente);
+            } else {
+                model.addAttribute("mensaje", "Error: Usuario no encontrado.");
+                return "error";
+            }
+
+            // Procesamiento de Patrocinador
+            if (idPatrocinador != null) {
+                Patrocinador patrocinadorExistente = patrocinadorservice.findOne(idPatrocinador);
+                if (patrocinadorExistente != null) {
+                    patrocinadorExistente.setId_patrocinador(idPatrocinador);
+
+                    // Validación de cada campo para no asignar valores nulos
+                    if (patrocinador.getNombreEmpresa() != null && !patrocinador.getNombreEmpresa().isEmpty()) {
+                        patrocinadorExistente.setNombreEmpresa(patrocinador.getNombreEmpresa());
+                    }
+                    if (patrocinador.getRuc() != null && !patrocinador.getRuc().isEmpty()) {
+                        patrocinadorExistente.setRuc(patrocinador.getRuc());
+                    }
+                    patrocinadorservice.save(patrocinadorExistente);
+                } else {
+                    model.addAttribute("mensaje", "Error: Patrocinador no encontrado.");
+                    return "error";
+                }
+            } else {
+                // Si idPatrocinador es null, se guarda un nuevo patrocinador
+                patrocinadorservice.save(patrocinador);
+            }
+
+            return "redirect:/verproyectospatrocinador";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
+            return "error";
+        }
+    }
+
+   
     
     @RequestMapping(value="/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id) {
