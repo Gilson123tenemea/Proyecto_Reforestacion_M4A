@@ -34,4 +34,6 @@ public interface IEquiposDao {
 	List<Object[]> findActividadesPorHacerDeTodos();
 
 	List<Object[]> findActividadesRealizadas(Long voluntarioId);
+	
+	List<Equipos> findByProyectoId(Long idProyecto);  // Método nuevo
 }

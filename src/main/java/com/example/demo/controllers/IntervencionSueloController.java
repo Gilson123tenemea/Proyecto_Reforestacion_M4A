@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Area;
 import com.example.demo.entity.Canton;
+import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Intervencion_Suelo;
 import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.service.IAreaServices;
+import com.example.demo.service.IEquiposService;
 import com.example.demo.service.IIntervencionSueloServices;
 import com.example.demo.service.IProyectoServices;
 
@@ -30,6 +32,9 @@ public class IntervencionSueloController {
 
     @Autowired
     private IProyectoServices proyectoService;
+    
+    @Autowired
+    private IEquiposService equiposService;
 
     @RequestMapping(value = "/listarIntervenciones", method = RequestMethod.GET)
     public String listar(Model model) {
@@ -44,15 +49,17 @@ public class IntervencionSueloController {
         model.addAttribute("intervencion", intervencion);
         model.addAttribute("titulo", "Formulario de Intervenciones");
 
-        // Cargar áreas y proyectos
+        // Cargar áreas, proyectos y equipos
         List<Area> areas = areaService.findAll();
         List<Proyecto> proyectos = proyectoService.findAll();
+        List<Equipos> equipos = equiposService.findAll(); // Asegúrate de tener el servicio para Equipos
 
         model.addAttribute("areas", areas);
         model.addAttribute("proyectos", proyectos);
+        model.addAttribute("equipos", equipos); // Agregar lista de equipos
 
         return "formularioIntervenciones"; 
-    }    
+    }
     
     @RequestMapping(value = "/formularioIntervenciones", method = RequestMethod.POST)
     public String guardar(Intervencion_Suelo inter, Model model) {
@@ -86,6 +93,13 @@ public class IntervencionSueloController {
     public List<Proyecto> getProyectosPorArea(@PathVariable Long idArea) {
         return proyectoService.findByAreaId(idArea);
     }
+    
+    @GetMapping("/equiposPorProyecto/{idProyecto}")
+    @ResponseBody
+    public List<Equipos> getEquiposPorProyecto(@PathVariable Long idProyecto) {
+        return equiposService.findEquiposPorProyecto(idProyecto);
+    }
+
     
   
     

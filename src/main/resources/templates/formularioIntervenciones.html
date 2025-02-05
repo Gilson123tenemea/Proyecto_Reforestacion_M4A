@@ -30,19 +30,29 @@
                             th:value="${area.id_area}" 
                             th:text="${area.nombre}"></option>
                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="idProyecto" class="form-label">Proyecto:</label>
-                <select id="idProyecto" name="idProyecto" class="form-control" required>
-                    <option value="" disabled selected>Seleccione un proyecto</option>
-                </select>
-            </div>
+				<div class="mb-3">
+				    <label for="idProyecto" class="form-label">Proyecto:</label>
+				    <select id="idProyecto" name="idProyecto" class="form-control" required onchange="cargarEquiposPorProyecto(this.value)">
+				        <option value="" disabled selected>Seleccione un proyecto</option>
+				        <option th:each="proyecto : ${proyectos}" 
+				                th:value="${proyecto.id_proyecto}" 
+				                th:text="${proyecto.nombre}"></option>
+				    </select>
+				</div>
+
+				<div class="mb-3">
+				    <label for="idEquipo" class="form-label">Equipo:</label>
+				    <select id="idEquipo" name="idEquipo" class="form-control" required>
+				        <option value="" disabled selected>Seleccione un equipo</option>
+				    </select>
+				</div>
             <div class="mb-3">
                 <label for="idParcela" class="form-label">Parcela:</label>
                 <select id="idParcela" name="idParcela" class="form-control" required>
                     <option value="" disabled selected>Seleccione una parcela</option>
                 </select>
             </div>
+			
         </form>
 
         <form th:action="@{/formularioIntervenciones}" th:object="${intervencion}" method="post">
@@ -138,6 +148,44 @@
                 parcelaSelect.appendChild(defaultOptionParcela);
             }
         }
+		function cargarEquiposPorProyecto(proyectoId) {
+		    const equipoSelect = document.getElementById('idEquipo');
+		    equipoSelect.innerHTML = ''; // Limpiar opciones anteriores
+
+		    if (proyectoId) {
+		        fetch(`/equiposPorProyecto/${proyectoId}`)
+		            .then(response => {
+		                if (!response.ok) {
+		                    throw new Error('Error al cargar equipos');
+		                }
+		                return response.json();
+		            })
+		            .then(data => {
+		                console.log(data); // Agrega este log para depuración
+		                const defaultOption = document.createElement('option');
+		                defaultOption.value = '';
+		                defaultOption.disabled = true;
+		                defaultOption.selected = true;
+		                defaultOption.textContent = 'Seleccione un equipo';
+		                equipoSelect.appendChild(defaultOption);
+
+		                data.forEach(equipo => {
+		                    const option = document.createElement('option');
+		                    option.value = equipo.id_equipos;
+		                    option.textContent = equipo.nombre;
+		                    equipoSelect.appendChild(option);
+		                });
+		            })
+		            .catch(error => console.error('Error:', error));
+		    } else {
+		        const defaultOption = document.createElement('option');
+		        defaultOption.value = '';
+		        defaultOption.disabled = true;
+		        defaultOption.selected = true;
+		        defaultOption.textContent = 'Seleccione un equipo';
+		        equipoSelect.appendChild(defaultOption);
+		    }
+		}
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -13,6 +13,7 @@ import com.example.demo.entity.Voluntarios;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class EquiposDaoImpl implements IEquiposDao {
@@ -147,5 +148,19 @@ public class EquiposDaoImpl implements IEquiposDao {
 				"Select T.nombre_act, a.id_asignacionproyecto from Tipo_Actividades T JOIN Asignacion_proyectoActi a on T.id_tipoActividades = a.id_tipoActividades where  a.id_proyecto = :id_proyecto")
 				.setParameter("id_proyecto", id_proyecto).getResultList();
 	}
+	
+	
+	
+
+	@Override
+	public List<Equipos> findByProyectoId(Long idProyecto) {
+	    return em.createQuery(
+	        "SELECT e FROM Equipos e WHERE e.id_asignacionproyecto = :idProyecto", 
+	        Equipos.class)
+	        .setParameter("idProyecto", idProyecto)
+	        .getResultList();
+	}
+
+
 
 }

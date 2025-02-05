@@ -17,7 +17,7 @@ public interface IEquiposService {
 	public List<Tipo_Actividades> listarActividades(Long id_proyecto);
 	public List<Usuarios> listarVoluntariosPorProyecto(Long id);
 	public List<Voluntarios> ObtenerVoluntario(String cedula); 
-
+	List<Equipos> findEquiposPorProyecto(Long idProyecto);
 	 
 
 }

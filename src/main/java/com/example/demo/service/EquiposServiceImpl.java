@@ -106,5 +106,10 @@ public class EquiposServiceImpl implements IEquiposService {
 		// TODO Auto-generated method stub
 		return equiposdao.listarActividades(id_proyecto);
 	}
+	
+    @Override
+    public List<Equipos> findEquiposPorProyecto(Long idProyecto) {
+        return equiposdao.findByProyectoId(idProyecto);
+    }
 
 }
