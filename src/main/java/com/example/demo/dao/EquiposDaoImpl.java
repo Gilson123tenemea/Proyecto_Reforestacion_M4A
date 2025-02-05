@@ -102,11 +102,13 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 	@Override
 	public void save(Equipos equipos) {
-		if (equipos.getId_equipos() != null && equipos.getId_equipos() > 0) {
-			em.merge(equipos);
-		} else {
-			em.persist(equipos);
-		}
+	    if (equipos.getId_equipos() != null && equipos.getId_equipos() > 0) {
+	        // Si el ID existe, actualiza el equipo
+	        em.merge(equipos);
+	    } else {
+	        // Si no existe el ID, crea un nuevo equipo
+	        em.persist(equipos);
+	    }
 
 	}
 

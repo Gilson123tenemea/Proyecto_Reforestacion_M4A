@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,11 +33,11 @@ public class IntervencionSueloController {
 
     @Autowired
     private IProyectoServices proyectoService;
-    
+
     @Autowired
     private IEquiposService equiposService;
 
-    @RequestMapping(value = "/listarIntervenciones", method = RequestMethod.GET)
+    @RequestMapping(value = "/Listaintervencion", method = RequestMethod.GET)
     public String listar(Model model) {
         model.addAttribute("titulo", "Listado de intervenciones");
         model.addAttribute("Intervenciones", intervencionservice.findAll());
@@ -52,55 +53,67 @@ public class IntervencionSueloController {
         // Cargar áreas, proyectos y equipos
         List<Area> areas = areaService.findAll();
         List<Proyecto> proyectos = proyectoService.findAll();
-        List<Equipos> equipos = equiposService.findAll(); // Asegúrate de tener el servicio para Equipos
+        List<Equipos> equipos = equiposService.findAll();
 
         model.addAttribute("areas", areas);
         model.addAttribute("proyectos", proyectos);
-        model.addAttribute("equipos", equipos); // Agregar lista de equipos
+        model.addAttribute("equipos", equipos);
 
         return "formularioIntervenciones"; 
     }
-    
-    @RequestMapping(value = "/formularioIntervenciones", method = RequestMethod.POST)
-    public String guardar(Intervencion_Suelo inter, Model model) {
-        intervencionservice.save(inter);
-        return "redirect:/listarIntervenciones"; 
-    }
 
-    @RequestMapping(value = "/formularioIntervenciones/{id}")
-    public String editar(@PathVariable(value = "id") Long id, Model model) {
-        Intervencion_Suelo intervencion = null;
-        if (id > 0) {
-            intervencion = intervencionservice.findOne(id);
-        } else {
-            return "redirect:/listarIntervenciones";
+    @RequestMapping(value = "/formularioIntervenciones", method = RequestMethod.POST)
+    public String guardar(@ModelAttribute Intervencion_Suelo inter, Model model) {
+        try {
+            // Imprimir para depuración
+            System.out.println("Intervención a guardar: " + inter);
+            // Guarda la intervención, el método save se encargará de crear o actualizar
+            intervencionservice.save(inter);
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al guardar la intervención: " + e.getMessage());
+            return "formularioIntervenciones"; 
         }
+        return "redirect:/Listaintervencion"; 
+    }    
+    
+    @RequestMapping(value = "/formularioIntervenciones/{id}", method = RequestMethod.GET)
+    public String editar(@PathVariable(value = "id") Long id, Model model) {
+        Intervencion_Suelo intervencion = intervencionservice.findOne(id);
+        if (intervencion == null) {
+            return "redirect:/Listaintervencion"; // Cambié esto a la ruta correcta
+        }
+
+        // Cargar áreas, proyectos y equipos
+        List<Area> areas = areaService.findAll();
+        List<Proyecto> proyectos = proyectoService.findAll();
+        List<Equipos> equipos = equiposService.findAll();
+
         model.addAttribute("intervencion", intervencion);
         model.addAttribute("titulo", "Editar Intervenciones");
+        model.addAttribute("areas", areas);
+        model.addAttribute("proyectos", proyectos);
+        model.addAttribute("equipos", equipos);
+
         return "formularioIntervenciones";
     }
 
-    @RequestMapping(value = "/eliminarintervenciones/{id}")
+    @RequestMapping(value = "/eliminarintervenciones/{id}", method = RequestMethod.GET)
     public String eliminar(@PathVariable(value = "id") Long id) {
         if (id > 0) {
             intervencionservice.delete(id);
         }
-        return "redirect:/listarIntervenciones";
+        return "redirect:/Listaintervencion"; // Cambié esto a la ruta correcta
     }
-    
+
     @GetMapping("/proyectosPorArea/{idArea}")
     @ResponseBody
     public List<Proyecto> getProyectosPorArea(@PathVariable Long idArea) {
         return proyectoService.findByAreaId(idArea);
     }
-    
+
     @GetMapping("/equiposPorProyecto/{idProyecto}")
     @ResponseBody
     public List<Equipos> getEquiposPorProyecto(@PathVariable Long idProyecto) {
         return equiposService.findEquiposPorProyecto(idProyecto);
     }
-
-    
-  
-    
 }
