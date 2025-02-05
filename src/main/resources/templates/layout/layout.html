@@ -10,68 +10,82 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            background-color: #ffffff;
+            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
         }
 
         header {
             background-color: #d32f2f;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            max-height: 30px;
+            max-height: 40px;
         }
 
         .carousel-item img {
-            height: 400px; /* Ajusta la altura del carrusel */
-            object-fit: cover; /* Para mantener la proporción de la imagen */
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
         .container {
             padding: 20px;
-			
         }
 
-		.card {
-		    background: white;
-		    border-radius: 8px;
-		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-		    margin: 20px 0;
-		    text-align: center;
-		    min-height: 350px; /* Altura mínima para uniformidad */
-		    padding: 20px; /* Agregar padding para un mejor espaciado */
-		}
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            text-align: center;
+            min-height: 350px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
 
         footer {
             text-align: center;
-			background-color: #d32f2f;
-            color: #777;
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
         }
 
         .section {
-			background: white;
-			border-radius: 8px;
-		    margin: 20px 0;
-			text-align: center;
-		    min-height: 350px; /* Altura mínima para uniformidad */
-			padding: 20px; /* Agregar padding para un mejor espaciado */
-			margin-left: 4%;
-			margin-right: 4%;
+            background: white;
+            border-radius: 10px;
+            margin: 20px 4%;
+            text-align: center;
+            min-height: 350px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .contact {
             background-color: #d32f2f;
             color: white;
             padding: 50px 20px;
+            border-radius: 10px;
+            margin: 20px 4%;
         }
-		.description {
-		           margin-top: 20px;
-		           padding: 20px;
-		           background-color: #fff3cd; /* Fondo amarillo claro */
-		           border: 1px solid #ffeeba; /* Borde amarillo */
-		           border-radius: 5px;
-		       }
+
+        .description {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
 
         form {
             display: flex;
@@ -85,6 +99,8 @@
             padding: 10px;
             width: 80%;
             max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         button {
@@ -94,6 +110,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         button:hover {
@@ -101,11 +118,46 @@
             color: white;
         }
 
-        /* Estilo para el canvas del gráfico */
         .chart-container {
             max-width: 80%;
             margin: auto;
-			
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
         }
     </style>
 </head>
@@ -113,7 +165,7 @@
 <body>
 
     <header class="d-flex justify-content-between align-items-center">
-		<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
+        <img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
         <h1 class="text-white m-0 text-center">Reforest</h1>
         <nav>
             <a href="/" class="text-white mx-2">Inicio</a>
@@ -135,53 +187,52 @@
                 </div>
             </div>
         </div>
-		<div class="description">
-		           
-		            <p>El objetivo de este proyecto se basa en combatir las zonas de deforestación que fueron afectadas durante los últimos meses. A través de diversas iniciativas, buscamos restaurar ecosistemas, promover la reforestación y concienciar a la comunidad sobre la importancia de preservar nuestros recursos naturales.</p>
-		        </div>
+        <div class="description">
+            <p>El objetivo de este proyecto se basa en combatir las zonas de deforestación que fueron afectadas durante los últimos meses. A través de diversas iniciativas, buscamos restaurar ecosistemas, promover la reforestación y concienciar a la comunidad sobre la importancia de preservar nuestros recursos naturales.</p>
+        </div>
 
         <h2 class="text-center mt-4">Noticias</h2>
         <div class="row">
-			<div class="col-md-4">
-			    <div class="card">
-			        <h3>
-			            <a href="https://larepublica.pe/mundo/2024/09/04/se-reportan-en-ecuador-al-menos-12-incendios-forestales-en-7-provincias-concentraciones-de-particulas-daninas-132616" target="_blank" style="text-decoration: none; color: inherit;">
-			                Se reportan en Ecuador al menos 12 incendios forestales en 7 provincias: “Concentraciones de partículas dañinas”
-			            </a>
-			        </h3>
-			        <a href="https://larepublica.pe/mundo/2024/09/04/se-reportan-en-ecuador-al-menos-12-incendios-forestales-en-7-provincias-concentraciones-de-particulas-daninas-132616" target="_blank">
-			            <img src="/imagenes/bom.png" alt="Noticia 1" class="img-fluid">
-			        </a>
-			        <p>El humo y partículas finas elevan los índices de contaminación a niveles “poco saludables” y comprometen la salud de grupos vulnerables. Las autoridades locales avisan sobre los riesgos.</p>
-			    </div>
-			</div>
-			<div class="col-md-4">
-			    <div class="card">
-			        <h3>
-			            <a href="https://www.expreso.ec/cuenca/cuatro-denuncias-incendios-forestales-fiscalia-azuay-investiga-221263.html" target="_blank" style="text-decoration: none; color: inherit;">
-			                Cuatro denuncias por incendios forestales en Cuenca: Fiscalía de Azuay investiga
-			            </a>
-			        </h3>
-			        <a href="https://www.expreso.ec/cuenca/cuatro-denuncias-incendios-forestales-fiscalia-azuay-investiga-221263.html" target="_blank">
-			            <img src="/imagenes/bero.png" alt="Noticia 2" class="img-fluid">
-			        </a>
-			        <p>Cuatro denuncias se han presentado en la Fiscalía de Azuay por los incendios forestales que afectan al Parque Nacional Cajas en Cuenca. Leonardo Amoroso, fiscal de Azuay, informó que estas fueron presentadas por la Empresa de (Etapa EP).</p>
-			    </div>
-			</div>
-			<div class="col-md-4">
-			    <div class="card">
-			        <h3>
-			            <a href="https://www.expreso.ec/provincias/azuay-468-incendios-han-registrado-2024-220786.html" target="_blank" style="text-decoration: none; color: inherit;">
-			                Azuay: 468 incendios se han registrado en 2024
-			                Este 2024 es considerado el de mayor afectación ambiental en la provincia de Azuaya debido a los incendios forestales
-			            </a>
-			        </h3>
-			        <a href="https://www.expreso.ec/provincias/azuay-468-incendios-han-registrado-2024-220786.html" target="_blank">
-			            <img src="/imagenes/be.png" alt="Noticia 3" class="img-fluid">
-			        </a>
-			        <p>Con 6.800 hectáreas afectadas en lo que va del 2024, este año es el de mayor afectación ambiental en la provincia de Azuay que ha sido azotada por los incendios forestales.</p>
-			    </div>
-			</div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h3>
+                        <a href="https://larepublica.pe/mundo/2024/09/04/se-reportan-en-ecuador-al-menos-12-incendios-forestales-en-7-provincias-concentraciones-de-particulas-daninas-132616" target="_blank" style="text-decoration: none; color: inherit;">
+                            Se reportan en Ecuador al menos 12 incendios forestales en 7 provincias: “Concentraciones de partículas dañinas”
+                        </a>
+                    </h3>
+                    <a href="https://larepublica.pe/mundo/2024/09/04/se-reportan-en-ecuador-al-menos-12-incendios-forestales-en-7-provincias-concentraciones-de-particulas-daninas-132616" target="_blank">
+                        <img src="/imagenes/bom.png" alt="Noticia 1" class="img-fluid">
+                    </a>
+                    <p>El humo y partículas finas elevan los índices de contaminación a niveles “poco saludables” y comprometen la salud de grupos vulnerables. Las autoridades locales avisan sobre los riesgos.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h3>
+                        <a href="https://www.expreso.ec/cuenca/cuatro-denuncias-incendios-forestales-fiscalia-azuay-investiga-221263.html" target="_blank" style="text-decoration: none; color: inherit;">
+                            Cuatro denuncias por incendios forestales en Cuenca: Fiscalía de Azuay investiga
+                        </a>
+                    </h3>
+                    <a href="https://www.expreso.ec/cuenca/cuatro-denuncias-incendios-forestales-fiscalia-azuay-investiga-221263.html" target="_blank">
+                        <img src="/imagenes/bero.png" alt="Noticia 2" class="img-fluid">
+                    </a>
+                    <p>Cuatro denuncias se han presentado en la Fiscalía de Azuay por los incendios forestales que afectan al Parque Nacional Cajas en Cuenca. Leonardo Amoroso, fiscal de Azuay, informó que estas fueron presentadas por la Empresa de (Etapa EP).</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h3>
+                        <a href="https://www.expreso.ec/provincias/azuay-468-incendios-han-registrado-2024-220786.html" target="_blank" style="text-decoration: none; color: inherit;">
+                            Azuay: 468 incendios se han registrado en 2024
+                            Este 2024 es considerado el de mayor afectación ambiental en la provincia de Azuaya debido a los incendios forestales
+                        </a>
+                    </h3>
+                    <a href="https://www.expreso.ec/provincias/azuay-468-incendios-han-registrado-2024-220786.html" target="_blank">
+                        <img src="/imagenes/be.png" alt="Noticia 3" class="img-fluid">
+                    </a>
+                    <p>Con 6.800 hectáreas afectadas en lo que va del 2024, este año es el de mayor afectación ambiental en la provincia de Azuay que ha sido azotada por los incendios forestales.</p>
+                </div>
+            </div>
         </div>
 
         <div class="card mt-4">
@@ -195,50 +246,50 @@
     <div id="proyectos" class="section">
         <h2>Proyectos</h2>
         <div class="card">
-            <p>Aquí puedes agregar información sobre tus proyectos.Alvaro Diaz</p>
+            <p>Aquí puedes agregar información sobre tus proyectos. Alvaro Diaz</p>
             <img src="https://via.placeholder.com/300x200.png?text=Imagen+de+Proyectos" alt="Proyectos"
                 class="img-fluid">
         </div>
     </div>
 
-	<div id="reportes" class="section">
-	    <h2>Reportes</h2>
-	    <div class="row">
-	        <div class="col-md-6">
-	            <div class="card">
-	                <h3>Gráfico de Barras (Rojo)</h3>
-	                <div class="chart-container">
-	                    <canvas id="myChart1"></canvas>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="col-md-6">
-	            <div class="card">
-	                <h3>Gráfico de Líneas (Azul)</h3>
-	                <div class="chart-container">
-	                    <canvas id="myChart2"></canvas>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    <div class="card mt-4">
-	        <h3>Gráfico de Barras (Verde Claro)</h3>
-	        <div class="chart-container">
-	            <canvas id="myChart3"></canvas>
-	        </div>
-	    </div>
-	</div>
+    <div id="reportes" class="section">
+        <h2>Reportes</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <h3>Gráfico de Barras (Rojo)</h3>
+                    <div class="chart-container">
+                        <canvas id="myChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3>Gráfico de Líneas (Azul)</h3>
+                    <div class="chart-container">
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <h3>Gráfico de Barras (Verde Claro)</h3>
+            <div class="chart-container">
+                <canvas id="myChart3"></canvas>
+            </div>
+        </div>
+    </div>
 
-	<div class="contact">
-	        <h2>Contáctanos</h2>
-	        <p>Si tienes alguna pregunta o comentario, no dudes en contactarnos.</p>
-	        <form>
-	            <input type="text" placeholder="Tu nombre" required>
-	            <input type="email" placeholder="Tu email" required>
-	            <textarea placeholder="Tu mensaje" required></textarea>
-	            <button type="submit">Enviar</button>
-	        </form>
-	    </div>
+    <div class="contact">
+        <h2>Contáctanos</h2>
+        <p>Si tienes alguna pregunta o comentario, no dudes en contactarnos.</p>
+        <form>
+            <input type="text" placeholder="Tu nombre" required>
+            <input type="email" placeholder="Tu email" required>
+            <textarea placeholder="Tu mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -325,8 +376,7 @@
     </script>
 </body>
 
-
-<footer style="background-color: #d32f2f; color: white; padding: 10px 0;">
+<footer>
     <p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
 </footer>
 
