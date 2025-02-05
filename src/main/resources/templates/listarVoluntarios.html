@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo}">Listado de Voluntarios y Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #ffffff;
@@ -13,145 +17,136 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-        }
-
-        header {
-            background-color: #d32f2f;
-            padding: 10px 0;
-        }
-
-        .header-container {
             display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            margin-top: 50px;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            padding: 0 20px;
-        }
-
-        .header-container img {
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .header-container h1 {
-            color: white;
-            font-weight: bold;
-            margin: 0;
+            padding: 20px;
         }
 
         .table-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-            margin: auto;
-            margin-top: 50px;
-            transition: transform 0.3s ease-in-out;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .table-container:hover {
-            transform: scale(1.02);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .table-container h1 {
-            text-align: center;
-            color: #333;
+        h2 {
+            color: #333333;
             font-weight: 700;
             margin-bottom: 30px;
+            font-size: 36px;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .btn-group {
-            display: flex;
-            justify-content: space-evenly;
-            margin-top: 10px;
+        .table th, .table td {
+            text-align: center;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
         }
 
-        .btn {
-            padding: 8px 20px;
-            font-size: 14px;
-            border-radius: 5px;
-            width: 120px;
+        .table thead {
+            background-color: #d32f2f;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.02);
             transition: all 0.3s ease-in-out;
         }
 
-        .btn-danger {
+        .btn-primary, .btn-warning, .btn-danger {
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .btn-primary {
             background-color: #d32f2f;
-            color: white;
+            border-color: #d32f2f;
+        }
+
+        .btn-primary:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn-warning:hover {
+            background-color: #ff9800;
         }
 
         .btn-danger:hover {
             background-color: #b71c1c;
-            transform: scale(1.05);
-        }
-
-        .btn-warning {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
         }
 
         .footer {
-            background-color: #d32f2f;
-            color: white;
             text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        .table td {
-            padding: 12px;
-        }
-
-        .table th {
-            background-color: #d32f2f;
-            color: white;
-        }
-
-        .table-wrapper {
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            font-weight: 500;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-
-	<div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+    <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
 
     <div class="container">
         <div class="table-container">
-            <h1 th:text="${titulo}">Listado de Voluntarios y Usuarios</h1>
+            <h2 th:text="${titulo}">Listado de Voluntarios y Usuarios</h2>
 
-            <!-- Mensajes de éxito o error -->
-            <div th:if="${success}" class="alert alert-success">
+            <a href="/voluntarios" class="btn btn-primary mb-3">
+                <i class="fas fa-plus"></i> Agregar Voluntario
+            </a>
+
+            <div th:if="${success}" class="alert alert-success" role="alert">
                 <p th:text="${success}"></p>
             </div>
-            <div th:if="${error}" class="alert alert-danger">
+            <div th:if="${error}" class="alert alert-danger" role="alert">
                 <p th:text="${error}"></p>
             </div>
 
-            <!-- Contenedor con scroll para la tabla -->
-            <div class="table-wrapper">
-                <table class="table table-bordered mt-4">
-                    <thead class="thead-dark">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
                             <th>ID Voluntario</th>
                             <th>Cédula</th>
-                            <th>Nombre Usuario</th>
-                            <th>Apellido Usuario</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>Correo</th>
                             <th>Fecha Nacimiento</th>
-                            <th>Genero</th>
+                            <th>Género</th>
                             <th>Celular</th>
-                            <th>Contraseña</th>
                             <th>Experiencia</th>
                             <th>Estado</th>
                             <th>Disponibilidad</th>
@@ -169,18 +164,13 @@
                             <td th:text="${item['usuario'].fecha_nacimiento}"></td>
                             <td th:text="${item['usuario'].genero}"></td>
                             <td th:text="${item['usuario'].celular}"></td>
-                            <td th:text="${item['usuario'].contraseña}"></td>
                             <td th:text="${item['voluntarios'].experiencia}"></td>
                             <td th:text="${item['voluntarios'].estado}"></td>
                             <td th:text="${item['voluntarios'].disponibilidad}"></td>
                             <td th:text="${item['voluntarios'].fechaRegistro}"></td>
-
                             <td class="btn-group">
-                                <!-- Botón Editar -->
                                 <a th:href="@{/voluntarios?id={id}(id=${item['voluntarios'].id_voluntario})}" class="btn btn-warning btn-sm">Editar</a>
-                                <!-- Botón Eliminar -->
-                                <form th:action="@{/deletevoluntario/{id}(id=${item['voluntarios'].id_voluntario})}" method="post"
-                                    onsubmit="return confirm('¿Estás seguro de que quieres eliminar este voluntario?');">
+                                <form th:action="@{/deletevoluntario/{id}(id=${item['voluntarios'].id_voluntario})}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este voluntario?');">
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                 </form>
                             </td>
@@ -188,18 +178,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Botón para agregar un nuevo voluntario -->
-            <div class="btn-group">
-                <a href="/voluntarios" class="btn btn-danger">Agregar Voluntario</a>
-            </div>
         </div>
     </div>
 
-    <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <footer class="footer">&copy; 2025 Mi Proyecto. Todos los derechos reservados.</footer>
 </body>
 </html>
