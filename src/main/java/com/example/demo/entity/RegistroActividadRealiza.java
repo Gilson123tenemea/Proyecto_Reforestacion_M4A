@@ -1,15 +1,19 @@
 package com.example.demo.entity;
 import java.io.Serializable;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "registroactividadesrealiza",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_intervencion_suelo","id_registroactividadrealizada","id_registroactividadrealizada"})})
+@Table(name = "registroactividadesrealiza",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_intervencion_suelo","id_registroactividadrealizada"})})
 public class RegistroActividadRealiza implements Serializable{
 
 	@Id
@@ -20,8 +24,14 @@ public class RegistroActividadRealiza implements Serializable{
 	
 	private int cantidad_realizada;
 	private String descripcion;
-	private String foto;
 	
+	
+	@Lob
+	@Column(name = "foto", columnDefinition = "LONGBLOB")
+	private byte[] foto;
+
+
+
 	private Boolean validacion_admin_tareaRealizada;
 	private Boolean validacion_voluntario_tareaRealizada;
 	
@@ -67,12 +77,18 @@ public class RegistroActividadRealiza implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public String getFoto() {
+	
+
+	public byte[] getFoto() {
 		return foto;
 	}
 
-	public void setFoto(String foto) {
+	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Boolean getValidacion_admin_tareaRealizada() {
@@ -95,4 +111,6 @@ public class RegistroActividadRealiza implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-}
+		
+	}
+

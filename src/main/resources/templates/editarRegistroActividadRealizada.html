@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Actividad</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .vista-previa {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        #vistaPrevia {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+    <script>
+        function mostrarVistaPrevia(event) {
+            let reader = new FileReader();
+            reader.onload = function(){
+                let output = document.getElementById('vistaPrevia');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Actividad</h1>
+
+        <!-- Mensajes de error o éxito -->
+        <p th:if="${error}" class="alert alert-danger" th:text="${error}"></p>
+        <p th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></p>
+
+        <!-- Formulario de edición -->
+        <form action="/registro-actividad/actualizar" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id_registroactividadrealizada" th:value="${actividad.id_registroactividadrealizada}">
+
+            <div class="form-group">
+                <label for="cantidad_realizada">Cantidad Realizada:</label>
+                <input type="number" id="cantidad_realizada" name="cantidad_realizada" 
+                       th:value="${actividad.cantidad_realizada}">
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" 
+                          th:text="${actividad.descripcion}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="foto">Foto:</label>
+                <input type="file" id="foto" name="foto" accept="image/jpeg, image/png" 
+                       onchange="mostrarVistaPrevia(event)">
+                <small>Formato permitido: JPG, PNG</small>
+                <div class="vista-previa">
+                    <img id="vistaPrevia" src="#" alt="Vista previa de la imagen" />
+                </div>
+            </div>
+
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</body>
+</html>
