@@ -69,9 +69,9 @@ public class LoginControlador {
 
         switch (rol) {
             case "superadmin":
-                return "redirect:/administrador";
+                return "redirect:/iniciosuperadmin";
             case "administrador":
-                return "redirect:/suelo";
+                return "redirect:/inicioadmin";
             case "voluntario":
                 return "redirect:/iniciovoluntario";
             case "patrocinador":
