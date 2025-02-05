@@ -19,14 +19,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Administrador;
+import com.example.demo.entity.Canton;
+import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Provincia;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.IAdministradorServices;
+import com.example.demo.service.ICantonService;
+import com.example.demo.service.IParroquiaService;
+import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
 @Controller
+//@RestController
 public class ControladorAdministrador {
 	
 	@Autowired
@@ -34,15 +43,27 @@ public class ControladorAdministrador {
 	
 	@Autowired
 	private IUsuarioServices usuarioServices;
-	
-	 @InitBinder
+	  @Autowired
+	    private IProvinciaService provinciaService;
+
+	    @Autowired
+	    private ICantonService cantonService;
+
+	    @Autowired
+	    private IParroquiaService parroquiaService;
+
+	    @InitBinder
 	    public void initBinder(WebDataBinder binder) {
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        dateFormat.setLenient(false);
 	        binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
 	    }
 
-	
+	   // @GetMapping("/testProvincias")
+	    @ResponseBody
+	    public List<Provincia> testProvincias() {
+	        return provinciaService.findAll(); // Verifica si esto devuelve datos
+	    }
 
 	@GetMapping("/listarAdministradores")
 	public String listarAdministradores(Model model) {
@@ -67,13 +88,10 @@ public class ControladorAdministrador {
 	    return "listarAdministradores";
 	}
 
-	@RequestMapping(value = "/administrador", method = RequestMethod.GET)
-	public String listarYEditar(
-	        @RequestParam(value = "id", required = false) Long id,
-	        Map<String, Object> model,
-	        RedirectAttributes flash) {
+//	@RequestMapping(value = "/administrador", method = RequestMethod.GET)
+	public String listarYEditar(@RequestParam(value = "id", required = false) Long id, Map<String, Object> model, RedirectAttributes flash) {
 	    Administrador administrador = new Administrador();
-	    Usuarios usuario = new Usuarios();
+	    Usuarios usuario = new Usuarios(); // Inicializa el objeto usuario
 
 	    if (id != null && id > 0) {
 	        administrador = administradorServices.findOne(id);
@@ -86,11 +104,10 @@ public class ControladorAdministrador {
 	    }
 
 	    model.put("administrador", administrador);
-	    model.put("usuario", usuario);
+	    model.put("usuario", usuario); // Asegúrate de que usuario esté definido
 	    model.put("titulo", "Editar o Crear Administrador");
 	    return "administrador";
 	}
-
 
 
 
@@ -108,10 +125,12 @@ public class ControladorAdministrador {
 	    	        usuarioExistente.setApellido(usuario.getApellido());
 	    	        usuarioExistente.setCorreo(usuario.getCorreo());
 	    	        
-	    	        if (usuario.getFecha_nacimiento() != null) {
-	    	            usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
-	    	        }
-	    	        
+	    	        // Aquí se asegura de que el ID de la parroquia se esté estableciendo
+                    usuarioExistente.setId_parroquia(usuario.getId_parroquia());
+                    
+                    if (usuario.getFecha_nacimiento() != null) {
+                        usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                    }
 	    	        usuarioExistente.setGenero(usuario.getGenero());
 	    	        usuarioExistente.setCelular(usuario.getCelular());
 	    	        usuarioExistente.setContraseña(usuario.getContraseña());
@@ -124,6 +143,7 @@ public class ControladorAdministrador {
 	        administrador.setId_usuarios(usuario.getId_usuarios());
 	        administradorServices.save(administrador);
 	        return "redirect:/listarAdministradores";
+	        
 	    } catch (Exception e) {
 	        model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
 	        return "error";
@@ -132,13 +152,14 @@ public class ControladorAdministrador {
 
 
 
-    
-    @RequestMapping("/administrador")
-    public String crear(Map<String, Object> model) {
-        model.put("administrador", new Administrador());
-        model.put("usuarios", usuarioServices.findAll());
-        return "administrador"; 
-    }
+	@RequestMapping("/administrador")
+	public String crear(Map<String, Object> model) {
+	    model.put("administrador", new Administrador());
+	    model.put("usuarios", usuarioServices.findAll());
+	    model.put("provincias", provinciaService.findAll());
+	    model.put("usuario", new Usuarios()); // Asegúrate de que esto esté aquí
+	    return "administrador"; 
+	}
    
     
     @PostMapping("/delete/{id}")
@@ -158,6 +179,25 @@ public class ControladorAdministrador {
             model.addAttribute("mensaje", "Error al eliminar el administrador: " + e.getMessage());
             return "error";
         }
+    }
+    
+    
+    @GetMapping("/provincias")
+    @ResponseBody
+    public List<Provincia> getProvincias() {
+        return provinciaService.findAll();
+    }
+
+    @GetMapping("/admin/cantones/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvincia(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
+    }
+
+    @GetMapping("/admin/parroquias/{idCanton}")
+    @ResponseBody
+    public List<Parroquia> getParroquiasByCanton(@PathVariable Long idCanton) {
+        return parroquiaService.findByCanton(idCanton);
     }
 
 }
