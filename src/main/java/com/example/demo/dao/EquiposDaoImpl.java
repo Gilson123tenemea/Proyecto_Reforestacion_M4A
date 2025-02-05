@@ -31,12 +31,7 @@ public class EquiposDaoImpl implements IEquiposDao {
 				.setParameter("id_voluntario", voluntarioId).getSingleResult();
 	}
 
-	@Override
-	public List<Equipos> findEquiposPorProyecto(Long idProyecto) {
-		return entityManager
-				.createQuery("SELECT e FROM Equipos e WHERE e.id_asignacionproyecto = :id_proyecto", Equipos.class)
-				.setParameter("id_proyecto", idProyecto).getResultList();
-	}
+	
 
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {

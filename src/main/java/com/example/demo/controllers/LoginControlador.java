@@ -73,7 +73,7 @@ public class LoginControlador {
             case "administrador":
                 return "redirect:/inicioadmin";
             case "voluntario":
-                return "redirect:/iniciovoluntario";
+                return "redirect:/proyectosvoluntario";
             case "patrocinador":
                 return "redirect:/verproyectospatrocinador"; 
             default:

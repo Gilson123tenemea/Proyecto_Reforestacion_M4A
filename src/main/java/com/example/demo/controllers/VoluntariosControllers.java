@@ -93,7 +93,7 @@ public class VoluntariosControllers {
 	    // 2. Que tengan el estado "Activo"
 	    List<Proyecto> proyectosDisponibles = todosLosProyectos.stream()
 	            .filter(proyecto -> !proyectosInscritos.contains(proyecto.getId_proyecto()) && 
-	                                "Activo".equals(proyecto.getEstado())) // Filtra solo los proyectos con estado "Activo"
+	                                "activo".equals(proyecto.getEstado())) // Filtra solo los proyectos con estado "Activo"
 	            .collect(Collectors.toList());
 
 	    model.addAttribute("proyectos", proyectosDisponibles);
@@ -424,7 +424,7 @@ public class VoluntariosControllers {
 			    .filter(inscripcion -> inscripcion.getId_voluntario().equals(idVoluntario) &&
 			                           todosLosProyectos.stream()
 			                               .anyMatch(proyecto -> proyecto.getId_proyecto().equals(inscripcion.getId_proyecto()) &&
-			                                                     "Activo".equals(proyecto.getEstado())))
+			                                                     "activo".equals(proyecto.getEstado())))
 			    .map(Inscripcion::getId_proyecto)
 			    .collect(Collectors.toSet());
 
