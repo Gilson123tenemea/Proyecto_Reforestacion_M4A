@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Provincia;
+import com.example.demo.entity.SuperAdministrador;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.IAdministradorServices;
 import com.example.demo.service.ICantonService;
@@ -35,7 +37,7 @@ import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
 @Controller
-//@RestController
+@SessionAttributes("idSuperAdministrador")
 public class ControladorAdministrador {
 	
 	@Autowired
@@ -104,18 +106,32 @@ public class ControladorAdministrador {
 	    }
 
 	    model.put("administrador", administrador);
-	    model.put("usuario", usuario); // Asegúrate de que usuario esté definido
+	    model.put("usuario", usuario); 
+	    
 	    model.put("titulo", "Editar o Crear Administrador");
 	    return "administrador";
 	}
-
+	
+	
+    @GetMapping("/inicioadmin")
+    public String iniciosuperadmin(Model model) {
+        model.addAttribute("titulo", "Inicio SuperAdmin");
+        return "inicioadmin";
+    }
 
 
 	@PostMapping("/guardar")
 	public String guardarAdministradorYUsuario(
 	        @ModelAttribute("administrador") Administrador administrador,
 	        @ModelAttribute("usuario") Usuarios usuario,
+	        @ModelAttribute SuperAdministrador superdamin,
 	        Model model) {
+		   Long idSuperAdministrador = (Long) model.asMap().get("idSuperAdministrador");
+		   if (idSuperAdministrador != null) {
+			   superdamin.setId_super_administrador(idSuperAdministrador);
+	        } else {
+	            System.out.println("ID del patrocinador es null"); 
+	        }
 	    try {
 	    	if (usuario.getId_usuarios() != null) {
 	    	    Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
@@ -139,7 +155,6 @@ public class ControladorAdministrador {
 	    	}
 
 	    	usuarioServices.save(usuario);
-
 	        administrador.setId_usuarios(usuario.getId_usuarios());
 	        administradorServices.save(administrador);
 	        return "redirect:/listarAdministradores";

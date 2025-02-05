@@ -21,8 +21,6 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 		return usuariosDao.findAll();
 	}
 	
-	
-
 	@Transactional
 	@Override
 	public void save(Usuarios usuario) {	
@@ -52,6 +50,8 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 	    }
 
 	    if (!usuario.getSuper_administrador().isEmpty()) {
+	    	Long idSuperAdministrador = usuario.getSuper_administrador().get(0).getId_super_administrador();
+	    	 System.out.println("ID del superadmin: " + idSuperAdministrador); 
 	        return "superadmin"; 
 	    }
 

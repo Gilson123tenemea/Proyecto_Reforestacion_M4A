@@ -110,7 +110,8 @@
 
 			<h2>Crear Nuevo Administrador</h2>
 			<form action="/guardar" method="post">
-				<input type="hidden" name="id_administrador" th:value="${administrador.id_administrador}">
+				<input type="hidden" name="id_super_administrador" th:value="${idSuperAdministrador}">
+			<input type="hidden" name="id_super_administrador" th:value="${idSuperAdministrador}">
 
 				<!-- Datos del Usuario -->
 				<fieldset>
@@ -179,10 +180,7 @@
 							</select>
 						</div>
 					</fieldset>
-
-
-
-
+					
 					<div class="mb-3">
 						<label for="contraseña" class="form-label">Contraseña:</label>
 						<input type="password" name="contraseña" id="contraseña" class="form-control" required>
@@ -194,11 +192,6 @@
 					<div class="mb-3">
 						<label for="actividades_gestionadas" class="form-label">Actividades Gestionadas:</label>
 						<input type="number" name="actividades_gestionadas" id="actividades_gestionadas"
-							class="form-control" required>
-					</div>
-					<div class="mb-3">
-						<label for="id_super_administrador" class="form-label">ID del Super Administrador:</label>
-						<input type="number" name="id_super_administrador" id="id_super_administrador"
 							class="form-control" required>
 					</div>
 				</fieldset>

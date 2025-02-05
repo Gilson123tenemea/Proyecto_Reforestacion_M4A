@@ -14,7 +14,7 @@ import com.example.demo.service.UsuariosServiceImpl;
 
 
 @Controller
-@SessionAttributes({"idPatrocinador","idVoluntario","idAdministrador"})
+@SessionAttributes({"idPatrocinador","idVoluntario","idAdministrador","idSuperAdministrador"})
 
 public class LoginControlador {
 
@@ -61,10 +61,15 @@ public class LoginControlador {
             Long idAdministrador = usuario.getAdministrador().get(0).getId_administrador();
             model.addAttribute("idAdministrador", idAdministrador); 
         }
+        
+        if (usuario != null && !usuario.getSuper_administrador().isEmpty()) {
+            Long superadministrador= usuario.getSuper_administrador().get(0).getId_super_administrador();
+            model.addAttribute("idSuperAdministrador", superadministrador); 
+        }
 
         switch (rol) {
             case "superadmin":
-                return "redirect:/formprovincia";
+                return "redirect:/administrador";
             case "administrador":
                 return "redirect:/suelo";
             case "voluntario":
