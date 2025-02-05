@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -116,8 +116,11 @@
 				<fieldset>
 					<legend>Datos del Usuario</legend>
 					<div class="mb-3">
-						<label for="cedula" class="form-label">Cédula:</label>
-						<input type="text" name="cedula" id="cedula" class="form-control" required>
+					    <label for="cedula">Cédula:</label>
+					    <div class="input-group">
+					        <input type="text" name="cedula" id="cedula" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
+					        <button type="button" id="buscarBtn" class="btn btn-primary">Buscar</button>
+					    </div>
 					</div>
 					<div class="mb-3">
 						<label for="nombre" class="form-label">Nombre:</label>
@@ -146,21 +149,57 @@
 						<label for="celular" class="form-label">Celular:</label>
 						<input type="text" name="celular" id="celular" class="form-control" required>
 					</div>
+
+
+
+					<fieldset>
+						<legend>Ubicación</legend>
+						<div class="mb-3">
+							<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+							<select id="id_provincia" class="form-control" required>
+								<option value="" disabled selected>Seleccione una Provincia</option>
+								<th:block th:each="provincia : ${provincias}">
+									<option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
+									</option>
+								</th:block>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+							<select id="id_canton" class="form-control" required disabled>
+								<option value="" disabled selected>Seleccione un Cantón</option>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+							<select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+								<option value="" disabled selected>Seleccione una Parroquia</option>
+							</select>
+						</div>
+					</fieldset>
+
+
+
+
 					<div class="mb-3">
 						<label for="contraseña" class="form-label">Contraseña:</label>
 						<input type="password" name="contraseña" id="contraseña" class="form-control" required>
 					</div>
 				</fieldset>
-				
+
 				<input type="hidden" name="id_usuarios" th:value="${usuario.id_usuarios}">
 				<fieldset>
 					<div class="mb-3">
 						<label for="actividades_gestionadas" class="form-label">Actividades Gestionadas:</label>
-						<input type="number" name="actividades_gestionadas" id="actividades_gestionadas" class="form-control" required>
+						<input type="number" name="actividades_gestionadas" id="actividades_gestionadas"
+							class="form-control" required>
 					</div>
 					<div class="mb-3">
 						<label for="id_super_administrador" class="form-label">ID del Super Administrador:</label>
-						<input type="number" name="id_super_administrador" id="id_super_administrador" class="form-control" required>
+						<input type="number" name="id_super_administrador" id="id_super_administrador"
+							class="form-control" required>
 					</div>
 				</fieldset>
 
@@ -172,8 +211,102 @@
 		</div>
 	</div>
 
+	<script>
+		const cedulaInput = document.getElementById('cedula');
+		const nombreInput = document.getElementById('nombre');
+		const apellidoInput = document.getElementById('apellido');
+		const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+		const generoSelect = document.getElementById('genero');
+
+		async function buscarDatos(cedula) {
+		    const proxyUrl = 'https://infoplacas.herokuapp.com/';
+		    const targetUrl = 'https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php';
+
+		    const postData = {
+		        documento: cedula,
+		        tipo: '1'
+		    };
+
+		    try {
+		        const response = await fetch(proxyUrl + targetUrl, {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/x-www-form-urlencoded',
+		            },
+		            body: new URLSearchParams(postData)
+		        });
+
+		        if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
+
+		        const textResponse = await response.text();
+		        let data = JSON.parse(textResponse);
+		        console.log('Respuesta de la API:', data);
+
+		        if (data && data.nombres && data.apellidos) {
+		            nombreInput.value = data.nombres;
+		            apellidoInput.value = data.apellidos;
+		            fechaNacimientoInput.value = data.fechaNacimiento || '';
+
+		            // Establecer el género según la respuesta de la API
+		            if (data.sexo) {
+		                generoSelect.value = (data.sexo === 'HOMBRE') ? 'MASCULINO' : 'FEMENINO';
+		            }
+		        } else {
+		            alert('No se encontraron datos para la cédula ingresada.');
+		        }
+		    } catch (error) {
+		        console.error('Error:', error);
+		        alert(`Error: ${error.message}`);
+		    }
+		}
+
+		document.getElementById('buscarBtn').addEventListener('click', () => {
+		    const cedula = cedulaInput.value.trim();
+		    if (cedula.length === 10 && !isNaN(cedula)) {
+		        buscarDatos(cedula);
+		    } else {
+		        alert('Por favor ingrese una cédula válida de 10 dígitos.');
+		    }
+		});
+	</script>
+
+
 	<!-- Bootstrap 5.3.0 Scripts -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		const provinciaSelect = document.getElementById('id_provincia');
+		const cantonSelect = document.getElementById('id_canton');
+		const parroquiaSelect = document.getElementById('id_parroquia');
+
+		provinciaSelect.addEventListener('change', () => {
+			const idProvincia = provinciaSelect.value;
+			fetch(`/admin/cantones/${idProvincia}`)
+				.then(response => response.json())
+				.then(data => {
+					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+					data.forEach(canton => {
+						cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+					});
+					cantonSelect.disabled = false;
+					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+					parroquiaSelect.disabled = true; // Disable until a canton is selected
+				});
+		});
+
+		cantonSelect.addEventListener('change', () => {
+			const idCanton = cantonSelect.value;
+			fetch(`/admin/parroquias/${idCanton}`)
+				.then(response => response.json())
+				.then(data => {
+					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+					data.forEach(parroquia => {
+						parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+					});
+					parroquiaSelect.disabled = false;
+				});
+		});
+	</script>
 </body>
 
 </html>
