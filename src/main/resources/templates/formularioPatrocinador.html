@@ -301,6 +301,22 @@
 	<footer>
 		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
 	</footer>
+	
+	
+	<script>
+		
+		document.querySelector('form').addEventListener('submit', function(event) {
+			const contraseñaInput = document.getElementById('contraseña');
+			const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
+
+			if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+				event.preventDefault(); 
+				alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
+				confirmarContraseñaInput.focus(); 
+			}
+		});
+	</script>
+	
 
 	<script>
 		const cedulaInput = document.getElementById('cedula');
@@ -360,6 +376,18 @@
 				alert('Por favor ingrese una cédula válida de 10 dígitos.');
 			}
 		});
+		
+			document.querySelector('form').addEventListener('submit', function(event) {
+				const contraseñaInput = document.getElementById('contraseña');
+				const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
+
+				if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+					event.preventDefault(); 
+					alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
+					confirmarContraseñaInput.focus(); 
+				}
+			});
+		
 	</script>
 
 
@@ -388,7 +416,7 @@
 					});
 					cantonSelect.disabled = false;
 					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					parroquiaSelect.disabled = true; // Deshabilitar hasta que se seleccione un cantón
+					parroquiaSelect.disabled = true; 
 				});
 		}
 
