@@ -47,7 +47,9 @@
                         <td th:text="${actividad[2]}"></td> <!-- Descripción de la actividad -->
                         <td th:text="${actividad[3]}"></td> <!-- Cumplimiento -->
                         <td>
-                            <button class="btn btn-success btn-sm">Registrar Actividad</button>
+							<form th:action="@{/registro-actividad/{id}(id=${voluntarioId})}" method="get" style="display:inline;">
+							    <button type="submit" class="btn btn-success btn-sm">Registrar Actividad</button>
+							</form>
                             <button class="btn btn-info btn-sm">Más Información</button>
                         </td>
                     </tr>

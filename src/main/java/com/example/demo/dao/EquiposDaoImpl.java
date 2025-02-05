@@ -160,4 +160,12 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 
 
+	@Override
+	public List<Equipos> findEquiposPorProyecto(Long idProyecto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 }
