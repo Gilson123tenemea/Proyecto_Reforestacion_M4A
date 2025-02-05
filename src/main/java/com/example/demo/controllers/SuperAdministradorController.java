@@ -36,9 +36,7 @@ public class SuperAdministradorController {
         binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
     }
 	
-	
-	// Guardar voluntario y usuario
-    @PostMapping("/")
+	@PostMapping("/")
     public String guardarVoluntarioYUsuario(@ModelAttribute SuperAdministrador superadministrador, @ModelAttribute Usuarios usuario, Model model) {
         try {
             usuarioServices.save(usuario);
@@ -58,7 +56,6 @@ public class SuperAdministradorController {
         model.addAttribute("titulo", "Inicio SuperAdmin");
         return "iniciosuperadmin";
     }
-	
 	
 	  // Crear nuevo voluntario
     @RequestMapping("/")

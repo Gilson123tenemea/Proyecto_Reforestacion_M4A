@@ -106,11 +106,18 @@ public class ControladorAdministrador {
 	    }
 
 	    model.put("administrador", administrador);
-	    model.put("usuario", usuario); // Asegúrate de que usuario esté definido
+	    model.put("usuario", usuario); 
+	    
 	    model.put("titulo", "Editar o Crear Administrador");
 	    return "administrador";
 	}
-
+	
+	
+    @GetMapping("/inicioadmin")
+    public String iniciosuperadmin(Model model) {
+        model.addAttribute("titulo", "Inicio SuperAdmin");
+        return "inicioadmin";
+    }
 
 
 	@PostMapping("/guardar")
