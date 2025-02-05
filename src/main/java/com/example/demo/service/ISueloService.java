@@ -11,4 +11,5 @@ public interface ISueloService {
 	public Suelo findOne(Long id);
 	public void delete(Long id);
 	public List<Suelo> listarsuelos(); 
+	public String findSueloName(Long idSuelo);
 }

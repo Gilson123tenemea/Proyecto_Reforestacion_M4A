@@ -55,10 +55,13 @@
         }).addTo(map);
 
         var parcelas = /*[[${parcelas}]]*/ [];
+		var parcelaSeleccionada = /*[[${parcelaSeleccionada}]]*/ null;
         var proyectoNombres = /*[[${proyectoNombres}]]*/ {};
+		var sueloNombres = /*[[${sueloNombres}]]*/ {};
 
         console.log(parcelas);
         console.log(proyectoNombres);
+		console.log(sueloNombres);
 
         var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
 
@@ -85,11 +88,13 @@
             }).addTo(map);
 
             var proyectoNombre = proyectoNombres[parcela.id_parcelas] || "No disponible";
+			var sueloNombre = sueloNombres[parcela.id_parcelas] || "No disponible";
 
             rectangulo.bindPopup(
 				'<b>Proyecto:</b> ' + proyectoNombre + '<br>'+
+				'<b>Suelo:</b> ' + sueloNombre + '<br>'+
                 '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
-                '<b>Área:</b> ' + parcela.id_area + ' m²<br>' +
+                '<b>Área ID:</b> ' + parcela.id_area + ' <br>' +
                 '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
                 '<b>Ancho:</b> ' + parcela.ancho + ' m<br>' 
                
@@ -104,6 +109,12 @@
             rectangulo.on('click', function() {
                 this.openPopup();
             });
+			
+			if (parcelaSeleccionada && parcela.id_parcelas === parcelaSeleccionada.id_parcelas) {
+			            map.setView(centro, 15);
+			            rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
+			            rectangulo.openPopup();
+			        }
         });
 
         setTimeout(function() {
