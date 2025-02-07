@@ -46,9 +46,6 @@ public class EquiposDaoImpl implements IEquiposDao {
 				.setParameter("voluntarioId", voluntarioId).getResultList();
 	}
 
-	
-
-
 	@Override
 	public List<Equipos> findAll() {
 		return em.createQuery("from Equipos").getResultList();
