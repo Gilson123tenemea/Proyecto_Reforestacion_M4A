@@ -82,7 +82,6 @@ public class AsignarProyectosController {
                 asignacionExistente.setId_proyecto(asignacion.getId_proyecto());
                 asignacionExistente.setId_tipoActividades(asignacion.getId_tipoActividades());
                 asignacionExistente.setEstado(asignacion.getEstado());
-                asignacionExistente.setMeta_real(asignacion.getMeta_real());
                 asignacionExistente.setMeta_deseada(asignacion.getMeta_deseada());
 
                 // Guarda la entidad actualizada

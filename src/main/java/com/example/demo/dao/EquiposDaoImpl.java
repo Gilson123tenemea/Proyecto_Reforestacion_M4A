@@ -31,64 +31,23 @@ public class EquiposDaoImpl implements IEquiposDao {
 				.setParameter("id_voluntario", voluntarioId).getSingleResult();
 	}
 
-	
-
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {
-		return entityManager.createQuery("SELECT u.nombre, p.nombre, tip.descripcion, "
+		return entityManager.createQuery("SELECT u.nombre, p.nombre, "
 				+ "CASE WHEN r.validacion_voluntario_tareaRealizada IS NOT NULL THEN 'SI' ELSE 'NO' END "
 				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-				+ "INNER JOIN Inscripcion i ON v.id_voluntario = i.id_voluntario "
-				+ "INNER JOIN Equipos e ON i.id_inscripcion = e.id_inscripcion "
+				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " // Relación correcta
+				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " // Relación correcta
 				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-				+ "INNER JOIN Tipo_Actividades tip ON tac.id_tipoActividades = tip.id_tipoActividades "
 				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
 				+ "LEFT JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
 				+ "LEFT JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
-				+ "WHERE v.id_voluntario = :voluntarioId " + "AND p.id_proyecto IS NOT NULL", // Filtrar solo
-																								// actividades con
-																								// proyectos asignados
-				Object[].class).setParameter("voluntarioId", voluntarioId).getResultList();
+				+ "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL", Object[].class)
+				.setParameter("voluntarioId", voluntarioId).getResultList();
 	}
 
-	@Override
-	public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
-		return entityManager.createQuery(
-				"SELECT u.nombre, p.nombre, tip.descripcion, r.cantidad_realizada, r.descripcion, r.foto, "
-						+ "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada "
-						+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-						+ "INNER JOIN Inscripcion i ON v.id_voluntario = i.id_voluntario "
-						+ "INNER JOIN Equipos e ON i.id_inscripcion = e.id_inscripcion "
-						+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-						+ "INNER JOIN Tipo_Actividades tip ON tac.id_tipoActividades = tip.id_tipoActividades "
-						+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-						+ "INNER JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
-						+ "INNER JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
-						+ "WHERE v.id_voluntario = :voluntarioId " + "AND r.validacion_admin_tareaRealizada = TRUE", // Filtrar
-																														// solo
-																														// tareas
-																														// validadas
-																														// por
-																														// el
-																														// admin
-				Object[].class).setParameter("voluntarioId", voluntarioId).getResultList();
-	}
+	
 
-	@Override
-	public List<Object[]> findActividadesPorHacerDeTodos() {
-		return entityManager.createQuery("SELECT u.nombre, p.nombre, tip.descripcion, "
-				+ "CASE WHEN r.validacion_voluntario_tareaRealizada IS NOT NULL THEN 'SI' ELSE 'NO' END "
-				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-				+ "INNER JOIN Inscripcion i ON v.id_voluntario = i.id_voluntario "
-				+ "INNER JOIN Equipos e ON i.id_inscripcion = e.id_inscripcion "
-				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-				+ "INNER JOIN Tipo_Actividades tip ON tac.id_tipoActividades = tip.id_tipoActividades "
-				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-				+ "LEFT JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
-				+ "LEFT JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
-				+ "WHERE p.id_proyecto IS NOT NULL", // Filtrar solo actividades con proyectos
-				Object[].class).getResultList();
-	}
 
 	@Override
 	public List<Equipos> findAll() {
@@ -97,13 +56,13 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 	@Override
 	public void save(Equipos equipos) {
-	    if (equipos.getId_equipos() != null && equipos.getId_equipos() > 0) {
-	        // Si el ID existe, actualiza el equipo
-	        em.merge(equipos);
-	    } else {
-	        // Si no existe el ID, crea un nuevo equipo
-	        em.persist(equipos);
-	    }
+		if (equipos.getId_equipos() != null && equipos.getId_equipos() > 0) {
+			// Si el ID existe, actualiza el equipo
+			em.merge(equipos);
+		} else {
+			// Si no existe el ID, crea un nuevo equipo
+			em.persist(equipos);
+		}
 
 	}
 
@@ -145,27 +104,17 @@ public class EquiposDaoImpl implements IEquiposDao {
 				"Select T.nombre_act, a.id_asignacionproyecto from Tipo_Actividades T JOIN Asignacion_proyectoActi a on T.id_tipoActividades = a.id_tipoActividades where  a.id_proyecto = :id_proyecto")
 				.setParameter("id_proyecto", id_proyecto).getResultList();
 	}
-	
-	
-	
 
 	@Override
 	public List<Equipos> findByProyectoId(Long idProyecto) {
-	    return em.createQuery(
-	        "SELECT e FROM Equipos e WHERE e.id_asignacionproyecto = :idProyecto", 
-	        Equipos.class)
-	        .setParameter("idProyecto", idProyecto)
-	        .getResultList();
+		return em.createQuery("SELECT e FROM Equipos e WHERE e.id_asignacionproyecto = :idProyecto", Equipos.class)
+				.setParameter("idProyecto", idProyecto).getResultList();
 	}
-
-
 
 	@Override
 	public List<Equipos> findEquiposPorProyecto(Long idProyecto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 }
