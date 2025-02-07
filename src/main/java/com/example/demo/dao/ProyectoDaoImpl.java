@@ -79,6 +79,13 @@ public class ProyectoDaoImpl implements IProyectoDao {
                 .getResultList();
 	
 	}
+
+	@Override
+	public List<Proyecto> findByAdministradorId(Long idAdministrador) {
+		 return em.createQuery("SELECT p FROM Proyecto p WHERE p.id_administrador = :idAdministrador", Proyecto.class)
+	             .setParameter("idAdministrador", idAdministrador)
+	             .getResultList();
+	}
 	
 	
 

@@ -16,7 +16,7 @@
 
         <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id_proyecto}" />
-
+			<input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
             <div th:if="${mensaje}" class="alert alert-success" role="alert">
                 <span th:text="${mensaje}"></span>
             </div>

@@ -12,12 +12,18 @@ import com.example.demo.dao.IProyectoDao;
 import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Proyecto;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 @Service
 public class ProyectoServicelmpl implements IProyectoServices{
 
 	@Autowired
 	private IProyectoDao proyectodao;
 	
+	 @PersistenceContext 
+	private EntityManager em;
+	 
 	@Transactional(readOnly = true)
 	@Override
 	public List<Proyecto> findAll() {
@@ -77,6 +83,11 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> findByAreaId(Long idArea) {
 		return proyectodao.findByAreaId(idArea); 
 		
+	}
+
+	@Override
+	public List<Proyecto> findByAdministradorId(Long idAdministrador) {
+		 return proyectodao.findByAdministradorId(idAdministrador);
 	}
 	
 	

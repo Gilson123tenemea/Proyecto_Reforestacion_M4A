@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Area;
+import com.example.demo.entity.Proyecto;
 import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IProyectoServices; // Suponiendo que tienes una entidad Proyecto
 
@@ -22,11 +26,11 @@ public class AreaController {
     @Autowired
     private IProyectoServices proyectoService; // Servicio para manejar Proyecto
 
-    // Crear una nueva Área
     @GetMapping("/area")
-    public String crearArea(Model model) {
+    public String crearArea(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("area", new Area());
-        model.addAttribute("proyectos", proyectoService.findAll()); // Lista de proyectos para seleccionar
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador); // Filtrar proyectos por administrador
+        model.addAttribute("proyectos", proyectos); // Lista de proyectos para seleccionar
         return "area"; // Redirige al formulario de área
     }
 

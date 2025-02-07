@@ -24,4 +24,6 @@ public interface IProyectoServices {
 	public List<Proyecto> findInactivos();
 	public List<Proyecto> findFinalizados();
 	List<Proyecto> findByAreaId(Long idArea);
+	public List<Proyecto> findByAdministradorId(Long idAdministrador);
+	
 }

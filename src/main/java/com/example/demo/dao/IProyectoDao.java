@@ -14,6 +14,6 @@ public interface IProyectoDao {
 	public Proyecto findOne(Long id);
 	public void delete(Long id);
 	public List<Proyecto> findByAreaId(Long idArea);
-
+	public List<Proyecto> findByAdministradorId(Long idAdministrador);
 }
 

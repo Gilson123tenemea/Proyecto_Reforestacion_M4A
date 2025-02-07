@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Canton;
@@ -42,6 +44,7 @@ import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 
 @Controller
+@SessionAttributes("idAdministrador")
 public class ProyectosControllers {
 
     @Autowired
@@ -55,6 +58,14 @@ public class ProyectosControllers {
     
     @Autowired
     private IProvinciaService provinciaService; 
+    
+    
+    @GetMapping("/listarProyectos")
+    public String listarProyectos(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
+        model.addAttribute("titulo", "Lista de Proyectos");
+        model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
+        return "listarProyectos"; 
+    }
     
     
     @GetMapping("/proyectos")
@@ -90,7 +101,7 @@ public class ProyectosControllers {
     }
 
 
-    @GetMapping("/listarProyectos")
+   // @GetMapping("/listarProyectos")
     public String listarProyectos(Model model) {
         model.addAttribute("titulo", "Lista de Proyectos");
         model.addAttribute("proyectos", proyectoService.findAll());
@@ -109,8 +120,11 @@ public class ProyectosControllers {
     @PostMapping("/guardarProyecto")
     public String guardarProyecto(@Valid @ModelAttribute("proyecto") Proyecto proyecto,
                                   @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
+                                  @RequestParam("idAdministrador") Long idAdministrador,
                                   RedirectAttributes redirectAttributes) {
+    	
         try {
+        	 proyecto.setId_administrador(idAdministrador); 
             if (proyecto.getId_parroquia() == null) {
                 throw new Exception("Debe seleccionar una Parroquia.");
             }
