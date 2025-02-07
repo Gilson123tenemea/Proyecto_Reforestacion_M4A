@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "equipo", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_inscripcion", "id_administrador",
+@Table(name = "equipo", uniqueConstraints = { @UniqueConstraint(columnNames = {"id_administrador",
 		"id_asignacionproyecto", "id_equipos", "id_asignacionproyecto" }) })
 public class Equipos implements Serializable {
 
@@ -27,7 +27,6 @@ public class Equipos implements Serializable {
 	private Long id_administrador;
 	private Long id_asignacionproyecto;
 	private String nombre;
-	private Long id_inscripcion;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_equipos")
@@ -36,16 +35,6 @@ public class Equipos implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_equipos")
 	private List<Asignar_equipos> asignarequipos;
-
-	
-	
-	public Long getId_inscripcion() {
-		return id_inscripcion;
-	}
-
-	public void setId_inscripcion(Long id_inscripcion) {
-		this.id_inscripcion = id_inscripcion;
-	}
 
 	public String getNombre() {
 		return nombre;

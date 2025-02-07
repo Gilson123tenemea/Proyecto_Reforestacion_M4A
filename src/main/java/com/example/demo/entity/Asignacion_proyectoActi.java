@@ -35,7 +35,6 @@ public class Asignacion_proyectoActi implements Serializable {
 	
 	private Long id_tipoActividades;
 	private Boolean estado;
-	private int meta_real;
 	private int meta_deseada;
 
     @PrePersist
@@ -88,14 +87,6 @@ public class Asignacion_proyectoActi implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public int getMeta_real() {
-		return meta_real;
-	}
-
-	public void setMeta_real(int meta_real) {
-		this.meta_real = meta_real;
 	}
 
 	public int getMeta_deseada() {

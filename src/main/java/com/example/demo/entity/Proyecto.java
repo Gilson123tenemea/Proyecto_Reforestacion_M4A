@@ -39,33 +39,27 @@ public class Proyecto implements Serializable {
 
 	private String estado;
 	private int voluntariosmax;
+	private double porcentaje;
 	
-    @Lob // Indica que es un campo grande (para imágenes o archivos)
+    @Lob 
     @Column(name = "imagen", columnDefinition = "LONGBLOB")
     private byte[] imagen;
 	
-	//relacion con incripcion
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
 	private List<Inscripcion> inscripcion ; 
 	
-	//relacion con asignacionproyectoact
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
 	private List<Asignacion_proyectoActi> asignacion_proyectoacti ; 
 	
-	//relacion con area
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
 	private List<Area> area  ; 
 	
-	//relacion con patrocinio
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_proyecto")
 	private List<Patrocinio> patrocinio; 
-
-	
-
 
 	public byte[] getImagen() {
 		return imagen;
@@ -172,6 +166,13 @@ public class Proyecto implements Serializable {
 		this.patrocinio = patrocinio;
 	}
 
+	public double getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(double porcentaje) {
+		this.porcentaje = porcentaje;
+	}
 
 	private static final long serialVersionUID = 1L;
 

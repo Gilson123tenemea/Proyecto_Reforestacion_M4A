@@ -25,15 +25,11 @@ public class Tipo_Actividades implements Serializable{
     private String nombre_act;
     private Double duracion;
     private String frecuencia;
-    private String descripcion;
     
-    
-  //relacion con monitoreo
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Monitoreo> monitoreo  ; 
   	
-  //relacion con asignacion_proyecto
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Asignacion_proyectoActi> asignacion_proyectoacti   ; 
@@ -85,17 +81,6 @@ public class Tipo_Actividades implements Serializable{
 		this.frecuencia = frecuencia;
 	}
 
-
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 
 	public List<Monitoreo> getMonitoreo() {
 		return monitoreo;
