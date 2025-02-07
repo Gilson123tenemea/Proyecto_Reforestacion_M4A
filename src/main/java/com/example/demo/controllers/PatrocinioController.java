@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.Patrocinio;
@@ -56,7 +57,21 @@ public class PatrocinioController {
         model.put("titulo", "Patrocinio");
         return "patrocinarproyecto"; 
     }
-
+    
+    @GetMapping("/verpatrocinios")
+    public String verPatrocinios(Model model) {
+        model.addAttribute("proyectos", proyectoService.findAll()); // Cargar proyectos existentes
+        return "verpatrocinios"; 
+    }
+    
+    @GetMapping("/patrocinios/{idProyecto}")
+    @ResponseBody
+    public List<Patrocinio> obtenerPatrociniosPorProyecto(@PathVariable("idProyecto") Long idProyecto) {
+        List<Patrocinio> patrocinios = patrocinioservice.findByIdProyecto(idProyecto);
+        return patrocinios;
+    }
+    
+    
     @RequestMapping(value="/formularioPatrocinio", method=RequestMethod.POST)
     public String guardar(@ModelAttribute Patrocinio patrocinio, Model model) {
         Long idPatrocinador = (Long) model.asMap().get("idPatrocinador");

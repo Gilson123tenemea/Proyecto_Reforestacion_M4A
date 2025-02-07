@@ -44,6 +44,14 @@ public class PatrocinioServiceImpl implements IPatrocinioService {
 		
 	}
 
+	public List<Patrocinio> findByIdProyecto(Long idProyecto) {
+	    return patrocinioDao.findByIdProyecto(idProyecto); // Implementa este método en tu DAO
+	}
+	
+    @Override
+    public List<String> findNombresEmpresasByIdProyecto(Long idProyecto) {
+        return patrocinioDao.findNombresEmpresasByIdProyecto(idProyecto);
+    }
 
 
 }
