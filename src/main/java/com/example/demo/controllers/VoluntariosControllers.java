@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.dao.EquiposDaoImpl;
+import com.example.demo.dao.RegistroActividadRealizadaDaoImpl;
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Inscripcion;
@@ -69,12 +70,16 @@ public class VoluntariosControllers {
 
 	@Autowired
 	private EquiposDaoImpl equipoDao;
+	
+	@Autowired
+	private RegistroActividadRealizadaDaoImpl  registroActDao;
+	
 	@Autowired
 	private IProyectoServices proyectoService; 
 	
 	@Autowired
 	private IInscripcionServices inscripcionService; 
-
+	
 
 	@GetMapping("/proyectosvoluntario")
 	public String proyectos(Model model, @SessionAttribute("idVoluntario") Long idVoluntario) {
@@ -103,7 +108,6 @@ public class VoluntariosControllers {
 	}
 	
 	
-	
 
 	// Método para obtener las actividades pendientes de un voluntario
 	@GetMapping("/voluntario/actividades")
@@ -114,7 +118,6 @@ public class VoluntariosControllers {
 		return "voluntarioActividades"; // Nombre de la vista
 	}
 
-	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
 
 	@GetMapping("/{actividad}/detalle")
@@ -145,20 +148,6 @@ public class VoluntariosControllers {
 													// `templates/`
 	}
 
-	// --------------------------------------------------------------------------------------------
-	// --------------------------------------------------------------------------------------------
-	// --------------------------------------------------------------------------------------------
-	// --------------------------------------------------------------------------------------------
-
-	@GetMapping("/todos")
-	public String getActividades(Model model) {
-		List<Object[]> actividadesPorHacer = equipoDao.findActividadesPorHacerDeTodos();
-
-		// Pasamos la lista de actividades por hacer al modelo
-		model.addAttribute("actividadesPorHacer", actividadesPorHacer);
-
-		return "actividadestodoHacer"; // Vista donde mostraremos las actividades
-	}
 
 	// -------------------------------------------------------------------------------------------------
 
