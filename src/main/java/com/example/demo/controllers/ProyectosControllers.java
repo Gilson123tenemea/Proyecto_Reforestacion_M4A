@@ -186,6 +186,7 @@ public class ProyectosControllers {
             Parroquia parroquia = parroquiaService.findOne(proyecto.getId_parroquia());
             if (parroquia != null) {
                 model.addAttribute("parroquiaSeleccionada", parroquia);
+
                 // Obtener el cantón relacionado con la parroquia
                 Canton canton = cantonService.findOne(parroquia.getId_canton());
                 if (canton != null) {
@@ -193,11 +194,12 @@ public class ProyectosControllers {
                     // Obtener la provincia relacionada con el cantón
                     Long idProvincia = canton.getId_provincia();
                     model.addAttribute("provinciaSeleccionada", idProvincia);
+                    model.addAttribute("cantones", cantonService.findByProvincia(idProvincia)); // Carga los cantones
                 }
             }
 
             model.addAttribute("proyecto", proyecto);
-            model.addAttribute("parroquia", parroquiaService.findAll()); // Todas las parroquias
+            model.addAttribute("parroquias", parroquiaService.findAll());
             model.addAttribute("provincias", provinciaService.findAll()); // Todas las provincias
             return "proyectos"; 
         } catch (Exception e) {

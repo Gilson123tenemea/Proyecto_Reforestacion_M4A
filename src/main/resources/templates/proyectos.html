@@ -32,36 +32,44 @@
 							       title="Solo se permiten letras y espacios" />
 			            </div>
 
-            <!-- Selección de la Provincia -->
-            <div class="mb-3">
-                <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-                <select id="id_provincia" class="form-control" required>
-                    <option value="" disabled selected>Seleccione una Provincia</option>
-                    <th:block th:each="provincia : ${provincias}">
-                        <option th:value="${provincia.id_provincia}"
-                                th:selected="${provincia.id_provincia == provinciaSeleccionada}"
-                                th:text="${provincia.nombreProvincia}">
-                        </option>
-                    </th:block>
-                </select>
-            </div>
+						<!-- Selección de la Provincia -->
+						<div class="mb-3">
+						    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+						    <select id="id_provincia" class="form-control" required>
+						        <option value="" disabled>Seleccione una Provincia</option>
+						        <th:block th:each="provincia : ${provincias}">
+						            <option th:value="${provincia.id_provincia}"
+						                    th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+						                    th:text="${provincia.nombreProvincia}"></option>
+						        </th:block>
+						    </select>
+						</div>
 
-            <!-- Selección de Cantón -->
-            <div class="mb-3">
-                <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-                <select id="id_canton" class="form-control" required disabled>
-                    <option value="" disabled selected>Seleccione un Cantón</option>
-                </select>
-            </div>
+						<!-- Selección de Cantón -->
+						<div class="mb-3">
+						    <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+						    <select id="id_canton" class="form-control" required>
+						        <option value="" disabled>Seleccione un Cantón</option>
+						        <th:block th:each="canton : ${cantones}">
+						            <option th:value="${canton.id_canton}"
+						                    th:selected="${canton.id_canton == cantonSeleccionado}"
+						                    th:text="${canton.nombreCanton}"></option>
+						        </th:block>
+						    </select>
+						</div>
 
-            <!-- Selección de la Parroquia -->
-            <div class="mb-3">
-                <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-                <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required disabled>
-                    <option value="" disabled selected>Seleccione una Parroquia</option>
-                </select>
-            </div>
-
+						<!-- Selección de la Parroquia -->
+						<div class="mb-3">
+						    <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+						    <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
+						        <option value="" disabled>Seleccione una Parroquia</option>
+						        <th:block th:each="parroquia : ${parroquias}">
+						            <option th:value="${parroquia.id_parroquia}"
+						                    th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
+						                    th:text="${parroquia.nombreParroquia}"></option>
+						        </th:block>
+						    </select>
+						</div>						
             <!-- Mostrar imagen existente -->
             <div class="mb-3 text-center">
                 <img th:if="${proyecto.imagen}" th:src="@{${proyecto.imagen}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
