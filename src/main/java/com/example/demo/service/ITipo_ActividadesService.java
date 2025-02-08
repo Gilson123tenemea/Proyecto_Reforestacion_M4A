@@ -10,12 +10,10 @@ import com.example.demo.entity.Tipo_Actividades;
 public interface ITipo_ActividadesService {
 
     public List<Tipo_Actividades> findAll();
-	
 	public void save (Tipo_Actividades tipo_actividades);
-	
 	public Tipo_Actividades findOne (Long id);
-
 	public void delete(Long id);
-	
 	public List<Tipo_Actividades> listaractividades(); 
+	List<Tipo_Actividades> findByAdministradorId(Long adminId);
+	
 }

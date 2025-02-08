@@ -39,4 +39,10 @@ public class Asignacion_proyectoActiServiceImpl implements IAsignacion_proyectoA
 		asg_proyectoDao.delete(id);
 		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Asignacion_proyectoActi> findByAdministradorId(Long idAdministrador) {
+		return asg_proyectoDao.findByAdministradorId(idAdministrador);
+	}
 }

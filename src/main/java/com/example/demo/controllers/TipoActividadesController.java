@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.service.ITipo_ActividadesService;
 
+
 @Controller
+@SessionAttributes("idAdministrador")
 public class TipoActividadesController {
 
     @Autowired
@@ -29,13 +32,11 @@ public class TipoActividadesController {
         return "ver";
     }
 
-
-
-
     @RequestMapping(value="/listartipo", method=RequestMethod.GET)
-    public String listartipo(Model model) {
+    public String listartipo(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Listado de Actividades");
-        model.addAttribute("tactividad", tipoActividadesService.findAll());
+        List<Tipo_Actividades> actividades = tipoActividadesService.findByAdministradorId(idAdministrador);
+        model.addAttribute("tactividad", actividades);
         return "listartipo";
     }
 
@@ -67,12 +68,19 @@ public class TipoActividadesController {
     }
 
     @RequestMapping(value = "/formtipo", method = RequestMethod.POST)
-    public String guardar(Tipo_Actividades tactividad, RedirectAttributes flash) {
+    public String guardar(
+            @ModelAttribute Tipo_Actividades tactividad,
+            @SessionAttribute("idAdministrador") Long idAdministrador,
+            RedirectAttributes flash) {
+        tactividad.setId_administrador(idAdministrador);
+        
         String mensajeFls = (tactividad.getId_tipoActividades() != null) 
             ? "El registro del tipo de actividades se ha editado con éxito" 
             : "El registro de tipo de actividad se ha creado con éxito";
+        
         tipoActividadesService.save(tactividad);
         flash.addFlashAttribute("success", mensajeFls);
+        
         return "redirect:/listartipo";
     }
 

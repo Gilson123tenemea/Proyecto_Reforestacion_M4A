@@ -39,4 +39,15 @@ public class Asignacion_proyectoActiDaoImpl implements IAsignacion_proyectoActiD
 		em.remove(findOne(id));
 	}
 
+	@Override
+	public List<Asignacion_proyectoActi> findByAdministradorId(Long adminId) {
+		 return em.createQuery(
+			        "SELECT a FROM Asignacion_proyectoActi a " +
+			        "JOIN Tipo_Actividades t ON a.id_tipoActividades = t.id_tipoActividades " +
+			        "WHERE t.id_administrador = :adminId", 
+			        Asignacion_proyectoActi.class)
+			        .setParameter("adminId", adminId)
+			        .getResultList();
+	}
+
 }

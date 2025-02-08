@@ -49,4 +49,10 @@ public class Tipo_ActividadesServiceImpl implements ITipo_ActividadesService {
 		return tpactividadesDao.findAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Tipo_Actividades> findByAdministradorId(Long adminId) {
+		 return tpactividadesDao.findByAdministradorId(adminId);
+	}
+
 }
