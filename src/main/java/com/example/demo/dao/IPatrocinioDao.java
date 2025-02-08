@@ -12,9 +12,8 @@ public interface IPatrocinioDao {
 	public void save(Patrocinio patrocinio);
 	public Patrocinio findOne (Long id);
 	public void delete(Long id);
-    @Query("SELECT p FROM Patrocinio p WHERE p.id_proyecto = :idProyecto")
     List<Patrocinio> findByIdProyecto(@Param("idProyecto") Long idProyecto);
-    
-    @Query("SELECT p FROM Patrocinio p JOIN FETCH p.patrocinador WHERE p.id_proyecto = :idProyecto")
     public List<String> findNombresEmpresasByIdProyecto(Long idProyecto);
+    
+    
 }

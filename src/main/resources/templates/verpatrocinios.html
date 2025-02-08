@@ -5,7 +5,12 @@
     <script>
         function cargarPatrocinios() {
             var idProyecto = document.getElementById("proyecto").value;
+            var nombreProyecto = document.getElementById("proyecto").options[document.getElementById("proyecto").selectedIndex].text;
+
             if (idProyecto) {
+                var resultadosDiv = document.getElementById("resultados");
+                resultadosDiv.innerHTML = `<h2>Proyecto Seleccionado: ${nombreProyecto}</h2>`; // Mostrar el nombre del proyecto
+
                 fetch(`/patrocinios/${idProyecto}`)
                     .then(response => {
                         if (!response.ok) {
@@ -14,11 +19,11 @@
                         return response.json();
                     })
                     .then(data => {
-                        var resultadosDiv = document.getElementById("resultados");
-                        resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
+                        console.log(data); 
+                        resultadosDiv.innerHTML += ""; // Limpiar resultados anteriores
                         
                         if (data.length === 0) {
-                            resultadosDiv.innerHTML = "<p>No se encontraron patrocinios para este proyecto.</p>";
+                            resultadosDiv.innerHTML += "<p>No se encontraron patrocinios para este proyecto.</p>";
                         } else {
                             data.forEach(patrocinio => {
                                 var patronDiv = document.createElement("div");

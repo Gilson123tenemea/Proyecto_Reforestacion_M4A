@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,6 +64,7 @@ public class PatrocinioController {
     public String verPatrocinios(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         // Listar proyectos por el administrador específico
         List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+        proyectos.sort(Comparator.comparing(Proyecto::getNombre)); // Ordenar alfabéticamente por nombre
         model.addAttribute("proyectos", proyectos); // Cargar proyectos del administrador
 
         return "verpatrocinios";
