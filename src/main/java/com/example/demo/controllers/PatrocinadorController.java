@@ -103,7 +103,7 @@ public class PatrocinadorController {
             patrocinadorservice.save(patrocinador);
 
             model.addAttribute("mensaje", "Patrocinador guardado exitosamente");
-            return "redirect:/listar"; 
+            return "redirect:/login"; 
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al guardar el Voluntario y Usuario: " + e.getMessage());
             return "error";
