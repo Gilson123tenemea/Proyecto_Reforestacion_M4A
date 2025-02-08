@@ -78,7 +78,7 @@ public class AreaController {
 
  
     @GetMapping("/area/editar/{id}")
-    public String editarArea(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+    public String editarArea(@PathVariable("id") Long id, Model model, RedirectAttributes attributes, @SessionAttribute("idAdministrador") Long idAdministrador) {
         try {
             Area area = areaService.findOne(id);
             if (area == null) {
@@ -86,7 +86,8 @@ public class AreaController {
                 return "redirect:/listarareas";
             }
             model.addAttribute("area", area);
-            model.addAttribute("proyectos", proyectoService.findAll()); 
+            List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+            model.addAttribute("proyectos", proyectos); 
             model.addAttribute("titulo", "Editar Área");
             return "area"; 
         } catch (Exception e) {

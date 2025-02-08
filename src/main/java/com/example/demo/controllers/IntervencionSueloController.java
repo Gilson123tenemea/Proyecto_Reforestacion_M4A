@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.demo.entity.Area;
 import com.example.demo.entity.Canton;
@@ -45,13 +46,11 @@ public class IntervencionSueloController {
     }
 
     @RequestMapping("/formularioIntervenciones")
-    public String crear(Model model) {
+    public String crear(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Intervencion_Suelo intervencion = new Intervencion_Suelo();
         model.addAttribute("intervencion", intervencion);
         model.addAttribute("titulo", "Formulario de Intervenciones");
-
-        // Cargar áreas, proyectos y equipos
-        List<Area> areas = areaService.findAll();
+        List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
         List<Proyecto> proyectos = proyectoService.findAll();
         List<Equipos> equipos = equiposService.findAll();
 
@@ -77,14 +76,13 @@ public class IntervencionSueloController {
     }    
     
     @RequestMapping(value = "/formularioIntervenciones/{id}", method = RequestMethod.GET)
-    public String editar(@PathVariable(value = "id") Long id, Model model) {
+    public String editar(@PathVariable(value = "id") Long id, Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Intervencion_Suelo intervencion = intervencionservice.findOne(id);
         if (intervencion == null) {
-            return "redirect:/Listaintervencion"; // Cambié esto a la ruta correcta
+            return "redirect:/Listaintervencion";
         }
 
-        // Cargar áreas, proyectos y equipos
-        List<Area> areas = areaService.findAll();
+        List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
         List<Proyecto> proyectos = proyectoService.findAll();
         List<Equipos> equipos = equiposService.findAll();
 

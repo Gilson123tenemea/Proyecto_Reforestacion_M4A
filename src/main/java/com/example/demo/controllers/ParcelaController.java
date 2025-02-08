@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Area;
 import com.example.demo.entity.Parcelas;
 import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IParcelaService;
@@ -63,7 +64,7 @@ public class ParcelaController {
     }
 
     @RequestMapping(value = "/parcela/editar/{id}", method = RequestMethod.GET)
-    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Parcelas parcela = null;
         if (id > 0) {
             parcela = parcelaservice.findOne(id);
@@ -75,11 +76,14 @@ public class ParcelaController {
             flash.addFlashAttribute("error", "El Id de la Parcela no puede ser 0");
             return "redirect:/listarparcelas";
         }
+        
         model.put("parcela", parcela);
         model.put("titulo", "Editar Parcela");
         model.put("suelos", sueloservice.listarsuelos());
         model.put("plantas", plantaService.listarPlantas());
-        model.put("areas", areaService.listarAreas());
+        List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
+        model.put("areas", areas);
+        
         return "parcelas";
     }
 
