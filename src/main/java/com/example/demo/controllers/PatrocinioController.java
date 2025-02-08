@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Patrocinio;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Usuarios;
+import com.example.demo.service.IPatrocinadorServices;
 import com.example.demo.service.IPatrocinioService;
 import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.IUsuarioServices;
@@ -32,6 +35,9 @@ public class PatrocinioController {
 	private IProyectoServices proyectoService;
     @Autowired
     private IPatrocinioService patrocinioservice;
+    
+    @Autowired
+    private IPatrocinadorServices patrocinadorService;
     
     @Autowired
     private IUsuarioServices usuarioservice;
@@ -72,11 +78,25 @@ public class PatrocinioController {
     
     @GetMapping("/patrocinios/{idProyecto}")
     @ResponseBody
-    public List<Patrocinio> obtenerPatrociniosPorProyecto(@PathVariable("idProyecto") Long idProyecto) {
+    public List<Map<String, Object>> obtenerPatrociniosPorProyecto(@PathVariable("idProyecto") Long idProyecto) {
         List<Patrocinio> patrocinios = patrocinioservice.findByIdProyecto(idProyecto);
-        return patrocinios;
-    }
-    
+        
+        return patrocinios.stream().map(patrocinio -> {
+            Map<String, Object> patrocinioMap = new HashMap<>();
+            patrocinioMap.put("beneficios", patrocinio.getBeneficios());
+            patrocinioMap.put("cantiad_estimada", patrocinio.getCantiad_estimada());
+            patrocinioMap.put("detalledpnado", patrocinio.getDetalledpnado());
+            patrocinioMap.put("fechainicio", patrocinio.getFechainicio());
+            patrocinioMap.put("fechafin", patrocinio.getFechafin());
+            patrocinioMap.put("tipo_patrocinio", patrocinio.getTipo_patrocinio());
+
+            // Obtener el patrocinador y su nombre de empresa
+            Patrocinador patrocinador = patrocinadorService.findOne(patrocinio.getId_patrocinador());
+            patrocinioMap.put("nombreEmpresa", patrocinador != null ? patrocinador.getNombreEmpresa() : "Desconocido");
+
+            return patrocinioMap;
+        }).collect(Collectors.toList());
+    }    
     
     @RequestMapping(value="/formularioPatrocinio", method=RequestMethod.POST)
     public String guardar(@ModelAttribute Patrocinio patrocinio, Model model) {

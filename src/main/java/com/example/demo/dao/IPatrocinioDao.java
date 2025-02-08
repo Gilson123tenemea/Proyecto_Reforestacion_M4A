@@ -13,7 +13,6 @@ public interface IPatrocinioDao {
 	public Patrocinio findOne (Long id);
 	public void delete(Long id);
     List<Patrocinio> findByIdProyecto(@Param("idProyecto") Long idProyecto);
-    public List<String> findNombresEmpresasByIdProyecto(Long idProyecto);
     
     
 }
