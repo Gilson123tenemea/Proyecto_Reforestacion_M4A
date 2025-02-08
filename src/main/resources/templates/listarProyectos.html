@@ -82,6 +82,7 @@
                     <th>Fecha Fin</th>
                     <th>Estado</th>
                     <th>Voluntarios Máx</th>
+                    <th>Porcentaje</th> <!-- Nueva columna para el porcentaje -->
                     <th>Imagen</th>
                     <th>Acciones</th>
                 </tr>
@@ -94,6 +95,7 @@
                     <td th:text="${item.fecha_fin}"></td>
                     <td th:text="${item.estado}"></td>
                     <td th:text="${item.voluntariosmax}"></td>
+                    <td th:text="${item.porcentaje} + '%'"></td> <!-- Mostrar el porcentaje -->
                     <td>
                         <img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}" alt="Imagen del Proyecto" class="img-thumbnail">
                     </td>
@@ -120,4 +122,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

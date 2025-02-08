@@ -23,6 +23,14 @@
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
+			
+			
+			<div class="mb-3">
+			                <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+							<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto" 
+							       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
+							       title="Solo se permiten letras y espacios" />
+			            </div>
 
             <!-- Selección de la Provincia -->
             <div class="mb-3">
@@ -66,12 +74,7 @@
             </div>
 
             <!-- Otros campos del formulario -->
-            <div class="mb-3">
-                <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-				<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto" 
-				       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
-				       title="Solo se permiten letras y espacios" />
-            </div>
+            
 
             <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
@@ -92,6 +95,12 @@
                     <option value="finalizado">Finalizado</option>
                 </select>
             </div>
+			
+			<div class="mb-3">
+			    <label for="porcentaje" class="form-label">Porcentaje:</label>
+			    <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje"
+			           min="0" max="100" step="1" required />
+			</div>
 
             <div class="mb-3">
                 <label for="voluntariosMax" class="form-label">Voluntarios Max:</label>
