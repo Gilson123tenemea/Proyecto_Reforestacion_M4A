@@ -101,7 +101,6 @@
                         <th>Proyecto</th>
                         <th>Actividad</th>
                         <th>Estado</th>
-                        <th>Meta Real</th>
                         <th>Meta Deseada</th>
                         <th>Acciones</th>
                     </tr>
@@ -113,7 +112,6 @@
                         <td th:text="${asignacion.id_tipoActividades}"></td>
                         <!-- Mostrar "Activo" o "Inactivo" dependiendo del estado -->
                         <td th:text="${asignacion.estado ? 'Activo' : 'Inactivo'}"></td>
-                        <td th:text="${asignacion.meta_real}"></td>
                         <td th:text="${asignacion.meta_deseada}"></td>
                         <td>
                             <!-- Acciones de editar y eliminar -->

@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Asignacion_proyectoActi;
+import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.service.IAsignacion_proyectoActiService;
 import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.ITipo_ActividadesService;
@@ -29,26 +33,30 @@ public class AsignarProyectosController {
 
     
     @RequestMapping(value = "/listarAsignaciones", method = RequestMethod.GET)
-    public String listarAsignaciones(Model model) {
+    public String listarAsignaciones(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Listado de Asignaciones de Proyecto");
-        model.addAttribute("asignaciones", asignar_p.findAll()); 
+        List<Asignacion_proyectoActi> asignaciones = asignar_p.findByAdministradorId(idAdministrador);
+        model.addAttribute("asignaciones", asignaciones); 
         return "listarAsignaciones";
     }
-
+    
     
     @RequestMapping(value = "/asignacion", method = RequestMethod.GET)
-    public String crear(Map<String, Object> model) {
+    public String crear(Map<String, Object> model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Asignacion_proyectoActi asignacion = new Asignacion_proyectoActi();
         model.put("asignacion", asignacion);
         model.put("titulo", "Formulario de Nueva Asignación");
-        model.put("proyectos", proyectoService.listarproyectos()); 
-        model.put("actividades", actividadService.listaractividades());
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+        model.put("proyectos", proyectos); 
+        List<Tipo_Actividades> actividades = actividadService.findByAdministradorId(idAdministrador);
+        model.put("actividades", actividades);
+
         return "asignacion";
     }
 
     
     @RequestMapping(value = "/asignacion/editar/{id}", method = RequestMethod.GET)
-    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Asignacion_proyectoActi asignacion = null;
         if (id > 0) {
             asignacion = asignar_p.findOne(id); 
@@ -60,10 +68,16 @@ public class AsignarProyectosController {
             flash.addFlashAttribute("error", "El Id de la Asignación no puede ser 0");
             return "redirect:/listarAsignaciones";
         }
+        
         model.put("asignacion", asignacion);
         model.put("titulo", "Editar Asignación");
-        model.put("proyectos", proyectoService.listarproyectos());
-        model.put("actividades", actividadService.listaractividades());
+
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+        model.put("proyectos", proyectos);
+
+        List<Tipo_Actividades> actividades = actividadService.findByAdministradorId(idAdministrador);
+        model.put("actividades", actividades);
+
         return "asignacion";
     }
 

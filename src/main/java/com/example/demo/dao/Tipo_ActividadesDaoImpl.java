@@ -39,4 +39,13 @@ public class Tipo_ActividadesDaoImpl implements ITipo_ActividadesDao {
 	public void delete(Long id) {
 		em.remove(findOne(id));
 	}
+
+	@Override
+	public List<Tipo_Actividades> findByAdministradorId(Long adminId) {
+		return em.createQuery(
+		        "SELECT t FROM Tipo_Actividades t WHERE t.id_administrador = :adminId", 
+		        Tipo_Actividades.class)
+		        .setParameter("adminId", adminId)
+		        .getResultList();
+	}
 }
