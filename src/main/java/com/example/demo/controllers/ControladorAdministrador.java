@@ -138,6 +138,31 @@ public class ControladorAdministrador {
 			return "error";
 		}
 	}
+	
+	@GetMapping("/inicioadmin")
+    public String iniciosuperadmin(Model model) {
+        model.addAttribute("titulo", "Inicio SuperAdmin");
+        return "inicioadmin";
+    }
+	
+	@PostMapping("/delete/{id}")
+    public String deleteAdministrador(@PathVariable Long id, Model model) {
+        try {
+            Administrador administrador = administradorServices.findOne(id);
+
+            if (administrador == null) {
+                model.addAttribute("mensaje", "Administrador no encontrado con ID: " + id);
+                return "error";
+            }
+
+            administradorServices.delete(id);
+            model.addAttribute("mensaje", "Administrador eliminado exitosamente");
+            return "redirect:/listarAdministradores";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al eliminar el administrador: " + e.getMessage());
+            return "error";
+        }
+    }
 
 	@GetMapping("/admin/cantones/{idProvincia}")
 	@ResponseBody
