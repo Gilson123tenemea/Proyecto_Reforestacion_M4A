@@ -42,6 +42,10 @@ public class Administrador implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_administrador")
 	private List<Equipos> equipos ; 
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name ="id_administrador")
+	private List<Tipo_Actividades> tipo_actividades ; 
 
 	
 	public Long getId_administrador() {
@@ -97,6 +101,14 @@ public class Administrador implements Serializable {
 
 	public void setEquipos(List<Equipos> equipos) {
 		this.equipos = equipos;
+	}
+	
+	public List<Tipo_Actividades> getTipo_actividades() {
+		return tipo_actividades;
+	}
+
+	public void setTipo_actividades(List<Tipo_Actividades> tipo_actividades) {
+		this.tipo_actividades = tipo_actividades;
 	}
 
 	private static final long serialVersionUID = 1L;

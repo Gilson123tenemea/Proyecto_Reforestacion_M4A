@@ -11,10 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name="tipo_actividades")
+@Table(name="tipo_actividades",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_tipoActividades"})})
 public class Tipo_Actividades implements Serializable{
 
 	
@@ -25,7 +26,7 @@ public class Tipo_Actividades implements Serializable{
     private String nombre_act;
     private Double duracion;
     private String frecuencia;
-    
+    private Long id_administrador;
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Monitoreo> monitoreo  ; 
@@ -97,6 +98,15 @@ public class Tipo_Actividades implements Serializable{
 	public void setAsignacion_proyectoacti(List<Asignacion_proyectoActi> asignacion_proyectoacti) {
 		this.asignacion_proyectoacti = asignacion_proyectoacti;
 	}
+
+	public Long getId_administrador() {
+		return id_administrador;
+	}
+
+	public void setId_administrador(Long id_administrador) {
+		this.id_administrador = id_administrador;
+	}
+	
 	
 
 }

@@ -160,7 +160,6 @@
                         <th>Nombre de la Actividad</th>
                         <th>Duración Horas</th>
                         <th>Frecuencia</th>
-                        <th>Descripción</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -170,7 +169,6 @@
                         <td th:text="${actividad.nombre_act}"></td>
                         <td th:text="${actividad.duracion}"></td>
                         <td th:text="${actividad.frecuencia}"></td>
-                        <td th:text="${actividad.descripcion}"></td>
                         <td>
                             <a th:href="@{/formtipo/{id}(id=${actividad.id_tipoActividades})}" class="btn btn-warning btn-sm">Editar</a>
                             <a th:href="@{/eliminartipo/{id}(id=${actividad.id_tipoActividades})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta actividad?');">Eliminar</a>
