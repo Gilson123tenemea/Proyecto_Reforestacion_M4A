@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.Patrocinio;
@@ -59,9 +60,12 @@ public class PatrocinioController {
     }
     
     @GetMapping("/verpatrocinios")
-    public String verPatrocinios(Model model) {
-        model.addAttribute("proyectos", proyectoService.findAll()); // Cargar proyectos existentes
-        return "verpatrocinios"; 
+    public String verPatrocinios(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
+        // Listar proyectos por el administrador específico
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+        model.addAttribute("proyectos", proyectos); // Cargar proyectos del administrador
+
+        return "verpatrocinios";
     }
     
     @GetMapping("/patrocinios/{idProyecto}")

@@ -9,12 +9,11 @@
                 fetch(`/patrocinios/${idProyecto}`)
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('Network response was not ok: ' + response.statusText);
+                            throw new Error('Network response fue no ok: ' + response.statusText);
                         }
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data); // Ver el contenido de la respuesta
                         var resultadosDiv = document.getElementById("resultados");
                         resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
                         
@@ -24,13 +23,12 @@
                             data.forEach(patrocinio => {
                                 var patronDiv = document.createElement("div");
                                 patronDiv.innerHTML = `
-								<h3>Beneficios: ${patrocinio.beneficios}</h3>
-								<p>Cantidad Estimada: ${patrocinio.cantiad_estimada}</p>
-								<p>Detalle: ${patrocinio.detalledpnado}</p>
-								<p>Fecha Inicio: ${patrocinio.fechainicio}</p>
-								<p>Fecha Fin: ${patrocinio.fechafin}</p>
-								<p>Tipo de Patrocinio: ${patrocinio.tipo_patrocinio}</p>
-								<p>Nombre de la Empresa: ${patrocinio.Id_patrocinador ? patrocinio.patrocinador.nombreEmpresa : 'No disponible'}</p>
+                                    <h3>Beneficios: ${patrocinio.beneficios}</h3>
+                                    <p>Cantidad Estimada: ${patrocinio.cantiad_estimada}</p>
+                                    <p>Detalle: ${patrocinio.detalledpnado}</p>
+                                    <p>Fecha Inicio: ${patrocinio.fechainicio}</p>
+                                    <p>Fecha Fin: ${patrocinio.fechafin}</p>
+                                    <p>Tipo de Patrocinio: ${patrocinio.tipo_patrocinio}</p>
                                 `;
                                 resultadosDiv.appendChild(patronDiv);
                             });
