@@ -24,26 +24,26 @@ public class AreaController {
     private IAreaServices areaService;
 
     @Autowired
-    private IProyectoServices proyectoService; // Servicio para manejar Proyecto
+    private IProyectoServices proyectoService; 
 
     @GetMapping("/area")
     public String crearArea(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("area", new Area());
-        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador); // Filtrar proyectos por administrador
-        model.addAttribute("proyectos", proyectos); // Lista de proyectos para seleccionar
-        return "area"; // Redirige al formulario de área
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador); 
+        model.addAttribute("proyectos", proyectos); 
+        return "area"; 
     }
 
-    // Guardar un Área
+
     @PostMapping("/guardararea")
     public String guardarArea(@ModelAttribute Area area, Model model) {
         try {
-            // Validar que se ha seleccionado un proyecto
+    
             if (area.getId_proyecto() == null) {
                 throw new Exception("Debe seleccionar un Proyecto.");
             }
 
-            // Guardar el área
+
             areaService.save(area);
             model.addAttribute("mensaje", "Área guardada exitosamente");
             return "redirect:/listarareas";
@@ -53,15 +53,16 @@ public class AreaController {
         }
     }
 
-    // Listar Áreas
+
     @GetMapping("/listarareas")
-    public String listarAreas(Model model) {
+    public String listarAreas(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Lista de Áreas");
-        model.addAttribute("areas", areaService.findAll());
+        List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
+        model.addAttribute("areas", areas);
         return "listarareas";
     }
 
-    // Eliminar un Área
+  
     @GetMapping("/area/eliminar/{id}")
     public String eliminarArea(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
@@ -75,7 +76,7 @@ public class AreaController {
         return "redirect:/listarareas";
     }
 
-    // Editar un Área
+ 
     @GetMapping("/area/editar/{id}")
     public String editarArea(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         try {
@@ -85,9 +86,9 @@ public class AreaController {
                 return "redirect:/listarareas";
             }
             model.addAttribute("area", area);
-            model.addAttribute("proyectos", proyectoService.findAll()); // Lista de proyectos
+            model.addAttribute("proyectos", proyectoService.findAll()); 
             model.addAttribute("titulo", "Editar Área");
-            return "area"; // Redirige al formulario de edición
+            return "area"; 
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al cargar el Área: " + e.getMessage());
             return "redirect:/listarareas";

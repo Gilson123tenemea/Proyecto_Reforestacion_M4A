@@ -61,4 +61,10 @@ public class AreaServiceslmpl implements IAreaServices{
 		    return null;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Area> findByProyectoIdAdministrador(Long adminId) {
+		return areadao.findByProyectoIdAdministrador(adminId);
+	}
+
 }

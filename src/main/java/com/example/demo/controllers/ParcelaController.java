@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Parcelas;
@@ -36,14 +37,10 @@ public class ParcelaController {
     private IPlantasService plantaService;
 
     @RequestMapping(value = "/listarparcelas", method = RequestMethod.GET)
-    public String listarParcelas(Model model) {
+    public String listarParcelas(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Listado de Parcelas");
-        List<Parcelas> parcelas = parcelaservice.findAll();
-        
-        // Crear un mapa para almacenar el nombre del proyecto por ID de parcela
+        List<Parcelas> parcelas = parcelaservice.findByAdministradorId(idAdministrador);
         Map<Long, String> proyectoNombres = new HashMap<>();
-        
-        // Agregar el nombre del proyecto a cada parcela
         for (Parcelas parcela : parcelas) {
             String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
             proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
@@ -53,19 +50,18 @@ public class ParcelaController {
         model.addAttribute("proyectoNombres", proyectoNombres);
         return "listarparcelas";
     }
-    // Crear una nueva Parcela
+    
     @RequestMapping(value = "/parcelas", method = RequestMethod.GET)
-    public String crear(Map<String, Object> model) {
+    public String crear(Map<String, Object> model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Parcelas parcela = new Parcelas();
         model.put("parcela", parcela);
         model.put("titulo", "Formulario de Nueva Parcela");
-        model.put("suelos", sueloservice.listarsuelos()); // Lista de suelos
-        model.put("plantas", plantaService.listarPlantas()); // Lista de plantas
-        model.put("areas", areaService.listarAreas()); // Lista de áreas
+        model.put("suelos", sueloservice.listarsuelos()); 
+        model.put("plantas", plantaService.listarPlantas());
+        model.put("areas", areaService.findByProyectoIdAdministrador(idAdministrador)); 
         return "parcelas";
     }
 
-    // Editar Parcela
     @RequestMapping(value = "/parcela/editar/{id}", method = RequestMethod.GET)
     public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         Parcelas parcela = null;
@@ -87,18 +83,16 @@ public class ParcelaController {
         return "parcelas";
     }
 
-    // Guardar Parcela (Crear o Actualizar)
     @RequestMapping(value = "/parcelas", method = RequestMethod.POST)
     public String guardarParcela(Parcelas parcela, RedirectAttributes flash) {
         try {
             if (parcela.getId_parcelas() != null) {
-                // Si el ID existe, es una actualización
                 Parcelas parcelaExistente = parcelaservice.findOne(parcela.getId_parcelas());
                 if (parcelaExistente == null) {
                     flash.addFlashAttribute("error", "La Parcela con ese ID no existe");
                     return "redirect:/listarparcelas";
                 }
-                // Actualizar los campos necesarios (si es necesario)
+
                 parcelaExistente.setId_suelo(parcela.getId_suelo());
                 parcelaExistente.setId_plantas(parcela.getId_plantas());
                 parcelaExistente.setId_area(parcela.getId_area());
@@ -110,7 +104,6 @@ public class ParcelaController {
                 parcelaservice.save(parcelaExistente);
                 flash.addFlashAttribute("success", "Parcela actualizada exitosamente");
             } else {
-                // Si el ID no existe, es una creación
                 parcelaservice.save(parcela);
                 flash.addFlashAttribute("success", "Parcela guardada exitosamente");
             }
@@ -121,7 +114,7 @@ public class ParcelaController {
         }
     }
 
-    // Eliminar Parcela
+
     @RequestMapping(value = "/parcela/eliminar/{id}", method = RequestMethod.GET)
     public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {

@@ -40,4 +40,13 @@ public class AreaDaolmpl implements IAreaDao {
 		em.remove(findOne(id));		
 	}
 
+	@Override
+	public List<Area> findByProyectoIdAdministrador(Long adminId) {
+		 return em.createQuery(
+			        "SELECT a FROM Area a WHERE a.id_proyecto IN (SELECT p.id_proyecto FROM Proyecto p WHERE p.id_administrador = :adminId)", 
+			        Area.class)
+			        .setParameter("adminId", adminId)
+			        .getResultList();
+	}
+
 }

@@ -52,4 +52,9 @@ public class ParcelaServiceImpl implements IParcelaService{
 		return parceladao.findByAreaId(idArea);
 	}
 
+	@Override
+	public List<Parcelas> findByAdministradorId(Long adminId) {
+		return parceladao.findByAdministradorId(adminId);
+	}
+
 }

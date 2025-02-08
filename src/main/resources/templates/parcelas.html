@@ -133,13 +133,13 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="id_area">Seleccionar Área</label>
-                    <select th:field="*{id_area}" class="form-control" id="id_area" required>
-                        <option value="">Seleccione una opción</option>
-                        <option th:each="area : ${areas}" th:value="${area.id_area}" th:text="${area.nombre}"></option>
-                    </select>
-                </div>
+				<div class="form-group">
+				    <label for="id_area">Seleccionar Área</label>
+				    <select th:field="*{id_area}" class="form-control" id="id_area" required>
+				        <option value="">Seleccione una opción</option>
+				        <option th:each="area : ${areas}" th:value="${area.id_area}" th:text="${area.nombre}"></option>
+				    </select>
+				</div>
 
                 <div class="form-group">
                     <label for="largo">Largo</label>

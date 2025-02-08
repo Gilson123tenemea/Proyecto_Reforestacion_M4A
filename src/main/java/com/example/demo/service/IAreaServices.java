@@ -12,4 +12,6 @@ public interface IAreaServices {
 	public void delete(Long id);
 	public List<Area> listarAreas(); 
 	public String findProyectoNameByAreaId(Long idArea);
+	List<Area> findByProyectoIdAdministrador(Long adminId);
+	
 }

@@ -60,6 +60,18 @@ public class ParcelaDaoImpl implements IParcelaDao{
 		
 	}
 
+
+	@Override
+	public List<Parcelas> findByAdministradorId(Long adminId) {
+		  return en.createQuery(
+			        "SELECT p FROM Parcelas p WHERE p.id_area IN " +
+			        "(SELECT a.id_area FROM Area a WHERE a.id_proyecto IN " +
+			        "(SELECT pr.id_proyecto FROM Proyecto pr WHERE pr.id_administrador = :adminId))", 
+			        Parcelas.class)
+			        .setParameter("adminId", adminId)
+			        .getResultList();
+	}
+
 	
 	
 	

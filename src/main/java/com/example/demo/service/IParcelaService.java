@@ -10,6 +10,6 @@ public interface IParcelaService {
 	public Parcelas findOne(Long id);
 	public void delete(Long id);
 	List<Parcelas> findByAreaId(Long idArea);
-
+	List<Parcelas> findByAdministradorId(Long adminId);
 
 }
