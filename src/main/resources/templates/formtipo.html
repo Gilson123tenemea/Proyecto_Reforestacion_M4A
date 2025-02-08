@@ -104,6 +104,7 @@
             <div class="form-container">
                 <h1 th:text="${titulo}">Formulario de Actividad</h1>
                 <form th:action="@{/formtipo}" th:object="${tactividad}" method="post">
+					<input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
                     <div class="mb-3">
                         <label for="nombre_act" class="form-label">Nombre de la Actividad</label>
                         <input type="text" class="form-control" id="nombre_act" th:field="*{nombre_act}" placeholder="Nombre">
@@ -115,10 +116,6 @@
                     <div class="mb-3">
                         <label for="frecuencia" class="form-label">Frecuencia</label>
                         <input type="text" class="form-control" id="frecuencia" th:field="*{frecuencia}" placeholder="Frecuencia">
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcion" th:field="*{descripcion}" placeholder="Descripción"></textarea>
                     </div>
                     <button type="submit" class="btn">Guardar</button>
                     <input type="hidden" th:field="*{id_tipoActividades}"/>
