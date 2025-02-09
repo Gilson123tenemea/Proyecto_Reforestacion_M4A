@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +18,6 @@ import com.example.demo.service.IProvinciaService;
 
 import jakarta.validation.Valid;
 
-
-
 @Controller
 public class ProvinciaControllers {
 
@@ -34,8 +31,8 @@ public class ProvinciaControllers {
         model.addAttribute("provincias", provinciaService.findAll());
         return "listarprovincia";
     }
-
-    // Crear una nueva provincia
+    
+    // Crear una nueva provincia (Formulario)
     @RequestMapping(value="/formprovincia", method=RequestMethod.GET)
     public String crear(Map<String, Object> model) {
         Provincia provincia = new Provincia();
@@ -63,8 +60,22 @@ public class ProvinciaControllers {
         return "formprovincia";
     }
 
+    // Guardar una provincia (Nueva o Editada)
     @RequestMapping(value = "/formprovincia", method = RequestMethod.POST)
-    public String guardar(@Valid @ModelAttribute("provincia") Provincia provincia, RedirectAttributes flash) {
+    public String guardarProvincia(@Valid @ModelAttribute("provincia") Provincia provincia, Model model) {
+        // Validación: Verificar si la provincia ya existe (ignorando mayúsculas y minúsculas)
+        String nombreProvincia = provincia.getNombreProvincia().trim().toLowerCase();
+        List<Provincia> provinciasExistentes = provinciaService.findAll();
+
+        for (Provincia provinciaExistente : provinciasExistentes) {
+            if (provinciaExistente.getNombreProvincia().trim().toLowerCase().equals(nombreProvincia)) {
+                model.addAttribute("error", "La provincia ya existe. Si deseas, puedes continuar y repetirla.");
+                model.addAttribute("titulo", "Formulario de Nueva Provincia");
+                return "formprovincia";  // Volver al formulario con el mensaje de error
+            }
+        }
+
+        // Si la provincia ya existe, mantener los cantones actuales
         if (provincia.getId_provincia() != null) {
             Provincia provinciaActual = provinciaService.findOne(provincia.getId_provincia());
             if (provinciaActual != null) {
@@ -72,6 +83,7 @@ public class ProvinciaControllers {
             }
         }
 
+        // Asignar la provincia a cada cantón si existen
         if (provincia.getCanton() != null) {
             for (Canton canton : provincia.getCanton()) {
                 canton.setId_provincia(provincia.getId_provincia());
@@ -79,12 +91,11 @@ public class ProvinciaControllers {
         }
 
         provinciaService.save(provincia);
-        String mensajeFls = "La provincia se ha guardado correctamente.";
-        flash.addFlashAttribute("success", mensajeFls);
+        model.addAttribute("success", "La provincia se ha guardado correctamente.");
         return "redirect:/listarprovincia";
     }
 
-
+    // Eliminar provincia
     @RequestMapping(value="/eliminarprovincia/{id}", method=RequestMethod.GET)
     public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
         try {
@@ -98,6 +109,4 @@ public class ProvinciaControllers {
             return "redirect:/listarprovincia";
         }
     }
-    
-
 }
