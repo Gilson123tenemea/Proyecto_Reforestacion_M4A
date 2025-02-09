@@ -29,22 +29,24 @@ public class EquiposDaoImpl implements IEquiposDao {
 	public Equipos findByVoluntarioId(Long voluntarioId) {
 		return (Equipos) entityManager.createQuery("SELECT e FROM Equipos e WHERE e.id_inscripcion = :id_voluntario")
 				.setParameter("id_voluntario", voluntarioId).getSingleResult();
-	}
+	}  
 
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {
-		return entityManager.createQuery("SELECT u.nombre, p.nombre, "
-				+ "CASE WHEN r.validacion_voluntario_tareaRealizada IS NOT NULL THEN 'SI' ELSE 'NO' END "
-				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " // Relación correcta
-				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " // Relación correcta
-				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-				+ "LEFT JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
-				+ "LEFT JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
-				+ "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL", Object[].class)
-				.setParameter("voluntarioId", voluntarioId).getResultList();
+	    return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre "
+	            + "FROM Usuarios u "
+	            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+	            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+	            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+	            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+	            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+	            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " // Se añade esta relación
+	            + "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL", Object[].class)
+	        .setParameter("voluntarioId", voluntarioId)
+	        .getResultList();
 	}
+
+
 
 	@Override
 	public List<Equipos> findAll() {

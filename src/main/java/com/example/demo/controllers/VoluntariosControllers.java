@@ -70,42 +70,45 @@ public class VoluntariosControllers {
 
 	@Autowired
 	private EquiposDaoImpl equipoDao;
-	
+
 	@Autowired
-	private RegistroActividadRealizadaDaoImpl  registroActDao;
-	
+	private RegistroActividadRealizadaDaoImpl registroActDao;
+
 	@Autowired
-	private IProyectoServices proyectoService; 
-	
+	private IProyectoServices proyectoService;
+
 	@Autowired
-	private IInscripcionServices inscripcionService; 
-	
+	private IInscripcionServices inscripcionService;
 
 	@GetMapping("/proyectosvoluntario")
 	public String proyectos(Model model, @SessionAttribute("idVoluntario") Long idVoluntario) {
-	    
-	    List<Inscripcion> inscripciones = inscripcionService.findAll();
-	    List<Proyecto> todosLosProyectos = proyectoService.findAll();
 
-	    // Crear un Set para almacenar los IDs de los proyectos en los que el voluntario ya está inscrito
-	    Set<Long> proyectosInscritos = inscripciones.stream()
-	            .filter(inscripcion -> inscripcion.getId_voluntario().equals(idVoluntario))
-	            .map(Inscripcion::getId_proyecto)
-	            .collect(Collectors.toSet());
+		List<Inscripcion> inscripciones = inscripcionService.findAll();
+		List<Proyecto> todosLosProyectos = proyectoService.findAll();
 
-	    // Filtrar los proyectos disponibles:
-	    // 1. Que no estén en la lista de proyectos inscritos
-	    // 2. Que tengan el estado "Activo"
-	    List<Proyecto> proyectosDisponibles = todosLosProyectos.stream()
-	            .filter(proyecto -> !proyectosInscritos.contains(proyecto.getId_proyecto()) && 
-	                                "activo".equals(proyecto.getEstado())) // Filtra solo los proyectos con estado "Activo"
-	            .collect(Collectors.toList());
+		// Crear un Set para almacenar los IDs de los proyectos en los que el voluntario
+		// ya está inscrito
+		Set<Long> proyectosInscritos = inscripciones.stream()
+				.filter(inscripcion -> inscripcion.getId_voluntario().equals(idVoluntario))
+				.map(Inscripcion::getId_proyecto).collect(Collectors.toSet());
 
-	    model.addAttribute("proyectos", proyectosDisponibles);
-	    model.addAttribute("titulo", "Proyectos Disponibles");
+		// Filtrar los proyectos disponibles:
+		List<Proyecto> proyectosDisponibles = todosLosProyectos.stream()
+				.filter(proyecto -> !proyectosInscritos.contains(proyecto.getId_proyecto())
+						&& "activo".equals(proyecto.getEstado()))
+				.collect(Collectors.toList());
 
-	    return "proyectosvoluntario";
+		model.addAttribute("proyectos", proyectosDisponibles);
+		model.addAttribute("titulo", "Proyectos Disponibles");
+
+		return "proyectosvoluntario";
 	}
+
+	// --------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------
+	
 	
 	
 
@@ -118,10 +121,33 @@ public class VoluntariosControllers {
 		return "voluntarioActividades"; // Nombre de la vista
 	}
 
+	@GetMapping("/actividades-realizadas")
+	public String getActividadesRealizadas(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
+		// Obtener actividades realizadas con validación de administrador en TRUE
+		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
+				.obtenerActividadesRealizadas(idVoluntario);
+
+		model.addAttribute("actividadesRealizadas", actividadesRealizadas);
+
+		return "voluntarioActividades"; // Asegúrate de que este es el nombre correcto del archivo HTML en
+										// `template s/`
+	}
+	
+
+	 @GetMapping("/actividades/voluntario")
+	    public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
+	        List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
+	        model.addAttribute("actividades", actividades);
+	        model.addAttribute("idVoluntario", idVoluntario);
+	        return "actividades_voluntario";
+	    }
+
+	// --------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
 
 	@GetMapping("/{actividad}/detalle")
-	public String getDetalleActividad( @PathVariable Long actividadId , Model model) {
+	public String getDetalleActividad(@PathVariable Long actividadId, Model model) {
 		// Obtener los detalles de la actividad por su ID
 		Optional<Object[]> actividadDetalle = registroActividadRealizadaService.obtenerDetalleActividad(actividadId);
 
@@ -135,19 +161,6 @@ public class VoluntariosControllers {
 	}
 
 	// --------------------------------------------------------------------------------------------
-
-	@GetMapping("/actividades-realizadas")
-	public String getActividadesRealizadas(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
-		// Obtener actividades realizadas con validación de administrador en TRUE
-		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
-				.obtenerActividadesRealizadas(idVoluntario);
-
-		model.addAttribute("actividadesRealizadas", actividadesRealizadas);
-
-		return "voluntarioActividadesRealizadas"; // Asegúrate de que este es el nombre correcto del archivo HTML en
-													// `templates/`
-	}
-
 
 	// -------------------------------------------------------------------------------------------------
 
@@ -169,10 +182,6 @@ public class VoluntariosControllers {
 
 		return "iniciovoluntario";
 	}
-
-
-
-
 
 	@GetMapping("/inscribirproyecto")
 	public String inscribirproyectos(Model model) {
@@ -389,10 +398,8 @@ public class VoluntariosControllers {
 		return parroquiaService.findByCanton(idCanton);
 	}
 
-	
 	// =======================================================================
-	
-	
+
 	@GetMapping("/InfromacionProyecto")
 	public String InfoVoluntarioProy(Model model) {
 		model.addAttribute("voluntarios", new Voluntarios());
@@ -401,52 +408,37 @@ public class VoluntariosControllers {
 		return "voluntarios";
 	}
 
-	
 	@GetMapping("/inscribir")
-	public String inscribir(@SessionAttribute("idVoluntario") Long idVoluntario ,@RequestParam(value = "id", required = false) Long id, RedirectAttributes redirectAttributes) {
-	    
+	public String inscribir(@SessionAttribute("idVoluntario") Long idVoluntario,
+			@RequestParam(value = "id", required = false) Long id, RedirectAttributes redirectAttributes) {
+
 		List<Inscripcion> inscripciones = inscripcionService.findAll();
 		List<Proyecto> todosLosProyectos = proyectoService.findAll();
-		
-		
-		Set<Long> proyectosInscritos = inscripciones.stream()
-			    .filter(inscripcion -> inscripcion.getId_voluntario().equals(idVoluntario) &&
-			                           todosLosProyectos.stream()
-			                               .anyMatch(proyecto -> proyecto.getId_proyecto().equals(inscripcion.getId_proyecto()) &&
-			                                                     "activo".equals(proyecto.getEstado())))
-			    .map(Inscripcion::getId_proyecto)
-			    .collect(Collectors.toSet());
 
-		
+		Set<Long> proyectosInscritos = inscripciones.stream()
+				.filter(inscripcion -> inscripcion.getId_voluntario().equals(idVoluntario) && todosLosProyectos.stream()
+						.anyMatch(proyecto -> proyecto.getId_proyecto().equals(inscripcion.getId_proyecto())
+								&& "activo".equals(proyecto.getEstado())))
+				.map(Inscripcion::getId_proyecto).collect(Collectors.toSet());
+
 		if (proyectosInscritos.isEmpty()) {
 			Inscripcion inscribirse = new Inscripcion();
-		
-		inscribirse.setId_voluntario(idVoluntario);
-		inscribirse.setId_proyecto(id);
-		inscribirse.setFecha(new Date());
-		
-		inscripcionService.save(inscribirse);
-		
-		
-		System.out.println("Se recibió el ID: " + id);
-        redirectAttributes.addFlashAttribute("mensaje", "Te has inscrito al proyecto con exito");
-        redirectAttributes.addFlashAttribute("error", false);
-		
+
+			inscribirse.setId_voluntario(idVoluntario);
+			inscribirse.setId_proyecto(id);
+			inscribirse.setFecha(new Date());
+
+			inscripcionService.save(inscribirse);
+
+			System.out.println("Se recibió el ID: " + id);
+			redirectAttributes.addFlashAttribute("mensaje", "Te has inscrito al proyecto con exito");
+			redirectAttributes.addFlashAttribute("error", false);
+
 		} else {
-	        redirectAttributes.addFlashAttribute("mensaje", "Ingreso negado, ya se encuentra en un proyecto en curso");
-	        redirectAttributes.addFlashAttribute("error", true);
-	    } 
-	    return "redirect:/proyectosvoluntario"; // 🔄 Importante: Redirección con el mensaje
+			redirectAttributes.addFlashAttribute("mensaje", "Ingreso negado, ya se encuentra en un proyecto en curso");
+			redirectAttributes.addFlashAttribute("error", true);
+		}
+		return "redirect:/proyectosvoluntario"; // 🔄 Importante: Redirección con el mensaje
 	}
 
-	
-	
-	
 }
-
-
-
-
-
-
-
