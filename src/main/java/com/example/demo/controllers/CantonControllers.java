@@ -8,6 +8,7 @@ import com.example.demo.service.IProvinciaService;
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 public class CantonControllers {
 
@@ -30,7 +30,6 @@ public class CantonControllers {
     
     @Autowired
     private IProvinciaService provinciaService;  // Añadir este servicio
-
 
     // Listar Cantones
     @RequestMapping(value = "/listarcantones", method = RequestMethod.GET)
@@ -77,12 +76,23 @@ public class CantonControllers {
         return "cantones";
     }
     
-    
-
     // Guardar un Canton (Crear o Actualizar)
     @RequestMapping(value = "/cantones", method = RequestMethod.POST)
-    public String guardarCanton(@Valid @ModelAttribute("canton") Canton canton, RedirectAttributes flash) {
+    public String guardarCanton(@Valid @ModelAttribute("canton") Canton canton, RedirectAttributes flash, Model model) {
         try {
+            // Verificar si el nombre del Cantón ya existe (ignorando mayúsculas y minúsculas)
+            String nombreCanton = canton.getNombreCanton().trim().toLowerCase();
+            List<Canton> cantonesExistentes = cantonService.findAll();
+
+            for (Canton cantonExistente : cantonesExistentes) {
+                if (cantonExistente.getNombreCanton().trim().toLowerCase().equals(nombreCanton)) {
+                    model.addAttribute("error", "El Cantón ya existe. Si deseas, puedes continuar y repetirlo.");
+                    model.addAttribute("titulo", "Formulario de Nuevo Cantón");
+                    model.addAttribute("provincias", provinciaService.findAll());  // Asegúrate de que las provincias se carguen
+                    return "cantones";  // Volver al formulario con el mensaje de error
+                }
+            }
+
             // Verificar si la lista de parroquias es null y, en tal caso, inicializarla como una lista vacía
             if (canton.getParroquia() == null) {
                 canton.setParroquia(new ArrayList<>());
@@ -98,14 +108,14 @@ public class CantonControllers {
                 cantonExistente.setNombreCanton(canton.getNombreCanton());
                 cantonExistente.setParroquia(canton.getParroquia()); // Actualizar la lista de parroquias
                 cantonService.save(cantonExistente);
-                flash.addFlashAttribute("success", "Canton actualizado exitosamente");
+                flash.addFlashAttribute("success", "Cantón actualizado exitosamente");
             } else {
                 cantonService.save(canton);
-                flash.addFlashAttribute("success", "Canton creado exitosamente");
+                flash.addFlashAttribute("success", "Cantón creado exitosamente");
             }
             return "redirect:/listarcantones";
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "Error al guardar el Canton: " + e.getMessage());
+            flash.addFlashAttribute("error", "Error al guardar el Cantón: " + e.getMessage());
             return "redirect:/listarcantones";
         }
     }
@@ -115,9 +125,9 @@ public class CantonControllers {
     public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
             cantonService.delete(id);
-            flash.addFlashAttribute("success", "Canton eliminado correctamente");
+            flash.addFlashAttribute("success", "Cantón eliminado correctamente");
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "Error al eliminar el Canton: " + e.getMessage());
+            flash.addFlashAttribute("error", "Error al eliminar el Cantón: " + e.getMessage());
         }
         return "redirect:/listarcantones";
     }
