@@ -122,21 +122,22 @@ public class ProyectosControllers {
                                   @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
                                   @RequestParam("idAdministrador") Long idAdministrador,
                                   RedirectAttributes redirectAttributes) {
-    	
         try {
-        	 proyecto.setId_administrador(idAdministrador); 
+            proyecto.setId_administrador(idAdministrador); 
             if (proyecto.getId_parroquia() == null) {
                 throw new Exception("Debe seleccionar una Parroquia.");
             }
 
+            // Verificar si se ha subido una nueva imagen
             if (!imagenArchivo.isEmpty()) {
-                BufferedImage originalImage = ImageIO.read(imagenArchivo.getInputStream());
-                BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 300, 300);
+                // Guardar la imagen en su tamaño original
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(resizedImage, "jpg", baos);
+                baos.write(imagenArchivo.getBytes()); // Guardar la imagen original
                 proyecto.setImagen(baos.toByteArray());
             } else {
-                proyecto.setImagen(null);
+                // Mantener la imagen existente
+                Proyecto proyectoExistente = proyectoService.findOne(proyecto.getId_proyecto());
+                proyecto.setImagen(proyectoExistente.getImagen());
             }
 
             proyectoService.save(proyecto);
@@ -149,7 +150,8 @@ public class ProyectosControllers {
             redirectAttributes.addFlashAttribute("error", "Error al guardar el proyecto: " + e.getMessage());
             return "redirect:/proyectos";
         }
-    }    
+    }
+    
     
     @GetMapping("/proyecto/imagen/{id}")
     @ResponseBody
@@ -182,6 +184,9 @@ public class ProyectosControllers {
                 return "redirect:/listarProyectos";
             }
 
+            // Cargar la imagen
+            model.addAttribute("imagenGuardada", proyecto.getImagen());
+
             // Obtener la parroquia relacionada con el proyecto
             Parroquia parroquia = parroquiaService.findOne(proyecto.getId_parroquia());
             if (parroquia != null) {
@@ -201,10 +206,11 @@ public class ProyectosControllers {
             model.addAttribute("proyecto", proyecto);
             model.addAttribute("parroquias", parroquiaService.findAll());
             model.addAttribute("provincias", provinciaService.findAll()); // Todas las provincias
-            return "proyectos"; 
+
+            return "proyectos"; // Asegúrate de devolver la vista correcta
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al cargar el proyecto: " + e.getMessage());
-            return "redirect:/listarProyectos";
+            return "redirect:/listarProyectos"; // Asegúrate de que este camino también devuelva un String
         }
     }
     

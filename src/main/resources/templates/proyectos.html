@@ -2,205 +2,204 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo}">Formulario de Proyecto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${titulo}">Formulario de Proyecto</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 	<div th:replace="layout/layoutAdmin :: menu"></div>
 
-    <div class="container mt-5">
-        <h1 class="mb-4" th:text="${titulo}">Formulario de Proyecto</h1>
+	<div class="container mt-5">
+		<h1 class="mb-4" th:text="${titulo}">Formulario de Proyecto</h1>
 
-        <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{id_proyecto}" />
+		<form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
+			<input type="hidden" th:field="*{id_proyecto}" />
 			<input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
-            <div th:if="${mensaje}" class="alert alert-success" role="alert">
-                <span th:text="${mensaje}"></span>
-            </div>
-            <div th:if="${error}" class="alert alert-danger" role="alert">
-                <span th:text="${error}"></span>
-            </div>
-			
-			
+			<div th:if="${mensaje}" class="alert alert-success" role="alert">
+				<span th:text="${mensaje}"></span>
+			</div>
+			<div th:if="${error}" class="alert alert-danger" role="alert">
+				<span th:text="${error}"></span>
+			</div>
+
+
 			<div class="mb-3">
-			                <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-							<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto" 
-							       pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
-							       title="Solo se permiten letras y espacios" />
-			            </div>
+				<label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+				<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
+					pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required title="Solo se permiten letras y espacios" />
+			</div>
 
-						<!-- Selección de la Provincia -->
-						<div class="mb-3">
-							
-						    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-						    <select id="id_provincia" class="form-control" required>
-								<option value="" disabled selected>Seleccione una Provincia</option> <!-- Este es el mensaje que se mostrará primero -->
-						        <th:block th:each="provincia : ${provincias}">
-						            <option th:value="${provincia.id_provincia}"
-						                    th:selected="${provincia.id_provincia == provinciaSeleccionada}"
-						                    th:text="${provincia.nombreProvincia}"></option>
-						        </th:block>
-						    </select>
-						</div>
+			<!-- Selección de la Provincia -->
+			<div class="mb-3">
 
-						<!-- Selección de Cantón -->
-						<div class="mb-3">
-						    <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-						    <select id="id_canton" class="form-control" required>
-						        <option value="" disabled>Seleccione un Cantón</option>
-						        <th:block th:each="canton : ${cantones}">
-						            <option th:value="${canton.id_canton}"
-						                    th:selected="${canton.id_canton == cantonSeleccionado}"
-						                    th:text="${canton.nombreCanton}"></option>
-						        </th:block>
-						    </select>
-						</div>
+				<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+				<select id="id_provincia" class="form-control" required>
+					<option value="" disabled selected>Seleccione una Provincia</option>
+					<!-- Este es el mensaje que se mostrará primero -->
+					<th:block th:each="provincia : ${provincias}">
+						<option th:value="${provincia.id_provincia}"
+							th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+							th:text="${provincia.nombreProvincia}"></option>
+					</th:block>
+				</select>
+			</div>
 
-						<!-- Selección de la Parroquia -->
-						<div class="mb-3">
-						    <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-						    <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
-						        <option value="" disabled>Seleccione una Parroquia</option>
-						        <th:block th:each="parroquia : ${parroquias}">
-						            <option th:value="${parroquia.id_parroquia}"
-						                    th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
-						                    th:text="${parroquia.nombreParroquia}"></option>
-						        </th:block>
-						    </select>
-						</div>						
-            <!-- Mostrar imagen existente -->
-            <div class="mb-3 text-center">
-                <img th:if="${proyecto.imagen}" th:src="@{${proyecto.imagen}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
-            </div>
+			<!-- Selección de Cantón -->
+			<div class="mb-3">
+				<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+				<select id="id_canton" class="form-control" required>
+					<option value="" disabled>Seleccione un Cantón</option>
+					<th:block th:each="canton : ${cantones}">
+						<option th:value="${canton.id_canton}" th:selected="${canton.id_canton == cantonSeleccionado}"
+							th:text="${canton.nombreCanton}"></option>
+					</th:block>
+				</select>
+			</div>
 
+			<!-- Selección de la Parroquia -->
+			<div class="mb-3">
+				<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+				<select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
+					<option value="" disabled>Seleccione una Parroquia</option>
+					<th:block th:each="parroquia : ${parroquias}">
+						<option th:value="${parroquia.id_parroquia}"
+							th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
+							th:text="${parroquia.nombreParroquia}"></option>
+					</th:block>
+				</select>
+			</div>
+			<!-- Mostrar imagen existente -->
+			<div class="mb-3 text-center">
+			    <img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
+			</div>
 			<!-- Campo para cargar la imagen -->
 			<div class="mb-3">
-			    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-			    <input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*" onchange="mostrarNombreArchivo()" />
-			    <small class="form-text text-muted" id="nombreArchivoGuardado">Seleccionar archivo</small>
+				<label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+				<input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*"
+					onchange="mostrarNombreArchivo()" />
+				<small class="form-text text-muted" id="nombreArchivoGuardado">Seleccionar archivo</small>
 			</div>
 
 			<script>
-			function mostrarNombreArchivo() {
-			    const input = document.getElementById('imagenArchivo');
-			    const nombreArchivo = input.files[0] ? input.files[0].name : 'Seleccionar archivo';
-			    document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
-			}
-			</script>			
-			            <!-- Otros campos del formulario -->
-            
+				function mostrarNombreArchivo() {
+					const input = document.getElementById('imagenArchivo');
+					const nombreArchivo = input.files[0] ? input.files[0].name : 'Seleccionar archivo';
+					document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
+				}
+			</script>
+			<!-- Otros campos del formulario -->
 
-            <div class="mb-3">
-                <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-                <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
-            </div>
 
-            <div class="mb-3">
-                <label for="fechaFin" class="form-label">Fecha de Fin:</label>
-                <input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado:</label>
-                <select th:field="*{estado}" class="form-control" id="estado" required>
-                    <option value="" disabled selected>Seleccione un Estado</option>
-                    <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
-                    <option value="finalizado">Finalizado</option>
-                </select>
-            </div>
-			
 			<div class="mb-3">
-			    <label for="porcentaje" class="form-label">Porcentaje:</label>
-			    <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje"
-			           min="0" max="100" step="1" required />
+				<label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+				<input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
 			</div>
 
-            <div class="mb-3">
-                <label for="voluntariosMax" class="form-label">Voluntarios Max:</label>
-				<input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" 
-				       min="1" required />
+			<div class="mb-3">
+				<label for="fechaFin" class="form-label">Fecha de Fin:</label>
+				<input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
 			</div>
 
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a th:href="@{/listarProyectos}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
-    </div>
+			<div class="mb-3">
+				<label for="estado" class="form-label">Estado:</label>
+				<select th:field="*{estado}" class="form-control" id="estado" required>
+					<option value="" disabled selected>Seleccione un Estado</option>
+					<option value="activo">Activo</option>
+					<option value="inactivo">Inactivo</option>
+					<option value="finalizado">Finalizado</option>
+				</select>
+			</div>
 
-    <script>
-		
+			<div class="mb-3">
+				<label for="porcentaje" class="form-label">Porcentaje:</label>
+				<input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
+					step="1" required />
+			</div>
+
+			<div class="mb-3">
+				<label for="voluntariosMax" class="form-label">Voluntarios Max:</label>
+				<input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1"
+					required />
+			</div>
+
+			<div class="mb-3">
+				<button type="submit" class="btn btn-primary">Guardar</button>
+				<a th:href="@{/listarProyectos}" class="btn btn-secondary">Cancelar</a>
+			</div>
+		</form>
+	</div>
+
+	<script>
+
 		const fechaInicio = document.getElementById('fechaInicio');
 		const fechaFin = document.getElementById('fechaFin');
 
 		// Validar fecha de fin
 		fechaFin.addEventListener('change', () => {
-		    const inicio = new Date(fechaInicio.value);
-		    const fin = new Date(fechaFin.value);
-		    if (fin <= inicio) {
-		        alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
-		        fechaFin.value = ""; // Limpiar el campo de fecha fin
-		    }
+			const inicio = new Date(fechaInicio.value);
+			const fin = new Date(fechaFin.value);
+			if (fin <= inicio) {
+				alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
+				fechaFin.value = ""; // Limpiar el campo de fecha fin
+			}
 		});
 
-		
-        const provinciaSelect = document.getElementById('id_provincia');
-        const cantonSelect = document.getElementById('id_canton');
-        const parroquiaSelect = document.getElementById('id_parroquia');
 
-        const provinciaSeleccionada = /*[[${provinciaSeleccionada}]]*/ null;
-        const cantonSeleccionado = /*[[${cantonSeleccionado?.id_canton}]]*/ null;
-        const parroquiaSeleccionada = /*[[${parroquiaSeleccionada?.id_parroquia}]]*/ null;
+		const provinciaSelect = document.getElementById('id_provincia');
+		const cantonSelect = document.getElementById('id_canton');
+		const parroquiaSelect = document.getElementById('id_parroquia');
 
-        if (provinciaSeleccionada) {
-            cargarCantones(provinciaSeleccionada, cantonSeleccionado, parroquiaSeleccionada);
-        }
+		const provinciaSeleccionada = /*[[${provinciaSeleccionada}]]*/ null;
+		const cantonSeleccionado = /*[[${cantonSeleccionado?.id_canton}]]*/ null;
+		const parroquiaSeleccionada = /*[[${parroquiaSeleccionada?.id_parroquia}]]*/ null;
 
-        provinciaSelect.addEventListener('change', () => {
-            cargarCantones(provinciaSelect.value);
-        });
+		if (provinciaSeleccionada) {
+			cargarCantones(provinciaSeleccionada, cantonSeleccionado, parroquiaSeleccionada);
+		}
 
-        cantonSelect.addEventListener('change', () => {
-            cargarParroquias(cantonSelect.value);
-        });
+		provinciaSelect.addEventListener('change', () => {
+			cargarCantones(provinciaSelect.value);
+		});
 
-        function cargarCantones(idProvincia, idCantonSeleccionado = null, idParroquiaSeleccionada = null) {
-            fetch(`/cantones/${idProvincia}`)
-                .then(response => response.json())
-                .then(data => {
-                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-                    data.forEach(canton => {
-                        const selected = canton.id_canton == idCantonSeleccionado ? 'selected' : '';
-                        cantonSelect.innerHTML += `<option value="${canton.id_canton}" ${selected}>${canton.nombreCanton}</option>`;
-                    });
-                    cantonSelect.disabled = false;
-                    if (idCantonSeleccionado) {
-                        cargarParroquias(idCantonSeleccionado, idParroquiaSeleccionada);
-                    }
-                });
-        }
+		cantonSelect.addEventListener('change', () => {
+			cargarParroquias(cantonSelect.value);
+		});
 
-        function cargarParroquias(idCanton, idParroquiaSeleccionada = null) {
-            fetch(`/parroquias/${idCanton}`)
-                .then(response => response.json())
-                .then(data => {
-                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-                    data.forEach(parroquia => {
-                        const selected = parroquia.id_parroquia == idParroquiaSeleccionada ? 'selected' : '';
-                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}" ${selected}>${parroquia.nombreParroquia}</option>`;
-                    });
-                    parroquiaSelect.disabled = false;
-                });
-        }
-    </script>
-	
-	
+		function cargarCantones(idProvincia, idCantonSeleccionado = null, idParroquiaSeleccionada = null) {
+			fetch(`/cantones/${idProvincia}`)
+				.then(response => response.json())
+				.then(data => {
+					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+					data.forEach(canton => {
+						const selected = canton.id_canton == idCantonSeleccionado ? 'selected' : '';
+						cantonSelect.innerHTML += `<option value="${canton.id_canton}" ${selected}>${canton.nombreCanton}</option>`;
+					});
+					cantonSelect.disabled = false;
+					if (idCantonSeleccionado) {
+						cargarParroquias(idCantonSeleccionado, idParroquiaSeleccionada);
+					}
+				});
+		}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		function cargarParroquias(idCanton, idParroquiaSeleccionada = null) {
+			fetch(`/parroquias/${idCanton}`)
+				.then(response => response.json())
+				.then(data => {
+					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+					data.forEach(parroquia => {
+						const selected = parroquia.id_parroquia == idParroquiaSeleccionada ? 'selected' : '';
+						parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}" ${selected}>${parroquia.nombreParroquia}</option>`;
+					});
+					parroquiaSelect.disabled = false;
+				});
+		}
+	</script>
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
