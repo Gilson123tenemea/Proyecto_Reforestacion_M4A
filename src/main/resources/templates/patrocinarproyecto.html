@@ -90,8 +90,13 @@
 				         alt="Foto del Proyecto" class="project-image"> 
 				</div>
 				<p><strong>Nombre del Proyecto:</strong> <span th:text="${proyecto.nombre}"></span></p> 
+				<p><strong>Fecha inicio del Proyecto:</strong> <span th:text="${proyecto.fecha_inicio}"></span></p>
+				<p><strong>Fecha fin del Proyecto:</strong> <span th:text="${proyecto.fecha_inicio}"></span></p>
+				<p><strong>Estado del Proyecto:</strong> <span th:text="${proyecto.estado}"></span></p>
+				<p><strong>Numero de Voluntarios que Intervienen:</strong> <span th:text="${proyecto.voluntariosmax}"></span></p>
+				<p><strong>Porcentaje del Proyecto:</strong> <span th:text="${proyecto.porcentaje}"></span></p>
 				
-                
+				
 				<form action="/formularioPatrocinio" method="post">
 				    <input type="hidden" name="id_proyecto" th:value="${proyecto.id_proyecto}" />
 
