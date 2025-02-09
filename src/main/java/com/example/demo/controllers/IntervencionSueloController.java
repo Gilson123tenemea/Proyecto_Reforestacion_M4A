@@ -112,6 +112,6 @@ public class IntervencionSueloController {
     @GetMapping("/equiposPorProyecto/{idProyecto}")
     @ResponseBody
     public List<Equipos> getEquiposPorProyecto(@PathVariable Long idProyecto) {
-        return equiposService.findEquiposPorProyecto(idProyecto);
+        return equiposService.findEquiposPorProyectoYActividad(idProyecto);
     }
 }
