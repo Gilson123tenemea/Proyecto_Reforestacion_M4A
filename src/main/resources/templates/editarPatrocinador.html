@@ -9,8 +9,7 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 	<style>
-		html,
-		body {
+		html, body {
 			height: 100%;
 			margin: 0;
 			display: flex;
@@ -143,22 +142,20 @@
 </head>
 
 <body>
-	
-
-
 	<div class="login-wrapper">
 		<div class="login-container">
 			<h2>Editar Patrocinador</h2>
 			<form action="/ActualizarPatrocinador" method="post">
 
 				<input type="hidden" name="id_usuarios" th:value="${usuario?.id_usuarios}" />
+				<input type="hidden" name="id_patrocinador" th:value="${patrocinadores?.id_patrocinador}" />
+
 				<fieldset>
 					<legend>Datos del Usuario</legend>
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label for="cedula">Cédula:</label>
-							<input type="text" id="cedula" name="cedula" th:value="${usuario?.cedula ?: ''}" disabled
-								selected>
+							<input type="text" id="cedula" name="cedula" th:value="${usuario?.cedula ?: ''}" disabled>
 						</div>
 						<div class="col-md-6">
 							<label for="nombre">Nombre:</label>
@@ -166,8 +163,7 @@
 						</div>
 						<div class="col-md-6">
 							<label for="apellido">Apellido:</label>
-							<input type="text" id="apellido" name="apellido" th:value="${usuario?.apellido ?: ''}"
-								required>
+							<input type="text" id="apellido" name="apellido" th:value="${usuario?.apellido ?: ''}" required>
 						</div>
 						<div class="col-md-6">
 							<label for="correo">Correo:</label>
@@ -175,13 +171,11 @@
 						</div>
 						<div class="col-md-6">
 							<label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-							<input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
-								th:value="${usuario?.fecha_nacimiento ?: ''}" required>
+							<input type="date" id="fecha_nacimiento" name="fecha_nacimiento" th:value="${usuario?.fecha_nacimiento ?: ''}" required>
 						</div>
 						<div class="col-md-6">
 							<label for="celular">Celular:</label>
-							<input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}"
-								required>
+							<input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}" required>
 						</div>
 
 						<div class="col-md-6">
@@ -209,24 +203,27 @@
 							</select>
 						</div>
 
-
-						
 						<div class="col-md-6">
 							<div class="form-group">
-								<label  for="contraseña">Contraseña:</label>
-								<input value=""  type="password" id="contraseña" name="contraseña" th:value="${usuario?.contraseña ?: ''}" required>
+								<label for="contraseña">Contraseña:</label>
+								<input value="" type="password" id="contraseña" name="contraseña" th:value="${usuario?.contraseña ?: ''}" required>
 							</div>
 						</div>
-
-
 					</div>
 				</fieldset>
 
 				<fieldset>
-					
-					
-					
-					
+					<legend>Datos del Patrocinador</legend>
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label for="nombreEmpresa">Nombre de la Empresa:</label>
+							<input type="text" id="nombreEmpresa" name="nombreEmpresa" th:value="${patrocinadores?.nombreEmpresa ?: ''}" required>
+						</div>
+						<div class="col-md-6">
+							<label for="ruc">RUC:</label>
+							<input type="text" id="ruc" name="ruc" th:value="${patrocinadores?.ruc ?: ''}" required>
+						</div>
+					</div>
 				</fieldset>
 
 				<button type="submit">Guardar Cambios</button>

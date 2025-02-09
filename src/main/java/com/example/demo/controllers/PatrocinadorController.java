@@ -161,6 +161,7 @@ public class PatrocinadorController {
                     usuarioExistente.setGenero(usuario.getGenero());
                     usuarioExistente.setCelular(usuario.getCelular());
                     usuarioExistente.setContraseña(usuario.getContraseña());
+                    
                     usuario = usuarioExistente;
                 }
             }
@@ -284,7 +285,6 @@ public class PatrocinadorController {
             return "error";
         }
     }
-
    
     
     @RequestMapping(value="/eliminar/{id}")
