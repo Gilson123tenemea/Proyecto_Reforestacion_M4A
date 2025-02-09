@@ -88,6 +88,7 @@ public class EquiposControllers {
 	    		                     @RequestParam("actividad") Long actividadId,
 	                                 @RequestParam("equipos") String equiposJson, Asignar_equipos Asignarequipo,Model model) {
 
+	    	Id_actividades=actividadId;
 	        // Usamos ObjectMapper para convertir el JSON a un List
 	    	
 	        ObjectMapper objectMapper = new ObjectMapper();
@@ -98,14 +99,15 @@ public class EquiposControllers {
 	            e.printStackTrace();
 	        }
 
+	        System.out.print("Actividad2  "+Id_actividades);
+
 	        System.out.print("Actividad  "+actividadId);
-	        Tipo_Actividades id_Asignacion=tipoService.findOne(actividadId);
-	        System.out.print("Asinacion "+id_Asignacion.getId_tipoActividades()+"");
 	        
 	        Equipos Miequipo = new Equipos();
 	        Miequipo.setNombre(nombreEquipo);
-	        System.out.println(actividadId);
-	        Miequipo.setId_asignacionproyecto(id_Asignacion.getId_tipoActividades());
+
+	        Miequipo.setId_asignacionproyecto(actividadId);
+
 	        Miequipo.setId_administrador(id_administrador);
 	        equiposService.save(Miequipo);
 
