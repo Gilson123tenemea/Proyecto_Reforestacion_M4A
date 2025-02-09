@@ -30,16 +30,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.dao.EquiposDaoImpl;
 import com.example.demo.dao.RegistroActividadRealizadaDaoImpl;
 import com.example.demo.entity.Administrador;
+import com.example.demo.entity.Area;
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Inscripcion;
+import com.example.demo.entity.Parcelas;
 import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Patrocinio;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 import com.example.demo.service.EquiposServiceImpl;
+import com.example.demo.service.IAreaServices;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IInscripcionServices;
+import com.example.demo.service.IParcelaService;
 import com.example.demo.service.IParroquiaService;
+import com.example.demo.service.IPatrocinadorServices;
+import com.example.demo.service.IPatrocinioService;
 import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.IUsuarioServices;
@@ -80,6 +87,21 @@ public class VoluntariosControllers {
 	@Autowired
 	private IInscripcionServices inscripcionService;
 
+	// =============================================================
+	@Autowired
+	private IParcelaService parcelaService;
+
+	@Autowired
+	private IAreaServices areaService;
+
+	@Autowired
+	private IPatrocinioService patrocinioService;
+
+	@Autowired
+	private IPatrocinadorServices PatrocinadorService;
+
+	// =============================================================
+
 	@GetMapping("/proyectosvoluntario")
 	public String proyectos(Model model, @SessionAttribute("idVoluntario") Long idVoluntario) {
 
@@ -108,9 +130,6 @@ public class VoluntariosControllers {
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
-	
-	
-	
 
 	// Método para obtener las actividades pendientes de un voluntario
 	@GetMapping("/voluntario/actividades")
@@ -132,15 +151,14 @@ public class VoluntariosControllers {
 		return "voluntarioActividades"; // Asegúrate de que este es el nombre correcto del archivo HTML en
 										// `template s/`
 	}
-	
 
-	 @GetMapping("/actividades/voluntario")
-	    public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
-	        List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
-	        model.addAttribute("actividades", actividades);
-	        model.addAttribute("idVoluntario", idVoluntario);
-	        return "actividades_voluntario";
-	    }
+	@GetMapping("/actividades/voluntario")
+	public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
+		List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
+		model.addAttribute("actividades", actividades);
+		model.addAttribute("idVoluntario", idVoluntario);
+		return "actividades_voluntario";
+	}
 
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
@@ -440,5 +458,97 @@ public class VoluntariosControllers {
 		}
 		return "redirect:/proyectosvoluntario"; // 🔄 Importante: Redirección con el mensaje
 	}
+
+	// ======================================================================================================
+
+	@GetMapping("/informacion")
+	public String informacion(@SessionAttribute("idVoluntario") Long idVoluntario,
+			@RequestParam(value = "id", required = false) Long id, RedirectAttributes redirectAttributes) {
+		if (id == null) {
+			redirectAttributes.addFlashAttribute("error", "true");
+			redirectAttributes.addFlashAttribute("mensaje", "No se recibió un ID válido.");
+			return "redirect:/listaProyectos"; // Redirige si no hay ID
+		}
+
+		return "redirect:/InfoProyecto?id=" + id; // Pasa el ID en la URL
+	}
+
+	@GetMapping("/InfoProyecto")
+	public String mostrarInfoProyecto(@RequestParam("id") Long id, Model model) {
+
+		Long idArea = 0L;
+		Long idPatrocinio = 0L;
+		Long idPatrocinador = 0L;
+
+		// Buscar el proyecto
+		Proyecto proyecto = proyectoService.findOne(id);
+		if (proyecto == null) {
+			model.addAttribute("error", "No se encontró el proyecto.");
+			return "listaProyectos";
+		}
+
+		// Obtener todas las listas
+		List<Patrocinio> patrocinioList = patrocinioService.findAll();
+		List<Area> areaList = areaService.findAll();
+		List<Parcelas> parcelaList = parcelaService.findAll();
+
+		List<Area> areaIngre = new ArrayList<>();
+		List<Parcelas> parcelaIngre = new ArrayList<>();
+
+		// Buscar Patrocinio relacionado
+		for (Patrocinio p : patrocinioList) {
+			if (p.getId_proyecto() != null && p.getId_proyecto().equals(id)) { // Verificación null
+				idPatrocinador = p.getId_patrocinador();
+				idPatrocinio = p.getId_patrocina();
+
+			}
+		}
+
+		// Buscar Áreas relacionadas
+		for (Area a : areaList) {
+			if (a.getId_proyecto() != null && a.getId_proyecto().equals(id)) { // Verificación null
+				areaIngre.add(a);
+				idArea = a.getId_area();
+			}
+		}
+
+		// Buscar Parcelas relacionadas
+		for (Parcelas p : parcelaList) {
+			if (p.getId_area() != null && p.getId_area().equals(idArea)) { // Verificación null
+				parcelaIngre.add(p);
+
+			}
+		}
+
+		// Obtener información del patrocinador solo si hay un ID válido
+		Patrocinio patro = patrocinioService.findOne(idPatrocinio);
+		if (patro != null) {
+			model.addAttribute("usuario",
+					usuarioServices.findOne(PatrocinadorService.findOne(patro.getId_patrocinador()).getId_usuarios()));
+		}
+
+		model.addAttribute("patrocinio", patrocinioService.findOne(idPatrocinio));
+		model.addAttribute("patrocinador", PatrocinadorService.findOne(patro.getId_patrocinador()));
+		model.addAttribute("parcela", parcelaIngre);
+		model.addAttribute("proyecto", proyecto);
+		model.addAttribute("areas", areaIngre);
+		model.addAttribute("id_proyecto", id);
+
+		return "InfoProyecto";
+	}
+
+	// ----------------------------------------------------------------------------
+
+	@GetMapping("/proyectoVoluntario/imagen/{id}")
+	@ResponseBody
+	public byte[] obtenerImagenProyecto(@PathVariable("id") Long id) {
+		Proyecto proyecto = proyectoService.findOne(id);
+		if (proyecto != null && proyecto.getImagen() != null) {
+			return proyecto.getImagen();
+		}
+		return new byte[0];
+	}
+
+	// ==============================================================
 
 }

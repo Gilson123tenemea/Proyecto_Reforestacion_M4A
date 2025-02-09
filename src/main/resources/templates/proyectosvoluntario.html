@@ -121,14 +121,14 @@
 	                <div class="carousel-container">
 	                    <div id="carousel">
 	                        <div class="card" th:each="proyecto : ${proyectos}">
-	                            <img src="https://via.placeholder.com/250x150" class="img-fluid rounded-start" alt="Imagen">
+								<img th:src="@{/proyectoVoluntario/imagen/{id}(id=${proyecto.id_proyecto})}" class="img-fluid rounded-start" alt="Imagen">
 	                            <div class="card-body d-flex flex-column">
 	                                <p class="card-text" th:text="${proyecto.nombre}"></p>
 									
 									<input type="hidden" class="proyecto-id" th:value="${proyecto.id_proyecto}">
 									<div class="d-flex gap-2 mt-auto" >
 										<button type="button" class="btn btn-outline-success inscribirme-btn">Inscribirme</button>
-									    <button type="button" class="btn btn-outline-info">Info</button>
+										<button type="button" class="btn btn-outline-info informa-btn">Info</button>
 									</div>
 									
 									
@@ -193,6 +193,21 @@
 	               }
 	           });
 	       });
+		   
+		   document.querySelectorAll(".informa-btn").forEach(button => {
+		          button.addEventListener("click", function () {
+		              let proyectoId = this.closest(".card").querySelector(".proyecto-id").value;
+
+		              if (proyectoId) {
+		                  // Redirige al controlador Spring Boot con el ID
+		                  window.location.href = "/informacion?id=" + proyectoId;
+		              } else {
+		                  // Si el ID es nulo, muestra un mensaje de error
+		                  mostrarToast("Error: No se recibió un ID válido.", "bg-danger");
+		              }
+		          });
+		      });
+
 
 	       // 📢 Mostrar notificación si hay mensaje desde el servidor (después de la redirección)
 	       let mensaje = "[[${mensaje}]]";  // Thymeleaf inserta el mensaje aquí
