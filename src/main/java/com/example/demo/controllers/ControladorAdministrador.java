@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -132,12 +133,34 @@ public class ControladorAdministrador {
                 return "administrador";
             }
 
+            // Verificar si ya existe una cédula igual (ignorando mayúsculas y minúsculas)
+            String cedula = usuario.getCedula().trim();
+            List<Usuarios> usuariosExistentes = usuarioServices.findAll();
+
+            for (Usuarios usuarioExistente : usuariosExistentes) {
+                if (usuarioExistente.getCedula().trim().equals(cedula)) {
+                    model.addAttribute("error", "La cédula ya está registrada en el sistema.");
+                    model.addAttribute("provincias", provinciaService.findAll());  // Cargar provincias
+                    if (usuario.getId_parroquia() != null) {
+                        Canton canton = cantonService.findOne(usuario.getId_parroquia());
+                        model.addAttribute("cantones", cantonService.findByProvincia(canton.getId_provincia()));  // Cargar cantones si ya tiene parroquia
+                        model.addAttribute("parroquias", parroquiaService.findByCanton(canton.getId_canton()));  // Cargar parroquias si ya tiene canton
+                    }
+                    return "administrador";  // Retornar al formulario con el mensaje de error
+                }
+            }
+
             // Validación de cédula duplicada dentro de la transacción
             try {
                 usuarioServices.save(usuario);  // Esto lanza excepción si se encuentra duplicada
             } catch (DataIntegrityViolationException e) {
                 model.addAttribute("error", "La cédula ya está registrada en el sistema.");
                 model.addAttribute("provincias", provinciaService.findAll());
+                if (usuario.getId_parroquia() != null) {
+                    Canton canton = cantonService.findOne(usuario.getId_parroquia());
+                    model.addAttribute("cantones", cantonService.findByProvincia(canton.getId_provincia()));
+                    model.addAttribute("parroquias", parroquiaService.findByCanton(canton.getId_canton()));
+                }
                 return "administrador";
             }
 
@@ -163,6 +186,13 @@ public class ControladorAdministrador {
                 model.addAttribute("error", "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula y un número.");
                 model.addAttribute("provincias", provinciaService.findAll());
                 return "administrador";
+            }
+
+            // Validación de edad mayor de 18 años
+            if (!esMayorDeEdad(usuario.getFecha_nacimiento())) {
+                model.addAttribute("error", "El Administrador debe ser mayor de 18 años.");
+                model.addAttribute("provincias", provinciaService.findAll());
+                return "administrador";  // Retornar al formulario con el mensaje de error
             }
 
             // Actualiza el usuario existente si tiene ID
@@ -193,6 +223,28 @@ public class ControladorAdministrador {
             return "error";
         }
     }
+
+
+    // Método para verificar si la fecha de nacimiento es mayor de 18 años
+    private boolean esMayorDeEdad(Date fechaNacimiento) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaNacimiento);
+        
+        // Obtener la fecha de hoy
+        Calendar hoy = Calendar.getInstance();
+        
+        // Calcular la diferencia de años
+        int edad = hoy.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
+
+        // Si no ha cumplido años este año, restamos uno
+        if (hoy.get(Calendar.MONTH) < calendar.get(Calendar.MONTH) || 
+            (hoy.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && hoy.get(Calendar.DAY_OF_MONTH) < calendar.get(Calendar.DAY_OF_MONTH))) {
+            edad--;
+        }
+
+        return edad >= 18;  // Verifica si tiene 18 o más años
+    }
+
 
 
 
