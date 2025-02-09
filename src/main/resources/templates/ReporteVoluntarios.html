@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Ecuador - Provincias</title>
+    <!-- Incluir la biblioteca de ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+    <style>
+        /* Estilos para centrar el contenido y reducir el tamaño */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        #main {
+            width: 80%;
+            height: 400px; /* Reducción de tamaño */
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mapa de Ecuador - Provincias</h1>
+    <div id="main"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Incluir jQuery -->
+
+    <script>
+        // Inicializar el gráfico
+        var myChart = echarts.init(document.getElementById('main'));
+
+        myChart.showLoading();
+
+        // Cargar el archivo GeoJSON de Ecuador desde la carpeta static
+        $.get('/ec.json', function (ecuadorJson) {
+            console.log('GeoJSON cargado correctamente');
+            myChart.hideLoading();
+            
+            // Registrar el mapa de Ecuador con ajustes si es necesario
+            echarts.registerMap('Ecuador', ecuadorJson, {
+                'Galápagos': {
+                    left: -90,
+                    top: -0.5,
+                    width: 5
+                }
+            });
+
+            // Datos de provincias y sus valores (por ejemplo, población)
+            var data = [
+                { name: 'Azuay', value: 20 },
+                { name: 'Bolivar', value: 20 },
+                { name: 'Cañar', value: 20 },
+                { name: 'Carchi', value: 20 },
+                { name: 'Chimborazo', value: 20 },
+                { name: 'Cotopaxi', value: 20 },
+                { name: 'El Oro', value: 20 },
+                { name: 'Esmeraldas', value: 20 },
+                { name: 'Guayas', value: 20 },
+                { name: 'Imbabura', value: 20 },
+                { name: 'Loja', value: 20 },
+                { name: 'Los Rios', value: 20 },
+                { name: 'Manabi', value: 20 },
+                { name: 'Morona Santiago', value: 20 },
+                { name: 'Napo', value: 20 },
+                { name: 'Orellana', value: 20 },
+                { name: 'Pastaza', value: 20 },
+                { name: 'Pichincha', value: 20 },
+                { name: 'Santa Elena', value: 20 },
+                { name: 'Santo Domingo ', value: 20 },
+                { name: 'Sucumbios', value: 20 },
+                { name: 'Tungurahua', value: 20 },
+                { name: 'Zamora Chinchipe', value: 20 }
+            ];
+
+            data.sort(function (a, b) {
+                return a.value - b.value;
+            });
+
+            // Opciones del mapa de ECharts
+            const mapOption = {
+                visualMap: {
+                    left: 'right',
+                    min: 50000,
+                    max: 5000000,
+                    inRange: {
+                        color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                    },
+                    text: ['High', 'Low'],
+                    calculable: true
+                },
+                series: [
+                    {
+                        id: 'population',
+                        type: 'map',
+                        roam: true,
+                        map: 'Ecuador',
+                        animationDurationUpdate: 1000,
+                        universalTransition: true,
+                        data: data
+                    }
+                ]
+            };
+
+            // Opciones del gráfico de barras
+            const barOption = {
+                xAxis: {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    axisLabel: {
+                        rotate: 30
+                    },
+                    data: data.map(function (item) {
+                        return item.name;
+                    })
+                },
+                animationDurationUpdate: 1000,
+                series: {
+                    type: 'bar',
+                    id: 'population',
+                    data: data.map(function (item) {
+                        return item.value;
+                    }),
+                    universalTransition: true
+                }
+            };
+
+            // Inicialmente establecer el mapa
+            let currentOption = mapOption;
+            myChart.setOption(mapOption);
+
+            // Cambiar entre el mapa y el gráfico de barras cada 2 segundos
+            setInterval(function () {
+                currentOption = currentOption === mapOption ? barOption : mapOption;
+                myChart.setOption(currentOption, true);
+            }, 2000);
+
+        }).fail(function () {
+            myChart.hideLoading();
+            console.log('Error al cargar el GeoJSON');
+            alert("Error al cargar el mapa de Ecuador.");
+        });
+    </script>
+</body>
+</html>

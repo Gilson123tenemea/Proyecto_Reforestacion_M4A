@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.IEquiposDao;
 import com.example.demo.dao.IProyectoDao;
 import com.example.demo.entity.Asignacion_proyectoActi;
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.Equipos;
 import com.example.demo.entity.Especie;
 import com.example.demo.entity.Plantas;
@@ -111,5 +112,20 @@ public class EquiposServiceImpl implements IEquiposService {
     public List<Equipos> findEquiposPorProyecto(Long idProyecto) {
         return equiposdao.findByProyectoId(idProyecto);
     }
+	@Override
+	public List<Asignar_equipos> MostarIntegrantesEquipo(Long idequipo) {
+		// TODO Auto-generated method stub
+		return equiposdao.MostarIntegrantesEquipo(idequipo);
+	}
+	@Override
+	public List<Tipo_Actividades> ActividadesEquipo(Long id) {
+		// TODO Auto-generated method stub
+		return equiposdao.ActividadesEquipo(id);
+	}
+	@Override
+	public List<Equipos> findEquiposPorProyectoYActividad(Long idProyecto) {
+		// TODO Auto-generated method stub
+		return equiposdao.findEquiposPorProyectoYActividad(idProyecto);
+	}
 
 }
