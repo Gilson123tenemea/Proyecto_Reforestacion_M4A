@@ -269,24 +269,28 @@ public class VoluntariosControllers {
 	}
 
 	// ---------------------------------------------------------------------------
-	@PostMapping("/guardarvolun")
-	public String guardarVoluntarioYUsuario(@ModelAttribute Voluntarios voluntarios, @ModelAttribute Usuarios usuario,
-			Model model) {
-		try {
+	 @PostMapping("/guardarvolun")
+	    public String guardarVoluntarioYUsuario(
+	            @ModelAttribute Voluntarios voluntarios,
+	            @ModelAttribute Usuarios usuario,
+	            Model model) {
+	    	
+	    	
+	        try {
+	         
 
-			usuarioServices.save(usuario);
+	            usuarioServices.save(usuario);
+	            voluntarios.setId_usuarios(usuario.getId_usuarios());
+	            voluntarios.setFechaRegistro(new Date());
+	            voluntarios.setAsiste_si_no(true);
+	            voluntariosServices.save(voluntarios);
 
-			voluntarios.setId_usuarios(usuario.getId_usuarios());
-
-			voluntariosServices.save(voluntarios);
-
-			return "redirect:/listarVoluntarios";
-
-		} catch (Exception e) {
-			model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
-			return "error";
-		}
-	}
+	            return "redirect:/login";
+	        } catch (Exception e) {
+	            model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
+	            return "error";
+	        }
+	    }
 
 	@GetMapping("/crearVoluntario")
 	public String crearVoluntario(Model model) {

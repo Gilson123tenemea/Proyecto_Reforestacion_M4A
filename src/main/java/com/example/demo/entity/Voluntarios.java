@@ -40,7 +40,7 @@ public class Voluntarios implements Serializable {
 	private Usuarios usuario; // Relación con Usuarios
 
 	// Si ya tienes el campo id_usuarios como un campo independiente
-	@Column(name = "id_usuarios", insertable = false, updatable = false)
+	@Column(name = "id_usuarios")
 	private Long id_usuarios;
 
 	// Relaciones con otras entidades

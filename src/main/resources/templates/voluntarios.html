@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -182,7 +182,7 @@
 
 			<h2>Crear Nuevo Voluntario</h2>
 			<form action="/guardarvolun" method="post">
-				
+
 				<fieldset>
 					<legend>Datos del Usuario</legend>
 					<div class="row g-3">
@@ -190,7 +190,8 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="cedula">Cédula:</label>
-								<input type="text" id="cedula" name="cedula" required>
+								<input type="text" name="cedula" id="cedula" required maxlength="10"
+									placeholder="Cédula de 10 dígitos">
 							</div>
 						</div>
 
@@ -261,7 +262,6 @@
 							</select>
 						</div>
 
-
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="contraseña">Contraseña:</label>
@@ -270,12 +270,10 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="contraseña">Confirmar Contraseña:</label>
-								<input type="password" id="contraseña" name="contraseña" required>
+								<label for="confirmar_contraseña">Confirmar Contraseña:</label>
+								<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
 							</div>
 						</div>
-
-
 
 					</div>
 				</fieldset>
@@ -293,7 +291,7 @@
 							<div class="form-group">
 
 								<label for="experiencia">Experiencia:</label>
-								<input type="text" name="experiencia" id="experiencia" required></input >
+								<input type="text" name="experiencia" id="experiencia" required></input>
 							</div>
 						</div>
 
@@ -310,13 +308,13 @@
 							<div class="form-group">
 								<label for="disponibilidad">Disponibilidad:</label>
 								<select name="disponibilidad" id="disponibilidad" class="form-select" required>
-								
+
 									<option value="true">Disponible</option>
 									<option value="false">No Disponible</option>
 								</select>
 							</div>
 						</div>
-						
+
 					</div>
 				</fieldset>
 
@@ -379,11 +377,30 @@
 					parroquiaSelect.disabled = false;
 				});
 		}
+
+
+		document.getElementById('buscarBtn').addEventListener('click', () => {
+			const cedula = cedulaInput.value.trim();
+			if (cedula.length === 10 && !isNaN(cedula)) {
+				buscarDatos(cedula);
+			} else {
+				alert('Por favor ingrese una cédula válida de 10 dígitos.');
+			}
+		});
+
+		document.querySelector('form').addEventListener('submit', function (event) {
+			const contraseñaInput = document.getElementById('contraseña');
+			const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
+
+			if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+				event.preventDefault();
+				alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
+				confirmarContraseñaInput.focus();
+			}
+		});
+
 	</script>
 
 </body>
 
 </html>
-
-
-
