@@ -34,9 +34,10 @@
 
 						<!-- Selección de la Provincia -->
 						<div class="mb-3">
+							
 						    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
 						    <select id="id_provincia" class="form-control" required>
-						        <option value="" disabled>Seleccione una Provincia</option>
+								<option value="" disabled selected>Seleccione una Provincia</option> <!-- Este es el mensaje que se mostrará primero -->
 						        <th:block th:each="provincia : ${provincias}">
 						            <option th:value="${provincia.id_provincia}"
 						                    th:selected="${provincia.id_provincia == provinciaSeleccionada}"
@@ -75,13 +76,21 @@
                 <img th:if="${proyecto.imagen}" th:src="@{${proyecto.imagen}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
             </div>
 
-            <!-- Campo para cargar la imagen -->
-            <div class="mb-3">
-                <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-                <input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*" />
-            </div>
+			<!-- Campo para cargar la imagen -->
+			<div class="mb-3">
+			    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+			    <input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*" onchange="mostrarNombreArchivo()" />
+			    <small class="form-text text-muted" id="nombreArchivoGuardado">Seleccionar archivo</small>
+			</div>
 
-            <!-- Otros campos del formulario -->
+			<script>
+			function mostrarNombreArchivo() {
+			    const input = document.getElementById('imagenArchivo');
+			    const nombreArchivo = input.files[0] ? input.files[0].name : 'Seleccionar archivo';
+			    document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
+			}
+			</script>			
+			            <!-- Otros campos del formulario -->
             
 
             <div class="mb-3">
