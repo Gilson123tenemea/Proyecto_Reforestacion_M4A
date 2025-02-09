@@ -79,6 +79,7 @@ public class LoginControlador {
             default:
                 model.addAttribute("error", "Rol no reconocido.");
                 return "login";
+                
         }
     }
 }
