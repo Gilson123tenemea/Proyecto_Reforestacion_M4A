@@ -44,17 +44,23 @@ public class PatrocinioController {
     
     @GetMapping("/verproyectospatrocinador")
     public String listarProyectosYPatrocinios(Model model) {
-    	
         Long idPatrocinador = (Long) model.asMap().get("idPatrocinador");
         List<Proyecto> proyectos = proyectoService.findAll();
         List<Patrocinio> allPatrocinios = patrocinioservice.findAll();
-        List<Patrocinio> filteredPatrocinios = allPatrocinios.stream()
+        
+        List<Long> idProyectosPatrocinados = allPatrocinios.stream()
             .filter(patrocinio -> patrocinio.getId_patrocinador().equals(idPatrocinador))
+            .map(Patrocinio::getId_proyecto)
+            .collect(Collectors.toList());
+
+        // Crear una lista de proyectos patrocinados
+        List<Proyecto> proyectosPatrocinados = proyectos.stream()
+            .filter(proyecto -> idProyectosPatrocinados.contains(proyecto.getId_proyecto()))
             .collect(Collectors.toList());
 
         model.addAttribute("titulo", "Proyectos y Patrocinios");
-        model.addAttribute("proyectos", proyectos);
-        model.addAttribute("patrocinios", filteredPatrocinios); 
+        model.addAttribute("proyectos", proyectosPatrocinados);
+        model.addAttribute("patrocinios", allPatrocinios); 
         return "verproyectospatrocinador"; 
     }
 
