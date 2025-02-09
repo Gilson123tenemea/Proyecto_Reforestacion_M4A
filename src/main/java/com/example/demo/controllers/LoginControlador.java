@@ -8,65 +8,83 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.demo.entity.Canton;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.UsuariosServiceImpl;
 
-
 @Controller
-@SessionAttributes({"idPatrocinador","idVoluntario","idAdministrador","idSuperAdministrador"})
-
+@SessionAttributes({"idPatrocinador", "idVoluntario", "idAdministrador", "idSuperAdministrador"})
 public class LoginControlador {
 
-	
-	@Autowired
+    @Autowired
     private UsuariosServiceImpl usuarioService;
 
     @GetMapping("/login")
     public String loginForm() {
         return "login";
-        
     }
-    
-    @GetMapping({"/","","/Inicio"})
-	public String Inicio() {
-		return "/layout/layout";
-	}
+
+    @GetMapping({"/", "", "/Inicio"})
+    public String Inicio() {
+        return "/layout/layout";
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam String cedula, @RequestParam String contraseña, Model model) {
-        String rol = usuarioService.authenticate(cedula, contraseña);
+        // Validación: Verificar si los campos están vacíos
+        if (cedula == null || cedula.trim().isEmpty() || contraseña == null || contraseña.trim().isEmpty()) {
+            model.addAttribute("error", "Por favor, ingrese su cédula y contraseña.");
+            return "login";
+        }
 
+        // Validación de cédula: Solo números y longitud de 10
+        if (!cedula.matches("\\d{10}")) {
+            model.addAttribute("error", "La cédula debe contener exactamente 10 dígitos numéricos.");
+            return "login";
+        }
+
+        // Validación de contraseña: mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número
+        if (!contraseña.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
+            model.addAttribute("error", "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
+            return "login";
+        }
+
+        // Intentar autenticar al usuario
+        String rol = usuarioService.authenticate(cedula, contraseña);
         if (rol == null) {
-            model.addAttribute("error", "Credenciales inválidas");
+            model.addAttribute("error", "Credenciales inválidas. Intente nuevamente.");
             return "login"; 
         }
 
+        // Buscar usuario en la base de datos
         Usuarios usuario = usuarioService.findAll().stream()
             .filter(u -> u.getCedula().equals(cedula) && u.getContraseña().equals(contraseña))
             .findFirst()
             .orElse(null);
 
-        if (usuario != null && !usuario.getPatrocinador().isEmpty()) {
-            Long idPatrocinador = usuario.getPatrocinador().get(0).getId_patrocinador();
-            model.addAttribute("idPatrocinador", idPatrocinador);
-        }
-        
-        if (usuario != null && !usuario.getVoluntarios().isEmpty()) {
-            Long idVoluntario = usuario.getVoluntarios().get(0).getId_voluntario();
-            model.addAttribute("idVoluntario", idVoluntario); 
-        }
-        
-        if (usuario != null && !usuario.getAdministrador().isEmpty()) {
-            Long idAdministrador = usuario.getAdministrador().get(0).getId_administrador();
-            model.addAttribute("idAdministrador", idAdministrador); 
-        }
-        
-        if (usuario != null && !usuario.getSuper_administrador().isEmpty()) {
-            Long superadministrador= usuario.getSuper_administrador().get(0).getId_super_administrador();
-            model.addAttribute("idSuperAdministrador", superadministrador); 
+        // Validar si el usuario existe
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado.");
+            return "login";
         }
 
+        // Almacenar atributos de sesión según el rol del usuario
+        if (!usuario.getPatrocinador().isEmpty()) {
+            model.addAttribute("idPatrocinador", usuario.getPatrocinador().get(0).getId_patrocinador());
+        }
+        if (!usuario.getVoluntarios().isEmpty()) {
+            model.addAttribute("idVoluntario", usuario.getVoluntarios().get(0).getId_voluntario());
+        }
+        if (!usuario.getAdministrador().isEmpty()) {
+            model.addAttribute("idAdministrador", usuario.getAdministrador().get(0).getId_administrador());
+        }
+        if (!usuario.getSuper_administrador().isEmpty()) {
+            model.addAttribute("idSuperAdministrador", usuario.getSuper_administrador().get(0).getId_super_administrador());
+        }
+
+        // Mensaje de bienvenida con el nombre del usuario
+        model.addAttribute("mensaje", "¡Bienvenido, " + usuario.getNombre() + "!");
+
+        // Redirigir según el rol del usuario
         switch (rol) {
             case "superadmin":
                 return "redirect:/iniciosuperadmin";
@@ -75,10 +93,12 @@ public class LoginControlador {
             case "voluntario":
                 return "redirect:/proyectosvoluntario";
             case "patrocinador":
-                return "redirect:/verproyectospatrocinador"; 
+                return "redirect:/verproyectospatrocinador";
             default:
-                return "login"; 
+                model.addAttribute("error", "Rol no reconocido.");
+                return "login";
         }
     }
-    
-    }
+}
+
+
