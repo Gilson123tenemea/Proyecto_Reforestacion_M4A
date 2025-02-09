@@ -80,6 +80,7 @@ public class LoginControlador {
                 model.addAttribute("error", "Rol no reconocido.");
                 return "login";
                 
+                
         }
     }
 }
