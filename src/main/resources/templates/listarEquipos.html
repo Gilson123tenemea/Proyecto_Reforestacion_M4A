@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Equipos</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-top: 20px;
+        }
+
+        /* Estilos para los filtros */
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 30%;
+            margin: 5px;
+        }
+
+        /* Estilos para la tabla */
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+
+        table, th, td {
+            border: 1px solid #003366;
+        }
+
+        th {
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .team-column {
+            width: 30%;
+        }
+
+        .integrantes-column {
+            width: 40%;
+        }
+
+        .activity-column {
+            width: 30%;
+        }
+
+        /* Estilo para los integrantes */
+        .integrante-item {
+            background-color: #f4f4f9;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Estilo para la fila de actividad */
+        .activity-cell {
+            font-weight: bold;
+            color: #003366;
+            text-align: center;
+        }
+
+        /* Estilo para las celdas de color dorado */
+        .golden-cell {
+            background-color: #d4af37;  /* Dorado */
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Estilos para las filas alternadas */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Equipos por Proyecto</h1>
+
+<!-- Contenedor de los filtros -->
+<div class="filter-container">
+    <input type="text" id="activityFilter" placeholder="Filtrar por actividad" onkeyup="filterTable()">
+    <input type="text" id="teamFilter" placeholder="Filtrar por equipo" onkeyup="filterTable()" disabled>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th class="team-column">Equipo</th>
+            <th class="integrantes-column">Integrantes</th>
+            <th class="activity-column">Actividad Asignada</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- Iterar sobre la lista de equipos con sus integrantes -->
+        <tr th:each="equipoData : ${equiposConIntegrantes}">
+            <td class="golden-cell" th:text="${equipoData.equipo.nombre}"></td>
+            <td>
+                <!-- Mostrar los integrantes por columnas -->
+                <div th:each="integrante : ${equipoData.integrantes}">
+                    <div class="integrante-item">
+                        <span th:text="${integrante.cedula} + ' - ' + ${integrante.nombre}"></span>
+                    </div>
+                </div>
+            </td>
+            
+            <td>
+                <!-- Nueva columna para mostrar otro dato del integrante -->
+                <div th:each="integrante : ${equipoData.integrantes}">
+                    <span th:text="${integrante.actividad}"></span> <!-- Muestra la actividad asignada -->
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    // Función para filtrar la tabla
+    function filterTable() {
+        var activityInput = document.getElementById('activityFilter');
+        var teamInput = document.getElementById('teamFilter');
+        var activityFilter = activityInput.value.toUpperCase();
+        var teamFilter = teamInput.value.toUpperCase();
+        var table = document.querySelector('table');
+        var tr = table.getElementsByTagName('tr');
+
+        // Activar el filtro de equipo si se introduce algo en el filtro de actividad
+        if (activityFilter.length > 0) {
+            teamInput.disabled = false;
+        } else {
+            teamInput.disabled = true;
+        }
+
+        for (var i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+            var td = tr[i].getElementsByTagName('td');
+            if (td.length > 0) {
+                // Filtrar por la columna de actividad (2) y equipo (0)
+                var equipo = td[0].textContent || td[0].innerText;
+                var actividad = td[2].textContent || td[2].innerText;
+                
+                if ((actividad.toUpperCase().indexOf(activityFilter) > -1) &&
+                    (equipo.toUpperCase().indexOf(teamFilter) > -1 || teamFilter === "")) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
