@@ -30,24 +30,6 @@ public class LoginControlador {
 
     @PostMapping("/login")
     public String login(@RequestParam String cedula, @RequestParam String contraseña, Model model) {
-        // Validación: Verificar si los campos están vacíos
-        if (cedula == null || cedula.trim().isEmpty() || contraseña == null || contraseña.trim().isEmpty()) {
-            model.addAttribute("error", "Por favor, ingrese su cédula y contraseña.");
-            return "login";
-        }
-
-        // Validación de cédula: Solo números y longitud de 10
-        if (!cedula.matches("\\d{10}")) {
-            model.addAttribute("error", "La cédula debe contener exactamente 10 dígitos numéricos.");
-            return "login";
-        }
-
-        // Validación de contraseña: mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número
-        if (!contraseña.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
-            model.addAttribute("error", "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
-            return "login";
-        }
-
         // Intentar autenticar al usuario
         String rol = usuarioService.authenticate(cedula, contraseña);
         if (rol == null) {
@@ -100,5 +82,4 @@ public class LoginControlador {
         }
     }
 }
-
 
