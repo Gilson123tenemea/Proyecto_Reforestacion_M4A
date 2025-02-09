@@ -46,10 +46,11 @@ public class ProyectoDaoImpl implements IProyectoDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Proyecto> findActivos() {
+	public List<Proyecto> findActivos(Long idadministrador) {
 		// TODO Auto-generated method stub
-		return em.createQuery("from Proyecto where estado = :estado")
+		return em.createQuery("from Proyecto where estado = :estado and id_administrador =:idadministrador")
 	             .setParameter("estado", "activo")
+	             .setParameter("idadministrador", idadministrador)
 	             .getResultList();
 	}
 

@@ -21,10 +21,6 @@ public class AsignarEquiposImpl implements IAsignacionEquiposService {
 	@Autowired
 	private IProyectoDao proyectodao;
 	
-	public List<Proyecto> findAllProyectos() {
-		// TODO Auto-generated method stub
-		return proyectodao.findActivos();
-	}
 	
 	
 	@Transactional(readOnly = true)

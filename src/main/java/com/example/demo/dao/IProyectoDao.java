@@ -7,7 +7,7 @@ import com.example.demo.entity.Proyecto;
 public interface IProyectoDao {
 	
 	public List<Proyecto> findAll();
-	public List<Proyecto> findActivos();
+	public List<Proyecto> findActivos(Long idAdministrador);
 	public List<Proyecto> findInactivos();
 	public List<Proyecto> findFinalizados();
 	public void save(Proyecto proyecto);

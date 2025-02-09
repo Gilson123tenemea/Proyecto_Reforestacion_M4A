@@ -58,12 +58,14 @@ public class EquiposControllers {
 	    
 	    public Long Id_Proyecto=null;
 	    public Long Id_actividades=null;
+	    public Long id_administrador=null;
+	    
 
 	    @GetMapping("/Combobox")
 	    public String MostrarProyectosActivos(Model model) {
-	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
-	        
-	        
+	        Long idAdministrador = (Long) model.asMap().get("idAdministrador");
+	        id_administrador=idAdministrador;
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
 	        
 	      
 	        return "equipos";
@@ -71,12 +73,12 @@ public class EquiposControllers {
 
 	    @PostMapping("/Enviar")
 	    public String CargarTabla(@RequestParam("idProyecto") Long id, Model model) {
-	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
 	        model.addAttribute("voluntarios", equiposimpl.listarVoluntariosPorProyecto(id));
 	        model.addAttribute("actividades", equiposimpl.listarActividades(id));
 	        Id_Proyecto=id;
 	        
-	        
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
+
 
 	        return "equipos";
 	    }
@@ -87,7 +89,7 @@ public class EquiposControllers {
 	                                 @RequestParam("equipos") String equiposJson, Asignar_equipos Asignarequipo,Model model) {
 
 	        // Usamos ObjectMapper para convertir el JSON a un List
-	    	// Long idAdministrador = (Long) model.asMap().get("idAdministrador");
+	    	
 	        ObjectMapper objectMapper = new ObjectMapper();
 	        List<Map<String, String>> equipos = null;
 	        try {
@@ -104,6 +106,7 @@ public class EquiposControllers {
 	        Miequipo.setNombre(nombreEquipo);
 	        System.out.println(actividadId);
 	        Miequipo.setId_asignacionproyecto(id_Asignacion.getId_tipoActividades());
+	        Miequipo.setId_administrador(id_administrador);
 	        equiposService.save(Miequipo);
 
 	        Date date = new Date();
@@ -130,7 +133,6 @@ public class EquiposControllers {
 	            }
 	        }
 	        
-	        model.addAttribute("proyectos", equiposimpl.findAllProyectos());
 
 	        return "redirect:/ListarEquipos";  // Redirigir a la vista o mostrar un mensaje
 	    }

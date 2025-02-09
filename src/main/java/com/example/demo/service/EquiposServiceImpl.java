@@ -30,9 +30,9 @@ public class EquiposServiceImpl implements IEquiposService {
 	public List<Object[]> obtenerActividadesPorHacer(Long voluntarioId) {
         return equiposdao.findActividadesPorHacer(voluntarioId);
     }
-	public List<Proyecto> findAllProyectos() {
+	public List<Proyecto> findAllProyectos(Long idaministrador) {
 		// TODO Auto-generated method stub
-		return proyectodao.findActivos();
+		return proyectodao.findActivos(idaministrador);
 	}
 	
 	@Transactional(readOnly = true)
