@@ -35,6 +35,10 @@ public class RegistroActividadRealizadaService {
         return registroActividadRealizadaDao.findActividadesRealizadas(voluntarioId);
     }
 
+    public List<Object[]> findActividadesPorAceptar(Long voluntarioId) {
+        return registroActividadRealizadaDao.findActividadesPorAceptar(voluntarioId);
+    }
+
     public List<Object[]> findNombreSueloPorRegistro(Long voluntarioId) {
         return registroActividadRealizadaDao.findNombreSueloPorRegistro(voluntarioId);
     }

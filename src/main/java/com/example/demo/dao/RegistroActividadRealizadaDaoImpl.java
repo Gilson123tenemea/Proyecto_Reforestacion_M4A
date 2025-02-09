@@ -26,17 +26,44 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 
 	@Override
 	public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
-		return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
-				+ "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada " + "FROM Usuarios u "
-				+ "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " // Relación correcta
-				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " // Relación correcta
-				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-				+ "INNER JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
-				+ "INNER JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
-				+ "WHERE v.id_voluntario = :voluntarioId " + "AND r.validacion_admin_tareaRealizada = TRUE",
-				Object[].class).setParameter("voluntarioId", voluntarioId).getResultList();
+	    return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
+	            + "e.nombre, ta.nombre_act "  // Agregar nombre del equipo y nombre de la actividad
+	            + "FROM Usuarios u "
+	            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+	            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+	            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+	            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+	            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+	            + "INNER JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos "
+	            + "INNER JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo "
+	            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "  // Relación con actividades
+	            + "WHERE v.id_voluntario = :voluntarioId "
+	            + "AND r.validacion_admin_tareaRealizada = TRUE",
+	            Object[].class).setParameter("voluntarioId", voluntarioId).getResultList();
+	}
+
+
+	@Override
+	public List<Object[]> findActividadesPorAceptar(Long voluntarioId) {
+	    return entityManager.createQuery(
+	        "SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, " +
+	        "e.nombre, ta.nombre_act, " + // Agregar nombre del equipo y nombre de la actividad
+	        "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada " +
+	        "FROM Usuarios u " +
+	        "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios " +
+	        "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " +
+	        "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " +
+	        "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto " +
+	        "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto " +
+	        "INNER JOIN Intervencion_Suelo ins ON e.id_equipos = ins.id_equipos " +
+	        "INNER JOIN RegistroActividadRealiza r ON ins.id_intervencion_suelo = r.id_intervencion_suelo " +
+	        "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " + // Relación con actividades
+	        "WHERE v.id_voluntario = :voluntarioId " +
+	        "AND r.validacion_admin_tareaRealizada = FALSE " + // Pendiente de aprobación del admin
+	        "AND r.validacion_voluntario_tareaRealizada = TRUE", // El voluntario ya la registró
+	        Object[].class
+	    ).setParameter("voluntarioId", voluntarioId)
+	    .getResultList();
 	}
 
 	@Override
@@ -175,4 +202,6 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }

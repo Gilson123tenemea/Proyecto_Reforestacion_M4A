@@ -28,5 +28,6 @@ public interface IRegistroActividadRealizadaDao {
 	List<Object[]> findActividadesRealizadas2(Long voluntarioId);
 	Optional<RegistroActividadRealiza> findById(Long idActividad);
 	List findActividadesPendientes();
-	
+	List<Object[]> findActividadesPorAceptar(Long voluntarioId);
+
 }

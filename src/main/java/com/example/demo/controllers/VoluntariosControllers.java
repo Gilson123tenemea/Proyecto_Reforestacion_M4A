@@ -130,33 +130,66 @@ public class VoluntariosControllers {
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
-
-	// Método para obtener las actividades pendientes de un voluntario
+// Método para obtener actividades pendientes de validación
 	@GetMapping("/voluntario/actividades")
-	public String getActividadesPorHacer(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
-		// Obtener actividades pendientes
-		List<Object[]> actividadesPorHacer = equipoService.obtenerActividadesPorHacer(idVoluntario);
-		model.addAttribute("actividadesPorHacer", actividadesPorHacer);
-		return "voluntarioActividades"; // Nombre de la vista
+	public String getActividadesPorAceptar(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
+		List<Object[]> actividadesPorAceptar = registroActividadRealizadaService
+				.findActividadesPorAceptar(idVoluntario);
+		model.addAttribute("actividadesPorAceptar", actividadesPorAceptar);
+		return "actividades_voluntariosss"; // Asegúrate de que esta es la vista correcta
 	}
 
+// Método para obtener actividades completamente realizadas
 	@GetMapping("/actividades-realizadas")
 	public String getActividadesRealizadas(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
-		// Obtener actividades realizadas con validación de administrador en TRUE
 		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
 				.obtenerActividadesRealizadas(idVoluntario);
-
 		model.addAttribute("actividadesRealizadas", actividadesRealizadas);
+		return "voluntarioActividadesRealizadas"; // Vista correcta en `templates/`
+	}
 
-		return "voluntarioActividades"; // Asegúrate de que este es el nombre correcto del archivo HTML en
-										// `template s/`
+	@GetMapping("/actividades/voluntariossssssssssss")
+	public String getActividadesPorVoluntariossssssss(@SessionAttribute("idVoluntario") Long idVoluntario,
+			Model model) {
+		List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
+		model.addAttribute("actividades", actividades);
+		model.addAttribute("idVoluntario", idVoluntario);
+		return "actividades_voluntariossss";
 	}
 
 	@GetMapping("/actividades/voluntario")
 	public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
+		System.out.println(">>> Obteniendo actividades del voluntario con ID: " + idVoluntario);
+
 		List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
+		System.out.println(">>> Actividades por hacer encontradas: " + (actividades != null ? actividades.size() : 0));
+
+		List<Object[]> actividadesPorAceptar = registroActividadRealizadaService
+				.findActividadesPorAceptar(idVoluntario);
+		System.out.println(">>> Actividades pendientes de validación encontradas: "
+				+ (actividadesPorAceptar != null ? actividadesPorAceptar.size() : 0));
+
+		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
+				.obtenerActividadesRealizadas(idVoluntario);
+		System.out.println(">>> Actividades realizadas encontradas: "
+				+ (actividadesRealizadas != null ? actividadesRealizadas.size() : 0));
+
+		// Imprimir detalles de las actividades realizadas
+		if (actividadesRealizadas != null && !actividadesRealizadas.isEmpty()) {
+			System.out.println(">>> Listado de actividades realizadas:");
+			for (Object[] actividad : actividadesRealizadas) {
+				System.out.println("   - Voluntario: " + actividad[0] + ", Proyecto: " + actividad[1] + ", Cantidad: "
+						+ actividad[2] + ", Foto: " + actividad[3]);
+			}
+		} else {
+			System.out.println(">>> No hay actividades realizadas para este voluntario.");
+		}
+
 		model.addAttribute("actividades", actividades);
+		model.addAttribute("actividadesPorAceptar", actividadesPorAceptar);
+		model.addAttribute("actividadesRealizadas", actividadesRealizadas);
 		model.addAttribute("idVoluntario", idVoluntario);
+
 		return "actividades_voluntario";
 	}
 
