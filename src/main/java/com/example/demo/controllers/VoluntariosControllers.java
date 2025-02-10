@@ -35,6 +35,7 @@ import com.example.demo.entity.Canton;
 import com.example.demo.entity.Inscripcion;
 import com.example.demo.entity.Parcelas;
 import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Patrocinio;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Usuarios;
@@ -285,6 +286,8 @@ public class VoluntariosControllers {
 	            voluntarios.setId_usuarios(usuario.getId_usuarios());
 	            voluntarios.setFechaRegistro(new Date());
 	            voluntarios.setAsiste_si_no(true);
+	            voluntarios.setDisponibilidad(true);
+	            voluntarios.setEstado(true);
 	            voluntariosServices.save(voluntarios);
 
 	            return "redirect:/login";
@@ -424,7 +427,7 @@ public class VoluntariosControllers {
 
 				// Validación de cada campo para no asignar valores nulos
 				if (voluntarios.getEstado() != null) {
-					voluntarioExistente.setEstado(voluntarios.getEstado());
+					voluntarioExistente.setEstado(true);
 				}
 				if (!voluntarios.getExperiencia().equalsIgnoreCase("")) {
 					voluntarioExistente.setExperiencia(voluntarios.getExperiencia());
@@ -433,6 +436,7 @@ public class VoluntariosControllers {
 				voluntariosServices.save(voluntarioExistente);
 			} else {
 				voluntarios.setId_usuarios(usuario.getId_usuarios());
+				
 				voluntariosServices.save(voluntarios);
 			}
 
@@ -514,94 +518,87 @@ public class VoluntariosControllers {
 
 	@GetMapping("/InfoProyecto")
 	public String mostrarInfoProyecto(@RequestParam("id") Long id, Model model) {
+	    
+	    Long idArea = 0L;
+	    Long idPatrocinio = 0L;
+	    Long idPatrocinador = 0L;
 
-		Long idArea = 0L;
-		Long idPatrocinio = 0L;
-		Long idPatrocinador = 0L;
+	    // Buscar el proyecto
+	    Proyecto proyecto = proyectoService.findOne(id);
+	    if (proyecto == null) {
+	        model.addAttribute("error", "No se encontró el proyecto.");
+	        return "listaProyectos";
+	    }
 
-		// Buscar el proyecto
-		Proyecto proyecto = proyectoService.findOne(id);
-		if (proyecto == null) {
-			model.addAttribute("error", "No se encontró el proyecto.");
-			return "listaProyectos";
-		}
+	    // Obtener todas las listas
+	    List<Patrocinio> patrocinioList = patrocinioService.findAll();
+	    List<Area> areaList = areaService.findAll();
+	    List<Parcelas> parcelaList = parcelaService.findAll();
 
-		// Obtener todas las listas
-		List<Patrocinio> patrocinioList = patrocinioService.findAll();
-		List<Area> areaList = areaService.findAll();
-		List<Parcelas> parcelaList = parcelaService.findAll();
+	    List<Area> areaIngre = new ArrayList<>();
+	    List<Parcelas> parcelaIngre = new ArrayList<>();
 
-		List<Area> areaIngre = new ArrayList<>();
-		List<Parcelas> parcelaIngre = new ArrayList<>();
-
-		// Buscar Patrocinio relacionado
-		for (Patrocinio p : patrocinioList) {
-			if (p.getId_proyecto() != null && p.getId_proyecto().equals(id)) { // Verificación null
-				idPatrocinador = p.getId_patrocinador();
-				idPatrocinio = p.getId_patrocina();
-
-			}
-		}
-
-		// Buscar Áreas relacionadas
-		for (Area a : areaList) {
-			if (a.getId_proyecto() != null && a.getId_proyecto().equals(id)) { // Verificación null
-				areaIngre.add(a);
-				idArea = a.getId_area();
-			}
-		}
-
-		// Buscar Parcelas relacionadas
-		for (Parcelas p : parcelaList) {
-			if (p.getId_area() != null && p.getId_area().equals(idArea)) { // Verificación null
-				parcelaIngre.add(p);
-
-			}
-		}
-
-		// Obtener información del patrocinador solo si hay un ID válido
-		Patrocinio patro = patrocinioService.findOne(idPatrocinio);
-		if (patro != null) {
-			model.addAttribute("usuario",
-					usuarioServices.findOne(PatrocinadorService.findOne(patro.getId_patrocinador()).getId_usuarios()));
-		}
-
-		model.addAttribute("patrocinio", patrocinioService.findOne(idPatrocinio));
-		model.addAttribute("patrocinador", PatrocinadorService.findOne(patro.getId_patrocinador()));
-		//model.addAttribute("parcela", parcelaIngre);
-		model.addAttribute("proyecto", proyecto);
-		model.addAttribute("areas", areaIngre);
-		model.addAttribute("id_proyecto", id);
-		
-		
-		
-		// List<Parcelas> parcelas = parcelaservice.findAll();
-	        model.addAttribute("parcelas", parcelaIngre);
-
-	        Map<Long, String> proyectoNombres = new HashMap<>();
-	        for (Parcelas parcela : parcelaIngre) {
-	            String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
-	            proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
+	    // Buscar Patrocinio relacionado
+	    for (Patrocinio p : patrocinioList) {
+	        if (p.getId_proyecto() != null && p.getId_proyecto().equals(id)) { // Verificación null
+	            idPatrocinador = p.getId_patrocinador() != null ? p.getId_patrocinador() : 0L;
+	            idPatrocinio = p.getId_patrocina() != null ? p.getId_patrocina() : 0L;
 	        }
-	        Map<Long, String> sueloNombres = new HashMap<>();
-	        for (Parcelas parcela : parcelaIngre) {
-	            String sueloNombre = sueloservice.findSueloName(parcela.getId_suelo());
-	            sueloNombres.put(parcela.getId_parcelas(), sueloNombre != null ? sueloNombre : "No disponible");
+	    }
+
+	    // Buscar Áreas relacionadas
+	    for (Area a : areaList) {
+	        if (a.getId_proyecto() != null && a.getId_proyecto().equals(id)) { // Verificación null
+	            areaIngre.add(a);
+	            idArea = a.getId_area() != null ? a.getId_area() : 0L;
 	        }
+	    }
 
-	        model.addAttribute("proyectoNombres", proyectoNombres);
-	        model.addAttribute("sueloNombres", sueloNombres);
-		
-		
-		
-		
-		
-		
+	    // Buscar Parcelas relacionadas
+	    for (Parcelas p : parcelaList) {
+	        if (p.getId_area() != null && p.getId_area().equals(idArea)) { // Verificación null
+	            parcelaIngre.add(p);
+	        }
+	    }
 
-		return "InfoProyecto";
+	    // Obtener información del patrocinador solo si hay un ID válido
+	    Patrocinio patro = Optional.ofNullable(patrocinioService.findOne(idPatrocinio)).orElse(null);
+	    Patrocinador patrocinador = patro != null ? 
+	        Optional.ofNullable(PatrocinadorService.findOne(patro.getId_patrocinador())).orElse(null) 
+	        : null;
+
+	    if (patro != null && patrocinador != null) {
+	        model.addAttribute("usuario", Optional.ofNullable(
+	            usuarioServices.findOne(patrocinador.getId_usuarios())
+	        ).orElse(null));
+	    }
+
+	    model.addAttribute("patrocinio", patro);
+	    model.addAttribute("patrocinador", patrocinador);
+	    model.addAttribute("proyecto", proyecto);
+	    model.addAttribute("areas", areaIngre);
+	    model.addAttribute("id_proyecto", id);
+	    model.addAttribute("parcelas", parcelaIngre);
+
+	    // Mapas de nombres de proyectos y suelos con validación de nulos
+	    Map<Long, String> proyectoNombres = new HashMap<>();
+	    Map<Long, String> sueloNombres = new HashMap<>();
+	    
+	    for (Parcelas parcela : parcelaIngre) {
+	        String proyectoNombre = Optional.ofNullable(areaService.findProyectoNameByAreaId(parcela.getId_area()))
+	                                        .orElse("No disponible");
+	        String sueloNombre = Optional.ofNullable(sueloservice.findSueloName(parcela.getId_suelo()))
+	                                     .orElse("No disponible");
+	        
+	        proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre);
+	        sueloNombres.put(parcela.getId_parcelas(), sueloNombre);
+	    }
+
+	    model.addAttribute("proyectoNombres", proyectoNombres);
+	    model.addAttribute("sueloNombres", sueloNombres);
+
+	    return "InfoProyecto";
 	}
-
-	
 
 	// ----------------------------------------------------------------------------
 

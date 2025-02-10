@@ -236,13 +236,7 @@
 				<fieldset>
 					<legend>Datos del Voluntario</legend>
 					<div class="row g-3">
-						<div class="col-md-6">
-							<label for="estado">Estado:</label>
-							<select id="estado" name="estado" class="form-select">
-								<option value="true" th:selected="${voluntarios?.estado}">Activo</option>
-								<option value="false" th:selected="${!voluntarios?.estado}">Inactivo</option>
-							</select>
-						</div>
+						
 						<div class="form-group">
 							<label for="experiencia">Experiencia:</label>
 							<input name="experiencia" id="experiencia" th:value="${voluntarios?.experiencia ?: ''}"></input>
