@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	
+
 	<meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -14,87 +14,122 @@
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: 'Roboto', sans-serif;
+		}
+
 		.main-content {
 			margin-top: 50px;
 		}
 
+		.container {
+			max-width: 1200px;
+			margin: auto;
+			padding: 20px;
+		}
+
+		.card {
+			border-radius: 12px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+		}
+
+		.card-body {
+			padding: 20px;
+		}
+
+		.row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+		}
+
+		.col-md-6 {
+			flex: 1;
+			min-width: 300px;
+		}
+
 		.form-container {
 			background: rgba(255, 255, 255, 0.9);
-			padding: 40px;
-			border-radius: 15px;
-			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-			max-width: 600px;
-			margin: auto;
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 			transition: transform 0.3s ease-in-out;
 		}
 
 		.form-container:hover {
-			transform: translateY(-5px);
+			transform: translateY(-3px);
 		}
 
-		.form-container h1 {
+		.form-container h4 {
 			text-align: center;
 			color: #444;
 			font-weight: 700;
-			font-size: 24px;
+			font-size: 20px;
+			margin-bottom: 15px;
 		}
 
 		.form-control {
-			border-radius: 8px;
+			border-radius: 6px;
 			border: 1px solid #ccc;
-			padding: 10px;
-			font-size: 16px;
+			padding: 8px;
+			font-size: 14px;
 			transition: all 0.3s ease-in-out;
+			width: 100%;
 		}
 
 		.form-control:focus {
 			border-color: #d32f2f;
-			box-shadow: 0 0 12px rgba(211, 47, 47, 0.5);
+			box-shadow: 0 0 8px rgba(211, 47, 47, 0.4);
 		}
 
 		.btn {
 			background: linear-gradient(to right, #d32f2f, #b71c1c);
 			color: white;
-			border-radius: 8px;
+			border-radius: 6px;
 			width: 100%;
-			padding: 12px;
-			font-size: 18px;
+			padding: 10px;
+			font-size: 16px;
 			font-weight: bold;
 			transition: all 0.3s ease-in-out;
 		}
 
 		.btn:hover {
 			background: #b71c1c;
-			transform: scale(1.07);
-			box-shadow: 0 6px 15px rgba(183, 28, 28, 0.3);
+			transform: scale(1.05);
+			box-shadow: 0 5px 12px rgba(183, 28, 28, 0.3);
 		}
 
 		.btn:active {
 			background: #d32f2f;
-			transform: scale(0.98);
+			transform: scale(0.97);
 		}
 
-		.footer {
-			background-color: #222;
-			color: white;
-			text-align: center;
-			padding: 10px;
-			font-size: 14px;
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-		}
-
-		.footer p {
-			margin: 0;
-		}
-
+		/* Ajuste del mapa para evitar desbordes */
 		#map {
-			height: 400px;
+			height: 350px; /* Ajustable */
 			width: 100%;
-			margin-bottom: 20px;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			transition: all 0.3s ease;
+		}
+
+		@media (max-width: 768px) {
+			.row {
+				flex-direction: column;
+			}
+
+			#map {
+				height: 250px; /* Reducido en móviles */
+			}
 		}
 	</style>
+
 </head>
 
 <body>
@@ -102,49 +137,50 @@
 	<div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
 
 	<div class="container mt-5">
-	    <h2 class="text-center mb-4" th:text="${proyecto.nombre}">Formulario Parcela</h2>
-	    
+	    <h2 class="text-center mb-4" th:text="${proyecto.nombre ?: 'Formulario Parcela'}">Formulario Parcela</h2>
+
 	    <div class="card bg-light shadow">
 	        <div class="card-body">
 	            <div class="row g-4">
-	                
+
 	                <!-- Información del Proyecto (lado izquierdo) -->
 	                <div class="col-md-6">
-	                  
+
 	                    <form th:action="@{/parcelas}" th:object="${parcela}">
-	                        
+
 	                        <input type="hidden" class="proyecto-id" th:value="${id_proyecto}">
-	                        
+
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Fecha inicio del proyecto:</label>
-	                            <p class="form-control-plaintext" th:text="${proyecto.fecha_inicio}"></p>
+	                            <p class="form-control-plaintext" th:text="${proyecto.fecha_inicio ?: 'No disponible'}"></p>
 	                        </div>
 
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Número de integrantes máx.:</label>
-	                            <p class="form-control-plaintext" th:text="${proyecto.voluntariosmax}"></p>
+	                            <p class="form-control-plaintext" th:text="${proyecto.voluntariosmax ?: 'No disponible'}"></p>
 	                        </div>
 
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Patrocinador:</label>
-	                            <p class="form-control-plaintext" th:text="${patrocinador.nombreEmpresa}"></p>
+	                            <p class="form-control-plaintext" th:text="${patrocinador?.nombreEmpresa ?: 'No disponible'}"></p>
 	                        </div>
 
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Representante:</label>
 	                            <p class="form-control-plaintext">
-	                                <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>
+	                                <span th:text="${usuario?.nombre ?: 'No disponible'}"></span>
+	                                <span th:text="${usuario?.apellido ?: ''}"></span>
 	                            </p>
 	                        </div>
 
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Donación:</label>
-	                            <p class="form-control-plaintext" th:text="${patrocinio.cantiad_estimada}"></p>
+	                            <p class="form-control-plaintext" th:text="${patrocinio?.cantiad_estimada ?: 'No disponible'}"></p>
 	                        </div>
 
 	                        <div class="mb-3">
 	                            <label class="form-label fw-bold">Detalles de Donación:</label>
-	                            <p class="form-control-plaintext" th:text="${patrocinio.detalledpnado}"></p>
+	                            <p class="form-control-plaintext" th:text="${patrocinio?.detalledpnado ?: 'No disponible'}"></p>
 	                        </div>
 
 	                    </form>
@@ -152,10 +188,12 @@
 
 	                <!-- Formulario y Mapa (lado derecho) -->
 	                <div class="col-md-6">
-	                    <h4 class="mb-3">Formulario Parcela Proyecto</h4>
-	                    <div id="map" class="border rounded bg-light" style="height: 300px;"></div>
+	                    <h4 class="mb-3">Áreas de actividad</h4>
+	                    <div id="map"></div>
+	                    <div class="loading-bar" id="loading-bar">Cargando...</div>
+
 	                    <br>
-	                    <button type="button" class="btn btn-outline-success w-100 inscribirme-btn">
+	                    <button type="button" class="btn btn-outline-success  inscribirme-btn">
 	                        Inscribirme
 	                    </button>
 	                </div>
@@ -170,53 +208,119 @@
 
 			// ✅ Captura todos los botones "Inscribirme"
 			document.querySelectorAll(".inscribirme-btn").forEach(button => {
-			    button.addEventListener("click", function () {
-			        let proyectoId = this.closest(".card").querySelector(".proyecto-id").value;
+				button.addEventListener("click", function () {
+					let proyectoId = this.closest(".card").querySelector(".proyecto-id").value;
 
-			        if (proyectoId) {
-			            // Redirige al controlador Spring Boot con el ID
-			            window.location.href = "/inscribir?id=" + proyectoId;
-			        } else {
-			            // Si el ID es nulo, muestra un mensaje de error
-			            mostrarToast("Error: No se recibió un ID válido.", "bg-danger");
-			        }
-			    });
+					if (proyectoId) {
+						// Redirige al controlador Spring Boot con el ID
+						window.location.href = "/inscribir?id=" + proyectoId;
+					} else {
+						// Si el ID es nulo, muestra un mensaje de error
+						mostrarToast("Error: No se recibió un ID válido.", "bg-danger");
+					}
+				});
 			});
-			
-			
-			
-			
 
-			
-			var mapElement = document.getElementById('map');
+			// 📢 Mostrar notificación si hay mensaje desde el servidor (después de la redirección)
+			let mensaje = "[[${mensaje}]]";  // Thymeleaf inserta el mensaje aquí
+			let esError = "[[${error}]]";    // Thymeleaf inserta el estado de error
 
-			if (!mapElement) {
-				console.error("No se encontró el elemento #map en el DOM.");
-				return;
+			if (mensaje && mensaje !== "null") {
+				mostrarToast(mensaje, esError === "true" ? "bg-danger" : "bg-success");
 			}
 
-			console.log("Inicializando Leaflet...");
 
-			var map = L.map('map').setView([-2.838080, -79.224942], 12);
+
+
+		});
+
+
+	</script>
+		<script th:inline="javascript">
+			document.getElementById("loading-bar").style.display = "block";
+
+			var map = L.map('map').setView([-2.838080, -79.224942], 13);
 
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 			}).addTo(map);
 
-			map.on('click', function (e) {
-				console.log("Coordenadas seleccionadas:", e.latlng);
-				var xField = document.getElementById('x');
-				var yField = document.getElementById('y');
+			var parcelas = /*[[${parcelas}]]*/[];
+			var parcelaSeleccionada = /*[[${parcelaSeleccionada}]]*/ null;
+			var proyectoNombres = /*[[${proyectoNombres}]]*/ {};
+			var sueloNombres = /*[[${sueloNombres}]]*/ {};
 
-				if (xField && yField) {
-					xField.value = e.latlng.lng;
-					yField.value = e.latlng.lat;
-				} else {
-					console.warn("No se encontraron los campos de coordenadas en el formulario.");
-				}
+			console.log(parcelas);
+			console.log(proyectoNombres);
+			console.log(sueloNombres);
+
+			var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
+
+			var grupoParcelas = L.featureGroup();
+
+			parcelas.forEach(function (parcela, index) {
+			    if (!parcela || !parcela.y || !parcela.x) {
+			        console.warn("Parcela inválida:", parcela);
+			        return;
+			    }
+
+			    var centro = [parcela.y, parcela.x];
+			    var esquinaSuperiorIzquierda = [
+			        centro[0] + (parcela.largo / 2 / 111320),
+			        centro[1] - (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+			    ];
+			    var esquinaInferiorDerecha = [
+			        centro[0] - (parcela.largo / 2 / 111320),
+			        centro[1] + (parcela.ancho / 2 / (111320 * Math.cos(centro[0] * Math.PI / 180)))
+			    ];
+
+			    var rectangulo = L.rectangle([esquinaSuperiorIzquierda, esquinaInferiorDerecha], {
+			        color: colores[index % colores.length],
+			        weight: 3,
+			        fillOpacity: 0.3
+			    }).addTo(map);
+
+			    grupoParcelas.addLayer(rectangulo);
+
+			    var proyectoNombre = proyectoNombres[parcela.id_parcelas] || "No disponible";
+			    var sueloNombre = sueloNombres[parcela.id_parcelas] || "No disponible";
+
+			    rectangulo.bindPopup(
+			        '<b>Proyecto:</b> ' + proyectoNombre + '<br>' +
+			        '<b>Suelo:</b> ' + sueloNombre + '<br>' +
+			        '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
+			        '<b>Área ID:</b> ' + parcela.id_area + ' <br>' +
+			        '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
+			        '<b>Ancho:</b> ' + parcela.ancho + ' m<br>'
+			    );
+
+			    rectangulo.on('mouseover', function () {
+			        this.setStyle({ fillOpacity: 0.5 });
+			    });
+			    rectangulo.on('mouseout', function () {
+			        this.setStyle({ fillOpacity: 0.3 });
+			    });
+			    rectangulo.on('click', function () {
+			        this.openPopup();
+			    });
+
+			    if (parcelaSeleccionada && parcela.id_parcelas === parcelaSeleccionada.id_parcelas) {
+			        map.setView(centro, 15);
+			        rectangulo.setStyle({ color: '#ff4500', fillOpacity: 0.6 });
+			        rectangulo.openPopup();
+			    }
 			});
-		});
-	</script>
+
+			// Ajusta el mapa para que todas las parcelas sean visibles
+			if (parcelas.length > 0) {
+			    map.fitBounds(grupoParcelas.getBounds());
+			}
+
+			setTimeout(function () {
+			    document.getElementById("loading-bar").style.display = "none";
+			}, 1000);
+
+		</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

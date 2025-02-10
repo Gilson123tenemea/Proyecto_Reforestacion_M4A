@@ -49,6 +49,7 @@ import com.example.demo.service.IPatrocinadorServices;
 import com.example.demo.service.IPatrocinioService;
 import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IProyectoServices;
+import com.example.demo.service.ISueloService;
 import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 import com.example.demo.service.RegistroActividadRealizadaService;
@@ -99,7 +100,9 @@ public class VoluntariosControllers {
 
 	@Autowired
 	private IPatrocinadorServices PatrocinadorService;
-
+	
+	  @Autowired
+	    private ISueloService sueloservice;
 	// =============================================================
 
 	@GetMapping("/proyectosvoluntario")
@@ -565,13 +568,40 @@ public class VoluntariosControllers {
 
 		model.addAttribute("patrocinio", patrocinioService.findOne(idPatrocinio));
 		model.addAttribute("patrocinador", PatrocinadorService.findOne(patro.getId_patrocinador()));
-		model.addAttribute("parcela", parcelaIngre);
+		//model.addAttribute("parcela", parcelaIngre);
 		model.addAttribute("proyecto", proyecto);
 		model.addAttribute("areas", areaIngre);
 		model.addAttribute("id_proyecto", id);
+		
+		
+		
+		// List<Parcelas> parcelas = parcelaservice.findAll();
+	        model.addAttribute("parcelas", parcelaIngre);
+
+	        Map<Long, String> proyectoNombres = new HashMap<>();
+	        for (Parcelas parcela : parcelaIngre) {
+	            String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
+	            proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
+	        }
+	        Map<Long, String> sueloNombres = new HashMap<>();
+	        for (Parcelas parcela : parcelaIngre) {
+	            String sueloNombre = sueloservice.findSueloName(parcela.getId_suelo());
+	            sueloNombres.put(parcela.getId_parcelas(), sueloNombre != null ? sueloNombre : "No disponible");
+	        }
+
+	        model.addAttribute("proyectoNombres", proyectoNombres);
+	        model.addAttribute("sueloNombres", sueloNombres);
+		
+		
+		
+		
+		
+		
 
 		return "InfoProyecto";
 	}
+
+	
 
 	// ----------------------------------------------------------------------------
 
