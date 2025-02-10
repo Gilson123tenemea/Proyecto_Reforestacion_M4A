@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import java.text.SimpleDateFormat; 
+import java.util.Date; 
 
 import com.example.demo.entity.Area;
 import com.example.demo.entity.Canton;
@@ -64,6 +66,14 @@ public class IntervencionSueloController {
     @RequestMapping(value = "/formularioIntervenciones", method = RequestMethod.POST)
     public String guardar(@ModelAttribute Intervencion_Suelo inter, Model model) {
         try {
+            // Establece la fecha y hora actuales
+            Date now = new Date();
+            inter.setFecha_asignacion(now);
+            
+            // Formato de la hora actual
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            inter.setHora_asignacion(timeFormat.format(now));
+
             // Imprimir para depuración
             System.out.println("Intervención a guardar: " + inter);
             // Guarda la intervención, el método save se encargará de crear o actualizar
@@ -73,7 +83,7 @@ public class IntervencionSueloController {
             return "formularioIntervenciones"; 
         }
         return "redirect:/Listaintervencion"; 
-    }    
+    }
     
     @RequestMapping(value = "/formularioIntervenciones/{id}", method = RequestMethod.GET)
     public String editar(@PathVariable(value = "id") Long id, Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
