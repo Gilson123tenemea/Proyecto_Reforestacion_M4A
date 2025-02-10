@@ -1,52 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar con Bootstrap</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Navbar con Bootstrap</title>
 
-  <!-- Agregar enlace al CSS de Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ6H7B9Ue3V8ADkz5v3pVJf6g+Hk5CkF6FQllmhnzHXK0fse5BziwO1v4VYa" crossorigin="anonymous">
+	<!-- Agregar enlace al CSS de Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KyZXEJ6H7B9Ue3V8ADkz5v3pVJf6FQllmhnzHXK0fse5BziwO1v4VYa" crossorigin="anonymous">
+
+	<style>
+		.navbar-nav .nav-link {
+			color: white !important;
+			font-weight: bold;
+			font-size: 18px;
+			text-decoration: none !important; /* Evita el subrayado */
+		}
+
+		/* Ajuste para que el menú de perfil no se desborde */
+		.dropdown-menu {
+			min-width: 200px;
+			right: 0;
+			left: auto;
+		}
+	</style>
 </head>
+
 <body>
-  <div th:fragment="menupatrocinador">
-    <!-- Menú de navegación con Bootstrap -->
-	<nav class="navbar navbar-expand-lg" style="background-color: #46ADFB;">
-      <div class="container-fluid">
-		<a class="navbar-brand" href="iniciosuperadmin">
-		    <img src="/imagenes/LogoPrincipalReforest.png" alt="Logo Principal" height="50">
-		</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-          <!-- Menús de Actividades, Registrar, Ver Lista -->
-          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex">
-            <!-- Menú Actividades -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="/verproyectospatrocinador" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Proyectos
-              </a>
-            </li>
+	<div th:fragment="menupatrocinador">
+		<!-- Menú de navegación con Bootstrap -->
+		<nav class="navbar navbar-expand-lg" style="background-color: #142157;">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="iniciopatrocinador">
+					<img src="/imagenes/LogoPrincipalReforest.png" alt="Logo Principal" height="50">
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+					aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarScroll">
+					<!-- Menús de Actividades, Registrar, Ver Lista -->
+					<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex">
+						<!-- Menú Proyectos -->
+						<li class="nav-item">
+							<a href="/verproyectospatrocinador" id="navbarDropdown" role="button" aria-expanded="false" 
+								style="color: white; font-weight: bold; font-size: 18px; text-decoration: none;">
+								Proyectos
+							</a>
+						</li>
 
-            <!-- Menú Avances del proyecto -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Avances del proyecto
-              </a>
-            </li>
-          </ul>
+						<!-- Espaciado entre elementos -->
+						<li class="nav-item ms-3">
+							<a id="navbarDropdown" role="button" aria-expanded="false" style="color: white; font-weight: bold; font-size: 18px;">
+								Avances del proyecto
+							</a>
+						</li>
+					</ul>
 
-          <!-- Menú Perfil alineado a la derecha -->
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item" href="/editarPatrocinador">
-              <a class="nav-link">Perfil</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0BfiW6v7cXw4b0uEK5T5Xn6Pffqb5Oo/fBfXnPA0fqnsOg3h" crossorigin="anonymous"></script>
+					<!-- Menú Perfil -->
+					<ul class="navbar-nav">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: bold; font-size: 18px;">
+								Perfil
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+								<li><a class="dropdown-item" href="/editarPatrocinador">Editar Perfil</a></li>
+								<li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pzjw8f+ua7Kw1TIq0BfiW6v7cXw4b0uEK5T5Xn6Pffqb5Oo/fBfXnPA0fqnsOg3h"
+		crossorigin="anonymous"></script>
 </body>
+
 </html>

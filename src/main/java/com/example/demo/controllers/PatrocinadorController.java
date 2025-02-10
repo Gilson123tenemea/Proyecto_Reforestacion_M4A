@@ -36,6 +36,10 @@ import com.example.demo.service.IPatrocinadorServices;
 import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @SessionAttributes("idPatrocinador")
 public class PatrocinadorController {
@@ -80,6 +84,21 @@ public class PatrocinadorController {
 
         model.addAttribute("combinados", combinados);
         return "Lista";
+    }
+	
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        
+        if (session == null) {
+            return "redirect:/";
+        }
+
+
+        return "redirect:/";
     }
 	
 	//Inicio Patrocinador
