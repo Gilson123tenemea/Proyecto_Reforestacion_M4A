@@ -145,7 +145,7 @@ public class VoluntariosControllers {
 		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
 				.obtenerActividadesRealizadas(idVoluntario);
 		model.addAttribute("actividadesRealizadas", actividadesRealizadas);
-		return "voluntarioActividadesRealizadas"; // Vista correcta en `templates/`
+		return "voluntarioActividadesRealizadas"; // Vista correcta en templates/
 	}
 
 	@GetMapping("/actividades/voluntariossssssssssss")
@@ -160,19 +160,18 @@ public class VoluntariosControllers {
 	@GetMapping("/actividades/voluntario")
 	public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
 		System.out.println(">>> Obteniendo actividades del voluntario con ID: " + idVoluntario);
+	    System.out.println(">>> Obteniendo actividades del voluntario con ID: " + idVoluntario);
 
-		List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
-		System.out.println(">>> Actividades por hacer encontradas: " + (actividades != null ? actividades.size() : 0));
+	    List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(idVoluntario);
+	    System.out.println(">>> Actividades por hacer encontradas: " + (actividades != null ? actividades.size() : 0));
 
-		List<Object[]> actividadesPorAceptar = registroActividadRealizadaService
-				.findActividadesPorAceptar(idVoluntario);
-		System.out.println(">>> Actividades pendientes de validación encontradas: "
-				+ (actividadesPorAceptar != null ? actividadesPorAceptar.size() : 0));
+	    List<Object[]> actividadesPorAceptar = registroActividadRealizadaService.findActividadesPorAceptar(idVoluntario);
+	    System.out.println(">>> Actividades pendientes de validación encontradas: " 
+	        + (actividadesPorAceptar != null ? actividadesPorAceptar.size() : 0));
 
-		List<Object[]> actividadesRealizadas = registroActividadRealizadaService
-				.obtenerActividadesRealizadas(idVoluntario);
-		System.out.println(">>> Actividades realizadas encontradas: "
-				+ (actividadesRealizadas != null ? actividadesRealizadas.size() : 0));
+	    List<Object[]> actividadesRealizadas = registroActividadRealizadaService.obtenerActividadesRealizadas(idVoluntario);
+	    System.out.println(">>> Actividades realizadas encontradas: " 
+	        + (actividadesRealizadas != null ? actividadesRealizadas.size() : 0));
 
 		// Imprimir detalles de las actividades realizadas
 		if (actividadesRealizadas != null && !actividadesRealizadas.isEmpty()) {
@@ -587,5 +586,6 @@ public class VoluntariosControllers {
 	}
 
 	// ==============================================================
+	
 
 }

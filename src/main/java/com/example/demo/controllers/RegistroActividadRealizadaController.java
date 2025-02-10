@@ -97,7 +97,7 @@ public class RegistroActividadRealizadaController {
 
 	@GetMapping("/{voluntarioId}")
 	public String mostrarFormulario(@PathVariable Long voluntarioId, Model model) {
-		List<Object[]> datosActividad = iregistroActividadRealizadaDao.findActividadesRealizadas2(voluntarioId);
+		List<Object[]> datosActividad = iregistroActividadRealizadaDao.findActividadesRealizadas(voluntarioId);
 		if (!datosActividad.isEmpty()) {
 			Object[] actividad = datosActividad.get(0);
 
@@ -162,5 +162,12 @@ public class RegistroActividadRealizadaController {
             redirectAttributes.addFlashAttribute("error", "Error al actualizar la imagen");
             return "redirect:/registro-actividad/editar/" + id; 
         }
+    }
+    @GetMapping("/{voluntarioId}/{idActividad}")
+    public String mostrarFormulario(@PathVariable Long idVoluntario, @PathVariable Long intervencionSueloId, Model model) {
+        model.addAttribute("idVoluntario", idVoluntario);
+        model.addAttribute("idIntervencionSuelo", intervencionSueloId);
+
+        return "crearRegistroActividadRealizada";
     }
 }
