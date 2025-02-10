@@ -79,11 +79,8 @@ public class ProyectosControllers {
 
     @GetMapping("/proyectosestados")
     public String mostrarProyectosActivos(Model model) {
-        
-    	
-        model.addAttribute("nombresProyectosActivos", proyectoService.findActivos());
-        model.addAttribute("nombresProyectosInactivos", proyectoService.findInactivos());
-        model.addAttribute("nombresProyectosFinalizados", proyectoService.findFinalizados());
+        Long idAdministrador = (Long) model.asMap().get("idAdministrador");
+        model.addAttribute("nombresProyectosActivos", proyectoService.findActivos(idAdministrador));
 
 
 
