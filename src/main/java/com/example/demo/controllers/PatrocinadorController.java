@@ -81,6 +81,29 @@ public class PatrocinadorController {
         model.addAttribute("combinados", combinados);
         return "Lista";
     }
+	
+	//Inicio Patrocinador
+	@GetMapping("/iniciopatrocinador")
+	public String iniciopatrocinador(@SessionAttribute("idPatrocinador") Long idPatrocinador, Model model) {
+	    model.addAttribute("titulo", "Inicio Patrocinador");
+
+	    // Obtener el patrocinador por su ID
+	    Patrocinador patrocinador = patrocinadorservice.findOne(idPatrocinador);
+	    if (patrocinador != null) {
+	        // Obtener el usuario relacionado con el patrocinador
+	        Usuarios usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
+	        if (usuario != null) {
+	            // Pasar el nombre y apellido del patrocinador al modelo
+	            model.addAttribute("nombrePatrocinador", usuario.getNombre());
+	            model.addAttribute("apellidoPatrocinador", usuario.getApellido());
+	        }
+	    }
+
+	    return "iniciopatrocinador";  // Asegúrate de que este sea el nombre correcto del archivo de la vista
+	}
+
+
+
 
 	@GetMapping("/formularioPatrocinador")
 	public String crear(Model model) {

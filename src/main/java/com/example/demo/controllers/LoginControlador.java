@@ -75,7 +75,7 @@ public class LoginControlador {
             case "voluntario":
                 return "redirect:/proyectosvoluntario";
             case "patrocinador":
-                return "redirect:/verproyectospatrocinador";
+                return "redirect:/iniciopatrocinador";
             default:
                 model.addAttribute("error", "Rol no reconocido.");
                 return "login";
