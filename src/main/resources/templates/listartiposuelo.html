@@ -146,13 +146,16 @@
         <div class="table-container">
             <h1>Lista de Tipos de Suelos</h1>
 
+            <!-- Campo de búsqueda -->
+            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Buscar por nombre de suelo o descripción..." class="form-control mb-3">
+
             <!-- Mensajes de éxito o error -->
             <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
             <!-- Tabla de tipos de suelo -->
             <table class="table table-bordered table-striped text-center">
-                <thead class="">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre del Suelo</th>
@@ -193,7 +196,7 @@
 			            </div>
         </div>
     </div>
-	</BR>
+
     <footer class="footer">
         <p>&copy; 2025 Reforest. Todos los derechos reservados.</p>
     </footer>
@@ -201,5 +204,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+		<script>
+		    // Función para filtrar la tabla por nombre de suelo y descripción
+		    function filterTable() {
+		        var input, filter, table, tr, td, i, txtValue;
+		        input = document.getElementById('searchInput');
+		        filter = input.value.toUpperCase();
+		        table = document.querySelector('table');
+		        tr = table.getElementsByTagName('tr');
+		        
+		        for (i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+		            td = tr[i].getElementsByTagName('td');
+		            if (td.length > 0) {
+		                // Revisa si el texto de las columnas 'nombre_suelo' (índice 1) o 'descripcion' (índice 2) contiene el texto de búsqueda
+		                var nombreSuelo = td[1].textContent || td[1].innerText;
+		                var descripcion = td[2].textContent || td[2].innerText;
+		                if (nombreSuelo.toUpperCase().indexOf(filter) > -1 || descripcion.toUpperCase().indexOf(filter) > -1) {
+		                    tr[i].style.display = "";
+		                } else {
+		                    tr[i].style.display = "none";
+		                }
+		            }
+		        }
+		    }
+		</script>
+
+
 </body>
 </html>
