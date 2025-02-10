@@ -56,7 +56,6 @@ public class EquiposControllers {
 	    @Autowired
 	    private IUsuarioServices usuarioServices;
 	    
-	    public Long Id_Proyecto=null;
 	    public Long Id_actividades=null;
 	    public Long id_administrador=null;
 	    
@@ -97,7 +96,6 @@ public class EquiposControllers {
 
 	        // Añadimos el resto de los atributos necesarios al modelo
 	        model.addAttribute("actividades", equiposimpl.listarActividades(id));
-	        Id_Proyecto = id;  // Asumo que Id_Proyecto es una variable global que necesitas
 	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
 
 	        return "equipos"; // Devuelve la vista
@@ -157,16 +155,28 @@ public class EquiposControllers {
 	        }
 	        
 
-	        return "redirect:/ListarEquipos";  // Redirigir a la vista o mostrar un mensaje
+	        return "equipos";  // Redirigir a la vista o mostrar un mensaje
+	    }
+	    
+	    
+	    @GetMapping("/CargaIntegrantes")
+	    public String ListarIntegrantesEquipos(Model model) {
+	        Long idAdministrador = (Long) model.asMap().get("idAdministrador");
+	        id_administrador=idAdministrador;
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
+	        
+	      
+	        return "ListarEquipos";
 	    }
 
 	      
-	    @GetMapping("/ListarEquipos")
-	    public String ListarEquiposPorProyecto(Model model) {
+	    @PostMapping("/ListarEquipos")
+	    public String ListarEquiposPorProyecto(@RequestParam("idProyecto") Long id,Model model) {
 	    	
 
+	    	System.out.print(id);
 	    	
-	        List<Equipos> equipos = equiposService.findEquiposPorProyectoYActividad(Id_Proyecto); // Trae todos los equipos para un proyecto
+	        List<Equipos> equipos = equiposService.findEquiposPorProyectoYActividad(id); // Trae todos los equipos para un proyecto
 	        List<Map<String, Object>> equiposConIntegrantes = new ArrayList<>();
 	        String nombre=" ";
 
@@ -223,7 +233,7 @@ public class EquiposControllers {
 
 	        model.addAttribute("equiposConIntegrantes", equiposConIntegrantes);  // Agregar los equipos con sus integrantes al modelo
 
-	        return "listarEquipos";  // La vista donde se mostrará la tabla
+	        return "ListarEquipos";  // La vista donde se mostrará la tabla
 	    }
 
 	

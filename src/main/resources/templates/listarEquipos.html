@@ -33,6 +33,31 @@
             margin: 5px;
         }
 
+        /* Estilos para el combo box */
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 40%;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+            background-color: #eaf2f7;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #0056b3;
+            background-color: #eaf2f7;
+        }
+
         /* Estilos para la tabla */
         table {
             width: 80%;
@@ -103,6 +128,24 @@
 
 <h1>Equipos por Proyecto</h1>
 
+<center>
+   <div class="card">
+      <div class="card-header text-center">
+          <h3>Seleccionar Proyecto</h3>
+      </div>
+      <div class="card-body text-center">
+          <form id="proyectoForm" method="post" th:action="@{/ListarEquipos}">
+              <select class="form-select" name="idProyecto" id="proyecto" onchange="enviarProyecto()">
+                  <option selected>Selecciona un proyecto</option>
+                  <option th:each="proyecto : ${proyectos}" 
+                          th:value="${proyecto.id_proyecto}" 
+                          th:text="${proyecto.nombre}"></option>
+              </select>
+          </form>
+      </div>
+  </div>
+</center>
+
 <!-- Contenedor de los filtros -->
 <div class="filter-container">
     <input type="text" id="activityFilter" placeholder="Filtrar por actividad" onkeyup="filterTable()">
@@ -129,7 +172,6 @@
                     </div>
                 </div>
             </td>
-            
             <td>
                 <!-- Nueva columna para mostrar otro dato del integrante -->
                 <div th:each="integrante : ${equipoData.integrantes}">
@@ -141,6 +183,10 @@
 </table>
 
 <script>
+    function enviarProyecto() {
+        document.getElementById("proyectoForm").submit();
+    }
+
     // Función para filtrar la tabla
     function filterTable() {
         var activityInput = document.getElementById('activityFilter');
@@ -163,7 +209,7 @@
                 // Filtrar por la columna de actividad (2) y equipo (0)
                 var equipo = td[0].textContent || td[0].innerText;
                 var actividad = td[2].textContent || td[2].innerText;
-                
+
                 if ((actividad.toUpperCase().indexOf(activityFilter) > -1) &&
                     (equipo.toUpperCase().indexOf(teamFilter) > -1 || teamFilter === "")) {
                     tr[i].style.display = "";
