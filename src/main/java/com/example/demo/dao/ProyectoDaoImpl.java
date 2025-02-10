@@ -58,7 +58,7 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	@Override
 	public List<Proyecto> findInactivos() {
 		// TODO Auto-generated method stub
-		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
+		return em.createQuery("from Proyecto p where p.estado = :estado")
 	             .setParameter("estado", "inactivo")
 	             .getResultList();
 	}
@@ -68,7 +68,7 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	public List<Proyecto> findFinalizados() {
 		// TODO Auto-generated method stub
 
-		return em.createQuery("select p.nombre from Proyecto p where p.estado = :estado")
+		return em.createQuery("from Proyecto p where p.estado = :estado")
 	             .setParameter("estado", "Finalizado")
 	             .getResultList();
 	}
@@ -85,6 +85,15 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	public List<Proyecto> findByAdministradorId(Long idAdministrador) {
 		 return em.createQuery("SELECT p FROM Proyecto p WHERE p.id_administrador = :idAdministrador", Proyecto.class)
 	             .setParameter("idAdministrador", idAdministrador)
+	             .getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Proyecto> findactivos() {
+		// TODO Auto-generated method stub
+		return em.createQuery("from Proyecto p where p.estado = :estado")
+	             .setParameter("estado", "activo")
 	             .getResultList();
 	}
 	

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reporte Gráfico</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+    <style>
+        .charts-container {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .chart {
+            width: 30%;
+            height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .chart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="charts-container">
+    <div id="chartActivos" class="chart"></div>
+    <div id="chartInactivos" class="chart"></div>
+    <div id="chartFinalizados" class="chart"></div>
+</div>
+
+<script th:inline="javascript">
+    // Obtener los datos de proyectos desde el modelo
+    var nombresProyectosActivos = [[${nombresProyectosActivos}]];
+    var nombresProyectosInactivos = [[${nombresProyectosInactivos}]];
+    var nombresProyectosFinalizados = [[${nombresProyectosFinalizados}]];
+
+    // Función para preparar los datos del gráfico y ordenarlos por porcentaje (de mayor a menor)
+    function prepararDatos(proyectos) {
+        return proyectos.map(function(proyecto) {
+            return {
+                name: proyecto.nombre,
+                value: proyecto.porcentaje
+            };
+        }).sort(function(a, b) {
+            return b.value - a.value;  // Ordenar los proyectos de mayor a menor porcentaje
+        });
+    }
+
+    // Inicializar los gráficos
+    var myChartActivos = echarts.init(document.getElementById('chartActivos'));
+    var myChartInactivos = echarts.init(document.getElementById('chartInactivos'));
+    var myChartFinalizados = echarts.init(document.getElementById('chartFinalizados'));
+
+    // Función para crear los gráficos de barras
+    function crearGrafico(chart, title, data, nombres) {
+        var option = {
+            title: {
+                text: title,
+                subtext: 'Distribución de proyectos',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                formatter: '{b}: ({c}%)'
+            },
+            xAxis: {
+                type: 'category',
+                data: nombres,
+                axisLabel: {
+                    interval: 0,
+                    rotate: 45,
+                    fontSize: 12,
+                    color: '#555'
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#ccc'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%',
+                    fontSize: 14,
+                    color: '#555'
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#ccc'
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Proyectos',
+                    type: 'bar',
+                    data: data.map(function(proyecto) { return proyecto.value; }),
+                    barWidth: '30%',
+                    itemStyle: {
+                        color: '#4caf50',
+                        borderRadius: 4,
+                        shadowBlur: 6,
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2,
+                        shadowColor: 'rgba(0, 0, 0, 0.2)'
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            color: '#ff7043',
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    animationDuration: 1500,
+                }
+            ]
+        };
+        chart.setOption(option);
+    }
+
+    // Función para cambiar los proyectos mostrados en el gráfico
+    function cambiarProyectos(chart, proyectos, nombres, interval, title) {
+        let index = 0;
+        setInterval(function() {
+            // Mostrar 5 proyectos a la vez
+            let proyectosMostrados = proyectos.slice(index, index + 5);
+            let nombresMostrados = nombres.slice(index, index + 5);
+            crearGrafico(chart, title, proyectosMostrados, nombresMostrados);
+            index = (index + 5) % proyectos.length;  // Ciclo de los proyectos
+        }, interval); // Actualiza cada 5 segundos
+    }
+
+    // Preparar los datos de los proyectos
+    var datosActivos = prepararDatos(nombresProyectosActivos);
+    var datosInactivos = prepararDatos(nombresProyectosInactivos);
+    var datosFinalizados = prepararDatos(nombresProyectosFinalizados);
+
+    // Crear gráficos iniciales con los títulos correspondientes
+    crearGrafico(myChartActivos, 'Proyectos Activos', datosActivos.slice(0, 5), datosActivos.slice(0, 5).map(function(proyecto) { return proyecto.name; }));
+    crearGrafico(myChartInactivos, 'Proyectos Inactivos', datosInactivos.slice(0, 5), datosInactivos.slice(0, 5).map(function(proyecto) { return proyecto.name; }));
+    crearGrafico(myChartFinalizados, 'Proyectos Finalizados', datosFinalizados.slice(0, 5), datosFinalizados.slice(0, 5).map(function(proyecto) { return proyecto.name; }));
+
+    // Iniciar los cambios de proyectos cada 5 segundos con títulos adecuados
+    cambiarProyectos(myChartActivos, datosActivos, datosActivos.map(function(proyecto) { return proyecto.name; }), 5000, 'Proyectos Activos');
+    cambiarProyectos(myChartInactivos, datosInactivos, datosInactivos.map(function(proyecto) { return proyecto.name; }), 5000, 'Proyectos Inactivos');
+    cambiarProyectos(myChartFinalizados, datosFinalizados, datosFinalizados.map(function(proyecto) { return proyecto.name; }), 5000, 'Proyectos Finalizados');
+
+</script>
+
+</body>
+</html>

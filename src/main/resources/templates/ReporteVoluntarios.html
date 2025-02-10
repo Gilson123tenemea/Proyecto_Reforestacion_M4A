@@ -7,7 +7,7 @@
     <!-- Incluir la biblioteca de ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
     <style>
-        /* Estilos para centrar el contenido y reducir el tamaño */
+        /* Estilos para centrar el contenido y aumentar el tamaño */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -19,8 +19,8 @@
             margin: 20px 0;
         }
         #main {
-            width: 80%;
-            height: 400px; /* Reducción de tamaño */
+            width: 90%; /* Aumentar el tamaño del mapa */
+            height: 600px; /* Aumentar la altura del mapa */
             margin: 0 auto;
         }
     </style>
@@ -136,11 +136,11 @@
             let currentOption = mapOption;
             myChart.setOption(mapOption);
 
-            // Cambiar entre el mapa y el gráfico de barras cada 2 segundos
+            // Cambiar entre el mapa y el gráfico de barras cada 5 segundos
             setInterval(function () {
                 currentOption = currentOption === mapOption ? barOption : mapOption;
                 myChart.setOption(currentOption, true);
-            }, 2000);
+            }, 5000);  <!-- Cambié el intervalo a 5000 ms (5 segundos) -->
 
         }).fail(function () {
             myChart.hideLoading();

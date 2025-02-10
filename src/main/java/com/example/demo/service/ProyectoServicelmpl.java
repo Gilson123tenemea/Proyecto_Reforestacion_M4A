@@ -98,6 +98,12 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> findByAdministradorId(Long idAdministrador) {
 		 return proyectodao.findByAdministradorId(idAdministrador);
 	}
+
+	@Override
+	public List<Proyecto> findactivos() {
+		// TODO Auto-generated method stub
+		return proyectodao.findactivos();
+	}
 	
 	
 }
