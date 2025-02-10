@@ -32,8 +32,17 @@ public class ProyectoServicelmpl implements IProyectoServices{
 
 	@Transactional
 	@Override
-	public void save(Proyecto proyecto) {	
-		proyectodao.save(proyecto);
+	public void save(Proyecto proyecto) {
+	    if (proyecto.getId_proyecto() != null) {
+	        // Cargar el proyecto existente para mantener las relaciones
+	        Proyecto existingProyecto = proyectodao.findOne(proyecto.getId_proyecto());
+	        
+	        // Aquí asegúrate de no modificar la lista de áreas
+	        proyecto.setArea(existingProyecto.getArea());
+	        em.merge(proyecto);
+	    } else {
+	        em.persist(proyecto);
+	    }
 	}
 
     @Transactional
