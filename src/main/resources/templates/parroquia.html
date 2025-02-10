@@ -108,18 +108,23 @@
             <form th:action="@{/guardarParroquia}" th:object="${parroquia}" method="post">
                 <input type="hidden" th:field="*{id_parroquia}" />
                 
-                <!-- Selección de Cantón -->
-                <div class="mb-3">
-                    <label for="idCanton" class="form-label">Seleccione el Cantón:</label>
-                    <select th:field="*{id_canton}" class="form-control" required>
-                        <option value="" disabled selected>Seleccione un Cantón</option>
-                        <th:block th:each="canton : ${cantones}">
-                            <option th:value="${canton.id_canton}" th:text="${canton.nombreCanton}"></option>
-                        </th:block>
-                    </select>
-                </div>
+				<div class="mb-3">
+				    <label for="idProvincia" class="form-label">Seleccione la Provincia:</label>
+				    <select id="idProvincia" class="form-control" required>
+				        <option value="" disabled selected>Seleccione una Provincia</option>
+				        <th:block th:each="provincia : ${provincias}">
+				            <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+				        </th:block>
+				    </select>
+				</div>
+				
+				<div class="mb-3">
+				    <label for="idCanton" class="form-label">Seleccione el Cantón:</label>
+				    <select id="idCanton" th:field="*{id_canton}" class="form-control" required disabled>
+				        <option value="" disabled selected>Seleccione un Cantón</option>
+				    </select>
+				</div>
 
-                <!-- Nombre de la Parroquia -->
                 <div class="mb-3">
                     <label for="nombreParroquia" class="form-label">Nombre de la Parroquia:</label>
                     <input type="text" th:field="*{nombreParroquia}" class="form-control" 
@@ -128,7 +133,6 @@
                         placeholder="Ingrese el nombre de la parroquia" />
                 </div>
 
-                <!-- Botones -->
                 <div class="btn-group">
                     <button type="submit" class="btn btn-danger">Guardar</button>
                     <a th:href="@{/listarParroquia}" class="btn btn-secondary">Cancelar</a>
@@ -140,5 +144,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+		
+		<script>
+		    const provinciaSelect = document.getElementById('idProvincia');
+		    const cantonSelect = document.getElementById('idCanton');
+
+		    provinciaSelect.addEventListener('change', () => {
+		        const idProvincia = provinciaSelect.value;
+		        cargarCantones(idProvincia);
+		    });
+
+		    function cargarCantones(idProvincia) {
+		        fetch(`/cantones/${idProvincia}`)
+		            .then(response => response.json())
+		            .then(data => {
+		                cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+		                data.forEach(canton => {
+		                    cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+		                });
+		                cantonSelect.disabled = false; 
+		            });
+		    }
+		</script>
 </body>
 </html>

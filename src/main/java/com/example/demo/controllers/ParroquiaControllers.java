@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,11 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
+import com.example.demo.service.IProvinciaService;
 
 import jakarta.validation.Valid;
 
@@ -23,11 +28,14 @@ public class ParroquiaControllers {
     IParroquiaService parroquiaService;
     @Autowired
     ICantonService cantonService;
+    
+    @Autowired
+    private IProvinciaService provinciaService; 
 
     @GetMapping("/parroquia")
     public String crearParroquiaForm(Model model) {
         model.addAttribute("parroquia", new Parroquia());
-        model.addAttribute("cantones", cantonService.findAll());
+        model.addAttribute("provincias", provinciaService.findAll());
         return "parroquia";
     }
 
@@ -81,6 +89,13 @@ public class ParroquiaControllers {
             attributes.addFlashAttribute("error", "Error al cargar la parroquia: " + e.getMessage());
             return "redirect:/listarparroquia";
         }
+    }
+    
+
+    @GetMapping("/cantones/proyectos/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvinciaProyectos(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
     }
 }
 
