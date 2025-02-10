@@ -70,18 +70,39 @@ public class EquiposControllers {
 	      
 	        return "equipos";
 	    }
-
 	    @PostMapping("/Enviar")
 	    public String CargarTabla(@RequestParam("idProyecto") Long id, Model model) {
-	        model.addAttribute("voluntarios", equiposimpl.listarVoluntariosPorProyecto(id));
+	        // Lista para almacenar los voluntarios no asignados a un equipo
+	        List<Usuarios> voluntariosNoAsignados = new ArrayList<>();
+
+	        // Obtener la lista de voluntarios para el proyecto
+	        for (Usuarios usuario : equiposimpl.listarVoluntariosPorProyecto(id)) {
+	            System.out.print(usuario.getNombre() + " " + usuario.getApellido());
+
+	            // Llamamos al método ValidarAsignacion para obtener el conteo de asignaciones
+	            Long asignaciones = equiposimpl.ValidarAsignacion(usuario.getId_usuarios());
+
+	            // Verificamos si el voluntario no está asignado
+	            if (asignaciones == 0) {
+	                // Si el voluntario no tiene asignaciones, lo agregamos a la lista de no asignados
+	                voluntariosNoAsignados.add(usuario);
+	            } else {
+	                // Si el voluntario ya está asignado, se imprime el mensaje (o puedes manejarlo de otra forma)
+	                System.out.println("El voluntario " + usuario.getNombre() + " ya está asignado a un equipo.");
+	            }
+	        }
+
+	        // Ahora añadimos la lista de voluntarios no asignados al modelo
+	        model.addAttribute("voluntariosNoAsignados", voluntariosNoAsignados);
+
+	        // Añadimos el resto de los atributos necesarios al modelo
 	        model.addAttribute("actividades", equiposimpl.listarActividades(id));
-	        Id_Proyecto=id;
-	        
+	        Id_Proyecto = id;  // Asumo que Id_Proyecto es una variable global que necesitas
 	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
 
-
-	        return "equipos";
+	        return "equipos"; // Devuelve la vista
 	    }
+
 
 	    @PostMapping("/guardarEquipos")
 	    public String guardarEquipos(@RequestParam("nombreEquipo") String nombreEquipo, 

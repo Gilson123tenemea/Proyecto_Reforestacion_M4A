@@ -107,7 +107,7 @@
                             </tr>
                         </thead>
                         <tbody id="voluntariosTable">
-                            <tr th:each="voluntario : ${voluntarios}">
+                            <tr th:each="voluntario : ${voluntariosNoAsignados}">
                                 <td th:text="${voluntario.cedula}"></td>
                                 <td th:text="${voluntario.nombre}+' '+${voluntario.apellido}"></td>
                                 <td><button class="btn btn-primary" onclick="inscribirVoluntario(event)">Inscribir</button></td>

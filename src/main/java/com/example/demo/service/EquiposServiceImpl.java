@@ -127,5 +127,10 @@ public class EquiposServiceImpl implements IEquiposService {
 		// TODO Auto-generated method stub
 		return equiposdao.findEquiposPorProyectoYActividad(idProyecto);
 	}
+	@Override
+	public Long ValidarAsignacion(Long id_usuario) {
+		// TODO Auto-generated method stub
+		return equiposdao.ValidarAsignacion(id_usuario);
+	}
 
 }

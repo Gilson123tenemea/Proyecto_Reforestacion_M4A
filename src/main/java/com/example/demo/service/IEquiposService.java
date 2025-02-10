@@ -22,6 +22,8 @@ public interface IEquiposService {
 	public List<Asignar_equipos> MostarIntegrantesEquipo(Long idequipo);
 	public List<Tipo_Actividades> ActividadesEquipo(Long id);
 	public List<Equipos> findEquiposPorProyectoYActividad(Long idProyecto);
+	public Long ValidarAsignacion(Long id_usuario);
+
 
 	 
 

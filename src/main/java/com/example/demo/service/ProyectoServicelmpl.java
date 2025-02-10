@@ -64,9 +64,9 @@ public class ProyectoServicelmpl implements IProyectoServices{
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<Proyecto> findActivos() {
+	public List<Proyecto> findActivos(Long id) {
 		// TODO Auto-generated method stub
-		return proyectodao.findActivos();
+		return proyectodao.findActivos(id);
 	}
 
 	@Override

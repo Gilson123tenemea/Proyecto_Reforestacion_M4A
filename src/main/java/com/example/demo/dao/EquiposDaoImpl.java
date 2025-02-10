@@ -153,6 +153,13 @@ public class EquiposDaoImpl implements IEquiposDao {
 	        .getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Long ValidarAsignacion(Long id_usuario) {
+	    return (Long) em.createQuery("SELECT COUNT(a) FROM Asignar_equipos a join Voluntarios v on v.id_voluntario = a.id_voluntario WHERE v.id_usuarios=:id_usuario")
+	            .setParameter("id_usuario", id_usuario)
+	            .getSingleResult();
+	}
 
 
 }

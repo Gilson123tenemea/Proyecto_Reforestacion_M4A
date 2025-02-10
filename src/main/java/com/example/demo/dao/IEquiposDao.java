@@ -24,6 +24,8 @@ public interface IEquiposDao {
 	public List<Tipo_Actividades> ActividadesEquipo(Long id);
 	public List<Equipos> findEquiposPorProyectoYActividad(Long idProyecto);
 
+	public Long ValidarAsignacion(Long id_usuario);
+
 	public List<Tipo_Actividades> listarActividades(Long id_proyecto);
 	public List<Asignar_equipos> MostarIntegrantesEquipo(Long idequipo);
 
