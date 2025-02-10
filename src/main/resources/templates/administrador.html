@@ -50,15 +50,6 @@
         <div class="form-container">
             <h1>Editar Administrador</h1>
 
-            <!-- Error and Success Alerts -->
-            <div th:if="${error}" class="alert alert-danger">
-                <p th:text="${error}"></p>
-            </div>
-
-            <div th:if="${success}" class="alert alert-success">
-                <p th:text="${success}"></p>
-            </div>
-
             <form action="/guardar" method="post">
                 <input type="hidden" name="id_super_administrador" th:value="${idSuperAdministrador}">
                 <input type="hidden" name="id_usuarios" th:value="${usuario.id_usuarios}">
