@@ -161,6 +161,23 @@ public class VoluntariosControllers {
 		return "actividades_voluntariossss";
 	}
 
+	
+	
+	
+	// --------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
 	@GetMapping("/actividades/voluntario")
 	public String getActividadesPorVoluntario(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
 		System.out.println(">>> Obteniendo actividades del voluntario con ID: " + idVoluntario);
@@ -195,6 +212,19 @@ public class VoluntariosControllers {
 
 		return "actividades_voluntario";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------

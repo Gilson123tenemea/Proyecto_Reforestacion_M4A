@@ -104,26 +104,6 @@
 		        <p><strong>Duración:</strong> <span th:text="${actividadDuracion}"></span></p>
 		        <p><strong>Proyecto:</strong> <span th:text="${proyectoNombre}"></span></p>
 		        <p><strong>Equipo:</strong> <span th:text="${equipoNombre}"></span></p>
-
-		        <!-- Formulario principal para guardar actividad -->
-		        <form action="/guardarActividad" method="post" enctype="multipart/form-data">
-		            <input type="hidden" name="id_voluntario" th:value="${id_voluntario}" />
-
-		            <label for="cantidad_realizada">Cantidad realizada:</label>
-		            <input type="number" name="cantidad_realizada" required />
-
-		            <label for="descripcion">Descripción:</label>
-		            <textarea name="descripcion" required></textarea>
-
-		            <label for="foto">Subir foto:</label>
-		            <input type="file" name="foto" accept="image/*" />
-
-		            <input type="hidden" name="validacion_admin_tareaRealizada" value="false" />
-		            <input type="hidden" name="validacion_voluntario_tareaRealizada" value="false" />
-
-		            <button type="submit">Guardar Actividad</button>
-		        </form>
-
 		        <!-- Segundo formulario (parece una variante del primero, lo conservo en caso de que sea intencional) -->
 		        <form action="/registro-actividad/guardarActividad" method="post" enctype="multipart/form-data">
 		            <input type="hidden" name="id_voluntario" th:value="${id_voluntario}" />

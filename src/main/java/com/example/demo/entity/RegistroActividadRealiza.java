@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,14 +11,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "registroactividadesrealiza",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_intervencion_suelo","id_registroactividadrealizada"})})
+@Table(name = "registroactividadesrealiza",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_voluntario","id_tipoActividades","id_registroactividadrealizada"})})
 public class RegistroActividadRealiza implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_registroactividadrealizada;
 	private Long id_voluntario;
-	private Long id_intervencion_suelo;
+	private Long id_tipoActividades;
 	
 	private int cantidad_realizada;
 	private String descripcion;
@@ -51,14 +49,13 @@ public class RegistroActividadRealiza implements Serializable{
 		this.id_voluntario = id_voluntario;
 	}
 
-	
 
-	public Long getId_intervencion_suelo() {
-		return id_intervencion_suelo;
+	public Long getId_tipoActividades() {
+		return id_tipoActividades;
 	}
 
-	public void setId_intervencion_suelo(Long id_intervencion_suelo) {
-		this.id_intervencion_suelo = id_intervencion_suelo;
+	public void setId_tipoActividades(Long id_tipoActividades) {
+		this.id_tipoActividades = id_tipoActividades;
 	}
 
 	public int getCantidad_realizada() {

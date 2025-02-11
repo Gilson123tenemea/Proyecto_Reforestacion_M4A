@@ -15,7 +15,7 @@ import jakarta.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name="tipo_actividades",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_tipoActividades"})})
+@Table(name="tipo_actividades",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_administrador","id_tipoActividades, id_registroactividadrealizada"})})
 public class Tipo_Actividades implements Serializable{
 
 	
@@ -34,7 +34,10 @@ public class Tipo_Actividades implements Serializable{
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Asignacion_proyectoActi> asignacion_proyectoacti   ; 
-
+	//relacion con RegistroActividadSuelo
+	 @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	 @JoinColumn(name ="id_intervencion_suelo")
+	 private List<RegistroActividadRealiza> registroactividadesrealizada   ; 	
   	
     private static final long serialVersionUID = 1L;
     
@@ -47,6 +50,14 @@ public class Tipo_Actividades implements Serializable{
 	}
 
 
+
+	public List<RegistroActividadRealiza> getRegistroactividadesrealizada() {
+		return registroactividadesrealizada;
+	}
+
+	public void setRegistroactividadesrealizada(List<RegistroActividadRealiza> registroactividadesrealizada) {
+		this.registroactividadesrealizada = registroactividadesrealizada;
+	}
 
 	public String getNombre_act() {
 		return nombre_act;

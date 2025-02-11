@@ -2,18 +2,13 @@ package com.example.demo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -40,10 +35,7 @@ public class Intervencion_Suelo implements Serializable{
 	private String observaciones;
 	
 	
-	//relacion con RegistroActividadSuelo
-	 @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	 @JoinColumn(name ="id_intervencion_suelo")
-	 private List<RegistroActividadRealiza> registroactividadesrealizada   ; 	
+
 	
 
 	public Long getId_intervencion_suelo() {
@@ -78,14 +70,7 @@ public class Intervencion_Suelo implements Serializable{
 		this.observaciones = observaciones;
 	}
 
-	public List<RegistroActividadRealiza> getRegistroactividadesrealizada() {
-		return registroactividadesrealizada;
-	}
 
-	public void setRegistroactividadesrealizada(List<RegistroActividadRealiza> registroactividadesrealizada) {
-		this.registroactividadesrealizada = registroactividadesrealizada;
-	}
-	
 
 	public Long getId_parcelas() {
 		return id_parcelas;
