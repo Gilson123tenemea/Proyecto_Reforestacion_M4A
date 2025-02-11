@@ -27,10 +27,32 @@
 </head>
 <body>
     <h1>Mapa de Ecuador - Provincias</h1>
+	<div class="card">
+	           <div class="card-header text-center">
+	               <h3>Seleccionar Proyecto</h3>
+	           </div>
+	           <div class="card-body text-center">
+	               <form id="proyectoForm" method="post" th:action="@{/MostrarVoluntarios}">
+	                   <select class="form-select" name="idProyecto" id="proyecto" onchange="enviarProyecto()">
+	                       <option selected>Selecciona un proyecto</option>
+	                       <option th:each="proyecto : ${proyectos}" 
+	                               th:value="${proyecto.id_proyecto}" 
+	                               th:text="${proyecto.nombre}"></option>
+	                   </select>
+	               </form>
+	           </div>
+	       </div>
     <div id="main"></div>
+	
+	
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Incluir jQuery -->
 
+	<script>
+		function enviarProyecto() {
+		          document.getElementById("proyectoForm").submit();
+		      }
+	</script>
     <script>
         // Inicializar el gráfico
         var myChart = echarts.init(document.getElementById('main'));
@@ -52,31 +74,33 @@
             });
 
             // Datos de provincias y sus valores (por ejemplo, población)
-            var data = [
-                { name: 'Azuay', value: 20 },
-                { name: 'Bolivar', value: 20 },
-                { name: 'Cañar', value: 20 },
-                { name: 'Carchi', value: 20 },
-                { name: 'Chimborazo', value: 20 },
-                { name: 'Cotopaxi', value: 20 },
-                { name: 'El Oro', value: 20 },
-                { name: 'Esmeraldas', value: 20 },
-                { name: 'Guayas', value: 20 },
-                { name: 'Imbabura', value: 20 },
-                { name: 'Loja', value: 20 },
-                { name: 'Los Rios', value: 20 },
-                { name: 'Manabi', value: 20 },
-                { name: 'Morona Santiago', value: 20 },
-                { name: 'Napo', value: 20 },
-                { name: 'Orellana', value: 20 },
-                { name: 'Pastaza', value: 20 },
-                { name: 'Pichincha', value: 20 },
-                { name: 'Santa Elena', value: 20 },
-                { name: 'Santo Domingo ', value: 20 },
-                { name: 'Sucumbios', value: 20 },
-                { name: 'Tungurahua', value: 20 },
-                { name: 'Zamora Chinchipe', value: 20 }
-            ];
+			// Datos de provincias y sus valores (número de voluntarios)
+			        var data = [
+			            { name: 'Azuay', value: 50 },
+			            { name: 'Bolívar', value: 30 },
+			            { name: 'Cañar', value: 45 },
+			            { name: 'Carchi', value: 60 },
+			            { name: 'Chimborazo', value: 40 },
+			            { name: 'Cotopaxi', value: 70 },
+			            { name: 'El Oro', value: 80 },
+			            { name: 'Esmeraldas', value: 20 },
+			            { name: 'Guayas', value: 100 },
+			            { name: 'Imbabura', value: 25 },
+			            { name: 'Loja', value: 35 },
+			            { name: 'Los Ríos', value: 65 },
+			            { name: 'Manabí', value: 55 },
+			            { name: 'Morona Santiago', value: 10 },
+			            { name: 'Napo', value: 15 },
+			            { name: 'Orellana', value: 30 },
+			            { name: 'Pastaza', value: 12 },
+			            { name: 'Pichincha', value: 120 },
+			            { name: 'Santa Elena', value: 50 },
+			            { name: 'Santo Domingo', value: 25 },
+			            { name: 'Sucumbíos', value: 20 },
+			            { name: 'Tungurahua', value: 45 },
+			            { name: 'Zamora Chinchipe', value: 18 }
+			        ];
+
 
             data.sort(function (a, b) {
                 return a.value - b.value;

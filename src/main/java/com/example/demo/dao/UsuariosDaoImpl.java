@@ -41,4 +41,22 @@ public class UsuariosDaoImpl implements IUsuariosDao {
 		em.remove(findOne(id));
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> NumeroUsuariosProvincia(Long id_proyecto) {
+	    return em.createQuery("SELECT COUNT(*) AS Total_voluntarios, pro.nombreProvincia " +
+	            "FROM Voluntarios v " +
+	            "JOIN Usuarios u ON v.id_usuarios = u.id_usuarios " +
+	            "JOIN Parroquia pa ON u.id_parroquia = pa.id_parroquia " +
+	            "JOIN Canton ca ON pa.id_canton = ca.id_canton " +
+	            "JOIN Provincia pro ON ca.id_provincia = pro.id_provincia " +
+	            "JOIN Inscripcion i ON i.id_voluntario = v.id_voluntario " +
+	            "WHERE i.id_proyecto = :id_proyecto " +
+	            "GROUP BY pro.nombreProvincia")
+	            .setParameter("id_proyecto", id_proyecto)
+	            .getResultList();
+	}
+
+
+
 }

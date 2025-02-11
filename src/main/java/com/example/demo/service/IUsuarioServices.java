@@ -10,5 +10,6 @@ public interface IUsuarioServices {
 	public void save(Usuarios usuario);
 	public Usuarios findOne(Long id);
 	public void delete(Long id);
+	public List<Object[]> NumeroUsuariosProvincia(Long id_proyecto);
 
 }

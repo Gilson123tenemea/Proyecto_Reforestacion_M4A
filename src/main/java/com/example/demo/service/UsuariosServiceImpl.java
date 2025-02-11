@@ -74,5 +74,11 @@ public class UsuariosServiceImpl implements IUsuarioServices{
 	    return null; 
 	}
 
+	@Override
+	public List<Object[]> NumeroUsuariosProvincia(Long id_proyecto) {
+		// TODO Auto-generated method stub
+		return usuariosDao.NumeroUsuariosProvincia(id_proyecto);
+	}
+
 }
 

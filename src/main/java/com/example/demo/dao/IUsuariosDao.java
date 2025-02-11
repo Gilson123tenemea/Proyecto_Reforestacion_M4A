@@ -9,5 +9,6 @@ public interface IUsuariosDao {
 	public void save(Usuarios usuarios);
 	public Usuarios findOne (Long id);
 	public void delete(Long id);
+	public List<Object[]> NumeroUsuariosProvincia(Long id_proyecto);
 
 }
