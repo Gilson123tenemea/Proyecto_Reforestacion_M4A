@@ -19,6 +19,7 @@ public class RegistroActividadRealizadaService {
         return registroActividadRealizadaDao.findActividadesRealizadas(voluntarioId);
     }
     
+    
     public Optional<Object[]> obtenerDetalleActividad(Long actividadId) {
         return registroActividadRealizadaDao.findDetalleActividadById(actividadId);
     }
@@ -33,6 +34,10 @@ public class RegistroActividadRealizadaService {
 
     public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
         return registroActividadRealizadaDao.findActividadesRealizadas(voluntarioId);
+    }
+    
+    public List<Object[]> findActividadesRealizadas2(Long voluntarioId) {
+        return registroActividadRealizadaDao.findActividadesRealizadas2(voluntarioId);
     }
 
     public List<Object[]> findActividadesPorAceptar(Long voluntarioId) {
