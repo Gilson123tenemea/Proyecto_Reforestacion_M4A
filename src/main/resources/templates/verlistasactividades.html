@@ -1,207 +1,233 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ver Listas</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ver Listas</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+		}
 
-    .content {
-      flex-grow: 1;
-    }
+		.content {
+			flex-grow: 1;
+		}
 
-    .card-container {
-      display: flex;
-      justify-content: center;
-      align-items: center; 
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
+		.card-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+			flex-wrap: wrap;
+			margin-top: 30px;
+		}
 
-    .card {
-      width: 250px; /* Reducido de 300px a 250px */
-      height: 250px; /* Reducido de 300px a 250px */
-      border-radius: 25%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background-color: #142157;
-      color: white;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-      text-decoration: none;
-      padding: 20px; /* Ajustado para el nuevo tamaño */
-      position: relative;
-      overflow: hidden;
-      animation: float 6s ease-in-out infinite;
-    }
+		.card {
+			width: 250px;
+			/* Reducido de 300px a 250px */
+			height: 250px;
+			/* Reducido de 300px a 250px */
+			border-radius: 25%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			background-color: #142157;
+			color: white;
+			cursor: pointer;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+			text-decoration: none;
+			padding: 20px;
+			/* Ajustado para el nuevo tamaño */
+			position: relative;
+			overflow: hidden;
+			animation: float 6s ease-in-out infinite;
+		}
 
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-      transform: rotate(45deg);
-      transition: opacity 0.5s ease;
-      opacity: 0;
-    }
+		.card::before {
+			content: "";
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+			transform: rotate(45deg);
+			transition: opacity 0.5s ease;
+			opacity: 0;
+		}
 
-    .card:hover::before {
-      opacity: 1;
-    }
+		.card:hover::before {
+			opacity: 1;
+		}
 
-    .card:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      background-color: #1c2a6e;
-    }
+		.card:hover {
+			transform: scale(1.1) rotate(5deg);
+			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+			background-color: #1c2a6e;
+		}
 
-    .card .icon-container {
-      width: 100px; /* Reducido de 120px a 100px */
-      height: 100px; /* Reducido de 120px a 100px */
-      background-color: white;
-      border-radius: 50%; 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px; /* Ajustado para el nuevo tamaño */
-      transition: transform 0.3s ease;
-    }
+		.card .icon-container {
+			width: 100px;
+			/* Reducido de 120px a 100px */
+			height: 100px;
+			/* Reducido de 120px a 100px */
+			background-color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 10px;
+			/* Ajustado para el nuevo tamaño */
+			transition: transform 0.3s ease;
+		}
 
-    .card:hover .icon-container {
-      transform: scale(1.1) rotate(15deg);
-    }
+		.card:hover .icon-container {
+			transform: scale(1.1) rotate(15deg);
+		}
 
-    .card img {
-      width: 50px; /* Reducido de 70px a 50px */
-      height: 50px; /* Reducido de 70px a 50px */
-      transition: transform 0.3s ease;
-    }
+		.card img {
+			width: 50px;
+			/* Reducido de 70px a 50px */
+			height: 50px;
+			/* Reducido de 70px a 50px */
+			transition: transform 0.3s ease;
+		}
 
-    .card:hover img {
-      transform: rotate(20deg);
-    }
+		.card:hover img {
+			transform: rotate(20deg);
+		}
 
-    .card h5 {
-      margin: 0;
-      font-size: 18px; /* Reducido de 20px a 18px */
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
+		.card h5 {
+			margin: 0;
+			font-size: 18px;
+			/* Reducido de 20px a 18px */
+			font-weight: bold;
+			transition: color 0.3s ease;
+		}
 
-    .card:hover h5 {
-      color: #4facfe;
-    }
+		.card:hover h5 {
+			color: #4facfe;
+		}
 
-    .card p {
-      margin: 5px 0 0;
-      font-size: 13px; /* Reducido de 14px a 13px */
-      color: #ddd;
-      transition: color 0.3s ease;
-    }
+		.card p {
+			margin: 5px 0 0;
+			font-size: 13px;
+			/* Reducido de 14px a 13px */
+			color: #ddd;
+			transition: color 0.3s ease;
+		}
 
-    .card:hover p {
-      color: #fff;
-    }
+		.card:hover p {
+			color: #fff;
+		}
 
-    /* Animación de flotar mejorada */
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px); /* Ajustado para el nuevo tamaño */
-      }
-    }
+		/* Animación de flotar mejorada */
+		@keyframes float {
 
-    /* Estilos para el título */
-    h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 1.5s ease-in-out;
-    }
+			0%,
+			100% {
+				transform: translateY(0);
+			}
 
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+			50% {
+				transform: translateY(-10px);
+				/* Ajustado para el nuevo tamaño */
+			}
+		}
+
+		/* Estilos para el título */
+		h1 {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 2.5rem;
+			font-weight: 700;
+			background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+			animation: fadeIn 1.5s ease-in-out;
+		}
+
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	</style>
 </head>
+
 <body>
-  <!-- Menú -->
-  <div th:replace="layout/layoutAdmin :: menu"></div>
+	<!-- Menú -->
+	<div th:replace="layout/layoutAdmin :: menu"></div>
 
-  <!-- Fondo -->
-  <div th:replace="layout/layoutAdmin :: fondo"></div>
+	<!-- Fondo -->
+	<div th:replace="layout/layoutAdmin :: fondo"></div>
 
-  <!-- Contenido principal -->
-  <div class="content container mt-5">
-    <h1 class="text-center mb-4">Ver Listas de Actividades</h1>
-    <div class="card-container">
-      <a class="card" href="/listartipo">
-        <div class="icon-container">
-          <img src="/imagenes/listaactividades.png" alt="Actividades">
-        </div>
-        <h5>Listado de Actividades</h5>
-        <p>Aquí podrás ver, eliminar y editar actividades.</p>
-      </a>
-	  
-      <a class="card" href="">
-        <div class="icon-container">
-          <img src="/imagenes/actividadequipo.png" alt="Equipo">
-        </div>
-        <h5>Listado Actividad de Equipo</h5>
-        <p>Gestiona las actividades creadas en el sistema.</p>
-      </a>
-	  
-      <a class="card" href="/Listaintervencion">
-        <div class="icon-container">
-          <img src="/imagenes/equiposparcelas.png" alt="Equipos_parcelas">
-        </div>
-        <h5>Listado de Equipos a Parcelas</h5>
-        <p>Revisa y administra las los equipos asignafos a una parcela.</p>
-      </a>
-	  
-      <a class="card" href="/mapa">
-        <div class="icon-container">
-          <img src="/imagenes/mapa.png" alt="Mapa">
-        </div>
-        <h5>Lugares de Mapa</h5>
-        <p>Visualizar las asignaciones del mapa.</p>
-      </a>
-    </div>
-  </div>
+	<!-- Contenido principal -->
+	<div class="content container mt-5">
+		<h1 class="text-center mb-4">Ver Listas de Actividades</h1>
+		<div class="card-container">
+			<a class="card" href="/listartipo">
+				<div class="icon-container">
+					<img src="/imagenes/listaactividades.png" alt="Actividades">
+				</div>
+				<h5>Listado de Actividades</h5>
+				<p>Aquí podrás ver, eliminar y editar actividades.</p>
+			</a>
 
-  <!-- Footer -->
-  <div th:replace="layout/layoutAdmin :: footer"></div>
+			<a class="card" href="">
+				<div class="icon-container">
+					<img src="/imagenes/actividadequipo.png" alt="Equipo">
+				</div>
+				<h5>Listado Actividad de Equipo</h5>
+				<p>Gestiona las actividades creadas en el sistema.</p>
+			</a>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+			<a class="card" href="/Listaintervencion">
+				<div class="icon-container">
+					<img src="/imagenes/equiposparcelas.png" alt="Equipos_parcelas">
+				</div>
+				<h5>Listado de Equipos a Parcelas</h5>
+				<p>Revisa y administra las los equipos asignafos a una parcela.</p>
+			</a>
+
+			<a class="card" href="/mapa">
+				<div class="icon-container">
+					<img src="/imagenes/mapa.png" alt="Mapa">
+				</div>
+				<h5>Lugares de Mapa</h5>
+				<p>Visualizar las asignaciones del mapa.</p>
+			</a>
+
+			<a class="card" href="/Listaintervencion">
+				<div class="icon-container">
+					<img src="/imagenes/asignacionequipos.png" alt="Intervenciones">
+				</div>
+				<h5>Listado Asignacion de Equipo a Parecelas</h5>
+				<p>Gestiona los equipos asignados a parcelas.</p>
+			</a>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="layout/layoutAdmin :: footer"></div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

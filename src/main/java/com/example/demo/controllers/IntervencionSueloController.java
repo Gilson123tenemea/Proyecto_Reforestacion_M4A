@@ -42,7 +42,7 @@ public class IntervencionSueloController {
 
     @RequestMapping(value = "/Listaintervencion", method = RequestMethod.GET)
     public String listar(Model model) {
-        model.addAttribute("titulo", "Listado de intervenciones");
+        model.addAttribute("titulo", "Listado de Asignacion de Equipos a Parcela");
         model.addAttribute("Intervenciones", intervencionservice.findAll());
         return "Listaintervencion";
     }
