@@ -73,6 +73,9 @@
     <div class="container">
         <h1 th:text="${titulo}">Listado de Proyectos</h1>
 
+        <!-- Campo de búsqueda -->
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre del proyecto..." onkeyup="filterTable()">
+
         <table class="table table-bordered table-striped">
             <thead class="table-success">
                 <tr>
@@ -118,6 +121,28 @@
     <footer class="footer">
         &copy; 2025 Mi Proyecto. Todos los derechos reservados.
     </footer>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.querySelector('table');
+            tr = table.getElementsByTagName('tr');
+
+            for (i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+                td = tr[i].getElementsByTagName('td')[1]; // Filtra por la segunda columna (Nombre)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
