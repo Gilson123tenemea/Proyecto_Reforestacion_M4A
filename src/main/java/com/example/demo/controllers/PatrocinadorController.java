@@ -97,10 +97,10 @@ public class PatrocinadorController {
             return "redirect:/";
         }
 
-
         return "redirect:/";
     }
 	
+    
 	//Inicio Patrocinador
 	@GetMapping("/iniciopatrocinador")
 	public String iniciopatrocinador(@SessionAttribute("idPatrocinador") Long idPatrocinador, Model model) {

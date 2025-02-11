@@ -51,7 +51,7 @@ public class IntervencionSueloController {
     public String crear(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         Intervencion_Suelo intervencion = new Intervencion_Suelo();
         model.addAttribute("intervencion", intervencion);
-        model.addAttribute("titulo", "Formulario de Intervenciones");
+        model.addAttribute("titulo", "Asignación de Equipos a Parcelas");
         List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
         List<Proyecto> proyectos = proyectoService.findAll();
         List<Equipos> equipos = equiposService.findAll();
