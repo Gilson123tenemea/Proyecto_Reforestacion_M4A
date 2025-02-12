@@ -6,12 +6,148 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title th:text="${titulo}">Formulario de Proyecto</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+			background-color: #f8f9fa;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			margin-top: 50px;
+			margin-bottom: 50px;
+		}
+
+		h1 {
+			color: #343a40;
+			font-weight: 700;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+
+		.form-label {
+			font-weight: 500;
+			color: #495057;
+		}
+
+		.form-control {
+			border-radius: 5px;
+			border: 1px solid #ced4da;
+			padding: 10px;
+			transition: border-color 0.3s, box-shadow 0.3s;
+		}
+
+		.form-control:focus {
+			border-color: #80bdff;
+			box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+
+		.btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.btn-secondary {
+			background-color: #6c757d;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+
+		.btn-secondary:hover {
+			background-color: #5a6268;
+		}
+
+		.alert {
+			border-radius: 5px;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+
+		.alert-success {
+			background-color: #d4edda;
+			border-color: #c3e6cb;
+			color: #155724;
+		}
+
+		.alert-danger {
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+			color: #721c24;
+		}
+
+		.img-fluid {
+			max-width: 100%;
+			height: auto;
+			border-radius: 5px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.text-center {
+			text-align: center;
+		}
+
+		.mb-3 {
+			margin-bottom: 1.5rem;
+		}
+
+		.mt-5 {
+			margin-top: 3rem;
+		}
+
+		.mb-4 {
+			margin-bottom: 2rem;
+		}
+
+		/* Estilo para el campo de archivo */
+		.custom-file-input {
+			opacity: 0;
+			position: absolute;
+			z-index: -1;
+		}
+
+		.custom-file-label {
+			display: block;
+			padding: 10px;
+			background-color: #e9ecef;
+			border: 1px solid #ced4da;
+			border-radius: 5px;
+			cursor: pointer;
+			text-align: center;
+			transition: background-color 0.3s;
+		}
+
+		.custom-file-label:hover {
+			background-color: #dde2e6;
+		}
+
+		/* Estilo para el nombre del archivo seleccionado */
+		#nombreArchivoGuardado {
+			display: block;
+			margin-top: 5px;
+			font-size: 0.9em;
+			color: #6c757d;
+		}
+	</style>
 </head>
 
 <body>
 	<div th:replace="layout/layoutAdmin :: menu"></div>
 	<div th:replace="layout/layoutAdmin :: fondo"></div>
-
 
 	<div class="container mt-5">
 		<h1 class="mb-4" th:text="${titulo}">Formulario de Proyecto</h1>
@@ -19,6 +155,8 @@
 		<form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
 			<input type="hidden" th:field="*{id_proyecto}" />
 			<input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
+
+			<!-- Mensajes de éxito o error -->
 			<div th:if="${mensaje}" class="alert alert-success" role="alert">
 				<span th:text="${mensaje}"></span>
 			</div>
@@ -26,107 +164,104 @@
 				<span th:text="${error}"></span>
 			</div>
 
+			<!-- Campos del formulario -->
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+					<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
+						pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required title="Solo se permiten letras y espacios" />
+				</div>
 
-			<div class="mb-3">
-				<label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-				<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
-					pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required title="Solo se permiten letras y espacios" />
+				<div class="col-md-6 mb-3">
+					<label for="id_provincia" class="form-label">Provincia:</label>
+					<select id="id_provincia" class="form-control" required>
+						<option value="" disabled selected>Seleccione una Provincia</option>
+						<th:block th:each="provincia : ${provincias}">
+							<option th:value="${provincia.id_provincia}"
+								th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+								th:text="${provincia.nombreProvincia}"></option>
+						</th:block>
+					</select>
+				</div>
 			</div>
 
-			<!-- Selección de la Provincia -->
-			<div class="mb-3">
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label for="id_canton" class="form-label">Cantón:</label>
+					<select id="id_canton" class="form-control" required>
+						<option value="" disabled>Seleccione un Cantón</option>
+						<th:block th:each="canton : ${cantones}">
+							<option th:value="${canton.id_canton}"
+								th:selected="${canton.id_canton == cantonSeleccionado}"
+								th:text="${canton.nombreCanton}"></option>
+						</th:block>
+					</select>
+				</div>
 
-				<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-				<select id="id_provincia" class="form-control" required>
-					<option value="" disabled selected>Seleccione una Provincia</option>
-					<!-- Este es el mensaje que se mostrará primero -->
-					<th:block th:each="provincia : ${provincias}">
-						<option th:value="${provincia.id_provincia}"
-							th:selected="${provincia.id_provincia == provinciaSeleccionada}"
-							th:text="${provincia.nombreProvincia}"></option>
-					</th:block>
-				</select>
+				<div class="col-md-6 mb-3">
+					<label for="id_parroquia" class="form-label">Parroquia:</label>
+					<select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
+						<option value="" disabled>Seleccione una Parroquia</option>
+						<th:block th:each="parroquia : ${parroquias}">
+							<option th:value="${parroquia.id_parroquia}"
+								th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
+								th:text="${parroquia.nombreParroquia}"></option>
+						</th:block>
+					</select>
+				</div>
 			</div>
 
-			<!-- Selección de Cantón -->
-			<div class="mb-3">
-				<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-				<select id="id_canton" class="form-control" required>
-					<option value="" disabled>Seleccione un Cantón</option>
-					<th:block th:each="canton : ${cantones}">
-						<option th:value="${canton.id_canton}" th:selected="${canton.id_canton == cantonSeleccionado}"
-							th:text="${canton.nombreCanton}"></option>
-					</th:block>
-				</select>
-			</div>
-
-			<!-- Selección de la Parroquia -->
-			<div class="mb-3">
-				<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-				<select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
-					<option value="" disabled>Seleccione una Parroquia</option>
-					<th:block th:each="parroquia : ${parroquias}">
-						<option th:value="${parroquia.id_parroquia}"
-							th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
-							th:text="${parroquia.nombreParroquia}"></option>
-					</th:block>
-				</select>
-			</div>
-			<!-- Mostrar imagen existente -->
 			<div class="mb-3 text-center">
-			    <img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}" alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
+				<img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}"
+					alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
 			</div>
-			<!-- Campo para cargar la imagen -->
+
 			<div class="mb-3">
 				<label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-				<input type="file" class="form-control" id="imagenArchivo" name="imagenArchivo" accept="image/*"
-					onchange="mostrarNombreArchivo()" />
-				<small class="form-text text-muted" id="nombreArchivoGuardado">Seleccionar archivo</small>
+				<input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
+					accept="image/*" onchange="mostrarNombreArchivo()" />
+				<label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
+				<small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún
+					archivo</small>
 			</div>
 
-			<script>
-				function mostrarNombreArchivo() {
-					const input = document.getElementById('imagenArchivo');
-					const nombreArchivo = input.files[0] ? input.files[0].name : 'Seleccionar archivo';
-					document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
-				}
-			</script>
-			<!-- Otros campos del formulario -->
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+					<input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
+				</div>
 
-
-			<div class="mb-3">
-				<label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-				<input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
+				<div class="col-md-6 mb-3">
+					<label for="fechaFin" class="form-label">Fecha de Fin:</label>
+					<input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
+				</div>
 			</div>
 
-			<div class="mb-3">
-				<label for="fechaFin" class="form-label">Fecha de Fin:</label>
-				<input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
-			</div>
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label for="estado" class="form-label">Estado:</label>
+					<select th:field="*{estado}" class="form-control" id="estado" required>
+						<option value="" disabled selected>Seleccione un Estado</option>
+						<option value="activo">Activo</option>
+						<option value="inactivo">Inactivo</option>
+						<option value="finalizado">Finalizado</option>
+					</select>
+				</div>
 
-			<div class="mb-3">
-				<label for="estado" class="form-label">Estado:</label>
-				<select th:field="*{estado}" class="form-control" id="estado" required>
-					<option value="" disabled selected>Seleccione un Estado</option>
-					<option value="activo">Activo</option>
-					<option value="inactivo">Inactivo</option>
-					<option value="finalizado">Finalizado</option>
-				</select>
-			</div>
-
-			<div class="mb-3">
-				<label for="porcentaje" class="form-label">Porcentaje:</label>
-				<input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
-					step="1" required />
+				<div class="col-md-6 mb-3">
+					<label for="porcentaje" class="form-label">Porcentaje:</label>
+					<input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
+						step="1" required />
+				</div>
 			</div>
 
 			<div class="mb-3">
-				<label for="voluntariosMax" class="form-label">Voluntarios Max:</label>
+				<label for="voluntariosMax" class="form-label">Voluntarios Máximos:</label>
 				<input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1"
 					required />
 			</div>
 
-			<div class="mb-3">
+			<div class="mb-3 text-center">
 				<button type="submit" class="btn btn-primary">Guardar</button>
 				<a th:href="@{/listarProyectos}" class="btn btn-secondary">Cancelar</a>
 			</div>
@@ -134,20 +269,23 @@
 	</div>
 
 	<script>
+		function mostrarNombreArchivo() {
+			const input = document.getElementById('imagenArchivo');
+			const nombreArchivo = input.files[0] ? input.files[0].name : 'No se ha seleccionado ningún archivo';
+			document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
+		}
 
 		const fechaInicio = document.getElementById('fechaInicio');
 		const fechaFin = document.getElementById('fechaFin');
 
-		// Validar fecha de fin
 		fechaFin.addEventListener('change', () => {
 			const inicio = new Date(fechaInicio.value);
 			const fin = new Date(fechaFin.value);
 			if (fin <= inicio) {
 				alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
-				fechaFin.value = ""; // Limpiar el campo de fecha fin
+				fechaFin.value = "";
 			}
 		});
-
 
 		const provinciaSelect = document.getElementById('id_provincia');
 		const cantonSelect = document.getElementById('id_canton');
@@ -196,9 +334,9 @@
 					});
 					parroquiaSelect.disabled = false;
 				});
-		}
+		}9
 	</script>
-	
+
 	<div th:replace="layout/layoutAdmin :: footer"></div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,3 +1,4 @@
+
 package com.example.demo.controllers;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class AreaController {
 
             areaService.save(area);
             model.addAttribute("mensaje", "Área guardada exitosamente");
-            return "redirect:/listarareas";
+            return "redirect:/parcelas";
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al guardar el Área: " + e.getMessage());
             return "error";

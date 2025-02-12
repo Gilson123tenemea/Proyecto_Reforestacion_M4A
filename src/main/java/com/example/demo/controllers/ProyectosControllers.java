@@ -61,11 +61,15 @@ public class ProyectosControllers {
     
     
     @GetMapping("/listarProyectos")
-    public String listarProyectos(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
+    public String listarProyectos(Model model, @SessionAttribute(name = "idAdministrador", required = false) Long idAdministrador) {
+        if (idAdministrador == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("titulo", "Lista de Proyectos");
         model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
-        return "listarProyectos"; 
+        return "listarProyectos";
     }
+
     
     
     @GetMapping("/proyectos")
@@ -139,7 +143,7 @@ public class ProyectosControllers {
 
             proyectoService.save(proyecto);
             redirectAttributes.addFlashAttribute("mensaje", "Proyecto guardado exitosamente");
-            return "redirect:/listarProyectos";
+            return "redirect:/area";
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
             return "redirect:/proyectos";
