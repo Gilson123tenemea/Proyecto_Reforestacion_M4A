@@ -41,75 +41,73 @@ public class RegistroActividadRealizadaController {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 	@GetMapping("/crear")
-	public String mostrarActividad(@RequestParam(value = "id_voluntario", required = false) Long voluntarioId, 
-	                               Model model) {
-	    System.out.println("📢 Método mostrarActividad iniciado");
+	public String mostrarActividad(@RequestParam(value = "id_voluntario", required = false) Long voluntarioId,
+			Model model) {
+		System.out.println("📢 Método mostrarActividad iniciado");
 
-	    model.addAttribute("actividad", new RegistroActividadRealiza());
-	    model.addAttribute("voluntarios", voluntariosService.findAll());
+		model.addAttribute("actividad", new RegistroActividadRealiza());
+		model.addAttribute("voluntarios", voluntariosService.findAll());
 
-	    if (voluntarioId != null) {
-	        System.out.println("📌 ID del voluntario recibido: " + voluntarioId);
-	        model.addAttribute("id_voluntario", voluntarioId); // Agregar al modelo
+		if (voluntarioId != null) {
+			System.out.println("📌 ID del voluntario recibido: " + voluntarioId);
+			model.addAttribute("id_voluntario", voluntarioId); // Agregar al modelo
 
-	        List<Object[]> resultados = registroActividadService.findActividadesRealizadas2(voluntarioId);
-	        System.out.println("🔍 Resultados obtenidos: " + resultados.size());
+			List<Object[]> resultados = registroActividadService.findActividadesRealizadas2(voluntarioId);
+			System.out.println("🔍 Resultados obtenidos: " + resultados.size());
 
-	        if (!resultados.isEmpty()) {
-	            Object[] datos = resultados.get(0);
-	            model.addAttribute("voluntarioNombre", datos[4]);
-	            model.addAttribute("actividadNombre", datos[0]);
-	            model.addAttribute("actividadDuracion", datos[1]);
-	            model.addAttribute("proyectoNombre", datos[2]);
-	            model.addAttribute("equipoNombre", datos[3]);
+			if (!resultados.isEmpty()) {
+				Object[] datos = resultados.get(0);
+				model.addAttribute("voluntarioNombre", datos[4]);
+				model.addAttribute("actividadNombre", datos[0]);
+				model.addAttribute("actividadDuracion", datos[1]);
+				model.addAttribute("proyectoNombre", datos[2]);
+				model.addAttribute("equipoNombre", datos[3]);
 
-	            System.out.println("✅ Datos agregados al modelo correctamente.");
-	        } else {
-	            System.out.println("⚠️ No se encontraron actividades realizadas para el voluntario con ID: " + voluntarioId);
-	        }
-	    } else {
-	        System.out.println("⚠️ No se proporcionó un ID de voluntario en la solicitud.");
-	    }
+				System.out.println("✅ Datos agregados al modelo correctamente.");
+			} else {
+				System.out.println(
+						"⚠️ No se encontraron actividades realizadas para el voluntario con ID: " + voluntarioId);
+			}
+		} else {
+			System.out.println("⚠️ No se proporcionó un ID de voluntario en la solicitud.");
+		}
 
-	    return "crearRegistroActividadRealizada"; 
+		return "crearRegistroActividadRealizada";
 	}
-
 
 	@PostMapping("/guardarActividad")
 	public String guardarActividad(@RequestParam("id_voluntario") Long voluntarioId,
-	                               @RequestParam("cantidad_realizada") Integer cantidadRealizada,
-	                               @RequestParam("descripcion") String descripcion,
-	                               @RequestParam(value = "validacion_admin_tareaRealizada", defaultValue = "false") boolean validacionAdmin,
-	                               @RequestParam(value = "validacion_voluntario_tareaRealizada", defaultValue = "false") boolean validacionVoluntario,
-	                               @RequestParam(value = "foto", required = false) MultipartFile file,
-	                               RedirectAttributes redirectAttributes) {
+			@RequestParam("cantidad_realizada") Integer cantidadRealizada,
+			@RequestParam("descripcion") String descripcion,
+			@RequestParam(value = "validacion_admin_tareaRealizada", defaultValue = "false") boolean validacionAdmin,
+			@RequestParam(value = "validacion_voluntario_tareaRealizada", defaultValue = "false") boolean validacionVoluntario,
+			@RequestParam(value = "foto", required = false) MultipartFile file, RedirectAttributes redirectAttributes) {
 
-	    try {
-	        RegistroActividadRealiza registroActividad = new RegistroActividadRealiza();
-	        registroActividad.setId_voluntario(voluntarioId);
-	        registroActividad.setCantidad_realizada(cantidadRealizada);
-	        registroActividad.setDescripcion(descripcion);
-	        registroActividad.setValidacion_admin_tareaRealizada(validacionAdmin);
-	        registroActividad.setValidacion_voluntario_tareaRealizada(validacionVoluntario);
+		try {
+			RegistroActividadRealiza registroActividad = new RegistroActividadRealiza();
+			registroActividad.setId_voluntario(voluntarioId);
+			registroActividad.setCantidad_realizada(cantidadRealizada);
+			registroActividad.setDescripcion(descripcion);
+			registroActividad.setValidacion_admin_tareaRealizada(validacionAdmin);
+			registroActividad.setValidacion_voluntario_tareaRealizada(validacionVoluntario);
 
-	        if (file != null && !file.isEmpty()) {
-	            registroActividad.setFoto(file.getBytes());
-	        }
+			if (file != null && !file.isEmpty()) {
+				registroActividad.setFoto(file.getBytes());
+			}
 
-	        registroActividadService.save(registroActividad);
-	        redirectAttributes.addFlashAttribute("mensaje", "Actividad guardada con éxito");
+			registroActividadService.save(registroActividad);
+			redirectAttributes.addFlashAttribute("mensaje", "Actividad guardada con éxito");
 
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        redirectAttributes.addFlashAttribute("error", "Error al subir la imagen.");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        redirectAttributes.addFlashAttribute("error", "Ocurrió un error inesperado.");
-	    }
+		} catch (IOException e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("error", "Error al subir la imagen.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("error", "Ocurrió un error inesperado.");
+		}
 
-	    return "redirect:/registro-actividad/crear?id_voluntario=" + voluntarioId;
+		return "redirect:/registro-actividad/crear?id_voluntario=" + voluntarioId;
 	}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
