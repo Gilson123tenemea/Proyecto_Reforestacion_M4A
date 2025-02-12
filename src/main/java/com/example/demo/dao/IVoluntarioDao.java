@@ -9,4 +9,5 @@ public interface IVoluntarioDao {
 	public Voluntarios findOne (Long id);
 	public void delete(Long id);
 	List<Voluntarios> findAdministradoresWithUsuarios(Long iVoluntario);
+	public int BuscarCedulaVoluntario(String cedula);
 }

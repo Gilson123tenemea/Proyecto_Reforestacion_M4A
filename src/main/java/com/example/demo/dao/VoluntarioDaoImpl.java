@@ -2,6 +2,8 @@ package com.example.demo.dao;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.entity.Usuarios;
 import com.example.demo.entity.Voluntarios;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -55,6 +57,16 @@ public class VoluntarioDaoImpl implements IVoluntarioDao{
 	                 .setParameter("iVoluntario", iVoluntario)
 	                 .getResultList();
 		}
+
+	@Override
+	public int BuscarCedulaVoluntario(String cedula) {
+		  String query = "SELECT COUNT(*) FROM usuario WHERE cedula = ?";
+		    Object result = em.createNativeQuery(query)
+		                      .setParameter(1, cedula)
+		                      .getSingleResult();
+
+		    return ((Number) result).intValue();
+	}
 	
 
 }

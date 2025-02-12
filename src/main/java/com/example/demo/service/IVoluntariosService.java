@@ -12,4 +12,5 @@ public interface IVoluntariosService {
 	public Voluntarios findOne (Long id);
 	public void delete(Long id);
 	public List<Voluntarios> listarvoluntarios();
+	public boolean BuscarCedulaVoluntario(String cedula);
 }

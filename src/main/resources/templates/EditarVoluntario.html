@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -29,20 +29,23 @@
 		}
 
 		.contenedor {
-		    display: flex;
-		    flex-direction: column;
-		    min-height: 100vh; /* Hace que el contenedor ocupe toda la pantalla */
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+			/* Hace que el contenedor ocupe toda la pantalla */
 		}
 
 		main {
-		    flex: 1; /* Hace que el contenido ocupe el espacio disponible y empuje el footer hacia abajo */
+			flex: 1;
+			/* Hace que el contenido ocupe el espacio disponible y empuje el footer hacia abajo */
 		}
+		
 
 		footer {
-		    text-align: center;
-		    padding: 15px 0;
-		    background-color: rgba(211, 47, 47, 0.8);
-		    width: 100%;
+			text-align: center;
+			padding: 15px 0;
+			background-color: rgba(211, 47, 47, 0.8);
+			width: 100%;
 		}
 
 		.login-wrapper {
@@ -149,17 +152,30 @@
 			color: #333333;
 			padding: 0 10px;
 		}
+		
+		/* Estilo contra*/
+			.mostrar-contraseña {
+			    font-size: 0.8em; /* Tamaño más pequeño */
+			    color: rgba(0, 0, 0, 0.6); /* Color negro con algo de transparencia */
+			    cursor: pointer; /* Cambia el cursor al pasar por encima */
+			}
+
+			.mostrar-contraseña input {
+			    margin-right: 5px; /* Espacio entre el checkbox y el texto */
+			}
 	</style>
 </head>
 
 <body>
-	
+
 	<div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
 
 	<div class="login-wrapper">
 		<div class="login-container">
 			<h2>Editar Voluntario</h2>
 			<form action="/ActualizarVoluntario" method="post">
+
+			
 
 				<input type="hidden" name="id_voluntario" th:value="${voluntarios?.id_voluntario}" />
 				<input type="hidden" name="id_usuarios" th:value="${usuario?.id_usuarios}" />
@@ -190,9 +206,9 @@
 								th:value="${usuario?.fecha_nacimiento ?: ''}" required>
 						</div>
 						<div class="col-md-6">
-							<label for="celular">Celular:</label>
-							<input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}"
-								required>
+						    <label for="celular">Celular:</label>
+						    <input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}" required>
+						    <small id="mensajeCelular"  ></small>
 						</div>
 
 						<div class="col-md-6">
@@ -221,12 +237,17 @@
 						</div>
 
 
-						
 						<div class="col-md-6">
-							<div class="form-group">
-								<label  for="contraseña">Contraseña:</label>
-								<input value=""  type="password" id="contraseña" name="contraseña" th:value="${usuario?.contraseña ?: ''}" required>
-							</div>
+						    <div class="form-group">
+						        <label for="contraseña">Contraseña:</label>
+						        <input type="password" id="contraseña" name="contraseña" th:value="${usuario?.contraseña ?: ''}" required>
+						        <small id="mensajeContraseña"></small>
+
+						        <!-- Checkbox para mostrar/ocultar la contraseña -->
+						        <label for="mostrarContraseña" class="mostrar-contraseña">
+						            <input type="checkbox" id="mostrarContraseña" onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+						        </label>
+						    </div>
 						</div>
 
 
@@ -236,11 +257,14 @@
 				<fieldset>
 					<legend>Datos del Voluntario</legend>
 					<div class="row g-3">
-						
-						<div class="form-group">
-							<label for="experiencia">Experiencia:</label>
-							<input name="experiencia" id="experiencia" th:value="${voluntarios?.experiencia ?: ''}"></input>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="experiencia">Experiencia:</label>
+								<input name="experiencia" id="experiencia"
+									th:value="${voluntarios?.experiencia ?: ''}"></input>
+							</div>
 						</div>
+
 					</div>
 				</fieldset>
 
@@ -257,6 +281,21 @@
 </body>
 
 <script>
+	// contraseña visualizar
+	function togglePasswordVisibility(id) {
+	    var passwordInput = document.getElementById(id);
+	    // Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
+	    if (passwordInput.type === "password") {
+	        passwordInput.type = "text";
+	    } else {
+	        passwordInput.type = "password";
+	    }
+	}
+	
+	
+	
+	
+	
 	const provinciaSelect = document.getElementById('id_provincia');
 	const cantonSelect = document.getElementById('id_canton');
 	const parroquiaSelect = document.getElementById('id_parroquia');
@@ -294,6 +333,74 @@
 				parroquiaSelect.disabled = false;
 			});
 	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+	        const contraseñaInput = document.getElementById("contraseña");
+	        const mensajeContraseña = document.getElementById("mensajeContraseña");
+
+	        // Expresión regular para validar la contraseña
+	        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
+
+	        // Validación de la contraseña mientras el usuario escribe
+	        contraseñaInput.addEventListener("input", function () {
+	            const contraseña = contraseñaInput.value;
+	            const especiales = contraseña.match(/[@#$%]/g);
+	            const cantidadEspeciales = especiales ? especiales.length : 0;
+
+	            if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+	                mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+	                mensajeContraseña.style.color = "red";
+	            } else {
+	                mensajeContraseña.textContent = "✅ Contraseña válida";
+	                mensajeContraseña.style.color = "green";
+	            }
+	        });
+
+	        // Prevenir envío del formulario si la contraseña no es válida y mostrar mensaje en mensajeContraseña
+	        document.querySelector("form").addEventListener("submit", function (event) {
+	            const contraseña = contraseñaInput.value;
+
+	            // Verifica si la contraseña es válida antes de enviar
+	            if (!regex.test(contraseña) || (contraseña.match(/[@#$%]/g) || []).length > 3) {
+	                mensajeContraseña.textContent = "La contraseña no cumple con los requisitos.";
+	                mensajeContraseña.style.color = "red";
+	                event.preventDefault(); // Detiene el envío del formulario
+	            }
+	        });
+			
+			
+			
+			
+			// Valiadr celular: 			
+			const celularInput = document.getElementById("celular");
+			    const mensajeCelular = document.getElementById("mensajeCelular");
+
+			    // Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
+			    const regexCelular = /^09\d{8}$/;
+
+			    celularInput.addEventListener("input", function () {
+			        const celular = celularInput.value;
+
+			        if (!regexCelular.test(celular)) {
+			            mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
+			            mensajeCelular.style.color = "red";
+			        } else {
+			            mensajeCelular.textContent = "✅ Número de celular válido";
+			            mensajeCelular.style.color = "green";
+			        }
+			    });
+
+			    // Validación al enviar el formulario
+			    document.querySelector("form").addEventListener("submit", function (event) {
+			        const celular = celularInput.value;
+
+			        if (!regexCelular.test(celular)) {
+			            mensajeCelular.textContent = "El número de celular debe comenzar con 09 y tener 10 dígitos en total.";
+			            mensajeCelular.style.color = "red";
+			            event.preventDefault(); // Detiene el envío del formulario si no es válido
+			        }
+			    });
+	    });
 </script>
 
 </html>

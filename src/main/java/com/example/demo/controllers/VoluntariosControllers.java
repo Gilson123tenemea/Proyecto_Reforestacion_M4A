@@ -644,5 +644,13 @@ public class VoluntariosControllers {
 
 	// ==============================================================
 	
+	@GetMapping("/cedulaVoltuntarui/{cedula}")
+	 @ResponseBody
+    public boolean ExistenciaCedulaVol(@PathVariable String cedula) {
+        return voluntariosServices.BuscarCedulaVoluntario(cedula);
+    }
+	
+	//===============================================================
+	
 
 }

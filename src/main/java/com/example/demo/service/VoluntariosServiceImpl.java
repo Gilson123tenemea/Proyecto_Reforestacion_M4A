@@ -60,4 +60,12 @@ public class VoluntariosServiceImpl implements IVoluntariosService {
 			return 	voluntarioDao.findAll();
 		}
 
+	 
+	 @Transactional(readOnly = true)
+	@Override
+	public boolean BuscarCedulaVoluntario(String cedula) {
+		
+		return voluntarioDao.BuscarCedulaVoluntario(cedula) > 0;
+	}
+
 }
