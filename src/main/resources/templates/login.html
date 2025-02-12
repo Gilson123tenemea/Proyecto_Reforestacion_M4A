@@ -9,146 +9,158 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 	<style>
-		html,
-		body {
-			height: 100%;
-			margin: 0;
-			display: flex;
-			flex-direction: column;
-			font-family: 'Roboto', sans-serif;
-			background-color: #ffffff;
-			background-image: url('/imagenes/cuenca.png');
-			background-size: cover;
-			background-position: center;
-			background-attachment: fixed;
-		}
+	    html,
+	    body {
+	        height: 100%;
+	        margin: 0;
+	        display: flex;
+	        flex-direction: column;
+	        font-family: 'Roboto', sans-serif;
+	        background-color: #ffffff;
+	        background-image: url('/imagenes/fondomejorado.png');
+	        background-size: cover;
+	        background-position: center;
+	        background-attachment: fixed;
+	    }
 
-		header {
-			background-color: #d32f2f;
-			width: 100%;
-		}
+	    header {
+	        background-color: #142157;
+	        width: 100%;
+	    }
 
-		footer {
-			text-align: center;
-			color: white;
-			padding: 15px 0;
-			background-color: #d32f2f;
-			width: 100%;
-		}
+	    footer {
+	        text-align: center;
+	        color: white;
+	        padding: 15px 0;
+	        background-color: #142157;
+	        width: 100%;
+	    }
 
-		.login-wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-grow: 1;
-			/* Permite que este contenedor ocupe el espacio disponible */
-			padding: 20px;
-			/* Espacio alrededor */
-			overflow-y: auto;
-			/* Habilita el scroll en el contenedor */
-		}
+	    .login-wrapper {
+	        display: flex;
+	        justify-content: center;
+	        align-items: center;
+	        flex-grow: 1;
+	        padding: 20px;
+	        overflow-y: auto;
+	    }
 
-		.login-container {
-			background-color: #ffffff;
-			padding: 30px;
-			border-radius: 10px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			width: 350px;
-			transition: transform 0.3s;
-		}
+	    .login-container {
+	        background-color: #ffffff;
+	        padding: 30px;
+	        border-radius: 10px;
+	        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	        width: 350px;
+	        transition: transform 0.3s;
+	    }
 
-		.login-container:hover {
-			transform: scale(1.02);
-		}
+	    .login-container:hover {
+	        transform: scale(1.02);
+	    }
 
-		h2 {
-			text-align: center;
-			margin-bottom: 20px;
-			color: #333333;
-		}
+	    h2 {
+	        text-align: center;
+	        margin-bottom: 20px;
+	        color: #333333;
+	    }
 
-		.form-group {
-			margin-bottom: 20px;
-		}
+	    .form-group {
+	        margin-bottom: 20px;
+	    }
 
-		label {
-			display: block;
-			margin-bottom: 5px;
-			color: #555555;
-		}
+	    label {
+	        display: block;
+	        margin-bottom: 5px;
+	        color: #555555;
+	    }
 
-		input[type="text"],
-		input[type="password"] {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			transition: border 0.3s;
-		}
+	    input[type="text"],
+	    input[type="password"] {
+	        width: 100%;
+	        padding: 12px;
+	        border: 1px solid #cccccc;
+	        border-radius: 5px;
+	        transition: border 0.3s;
+	    }
 
-		input[type="text"]:focus,
-		input[type="password"]:focus {
-			border-color: #d32f2f;
-			outline: none;
-		}
+	    input[type="text"]:focus,
+	    input[type="password"]:focus {
+	        border-color: #142157;
+	        outline: none;
+	    }
 
-		button {
-			width: 100%;
-			padding: 12px;
-			background-color: #d32f2f;
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
+	    button {
+	        width: 100%;
+	        padding: 12px;
+	        background-color: #4da8da; /* Azul celeste */
+	        color: white;
+	        border: none;
+	        border-radius: 5px;
+	        cursor: pointer;
+	        transition: background-color 0.3s;
+	        margin-bottom: 8px; /* Espaciado reducido */
+	    }
 
-		button:hover {
-			background-color: #c62828;
-		}
+	    button:hover {
+	        background-color: #3b8bbd; /* Azul más oscuro */
+	    }
 
-		.error {
-			color: red;
-			text-align: center;
-		}
+	    .error {
+	        color: red;
+	        text-align: center;
+	    }
 
-		.register-link {
-			text-align: center;
-			margin-top: 15px;
-			color: #555555;
-		}
+	    .register-link {
+	        text-align: center;
+	        margin-top: 10px;
+	    }
 
-		.register-link a {
-			color: #d32f2f;
-			text-decoration: none;
-		}
+	    .register-link a {
+	        display: block;
+	        width: 100%;
+	        padding: 12px;
+	        background-color: #4da8da; /* Azul celeste */
+	        color: white;
+	        text-align: center;
+	        text-decoration: none;
+	        border-radius: 5px;
+	        transition: background-color 0.3s;
+	        margin-bottom: 5px; /* Espaciado entre enlaces reducido */
+	    }
 
-		.register-link a:hover {
-			text-decoration: underline;
-		}
+	    .register-link a:hover {
+	        background-color: #3b8bbd; /* Azul más oscuro */
+	    }
 
-		.navbar-brand,
-		.navbar-nav .nav-link {
-			color: white !important;
-		}
-		
-		
-		
-		/* Estilo para el botón */
-		#toggleContraseña {
-		    background: none;
-		    border: none;
-		    color: rgba(0, 0, 0, 0.6);
-		    font-size: 0.8em;
-		    cursor: pointer;
-		    margin-top: 5px;
-		}
+	    .navbar-brand,
+	    .navbar-nav .nav-link {
+	        color: white !important;
+	    }
 
-		#toggleContraseña:hover {
-		    color: #000;  /* Cambia el color al pasar el mouse */
-		}
-	
+	    /* Estilo para el botón de mostrar contraseña */
+	    #toggleContraseña {
+	        background: none;
+	        border: none;
+	        color: rgba(0, 0, 0, 0.6);
+	        font-size: 0.8em;
+	        cursor: pointer;
+	        margin-top: 5px;
+	    }
+
+	    #toggleContraseña:hover {
+	        color: #000;
+	    }
+
+	    .form-group input {
+	        background-color: #f9f9f9; /* Fondo más claro para los inputs */
+	    }
+
+	    .form-group input:focus {
+	        background-color: #fff; /* Fondo blanco al enfocar */
+	    }
 	</style>
+
+
 </head>
 
 <body>
@@ -156,7 +168,7 @@
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<div class="container-fluid">
-				<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
+				<img src="/imagenes/LogoPrincipalReforest.png" alt="Logo Reforest" class="img-fluid" style="max-height: 40px;">
 				<h1 class="text-white m-0" style="margin-left: 20px;"><strong>Reforest</strong></h1>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -182,46 +194,41 @@
 					<input type="text" id="cedula" name="cedula" required>
 				</div>
 				<div class="form-group">
-				    <label for="contraseña">Contraseña:</label>
-				    <input type="password" id="contraseña" name="contraseña" required>
-
-				    <!-- Checkbox para mostrar/ocultar la contraseña -->
-				    <label for="mostrarContraseña" class="mostrar-contraseña">
-				        <input type="checkbox" id="mostrarContraseña" onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
-				    </label>
-				    
-				    <small id="mensajeContraseña"></small>
+					<label for="contraseña">Contraseña:</label>
+					<input type="password" id="contraseña" name="contraseña" required>
+					<label for="mostrarContraseña" class="mostrar-contraseña">
+						<input type="checkbox" id="mostrarContraseña" onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+					</label>
+					<small id="mensajeContraseña"></small>
 				</div>
 				<button type="submit">Login</button>
 				<div class="error">
-					<!-- Aquí se mostraría el mensaje de error -->
 					<span th:text="${error}"></span>
 				</div>
 				<div class="register-link">
-					<p>Registrar como Voluntario <a href="/crearVoluntario">Regístrate aquí</a></p>
+					<a href="/crearVoluntario">Regístrate como Voluntario</a>
 				</div>
 				<div class="register-link">
-				<p>Registrar como Patrocinador <a href="/formularioPatrocinador">Regístrate aquí</a></p>
+					<a href="/formularioPatrocinador">Regístrate como Patrocinador</a>
+				</div>
+			</form>
 		</div>
-		</form>
-	</div>
 	</div>
 
 	<footer>
 		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
 	</footer>
-	
+
 	<script>
 		function togglePasswordVisibility(id) {
-		    var passwordInput = document.getElementById(id);
-		    var checkbox = document.getElementById('mostrarContraseña');
+			var passwordInput = document.getElementById(id);
+			var checkbox = document.getElementById('mostrarContraseña');
 
-		    // Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
-		    if (checkbox.checked) {
-		        passwordInput.type = "text";
-		    } else {
-		        passwordInput.type = "password";
-		    }
+			if (checkbox.checked) {
+				passwordInput.type = "text";
+			} else {
+				passwordInput.type = "password";
+			}
 		}
 	</script>
 
