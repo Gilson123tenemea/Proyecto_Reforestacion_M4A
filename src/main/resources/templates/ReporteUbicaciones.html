@@ -13,9 +13,9 @@
     <script>
         var myChart = echarts.init(document.getElementById('main'));
 
-        // Obtener el archivo SVG del mapa de Ecuador o Azuay
+        // Obtener el archivo SVG del mapa (usando tu ruta específica para el mapa)
         $.get('/ec.svg', function (svg) {
-            // Registrar el mapa SVG en ECharts
+            // Registrar el mapa SVG
             echarts.registerMap('ecuador_svg', { svg: svg });
 
             var option = {
@@ -43,8 +43,8 @@
                     geoIndex: 0,
                     zlevel: 1,
                     data: [
-                        {name: 'Cuenca', value: [700, 300], tooltipText: 'Ubicación de Cuenca'},
-                        {name: 'Girón', value: [700, 200], tooltipText: 'Ubicación de Girón'}
+                        {name: 'Cuenca', value: [740.5, 273.7], tooltipText: 'Ubicación de Cuenca'},
+                        {name: 'Manabi', value: [699.7, 132], tooltipText: 'Ubicación de Girón'}
                     ],
                     renderItem: function (params, api) {
                         const coord = api.coord([api.value(0, params.dataIndex), api.value(1, params.dataIndex)]);
@@ -78,8 +78,8 @@
                                         },
                                         {
                                             percent: 1,
-                                            scaleX: 100,
-                                            scaleY: 0.100,
+                                            scaleX: 1,
+                                            scaleY: 1,
                                             style: {
                                                 opacity: 0
                                             }
@@ -89,46 +89,49 @@
                             });
                         }
 
+                        // La flecha, que apunta hacia la ubicación
+                        const arrow = {
+                            type: 'path',
+                            shape: {
+                                d: 'M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z',
+                                x: -10,
+                                y: -35,
+                                width: 20,
+                                height: 40
+                            },
+                            style: {
+                                fill: 'red'
+                            },
+                            keyframeAnimation: {
+                                duration: 1000,
+                                loop: true,
+                                delay: Math.random() * 1000,
+                                keyframes: [
+                                    {
+                                        y: -10,
+                                        percent: 0.5,
+                                        easing: 'cubicOut'
+                                    },
+                                    {
+                                        y: 0,
+                                        percent: 1,
+                                        easing: 'bounceOut'
+                                    }
+                                ]
+                            },
+                            tooltip: {
+                                show: true,
+                                formatter: '¡Flecha hacia Cuenca!'  // El mensaje del tooltip
+                            }
+                        };
+
                         return {
                             type: 'group',
                             x: coord[0],
                             y: coord[1],
                             children: [
-                                ...circles,
-                                {
-                                    type: 'path',
-                                    shape: {
-                                        d: 'M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z',
-                                        x: -10,
-                                        y: -35,
-                                        width: 20,
-                                        height: 40
-                                    },
-                                    style: {
-                                        fill: 'red'
-                                    },
-                                    keyframeAnimation: {
-                                        duration: 1000,
-                                        loop: true,
-                                        delay: Math.random() * 1000,
-                                        keyframes: [
-                                            {
-                                                y: -10,
-                                                percent: 0.5,
-                                                easing: 'cubicOut'
-                                            },
-                                            {
-                                                y: 0,
-                                                percent: 1,
-                                                easing: 'bounceOut'
-                                            }
-                                        ]
-                                    },
-                                    tooltip: {  // Añadir tooltip aquí
-                                        show: true,
-                                        formatter: '¡Flecha hacia Cuenca!'  // El mensaje del tooltip
-                                    }
-                                }
+                                ...circles,  // Los círculos animados
+                                arrow  // La flecha animada
                             ]
                         };
                     }
