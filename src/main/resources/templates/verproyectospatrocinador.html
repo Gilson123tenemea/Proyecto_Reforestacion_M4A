@@ -7,141 +7,295 @@
     <title>Proyecto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
         header {
-            background-color: #dc3545;
+            background-color: #142157;
             color: white;
-            padding: 10px 20px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1px;
         }
 
         .card {
-            margin: 20px auto;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease;
+            border: 1px solid #ddd;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card-header {
-            background-color: #dc3545;
+            background-color: #142157;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
         }
 
         .card-body {
-            padding: 20px;
+            padding: 15px;
         }
 
-        .table th,
-        .table td {
-            text-align: center;
-            vertical-align: middle;
-            border-radius: 8px;
-        }
-
-        .btn-view {
-            background-color: #007bff;
+        .btn-primary {
+            background-color: #142157;
             color: white;
             border-radius: 8px;
-            padding: 5px 15px;
+            padding: 8px 16px;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-primary i {
+            margin-left: 8px;
+        }
+
+        /* Efecto al pasar el ratón: el color se aclara */
+        .btn-primary:hover {
+            background-color: #5a72a3;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-container {
+            display: flex;
+            gap: 15px;
+            overflow: hidden;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+
+        .project-container .card {
+            width: 18%;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .project-container .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .footer p {
+            color: #142157;
+            font-size: 1.2rem;
+        }
+
+        .botones {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .botones button {
+            background-color: #142157;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Efecto al pasar el ratón sobre los botones */
+        .botones button:hover {
+            background-color: #5a72a3;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card {
+            display: flex;
+            gap: 15px;
+            overflow-x: scroll;
+            padding-bottom: 20px;
+        }
+
+        .project-card .card {
+            flex: 0 0 18%;
+            margin-right: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        .project-card .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .card-footer {
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Títulos centrados y en negrita */
+        .card-header h3 {
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* Quitar el subrayado en el botón de Ver */
+        .btn-view {
+            background-color: #142157;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none; /* Se elimina el subrayado aquí */
+            font-weight: bold; /* Título en negrita */
+        }
+
+        .btn-view i {
+            margin-left: 8px;
         }
 
         .btn-view:hover {
-            background-color: #0056b3;
+            background-color: #5a72a3;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
     </style>
 </head>
 
 <body>
     <div th:replace="layout/layoutPatrocinador :: menupatrocinador"></div>
+    <div th:replace="layout/layoutAdmin :: fondo"></div>
 
-    <div class="container">
+    <div class="container mt-5">
         <!-- Proyectos Patrocinados -->
-        <div class="card">
-            <div class="card-header text-white text-center">
+        <div class="card mb-4">
+            <div class="card-header">
                 <h3>Proyectos Patrocinados</h3>
             </div>
             <div class="card-body">
-                <div class="table-container">
-                    <table class="table table-bordered table-light">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID Proyecto</th>
-                                <th>Nombre</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Estado</th>
-                                <th>Voluntarios Max</th>
-                                <th>Imagen</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="item : ${proyectos}">
-                                <td th:text="${item.id_proyecto}"></td>
-                                <td th:text="${item.nombre}"></td>
-                                <td th:text="${item.fecha_inicio}"></td>
-                                <td th:text="${item.fecha_fin}"></td>
-                                <td th:text="${item.estado}"></td>
-                                <td th:text="${item.voluntariosmax}"></td>
-                                <td>
-                                    <img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}"
-                                        alt="Imagen del Proyecto" style="width: 100px; height: 100px;">
-                                </td>
-                                <td>
-                                    <a class="btn btn-view"
-                                        th:href="@{/patrocinarproyecto/{id}(id=${item.id_proyecto})}">Patrocinar Proyecto</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="project-container">
+                    <div class="project-card" id="projectCarousel">
+                        <div th:each="item : ${proyectos}" class="card">
+                            <img th:src="@{/proyecto/imagen/{id}(id=${item.id_proyecto})}" alt="Imagen del Proyecto">
+                            <div class="card-body">
+                                <h5 th:text="${item.nombre}"></h5>
+                                <p><strong>Fecha Inicio:</strong> <span th:text="${item.fecha_inicio}"></span></p>
+                                <p><strong>Fecha Fin:</strong> <span th:text="${item.fecha_fin}"></span></p>
+                                <p><strong>Estado:</strong> <span th:text="${item.estado}"></span></p>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn-primary" th:href="@{/patrocinarproyecto/{id}(id=${item.id_proyecto})}">
+                                    Patrocinar
+                                    <i class="fas fa-heart"></i> <!-- Icono -->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="botones">
+                    <button class="btn-primary" onclick="moveLeft()">←</button>
+                    <button class="btn-primary" onclick="moveRight()">→</button>
                 </div>
             </div>
         </div>
 
+        <!-- Mis Proyectos Patrocinados -->
         <div class="card">
-            <div class="card-header text-white text-center">
+            <div class="card-header text-center">
                 <h3>Mis Proyectos Patrocinados</h3>
             </div>
             <div class="card-body">
-                <div class="table-container">
-                    <table class="table table-bordered table-light">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Nombre del Proyecto</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Tipo de Patrocinio</th>
-                                <th>Cantidad Estimada</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="patrocinio : ${patrocinios}">
-                                <td>
-                                    <span th:each="proyecto : ${proyectos}"
-                                        th:if="${proyecto.id_proyecto == patrocinio.id_proyecto}"
-                                        th:text="${proyecto.nombre}"></span>
-                                </td>
-                                <td th:text="${#dates.format(patrocinio.fechainicio, 'yyyy-MM-dd')}"></td>
-                                <td th:text="${#dates.format(patrocinio.fechafin, 'yyyy-MM-dd')}"></td>
-                                <td th:text="${patrocinio.tipo_patrocinio}"></td>
-                                <td th:text="${patrocinio.cantiad_estimada}"></td>
-                                <td>
-                                    <a class="btn btn-view"
-                                        th:href="@{/proyectospatrocinados/{id}(id=${patrocinio.id_patrocina})}">
-                                        Ver
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="project-container">
+                    <div class="project-card" id="myProjectsCarousel">
+                        <div th:each="patrocinio : ${patrocinios}" class="card">
+                            <div class="card-body">
+                                <h5 class="text-center">
+                                    <span th:each="proyecto : ${proyectos}" th:if="${proyecto.id_proyecto == patrocinio.id_proyecto}"
+                                          th:text="${proyecto.nombre}"></span>
+                                </h5>
+                                <p><strong>Fecha Inicio:</strong> <span th:text="${#dates.format(patrocinio.fechainicio, 'yyyy-MM-dd')}"></span></p>
+                                <p><strong>Fecha Fin:</strong> <span th:text="${#dates.format(patrocinio.fechafin, 'yyyy-MM-dd')}"></span></p>
+                                <p><strong>Tipo de Patrocinio:</strong> <span th:text="${patrocinio.tipo_patrocinio}"></span></p>
+                                <p><strong>Cantidad Estimada:</strong> <span th:text="${patrocinio.cantiad_estimada}"></span></p>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn-view" th:href="@{/proyectospatrocinados/{id}(id=${patrocinio.id_patrocina})}">
+                                    Ver
+                                    <i class="fas fa-eye"></i> <!-- Icono -->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="botones">
+                    <button class="btn-view" onclick="moveLeft()">←</button>
+                    <button class="btn-view" onclick="moveRight()">→</button>
                 </div>
             </div>
         </div>
     </div>
 
-	<div th:replace="layout/layoutAdmin :: footer"></div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function moveLeft() {
+            const carousel = document.getElementById("projectCarousel");
+            carousel.scrollBy({
+                left: -200,
+                behavior: 'smooth'
+            });
+        }
+
+        function moveRight() {
+            const carousel = document.getElementById("projectCarousel");
+            carousel.scrollBy({
+                left: 200,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <div th:replace="layout/layoutAdmin :: footer"></div>
+
 </body>
 
 </html>
