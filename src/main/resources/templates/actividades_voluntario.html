@@ -53,18 +53,20 @@
 						<td th:text="${actividad[2]}"></td>
 						<td th:text="${actividad[3]}"></td>
 						<td>
-						    <!-- Redirigir a la página de creación de actividad pasando el ID del voluntario -->
-						    <a href="#" th:href="@{/registro-actividad/crear(id_voluntario=${idVoluntario})}" class="btn btn-success btn-sm">
-						        Registrar
-						    </a>
+							<!-- Redirigir a la página de creación de actividad pasando el ID del voluntario -->
+							<a href="#" th:href="@{/registro-actividad/crear(id_voluntario=${idVoluntario})}"
+								class="btn btn-success btn-sm">
+								Registrar
+							</a>
 
-						    <!-- Botón adicional para mostrar más información -->
-						    <button class="btn btn-info btn-sm">Más Información</button>
+							<!-- Botón adicional para mostrar más información -->
+							<button class="btn btn-info btn-sm">Más Información</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</section>
+
 
 		<!-- SECCIÓN 1: ACTIVIDADES PENDIENTES DE VALIDACIÓN -->
 		<section class="mt-4">
@@ -90,9 +92,13 @@
 							<img th:src="${actividad[3]}" alt="Evidencia" class="img-thumbnail" width="100">
 						</td>
 						<td>
-
+							
 							<button class="btn btn-info btn-sm">Más Información</button>
-							<button class="btn btn-warning btn-sm">Editar</button>
+							<a th:href="@{/registro-actividad/editar(id=${actividad[8]})}"
+								class="btn btn-warning btn-sm">
+								Editar
+							</a>
+
 						</td>
 					</tr>
 				</tbody>
@@ -101,6 +107,8 @@
 
 
 	</div>
+
+	
 
 	<footer>
 		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>

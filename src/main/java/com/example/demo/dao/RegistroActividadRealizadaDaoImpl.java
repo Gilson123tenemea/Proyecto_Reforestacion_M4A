@@ -49,7 +49,7 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 public List<Object[]> findActividadesPorAceptar(Long voluntarioId) {
     return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
             + "e.nombre, ta.nombre_act, "
-            + "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada "
+            + "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada, r.id_registroactividadrealizada "
             + "FROM Usuarios u "
             + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
             + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "

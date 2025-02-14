@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
 import com.example.demo.service.RegistroActividadRealizadaService;
 import com.example.demo.service.IVoluntariosService;
 
@@ -31,6 +32,7 @@ public class RegistroActividadRealizadaController {
 
 	@Autowired
 	private IRegistroActividadRealizadaDao iregistroActividadRealizadaDao;
+
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -128,9 +130,9 @@ public class RegistroActividadRealizadaController {
 		return "crearRegistroActividadRealizada";
 	}
 
-	@GetMapping("/editar/{id}")
-	public String editarRegistroActividad(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-		Optional<RegistroActividadRealiza> registroOpt = registroActividadService.findById(id);
+	@GetMapping("/editar")
+	public String editarRegistroActividad(@RequestParam(value = "id", required = false) Long id, Model model, RedirectAttributes redirectAttributes) {
+		Optional<RegistroActividadRealiza> registroOpt = registroActividadService.findOne(id);
 
 		if (!registroOpt.isPresent()) {
 			redirectAttributes.addFlashAttribute("error", "El registro de actividad no existe");
@@ -141,15 +143,59 @@ public class RegistroActividadRealizadaController {
 
 		model.addAttribute("actividad", registro);
 		model.addAttribute("voluntarios", voluntariosService.findAll());
+		model.addAttribute("idRegistro", id);
 
 		return "editarRegistroActividadRealizada";
 	}
 
+	
+	
+	
+	//-------------------------
+	
 	@PostMapping("/actualizar")
-	public String actualizarActividad(@RequestParam("id_registroactividadrealizada") Long id,
+	public String actualizarActividad(
+	    @RequestParam("id_registroactividadrealizada") Long id,
+	    @RequestParam("cantidad_realizada") Integer cantidadRealizada,@RequestParam("descripcion") String descripcion,
+	    @RequestParam("foto") MultipartFile foto,  // Aquí se recibe el MultipartFile
+	    RedirectAttributes redirectAttributes) {
+	    
+	    try {
+	        // Crear el objeto de actividad o actualizarlo según sea necesario
+	        Optional<RegistroActividadRealiza> actividadPrim = iregistroActividadRealizadaDao.findOne(id);
+	        RegistroActividadRealiza actividad = actividadPrim.get();
+	        actividad.setCantidad_realizada(cantidadRealizada);
+	        actividad.setDescripcion(descripcion);
+	        
+	        // Validar si el archivo foto no está vacío
+	        if (foto != null && !foto.isEmpty()) {
+	            byte[] fotoBytes = foto.getBytes();  // Convierte el archivo a byte[]
+	            actividad.setFoto(fotoBytes);  // Asignar el byte[] a la propiedad foto
+	        }
+
+	  
+	        iregistroActividadRealizadaDao.save(actividad);
+
+	        // Mensaje de éxito
+	        redirectAttributes.addFlashAttribute("mensaje", "Actividad actualizada correctamente.");
+	    } catch (IOException e) {
+	        redirectAttributes.addFlashAttribute("error", "Error al procesar la imagen.");
+	    }
+
+	    return "redirect:/actividades/voluntario";  // Redirige a la vista de actualización
+	}
+
+
+	//-----------------
+	
+	
+	
+	@PostMapping("/actualizarrrrrr")
+	public String actualizarActividadd(@RequestParam("id_registroactividadrealizada") Long id,
 			@RequestParam("cantidad_realizada") Integer cantidadRealizada,
 			@RequestParam("descripcion") String descripcion,
-			@RequestParam(value = "foto", required = false) MultipartFile file, RedirectAttributes redirectAttributes) {
+			@RequestParam(value = "foto", required = false) MultipartFile file, RedirectAttributes redirectAttributes
+			) {
 
 		Optional<RegistroActividadRealiza> registroOpt = registroActividadService.findById(id);
 
