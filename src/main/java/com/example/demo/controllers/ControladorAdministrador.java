@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,131 +36,152 @@ import com.example.demo.service.IParroquiaService;
 import com.example.demo.service.IProvinciaService;
 import com.example.demo.service.IUsuarioServices;
 
+import jakarta.validation.Valid;
+
 @Controller
 @SessionAttributes("idSuperAdministrador")
 public class ControladorAdministrador {
-	
-	@Autowired
-	private IAdministradorServices administradorServices;
-	
-	@Autowired
-	private IUsuarioServices usuarioServices;
-	
-	@Autowired
-	private IProvinciaService provinciaService;
+    
+    @Autowired
+    private IAdministradorServices administradorServices;
+    
+    @Autowired
+    private IUsuarioServices usuarioServices;
+    
+    @Autowired
+    private IProvinciaService provinciaService;
 
-	@Autowired
-	private ICantonService cantonService;
+    @Autowired
+    private ICantonService cantonService;
 
-	@Autowired
-	private IParroquiaService parroquiaService;
+    @Autowired
+    private IParroquiaService parroquiaService;
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
-	}
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
-	@GetMapping("/listarAdministradores")
-	public String listarAdministradores(Model model) {
-		model.addAttribute("titulo", "Lista de Administradores");
+    @GetMapping("/listarAdministradores")
+    public String listarAdministradores(Model model) {
+        model.addAttribute("titulo", "Lista de Administradores");
 
-		List<Administrador> administradores = administradorServices.findAll();
-		List<Usuarios> usuarios = usuarioServices.findAll();
+        List<Administrador> administradores = administradorServices.findAll();
+        List<Usuarios> usuarios = usuarioServices.findAll();
 
-		List<Map<String, Object>> combinados = new ArrayList<>();
+        List<Map<String, Object>> combinados = new ArrayList<>();
 
-		for (Usuarios usuario : usuarios) {
-			if (!usuario.getAdministrador().isEmpty()) {
-				Administrador administrador = usuario.getAdministrador().get(0); 
-				Map<String, Object> datosCombinados = new HashMap<>();
-				datosCombinados.put("administrador", administrador);
-				datosCombinados.put("usuario", usuario);
-				combinados.add(datosCombinados);
-			}
-		}
+        for (Usuarios usuario : usuarios) {
+            if (!usuario.getAdministrador().isEmpty()) {
+                Administrador administrador = usuario.getAdministrador().get(0); 
+                Map<String, Object> datosCombinados = new HashMap<>();
+                datosCombinados.put("administrador", administrador);
+                datosCombinados.put("usuario", usuario);
+                combinados.add(datosCombinados);
+            }
+        }
 
-		model.addAttribute("combinados", combinados);
-		return "listarAdministradores";
-	}
+        model.addAttribute("combinados", combinados);
+        return "listarAdministradores";
+    }
 
-	@GetMapping("/administrador")
-	public String listarYEditar(@RequestParam(value = "id", required = false) Long id, Map<String, Object> model, RedirectAttributes flash) {
-		Administrador administrador = new Administrador();
-		Usuarios usuario = new Usuarios();
-		
-		if (id != null && id > 0) {
-			administrador = administradorServices.findOne(id);
-			if (administrador != null) {
-				usuario = usuarioServices.findOne(administrador.getId_usuarios());
-			} else {
-				flash.addFlashAttribute("info", "El administrador no existe en la base de datos");
-				return "redirect:/listarAdministradores";
-			}
-		}
-		
-		model.put("administrador", administrador);
-		model.put("usuario", usuario);
-		model.put("provincias", provinciaService.findAll());
-		model.put("titulo", "Editar o Crear Administrador");
-		
-		return "administrador"; // Cambia a la vista del formulario
-	}
+    @GetMapping("/administrador")
+    public String listarYEditar(@RequestParam(value = "id", required = false) Long id, Map<String, Object> model, RedirectAttributes flash) {
+        Administrador administrador = new Administrador();
+        Usuarios usuario = new Usuarios();
+        
+        if (id != null && id > 0) {
+            administrador = administradorServices.findOne(id);
+            if (administrador != null) {
+                usuario = usuarioServices.findOne(administrador.getId_usuarios());
+            } else {
+                flash.addFlashAttribute("info", "El administrador no existe en la base de datos");
+                return "redirect:/listarAdministradores";
+            }
+        }
+        
+        model.put("administrador", administrador);
+        model.put("usuario", usuario);
+        model.put("provincias", provinciaService.findAll());
+        model.put("titulo", "Editar o Crear Administrador");
+        
+        return "administrador";
+    }
 
-	@PostMapping("/guardar")
-	public String guardarAdministradorYUsuario(
-			@ModelAttribute("administrador") Administrador administrador,
-			@ModelAttribute("usuario") Usuarios usuario,
-			Model model) {
-		try {
-			// Actualiza el usuario existente
-			if (usuario.getId_usuarios() != null) {
-				Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
-				if (usuarioExistente != null) {
-					usuarioExistente.setCedula(usuario.getCedula());
-					usuarioExistente.setNombre(usuario.getNombre());
-					usuarioExistente.setApellido(usuario.getApellido());
-					usuarioExistente.setCorreo(usuario.getCorreo());
-					usuarioExistente.setId_parroquia(usuario.getId_parroquia());
-					usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
-					usuarioExistente.setGenero(usuario.getGenero());
-					usuarioExistente.setCelular(usuario.getCelular());
-					usuarioExistente.setContraseña(usuario.getContraseña());
-					usuario = usuarioExistente;
-				}
-			}
+    @PostMapping("/guardar")
+    public String guardarAdministradorYUsuario(
+            @Valid @ModelAttribute("administrador") Administrador administrador,
+            @Valid @ModelAttribute("usuario") Usuarios usuario,
+            BindingResult result,
+            Model model) {
 
-			usuarioServices.save(usuario);
-			administrador.setId_usuarios(usuario.getId_usuarios());
-			administradorServices.save(administrador);
-			return "redirect:/listarAdministradores";
+        // Si hay errores en la validación
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Editar o Crear Administrador");
+            model.addAttribute("provincias", provinciaService.findAll());
 
-		} catch (Exception e) {
-			model.addAttribute("mensaje", "Error al guardar: " + e.getMessage());
-			return "error";
-		}
-	}
-	
-	@GetMapping("/inicioadmin")
+            // Extrae los mensajes de error y los agrega al modelo
+            StringBuilder errores = new StringBuilder();
+            result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+            
+
+            model.addAttribute("error", errores.toString()); // Thymeleaf lo mostrará con el div de error
+            return "administrador"; // Volver al formulario
+            
+            
+        }
+
+        try {
+        	
+        	
+        	// Convertir el nombre y apellido a mayúsculas antes de la validación y guardado
+            if (usuario.getNombre() != null) {
+                usuario.setNombre(usuario.getNombre().toUpperCase());
+            }
+            if (usuario.getApellido() != null) {
+                usuario.setApellido(usuario.getApellido().toUpperCase());
+            }
+            
+            // Si el usuario ya existe, actualizarlo
+            if (usuario.getId_usuarios() != null) {
+                Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
+                if (usuarioExistente != null) {
+                    usuarioExistente.setCedula(usuario.getCedula());
+                    usuarioExistente.setNombre(usuario.getNombre());
+                    usuarioExistente.setApellido(usuario.getApellido());
+                    usuarioExistente.setCorreo(usuario.getCorreo());
+                    usuarioExistente.setId_parroquia(usuario.getId_parroquia());
+                    usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                    usuarioExistente.setGenero(usuario.getGenero());
+                    usuarioExistente.setCelular(usuario.getCelular());
+                    usuarioExistente.setContraseña(usuario.getContraseña());
+                    usuario = usuarioExistente;
+                }
+            }
+
+            usuarioServices.save(usuario);
+            administrador.setId_usuarios(usuario.getId_usuarios());
+            administradorServices.save(administrador);
+
+            model.addAttribute("success", "Administrador y usuario guardados correctamente");
+            return "redirect:/listarAdministradores";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al guardar: " + e.getMessage());
+            return "administrador";
+        }
+    }
+
+
+    @GetMapping("/inicioadmin")
     public String iniciosuperadmin(Model model) {
-       model.addAttribute("titulo", "Inicio SuperAdmin");
+        model.addAttribute("titulo", "Inicio SuperAdmin");
         return "inicioadmin";
-    } 
-	
-	@GetMapping("/verlistasproyectos")
-    public String listasProyectos(Model model) {
-       model.addAttribute("titulo", "Listas De proyecto");
-        return "verlistasproyectos";
-    } 
-	
-	@GetMapping("/verlistasactividades")
-    public String listasactividades(Model model) {
-       model.addAttribute("titulo", "Listas De Actividades");
-        return "verlistasactividades";
-    } 
-	
-	@PostMapping("/delete/{id}")
+    }
+
+    @PostMapping("/delete/{id}")
     public String deleteAdministrador(@PathVariable Long id, Model model) {
         try {
             Administrador administrador = administradorServices.findOne(id);
@@ -176,15 +200,15 @@ public class ControladorAdministrador {
         }
     }
 
-	@GetMapping("/admin/cantones/{idProvincia}")
-	@ResponseBody
-	public List<Canton> getCantonesByProvincia(@PathVariable Long idProvincia) {
-		return cantonService.findByProvincia(idProvincia);
-	}
+    @GetMapping("/admin/cantones/{idProvincia}")
+    @ResponseBody
+    public List<Canton> getCantonesByProvincia(@PathVariable Long idProvincia) {
+        return cantonService.findByProvincia(idProvincia);
+    }
 
-	@GetMapping("/admin/parroquias/{idCanton}")
-	@ResponseBody
-	public List<Parroquia> getParroquiasByCanton(@PathVariable Long idCanton) {
-		return parroquiaService.findByCanton(idCanton);
-	}
+    @GetMapping("/admin/parroquias/{idCanton}")
+    @ResponseBody
+    public List<Parroquia> getParroquiasByCanton(@PathVariable Long idCanton) {
+        return parroquiaService.findByCanton(idCanton);
+    }
 }
