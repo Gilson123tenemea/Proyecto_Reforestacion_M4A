@@ -78,8 +78,10 @@
                         <input type="email" name="correo" id="correo" th:value="${usuario.correo}" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" th:value="${usuario.fecha_nacimiento}" class="form-control" required>
+						<label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+						<input type="date" name="fecha_nacimiento" id="fecha_nacimiento" 
+						       th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}" 
+						       class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="genero" class="form-label">Género:</label>
@@ -93,9 +95,11 @@
                         <input type="text" name="celular" id="celular" th:value="${usuario.celular}" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="contraseña" class="form-label">Contraseña:</label>
-                        <input type="password" name="contraseña" id="contraseña" class="form-control" required>
+						<label for="contraseña" class="form-label">Contraseña:</label>
+						<input type="password" name="contraseña" id="contraseña" 
+						       th:value="${usuario.contraseña}" class="form-control" required>
                     </div>
+					<input type="hidden" name="contraseña_oculta" th:value="${usuario.contraseña}">
                 </fieldset>
 
                 <fieldset>
