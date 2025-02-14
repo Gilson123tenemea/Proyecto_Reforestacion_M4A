@@ -154,39 +154,7 @@
 </head>
 
 <body>
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container-fluid">
-				<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
-				<h1 class="text-white m-0" style="margin-left: 20px;"><strong>Deforest</strong></h1>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/layout">Inicio</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#proyectos">Proyectos</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#reportes">Reportes</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Registrarse</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/login">Iniciar Sesión</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-
-
+	<div th:replace="layout/layoutinicio :: menuinicio"></div>
 
 	<div class="login-wrapper">
 		<div class="login-container">
@@ -285,7 +253,7 @@
 						        <label for="mostrarContraseña" class="mostrar-contraseña">
 						            <input type="checkbox" id="mostrarContraseña" onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
 						        </label>
-						        <small id="mensajeContraseña" class="text-danger"></small>
+						        <small id="mensajeContraseña" ></small>
 						    </div>
 						</div>
 						<div class="col-md-6">
@@ -295,7 +263,7 @@
 						        <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
 						            <input type="checkbox" id="mostrarConfirmarContraseña" onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
 						        </label>
-						        <small id="mensajeConfirmacion" class="text-danger"></small>
+						        <small id="mensajeConfirmacion" ></small>
 						    </div>
 						</div>
 
@@ -337,9 +305,7 @@
 
 
 
-	<footer>
-		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
-	</footer>
+	
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -535,6 +501,8 @@
 		
 
 	</script>
+	
+	<div th:replace="layout/layoutAdmin :: footer"></div>
 
 </body>
 
