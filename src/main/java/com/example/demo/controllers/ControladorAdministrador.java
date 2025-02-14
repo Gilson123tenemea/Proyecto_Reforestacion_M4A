@@ -1,7 +1,11 @@
 package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,25 +129,49 @@ public class ControladorAdministrador {
             // Extrae los mensajes de error y los agrega al modelo
             StringBuilder errores = new StringBuilder();
             result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
-            
 
-            model.addAttribute("error", errores.toString()); // Thymeleaf lo mostrará con el div de error
-            return "administrador"; // Volver al formulario
-            
-            
+            model.addAttribute("error", errores.toString());
+            return "administrador";
         }
 
         try {
-        	
-        	
-        	// Convertir el nombre y apellido a mayúsculas antes de la validación y guardado
+            // Verificar si la cédula ya está registrada en otro usuario
+            String cedula = usuario.getCedula().trim();
+            List<Usuarios> usuariosExistentes = usuarioServices.findAll();
+
+            for (Usuarios usuarioExistente : usuariosExistentes) {
+                if (usuarioExistente.getCedula().trim().equals(cedula) && 
+                    (usuario.getId_usuarios() == null || !usuarioExistente.getId_usuarios().equals(usuario.getId_usuarios()))) {
+                    model.addAttribute("error", "La cédula ya está registrada en otro usuario.");
+                    model.addAttribute("titulo", "Editar o Crear Administrador");
+                    model.addAttribute("provincias", provinciaService.findAll());
+                    return "administrador";
+                }
+            }
+
+         // Verificar que el usuario sea mayor de 18 años
+            if (usuario.getFecha_nacimiento() != null) {
+                Date fechaNacimientoDate = usuario.getFecha_nacimiento();
+                LocalDate fechaNacimiento = fechaNacimientoDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate fechaActual = LocalDate.now();
+                int edad = Period.between(fechaNacimiento, fechaActual).getYears();
+
+                if (edad < 18) {
+                    model.addAttribute("error", "El usuario debe ser mayor de 18 años.");
+                    model.addAttribute("titulo", "Editar o Crear Administrador");
+                    model.addAttribute("provincias", provinciaService.findAll());
+                    return "administrador";
+                }
+            }
+
+            // Convertir el nombre y apellido a mayúsculas antes del guardado
             if (usuario.getNombre() != null) {
                 usuario.setNombre(usuario.getNombre().toUpperCase());
             }
             if (usuario.getApellido() != null) {
                 usuario.setApellido(usuario.getApellido().toUpperCase());
             }
-            
+
             // Si el usuario ya existe, actualizarlo
             if (usuario.getId_usuarios() != null) {
                 Usuarios usuarioExistente = usuarioServices.findOne(usuario.getId_usuarios());
