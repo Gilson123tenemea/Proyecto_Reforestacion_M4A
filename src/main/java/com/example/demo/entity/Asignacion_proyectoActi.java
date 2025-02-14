@@ -36,6 +36,8 @@ public class Asignacion_proyectoActi implements Serializable {
 	private Long id_tipoActividades;
 	private Boolean estado;
 	private int meta_deseada;
+	private Double porcentajeActividad;
+
 
     @PrePersist
     public void prePersist() {
@@ -104,5 +106,15 @@ public class Asignacion_proyectoActi implements Serializable {
 	public void setEquipos(List<Equipos> equipos) {
 		this.equipos = equipos;
 	}
+
+	public Double getPorcentajeActividad() {
+		return porcentajeActividad;
+	}
+
+	public void setPorcentajeActividad(Double porcentajeActividad) {
+		this.porcentajeActividad = porcentajeActividad;
+	}
+	
+	
 
 }

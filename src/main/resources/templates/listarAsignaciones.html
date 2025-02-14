@@ -102,6 +102,7 @@
                         <th>Actividad</th>
                         <th>Estado</th>
                         <th>Meta Deseada</th>
+						<th>Porcentaje</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -113,6 +114,7 @@
                         <!-- Mostrar "Activo" o "Inactivo" dependiendo del estado -->
                         <td th:text="${asignacion.estado ? 'Activo' : 'Inactivo'}"></td>
                         <td th:text="${asignacion.meta_deseada}"></td>
+						<td th:text="${asignacion.porcentajeActividad} + '%'"></td>
                         <td>
                             <!-- Acciones de editar y eliminar -->
                             <a href="#" class="btn btn-warning btn-sm" th:href="@{/asignacion/editar/{id}(id=${asignacion.id_asignacionproyecto})}">Editar</a>

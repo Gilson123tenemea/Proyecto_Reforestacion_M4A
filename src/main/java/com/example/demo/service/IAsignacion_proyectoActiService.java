@@ -14,4 +14,7 @@ public interface IAsignacion_proyectoActiService {
 	public Asignacion_proyectoActi findOne (Long id);
 	public void delete(Long id);
 	List<Asignacion_proyectoActi> findByAdministradorId(Long idAdministrador); 
+	long countByProyectoId(Long idProyecto);
+    List<Asignacion_proyectoActi> findByProyectoId(Long idProyecto);
+
 }

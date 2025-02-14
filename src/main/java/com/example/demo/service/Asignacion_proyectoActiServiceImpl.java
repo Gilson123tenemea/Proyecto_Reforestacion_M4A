@@ -45,4 +45,17 @@ public class Asignacion_proyectoActiServiceImpl implements IAsignacion_proyectoA
 	public List<Asignacion_proyectoActi> findByAdministradorId(Long idAdministrador) {
 		return asg_proyectoDao.findByAdministradorId(idAdministrador);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public long countByProyectoId(Long idProyecto) {
+		 System.out.println("Contando actividades para el proyecto ID: " + idProyecto);
+	    return asg_proyectoDao.countByProyectoId(idProyecto);
+	}
+	
+	@Override
+    public List<Asignacion_proyectoActi> findByProyectoId(Long idProyecto) {
+        return asg_proyectoDao.findByProyectoId(idProyecto);
+    }
+	
 }

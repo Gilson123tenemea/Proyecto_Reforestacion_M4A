@@ -13,4 +13,7 @@ public interface IAsignacion_proyectoActiDao {
 	public Asignacion_proyectoActi findOne (Long id);
 	public void delete(Long id);
     List<Asignacion_proyectoActi> findByAdministradorId(Long adminId); 
+    long countByProyectoId(Long idProyecto);
+    List<Asignacion_proyectoActi> findByProyectoId(Long idProyecto);
+
 }

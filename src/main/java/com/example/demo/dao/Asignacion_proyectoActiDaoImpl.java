@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.Asignacion_proyectoActi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 @Repository
 public class Asignacion_proyectoActiDaoImpl implements IAsignacion_proyectoActiDao {
 
@@ -49,5 +50,18 @@ public class Asignacion_proyectoActiDaoImpl implements IAsignacion_proyectoActiD
 			        .setParameter("adminId", adminId)
 			        .getResultList();
 	}
+	
+	@Override
+	public long countByProyectoId(Long idProyecto) {
+	    return em.createQuery("SELECT COUNT(a) FROM Asignacion_proyectoActi a WHERE a.id_proyecto = :idProyecto", Long.class)
+	                        .setParameter("idProyecto", idProyecto)
+	                        .getSingleResult();
+	}
+	
+	 public List<Asignacion_proyectoActi> findByProyectoId(Long idProyecto) {
+	        TypedQuery<Asignacion_proyectoActi> query = em.createQuery("SELECT a FROM Asignacion_proyectoActi a WHERE a.id_proyecto = :idProyecto", Asignacion_proyectoActi.class);
+	        query.setParameter("idProyecto", idProyecto);
+	        return query.getResultList();
+	    }
 
 }
