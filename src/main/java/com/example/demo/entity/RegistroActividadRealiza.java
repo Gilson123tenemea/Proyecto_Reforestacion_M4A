@@ -28,9 +28,8 @@ public class RegistroActividadRealiza implements Serializable{
 	@Column(name = "foto", columnDefinition = "LONGBLOB")
 	private byte[] foto;
 
-
-
 	private Boolean validacion_admin_tareaRealizada;
+	@Column(name = "validacion_voluntario_tarea_realizada")
 	private Boolean validacion_voluntario_tareaRealizada;
 	
 	public Long getId_registroactividadrealizada() {

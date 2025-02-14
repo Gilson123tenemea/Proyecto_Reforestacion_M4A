@@ -28,4 +28,6 @@ public interface IRegistroActividadRealizadaService {
 
 	List<Object[]> findActividadPorIdVoluntario(Long id);
 	List<Object[]> findById(Long id);
+	List<RegistroActividadRealiza> findAllActividades();
+    void confirmarActividad(Long id);
 }

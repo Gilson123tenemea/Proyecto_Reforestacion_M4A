@@ -82,4 +82,16 @@ public class RegistroActividadRealizadaService {
     public List<Object[]> findComparar(Long voluntarioId) {
     	return registroActividadRealizadaDao.findActividadesPendientes();
     }
+    public List<RegistroActividadRealiza> findAllActividades() {
+        return registroActividadRealizadaDao.findAll();
+    }
+    public void confirmarActividad(Long id) {
+        Optional<RegistroActividadRealiza> actividadOpt = registroActividadRealizadaDao.findOne(id);
+        if (actividadOpt.isPresent()) {
+            RegistroActividadRealiza actividad = actividadOpt.get();
+            actividad.setValidacion_admin_tareaRealizada(true);
+            registroActividadRealizadaDao.save(actividad);
+        }
+    }
+    
 }

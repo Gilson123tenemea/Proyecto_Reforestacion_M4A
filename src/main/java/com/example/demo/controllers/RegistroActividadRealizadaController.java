@@ -232,4 +232,20 @@ public class RegistroActividadRealizadaController {
 
 		return "crearRegistroActividadRealizada";
 	}
+	
+	
+	@GetMapping("/confirmar_actividadreal")
+	public String mostrarActividadesPendientes(Model model) {
+	    List<RegistroActividadRealiza> actividades = registroActividadService.findAllActividades();
+	    model.addAttribute("actividades", actividades);
+	    return "confirmar_actividadreal"; 
+	}
+
+	@GetMapping("/confirmar_actividad/{id}")
+	public String confirmarActividad(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    registroActividadService.confirmarActividad(id);
+	    redirectAttributes.addFlashAttribute("mensaje", "Actividad confirmada correctamente.");
+	    return "redirect:/registro-actividad/confirmar_actividadreal";
+	}
+	
 }
