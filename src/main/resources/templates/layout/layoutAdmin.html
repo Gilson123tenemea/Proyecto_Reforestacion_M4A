@@ -15,10 +15,10 @@
 <body>
 	<div th:fragment="menu">
 		<!-- Menú de navegación con Bootstrap -->
-		<nav class="navbar navbar-expand-lg" style="background-color: #142157;">
+		<nav class="navbar navbar-expand-lg" style="background-color: #F5F4F0;">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="inicioadmin">
-					<img src="/imagenes/LogoPrincipalReforest.png" alt="Logo Principal" height="50">
+					<img src="/imagenes/logollakta.png" alt="Logo Principal" height="50">
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
 					aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 								data-bs-toggle="dropdown" aria-expanded="false"
-								style="color: white; font-weight: bold; font-size: 13px;">
+								style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Proyectos
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -43,7 +43,7 @@
 						<!-- Ver Proyectos -->
 						<li class="nav-item">
 							<a class="nav-link" href="/verlistasproyectos" id="navbarDropdown" role="button"
-								aria-expanded="false" style="color: white; font-weight: bold; font-size: 13px;">
+								aria-expanded="false" style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Ver listas de proyectos
 							</a>
 						</li>
@@ -52,7 +52,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 								data-bs-toggle="dropdown" aria-expanded="false"
-								style="color: white; font-weight: bold; font-size: 13px;">
+								style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Actividades
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -68,7 +68,7 @@
 						<!-- Ver Actividades -->
 						<li class="nav-item">
 							<a class="nav-link" href="/verlistasactividades" id="navbarDropdown" role="button"
-								aria-expanded="false" style="color: white; font-weight: bold; font-size: 13px;">
+								aria-expanded="false" style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Ver listas de Actividades
 							</a>
 						</li>
@@ -81,7 +81,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 								data-bs-toggle="dropdown" aria-expanded="false"
-								style="color: white; font-weight: bold; font-size: 13px;">
+								style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Suelo
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -98,7 +98,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 								data-bs-toggle="dropdown" aria-expanded="false"
-								style="color: white; font-weight: bold; font-size: 13px;">
+								style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 								Especie
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -116,11 +116,11 @@
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 									data-bs-toggle="dropdown" aria-expanded="false"
-									style="color: white; font-weight: bold; font-size: 13px;">
+									style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
 									Perfil
 								</a>
 								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-									<li><a class="dropdown-item" href="/">Editar Perfil</a></li>
+									<li><a class="dropdown-item" >Editar Perfil</a></li>
 									<li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
 								</ul>
 							</li>
@@ -135,12 +135,12 @@
 		integrity="sha384-pzjw8f+ua7Kw1TIq0BfiW6v7cXw4b0uEK5T5Xn6Pffqb5Oo/fBfXnPA0fqnsOg3h"
 		crossorigin="anonymous"></script>
 
-	<div th:fragment="footer">
-		<div id="footer" class="text-center p-3"
-			style="background-color: #598234; color: white; position: fixed; bottom: 0; width: 100%;">
-			© 2025 LLakta Forest - Todos los derechos reservados.
+		<div th:fragment="footer">
+		    <div id="footer" class="text-center p-3"
+		        style="background-color: #598234; color: white; width: 100%; margin-top: auto;">
+		        © 2025 LLakta Forest - Todos los derechos reservados.
+		    </div>
 		</div>
-	</div>
 
 	<div th:fragment="fondo">
 		<div th:fragment="fondo"

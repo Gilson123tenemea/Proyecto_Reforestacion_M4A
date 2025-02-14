@@ -180,6 +180,19 @@ public class ControladorAdministrador {
         model.addAttribute("titulo", "Inicio SuperAdmin");
         return "inicioadmin";
     }
+    
+    @GetMapping("/verlistasproyectos")
+    public String verlistasproyectos(Model model) {
+        model.addAttribute("titulo", "lista proyectos ");
+        return "verlistasproyectos";
+    }
+    
+    @GetMapping("/verlistasactividades")
+    public String verlistasactividades(Model model) {
+        model.addAttribute("titulo", "lista actividades ");
+        return "verlistasactividades";
+    }
+
 
     @PostMapping("/delete/{id}")
     public String deleteAdministrador(@PathVariable Long id, Model model) {
