@@ -125,8 +125,12 @@ public class ControladorAdministrador {
         if (result.hasErrors()) {
             model.addAttribute("titulo", "Editar o Crear Administrador");
             model.addAttribute("provincias", provinciaService.findAll());
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("administrador", administrador);
+            model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento()); // Mantiene la fecha
+            model.addAttribute("contraseña", usuario.getContraseña()); // Mantiene la contraseña
 
-            // Extrae los mensajes de error y los agrega al modelo
+            // Extraer los mensajes de error y agregarlos al modelo
             StringBuilder errores = new StringBuilder();
             result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
 
@@ -145,11 +149,15 @@ public class ControladorAdministrador {
                     model.addAttribute("error", "La cédula ya está registrada en otro usuario.");
                     model.addAttribute("titulo", "Editar o Crear Administrador");
                     model.addAttribute("provincias", provinciaService.findAll());
+                    model.addAttribute("usuario", usuario);
+                    model.addAttribute("administrador", administrador);
+                    model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+                    model.addAttribute("contraseña", usuario.getContraseña());
                     return "administrador";
                 }
             }
 
-         // Verificar que el usuario sea mayor de 18 años
+            // Verificar que el usuario sea mayor de 18 años
             if (usuario.getFecha_nacimiento() != null) {
                 Date fechaNacimientoDate = usuario.getFecha_nacimiento();
                 LocalDate fechaNacimiento = fechaNacimientoDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -160,6 +168,10 @@ public class ControladorAdministrador {
                     model.addAttribute("error", "El usuario debe ser mayor de 18 años.");
                     model.addAttribute("titulo", "Editar o Crear Administrador");
                     model.addAttribute("provincias", provinciaService.findAll());
+                    model.addAttribute("usuario", usuario);
+                    model.addAttribute("administrador", administrador);
+                    model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+                    model.addAttribute("contraseña", usuario.getContraseña());
                     return "administrador";
                 }
             }
@@ -198,9 +210,17 @@ public class ControladorAdministrador {
 
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar: " + e.getMessage());
+            model.addAttribute("titulo", "Editar o Crear Administrador");
+            model.addAttribute("provincias", provinciaService.findAll());
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("administrador", administrador);
+            model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+            model.addAttribute("contraseña", usuario.getContraseña());
             return "administrador";
         }
     }
+
+
 
 
     @GetMapping("/inicioadmin")
