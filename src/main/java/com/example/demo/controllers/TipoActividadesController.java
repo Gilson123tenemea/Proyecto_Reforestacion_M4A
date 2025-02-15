@@ -105,7 +105,7 @@ public class TipoActividadesController {
         tipoActividadesService.save(tactividad);
         flash.addFlashAttribute("success", mensajeFls);
         
-        return "redirect:/listartipo";
+        return "redirect:/asignacion";
     }
 
 

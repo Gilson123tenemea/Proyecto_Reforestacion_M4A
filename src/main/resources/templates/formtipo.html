@@ -10,8 +10,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/imagenes/cuenca.png');
+            background-color: #f8f9fa;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -42,6 +41,16 @@
             color: #444;
             font-weight: 700;
             font-size: 24px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         .form-control {
@@ -53,34 +62,33 @@
         }
 
         .form-control:focus {
-            border-color: #d32f2f;
-            box-shadow: 0 0 12px rgba(211, 47, 47, 0.5);
+            border-color: #4F5B3A;
+            box-shadow: 0 0 12px #4F5B3A;
         }
+		.btn {
+		    background-color: #4F5B3A; 
+		    color: white;
+		    border-radius: 8px; 
+		    width: 100%;
+		    padding: 12px;
+		    font-size: 18px;
+		    font-weight: bold; 
+		    border: none; 
+		    transition: none; 
+		}
 
-        .btn {
-            background: linear-gradient(to right, #d32f2f, #b71c1c);
-            color: white;
-            border-radius: 8px;
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-        }
+		.btn:hover {
+		    background-color: #4F5B3A;
+		    color: white; 
+		}
 
-        .btn:hover {
-            background: #b71c1c;
-            transform: scale(1.07);
-            box-shadow: 0 6px 15px rgba(183, 28, 28, 0.3);
-        }
+		.btn:active {
+		    background-color: #4F5B3A; 
+		    color: white; 
+		}
 
-        .btn:active {
-            background: #d32f2f;
-            transform: scale(0.98);
-        }
 
         .footer {
-            background-color: #222;
             color: white;
             text-align: center;
             padding: auto;
@@ -102,6 +110,7 @@
 </head>
 <body>
     <div th:replace="layout/layoutAdmin :: menu"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="main-content">
         <div class="container">
@@ -157,9 +166,7 @@
         </div>
     </div>
     <br>
-    <footer class="footer">
-        &copy; 2025 Deforest. Todos los derechos reservados.
-    </footer>
+	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
