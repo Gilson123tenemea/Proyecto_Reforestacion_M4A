@@ -43,7 +43,7 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {
-		  return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre "
+		  return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, ta.id_tipoActividades "
 		            + "FROM Usuarios u "
 		            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
 		            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "

@@ -27,6 +27,8 @@ public class Tipo_Actividades implements Serializable{
     private Double duracion;
     private String frecuencia;
     private Long id_administrador;
+    
+    
   	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Monitoreo> monitoreo  ; 
@@ -35,10 +37,15 @@ public class Tipo_Actividades implements Serializable{
   	@JoinColumn(name ="id_tipoActividades")
   	private List<Asignacion_proyectoActi> asignacion_proyectoacti   ; 
 	//relacion con RegistroActividadSuelo
+  	
+  	
 	 @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	 @JoinColumn(name ="id_intervencion_suelo")
+	 @JoinColumn(name ="id_tipoActividades")
 	 private List<RegistroActividadRealiza> registroactividadesrealizada   ; 	
   	
+	 
+	 
+	 
     private static final long serialVersionUID = 1L;
     
     public Long getId_tipoActividades() {

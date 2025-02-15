@@ -105,7 +105,8 @@
 		        <p><strong>Proyecto:</strong> <span th:text="${proyectoNombre}"></span></p>
 		        <p><strong>Equipo:</strong> <span th:text="${equipoNombre}"></span></p>
 		        <!-- Segundo formulario (parece una variante del primero, lo conservo en caso de que sea intencional) -->
-		        <form action="/registro-actividad/guardarActividad" method="post" enctype="multipart/form-data">
+				
+				<form th:action="@{/registro-actividad/guardarActividad(id_tipo_actividad=${Id_Tipo_Actividad})}" method="post" enctype="multipart/form-data">
 		            <input type="hidden" name="id_voluntario" th:value="${id_voluntario}" />
 		            <input type="hidden" name="validacion_admin_tareaRealizada" value="false" />
 		            <input type="hidden" name="validacion_voluntario_tareaRealizada" value="true" />

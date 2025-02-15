@@ -39,6 +39,7 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 					<tr>
+						<th>ID tipo actividad</th>
 						<th>Actividad</th>
 						<th>Duración</th>
 						<th>Proyecto</th>
@@ -48,15 +49,18 @@
 				</thead>
 				<tbody>
 					<tr th:each="actividad : ${actividades}">
+						<td th:text="${actividad[5]}"></td>
 						<td th:text="${actividad[0]}"></td>
 						<td th:text="${actividad[1]} + ' horas'"></td>
 						<td th:text="${actividad[2]}"></td>
 						<td th:text="${actividad[3]}"></td>
 						<td>
 							<!-- Redirigir a la página de creación de actividad pasando el ID del voluntario -->
-							<a href="#" th:href="@{/registro-actividad/crear(id_voluntario=${idVoluntario})}"
-								class="btn btn-success btn-sm">
-								Registrar
+					
+							
+							<a th:href="@{/registro-actividad/crear	(id_actividad=${actividad[5]})        }"
+							   class="btn btn-success btn-sm">
+							   Registrar
 							</a>
 
 							<!-- Botón adicional para mostrar más información -->
