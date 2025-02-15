@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Editar Actividad</title>
+	
+
 	<link rel="stylesheet" href="/css/styles.css">
 	<style>
 		body {
@@ -76,11 +78,40 @@
 			border-radius: 5px;
 			display: none;
 		}
+
+		.checkbox-container {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-top: 10px;
+		}
+
+		.checkbox-container input[type="checkbox"] {
+			width: 25px;
+			height: 25px;
+			cursor: not-allowed;
+		}
+
+		.checkbox-container input[type="checkbox"]:checked {
+			accent-color: green;
+		}
+
+		.checkbox-label {
+			font-size: 16px;
+		}
+		
+
+		.img-thumbnail {
+		    width: 100px;
+		    height: 100px;
+		    object-fit: cover;
+		    border-radius: 5px;
+		}
 	</style>
-
 </head>
-
 <body>
+	
+
 	<div class="container">
 		<h1>Editar Actividad</h1>
 
@@ -102,19 +133,36 @@
 				<label for="descripcion">Descripción:</label>
 				<textarea id="descripcion" name="descripcion" rows="4" th:text="${actividad.descripcion}"></textarea>
 			</div>
-
+			
+			<div class="form-group">
+							<div class="checkbox-container">
+								<input type="checkbox" id="validacionVoluntario" name="validacionVoluntario"
+									th:checked="${actividad.validacion_voluntario_tareaRealizada}" disabled>
+								<label for="validacionVoluntario" class="checkbox-label">Estado Actividad realizada</label>
+							</div>
+						</div>
 
 
 			<div class="form-group">
-				<label for="foto">Foto:</label>
-				<input type="file" id="foto" name="foto" accept="image/jpeg, image/png" required
-					onchange="mostrarVistaPrevia(event)">
-				<small>Formato permitido: JPG, PNG</small>
-				<div class="vista-previa">
-					<img id="vistaPrevia" 
-					th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad.Foto})}"
-						class="img-fluid rounded-start" alt="Vista previa de la imagen" />
+				<div class="checkbox-container">
+					<input type="checkbox" id="validacionAdmin" name="validacionAdmin"
+						th:checked="${actividad.validacion_admin_tareaRealizada}" disabled>
+					<label for="validacionAdmin" class="checkbox-label">Verificación de inspección</label>
 				</div>
+			</div>
+
+		
+			<div class="form-group">
+			    <label for="foto">Foto:</label>
+			    <input type="file" id="foto" name="foto" required onchange="mostrarVistaPrevia(event)">
+			    <small>Sube cualquier imagen</small>
+			    <div class="vista-previa">
+			        <img id="vistaPrevia"
+			             th:if="${idRegistro != null}"
+			             th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad.id_registroactividadrealizada})}"
+			             class="img-thumbnail"
+			             alt="Vista previa de la imagen" />
+			    </div>
 			</div>
 
 
@@ -123,17 +171,27 @@
 	</div>
 
 	<script>
-		function mostrarVistaPrevia(event) {
-			let reader = new FileReader();
-			reader.onload = function () {
-				let output = document.getElementById('vistaPrevia');
-				output.src = reader.result;
-				output.style.display = 'block';
-			};
-			reader.readAsDataURL(event.target.files[0]);
-		}
-	</script>
+	    function mostrarVistaPrevia(event) {
+	        let file = event.target.files[0];  // Obtener el primer archivo seleccionado
 
+	        // Verificar si se ha seleccionado un archivo
+	        if (file) {
+	            let reader = new FileReader();
+
+	            // Establecer el comportamiento cuando la imagen esté cargada
+	            reader.onload = function () {
+	                let output = document.getElementById('vistaPrevia');
+	                output.src = reader.result;  // Establecer la fuente de la imagen
+	                output.style.display = 'block';  // Asegurarse de que la vista previa esté visible
+	            };
+
+	            // Leer el archivo como un URL de datos (esto no limita el tipo de archivo)
+	            reader.readAsDataURL(file);
+	        }
+	    }
+	</script>
+	
+	
 </body>
 
 </html>

@@ -21,6 +21,14 @@
 			left: 0;
 			color: white;
 		}
+
+		.img-thumbnail {
+		    width: 100px;
+		    height: 100px;
+		    object-fit: cover;
+		    border-radius: 5px;
+		}
+
 	</style>
 </head>
 
@@ -93,7 +101,7 @@
 						<td th:text="${actividad[1]}"></td> <!-- Nombre del proyecto -->
 						<td th:text="${actividad[4]}"></td> <!-- Nombre del equipo -->
 						<td>
-							<img th:src="${actividad[3]}" alt="Evidencia" class="img-thumbnail" width="100">
+							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[8]})}" alt="Evidencia" class="img-thumbnail" width="100">
 						</td>
 						<td>
 							
