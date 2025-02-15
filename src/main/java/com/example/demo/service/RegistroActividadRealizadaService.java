@@ -93,5 +93,8 @@ public class RegistroActividadRealizadaService {
             registroActividadRealizadaDao.save(actividad);
         }
     }
+    public List<Double> obtenerPorcentajesPorTipoActividad(Long idTipoActividad) {
+        return registroActividadRealizadaDao.findPorcentajeByTipoActividad(idTipoActividad);
+    } 
     
 }

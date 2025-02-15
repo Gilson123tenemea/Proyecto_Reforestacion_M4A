@@ -4,6 +4,7 @@ import com.example.demo.entity.RegistroActividadRealiza;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -195,5 +196,17 @@ public List<Object[]> findActividadesPorAceptar(Long voluntarioId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	@Override
+	public List<Double> findPorcentajeByTipoActividad(Long idTipoActividad) {
+		 TypedQuery<Double> query = entityManager.createQuery(
+		            "SELECT a.porcentajeActividad FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad", 
+		            Double.class);
+		        query.setParameter("idTipoActividad", idTipoActividad);
+		        return query.getResultList();
+		    }
+	
 
 }

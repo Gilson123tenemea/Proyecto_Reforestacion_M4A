@@ -2,7 +2,10 @@ package com.example.demo.controllers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -289,12 +292,6 @@ public class RegistroActividadRealizadaController {
 		return new byte[0];
 	}
 	
-	
-	
-	
-	
-	
-
 
 	@GetMapping("/{voluntarioId}/{idActividad}")
 	public String mostrarFormulario(@PathVariable Long idVoluntario, @PathVariable Long intervencionSueloId,
@@ -309,7 +306,24 @@ public class RegistroActividadRealizadaController {
 	@GetMapping("/confirmar_actividadreal")
 	public String mostrarActividadesPendientes(Model model) {
 	    List<RegistroActividadRealiza> actividades = registroActividadService.findAllActividades();
-	    model.addAttribute("actividades", actividades);
+	    
+	    // Crear una lista para almacenar la información que se pasará a la vista
+	    List<Map<String, Object>> actividadesConPorcentaje = new ArrayList<>();
+
+	    for (RegistroActividadRealiza actividad : actividades) {
+	        List<Double> porcentajes = registroActividadService.obtenerPorcentajesPorTipoActividad(actividad.getId_tipoActividades());
+	        Double porcentaje = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0); // Obtener el primer porcentaje
+
+	        // Crear un mapa para almacenar la actividad y el porcentaje
+	        Map<String, Object> actividadMap = new HashMap<>();
+	        actividadMap.put("actividad", actividad);
+	        actividadMap.put("porcentaje", porcentaje);
+
+	        actividadesConPorcentaje.add(actividadMap); // Añadir a la lista
+	    }
+
+	    model.addAttribute("actividadesConPorcentaje", actividadesConPorcentaje); // Pasar la lista a la vista
+
 	    return "confirmar_actividadreal"; 
 	}
 
@@ -319,5 +333,17 @@ public class RegistroActividadRealizadaController {
 	    redirectAttributes.addFlashAttribute("mensaje", "Actividad confirmada correctamente.");
 	    return "redirect:/registro-actividad/confirmar_actividadreal";
 	}
+	
+	
+	
+	@GetMapping("/informacion_registroacti_real")
+	public String informacionregistroacti(Model model) {
+	 
+	    return "informacion_registroacti_real"; 
+	}
+	
+	
+	
+	
 	
 }

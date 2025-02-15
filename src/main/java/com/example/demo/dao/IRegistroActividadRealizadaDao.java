@@ -29,5 +29,9 @@ public interface IRegistroActividadRealizadaDao {
 	Optional<RegistroActividadRealiza> findById(Long idActividad);
 	List findActividadesPendientes();
 	List<Object[]> findActividadesPorAceptar(Long voluntarioId);
+	
+	@Query("SELECT a.porcentajeActividad FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad")
+	List<Double> findPorcentajeByTipoActividad(@Param("idTipoActividad") Long idTipoActividad);
+	
 
 }
