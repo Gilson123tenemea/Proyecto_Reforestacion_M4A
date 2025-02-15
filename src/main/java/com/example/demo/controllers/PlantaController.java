@@ -71,11 +71,12 @@ public class PlantaController {
                 return "planta"; // Volver a la vista con el error
             }
 
-            // Verificar si el nombre científico ya existe (ignorando mayúsculas y minúsculas)
+            // Verificar si el nombre científico ya existe (ignorando mayúsculas y minúsculas), pero omitir la validación si estamos editando la planta actual
             String nombreCientifico = planta.getNombre_cientifico().trim().toLowerCase();
             List<Plantas> plantasExistentes = plantasService.findAll(); // Lista de todas las plantas
             for (Plantas plantaExistente : plantasExistentes) {
-                if (plantaExistente.getNombre_cientifico().trim().toLowerCase().equals(nombreCientifico)) {
+                if (!plantaExistente.getId_plantas().equals(planta.getId_plantas()) && 
+                    plantaExistente.getNombre_cientifico().trim().toLowerCase().equals(nombreCientifico)) {
                     model.addAttribute("error", "Ya existe una planta con ese nombre científico.");
                     model.addAttribute("titulo", "Editar o Crear Planta");
                     model.addAttribute("especies", especieService.findAll());
@@ -110,6 +111,7 @@ public class PlantaController {
             return "error"; // Mostrar una vista de error
         }
     }
+
 
 
     // Listar Plantas
