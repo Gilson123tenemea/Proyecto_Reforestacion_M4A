@@ -13,108 +13,121 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "plantas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_especie","id_plantas"})})
+@Table(name = "plantas", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_especie", "id_plantas"})})
 public class Plantas implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_plantas;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_plantas;
 
-	private Long id_especie;
+    private Long id_especie;
 
-	private String nombre_cientifico;
-	private String clima;
-	private String nombre_comun;
-	private Double tamaño;
-	private String color_hojas;
-	
-	//relacion con parcelas
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name ="id_plantas")
-	private List<Parcelas> parcelas; 
-	
-	//relacion con monitoreo
-  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  	@JoinColumn(name ="id_plantas")
-  	private List<Monitoreo> monitoreo  ; 
-	
+    @NotNull(message = "El nombre científico no puede ser nulo")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre científico debe contener solo letras y espacios")
+    private String nombre_cientifico;
 
-	public Long getId_plantas() {
-		return id_plantas;
-	}
+    @NotNull(message = "El clima no puede ser nulo")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El clima debe contener solo letras y espacios")
+    private String clima;
 
-	public void setId_plantas(Long id_plantas) {
-		this.id_plantas = id_plantas;
-	}
+    @NotNull(message = "El nombre común no puede ser nulo")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre común debe contener solo letras y espacios")
+    private String nombre_comun;
 
-	public Long getId_especie() {
-		return id_especie;
-	}
+    @NotNull(message = "El tamaño no puede ser nulo")
+    @Positive(message = "El tamaño debe ser un número positivo")
+    private Double tamaño;
 
-	public void setId_especie(Long id_especie) {
-		this.id_especie = id_especie;
-	}
+    @NotNull(message = "El color de las hojas no puede ser nulo")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El color de las hojas debe contener solo letras y espacios")
+    private String color_hojas;
+    
+    // Relación con parcelas
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_plantas")
+    private List<Parcelas> parcelas;
 
-	public String getNombre_cientifico() {
-		return nombre_cientifico;
-	}
+    // Relación con monitoreo
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_plantas")
+    private List<Monitoreo> monitoreo;
 
-	public void setNombre_cientifico(String nombre_cientifico) {
-		this.nombre_cientifico = nombre_cientifico;
-	}
+    public Long getId_plantas() {
+        return id_plantas;
+    }
 
-	public String getClima() {
-		return clima;
-	}
+    public void setId_plantas(Long id_plantas) {
+        this.id_plantas = id_plantas;
+    }
 
-	public void setClima(String clima) {
-		this.clima = clima;
-	}
+    public Long getId_especie() {
+        return id_especie;
+    }
 
-	public String getNombre_comun() {
-		return nombre_comun;
-	}
+    public void setId_especie(Long id_especie) {
+        this.id_especie = id_especie;
+    }
 
-	public void setNombre_comun(String nombre_comun) {
-		this.nombre_comun = nombre_comun;
-	}
+    public String getNombre_cientifico() {
+        return nombre_cientifico;
+    }
 
-	public Double getTamaño() {
-		return tamaño;
-	}
+    public void setNombre_cientifico(String nombre_cientifico) {
+        this.nombre_cientifico = nombre_cientifico;
+    }
 
-	public void setTamaño(Double tamaño) {
-		this.tamaño = tamaño;
-	}
+    public String getClima() {
+        return clima;
+    }
 
-	public String getColor_hojas() {
-		return color_hojas;
-	}
+    public void setClima(String clima) {
+        this.clima = clima;
+    }
 
-	public void setColor_hojas(String color_hojas) {
-		this.color_hojas = color_hojas;
-	}
-	
+    public String getNombre_comun() {
+        return nombre_comun;
+    }
 
-	public List<Parcelas> getParcelas() {
-		return parcelas;
-	}
+    public void setNombre_comun(String nombre_comun) {
+        this.nombre_comun = nombre_comun;
+    }
 
-	public void setParcelas(List<Parcelas> parcelas) {
-		this.parcelas = parcelas;
-	}
+    public Double getTamaño() {
+        return tamaño;
+    }
 
-	public List<Monitoreo> getMonitoreo() {
-		return monitoreo;
-	}
+    public void setTamaño(Double tamaño) {
+        this.tamaño = tamaño;
+    }
 
-	public void setMonitoreo(List<Monitoreo> monitoreo) {
-		this.monitoreo = monitoreo;
-	}
+    public String getColor_hojas() {
+        return color_hojas;
+    }
 
+    public void setColor_hojas(String color_hojas) {
+        this.color_hojas = color_hojas;
+    }
 
-	private static final long serialVersionUID = 1L;
+    public List<Parcelas> getParcelas() {
+        return parcelas;
+    }
 
+    public void setParcelas(List<Parcelas> parcelas) {
+        this.parcelas = parcelas;
+    }
+
+    public List<Monitoreo> getMonitoreo() {
+        return monitoreo;
+    }
+
+    public void setMonitoreo(List<Monitoreo> monitoreo) {
+        this.monitoreo = monitoreo;
+    }
+
+    private static final long serialVersionUID = 1L;
 }
