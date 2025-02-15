@@ -144,6 +144,14 @@
             </form>
         </div>
     </div>
+	<div th:if="${error}" class="alert alert-danger">
+			<p th:utext="${error}"></p>
+		  </div>
+
+		  <div th:if="${success}" class="alert alert-success">
+		      <p th:text="${success}"></p>
+			  
+		  </div>
 	</br>
     <footer class="footer">
         &copy; 2025 Reforest. Todos los derechos reservados.
