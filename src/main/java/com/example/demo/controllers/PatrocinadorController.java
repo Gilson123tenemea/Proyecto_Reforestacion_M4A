@@ -118,7 +118,7 @@ public class PatrocinadorController {
 	        }
 	    }
 
-	    return "iniciopatrocinador";  // Asegúrate de que este sea el nombre correcto del archivo de la vista
+	    return "iniciopatrocinador"; 
 	}
 
 

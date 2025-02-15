@@ -26,12 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Provincia;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.IAdministradorServices;
@@ -222,10 +224,18 @@ public class ControladorAdministrador {
 
 
 
-
     @GetMapping("/inicioadmin")
-    public String iniciosuperadmin(Model model) {
+    public String iniciosuperadmin(@SessionAttribute("idAdministrador") Long idAdministrador, Model model) {
         model.addAttribute("titulo", "Inicio SuperAdmin");
+        
+        Administrador admin= administradorServices.findOne(idAdministrador);
+        if (admin !=null) {
+        	 Usuarios usuario = usuarioServices.findOne(admin.getId_usuarios());
+			if (usuario !=null) {
+				model.addAttribute("nombreAdmin", usuario.getNombre());
+				model.addAttribute("apellidoAdmin", usuario.getApellido());
+			}
+		}
         return "inicioadmin";
     }
     
