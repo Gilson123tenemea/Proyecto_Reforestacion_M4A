@@ -3,6 +3,7 @@ package com.example.demo.dao;
 import java.util.List;
 
 import com.example.demo.entity.Parcelas;
+import com.example.demo.entity.Suelo;
 
 public interface IParcelaDao {
 	
@@ -13,5 +14,5 @@ public interface IParcelaDao {
 	public void delete(Long id);
 	List<Parcelas> findByAreaId(Long idArea);
 	List<Parcelas> findByAdministradorId(Long adminId);
-
+	public List<Parcelas> listarparcelas();
 }

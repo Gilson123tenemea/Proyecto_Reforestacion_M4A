@@ -11,5 +11,7 @@ public interface IParcelaService {
 	public void delete(Long id);
 	List<Parcelas> findByAreaId(Long idArea);
 	List<Parcelas> findByAdministradorId(Long adminId);
+	public List<Parcelas> listarparcelas();
+	public String findAreaName(Long idArea);
 
 }

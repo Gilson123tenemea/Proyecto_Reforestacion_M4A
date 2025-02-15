@@ -147,9 +147,16 @@ public class ParcelaController {
             String sueloNombre = sueloservice.findSueloName(parcela.getId_suelo());
             sueloNombres.put(parcela.getId_parcelas(), sueloNombre != null ? sueloNombre : "No disponible");
         }
+        Map<Long, String> areaNombres = new HashMap<>();
+        for (Parcelas parcela : parcelas) {
+            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+            areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
+        }
 
+        
         model.addAttribute("proyectoNombres", proyectoNombres);
         model.addAttribute("sueloNombres", sueloNombres);
+        model.addAttribute("areaNombres", areaNombres);
         return "mapa";
     }
     
@@ -171,10 +178,17 @@ public class ParcelaController {
             String sueloNombre = sueloservice.findSueloName(parcela.getId_suelo());
             sueloNombres.put(parcela.getId_parcelas(), sueloNombre != null ? sueloNombre : "No disponible");
         }
+        
+        Map<Long, String> areaNombres = new HashMap<>();
+        for (Parcelas parcela : parcelas) {
+            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+            areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
+        }
         model.addAttribute("parcelas", parcelas);
         model.addAttribute("parcelaSeleccionada", parcelaSeleccionada);
         model.addAttribute("proyectoNombres", proyectoNombres);
         model.addAttribute("sueloNombres", sueloNombres);
+        model.addAttribute("areaNombres", areaNombres);
         return "mapa";
     }
     

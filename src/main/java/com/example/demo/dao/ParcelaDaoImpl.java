@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Parcelas;
+import com.example.demo.entity.Suelo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -73,7 +74,12 @@ public class ParcelaDaoImpl implements IParcelaDao{
 	}
 
 	
-	
+	@Transactional
+	@Override
+	public List<Parcelas> listarparcelas() {
+	    return en.createQuery("SELECT s FROM Parcelas s JOIN FETCH s.area", Parcelas.class).getResultList();
+	}
+
 	
 	
 

@@ -61,10 +61,12 @@
 		var parcelaSeleccionada = /*[[${parcelaSeleccionada}]]*/ null;
         var proyectoNombres = /*[[${proyectoNombres}]]*/ {};
 		var sueloNombres = /*[[${sueloNombres}]]*/ {};
+		var areaNombres = /*[[${areaNombres}]]*/ {};
 
         console.log(parcelas);
         console.log(proyectoNombres);
 		console.log(sueloNombres);
+		console.log(areaNombres);
 
         var colores = ["#ff6347", "#32cd32", "#1e90ff", "#ffdead", "#dda0dd", "#20b2aa"];
 
@@ -92,12 +94,12 @@
 
             var proyectoNombre = proyectoNombres[parcela.id_parcelas] || "No disponible";
 			var sueloNombre = sueloNombres[parcela.id_parcelas] || "No disponible";
+			var areaNombre = areaNombres[parcela.id_parcelas] || "No disponible";
 
             rectangulo.bindPopup(
 				'<b>Proyecto:</b> ' + proyectoNombre + '<br>'+
 				'<b>Suelo:</b> ' + sueloNombre + '<br>'+
-                '<b>Parcela ID:</b> ' + parcela.id_parcelas + '<br>' +
-                '<b>Área ID:</b> ' + parcela.id_area + ' <br>' +
+                '<b>Área:</b> ' + areaNombre + ' <br>' +
                 '<b>Largo:</b> ' + parcela.largo + ' m<br>' +
                 '<b>Ancho:</b> ' + parcela.ancho + ' m<br>' 
                
