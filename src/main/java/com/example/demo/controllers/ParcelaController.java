@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,8 @@ import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IParcelaService;
 import com.example.demo.service.IPlantasService;
 import com.example.demo.service.ISueloService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ParcelaController {
@@ -88,8 +92,25 @@ public class ParcelaController {
     }
 
     @RequestMapping(value = "/parcelas", method = RequestMethod.POST)
-    public String guardarParcela(Parcelas parcela, RedirectAttributes flash) {
+    public String guardarParcela(@Valid @ModelAttribute Parcelas parcela, BindingResult result, Model model, RedirectAttributes flash) {
         try {
+            // Cargar los combos antes de verificar errores
+            model.addAttribute("suelos", sueloservice.findAll()); 
+            model.addAttribute("plantas", plantaService.findAll());
+            model.addAttribute("areas", areaService.findAll());
+
+            if (result.hasErrors()) {
+                model.addAttribute("titulo", "Editar o Crear Parcela");
+
+                // Extraer los mensajes de error y agregarlos al modelo
+                StringBuilder errores = new StringBuilder();
+                result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+                model.addAttribute("error", errores.toString());
+
+                model.addAttribute("parcela", parcela);
+                return "parcelas"; // Volver a la vista con los errores y los combos cargados
+            }
+
             if (parcela.getId_parcelas() != null) {
                 Parcelas parcelaExistente = parcelaservice.findOne(parcela.getId_parcelas());
                 if (parcelaExistente == null) {
@@ -97,6 +118,7 @@ public class ParcelaController {
                     return "redirect:/listarparcelas";
                 }
 
+                // Actualizar los datos de la parcela
                 parcelaExistente.setId_suelo(parcela.getId_suelo());
                 parcelaExistente.setId_plantas(parcela.getId_plantas());
                 parcelaExistente.setId_area(parcela.getId_area());
@@ -111,12 +133,15 @@ public class ParcelaController {
                 parcelaservice.save(parcela);
                 flash.addFlashAttribute("success", "Parcela guardada exitosamente");
             }
+
             return "redirect:/listarparcelas";
         } catch (Exception e) {
             flash.addFlashAttribute("error", "Error al guardar la Parcela: " + e.getMessage());
             return "redirect:/listarparcelas";
         }
     }
+
+
 
 
     @RequestMapping(value = "/parcela/eliminar/{id}", method = RequestMethod.GET)
@@ -201,3 +226,4 @@ public class ParcelaController {
     
   
 }
+
