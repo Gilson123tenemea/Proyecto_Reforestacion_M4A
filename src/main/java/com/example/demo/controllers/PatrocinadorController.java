@@ -220,10 +220,6 @@ public class PatrocinadorController {
     }
     
     
-    
-    
-    
-    
     @GetMapping("/editarPatrocinador")
     public String editarPatrocinador(@SessionAttribute Long idPatrocinador, Map<String, Object> model) {
         Patrocinador patrocinador = patrocinadorservice.findOne(idPatrocinador);

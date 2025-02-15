@@ -11,6 +11,7 @@
 		body {
 			font-family: 'Roboto', sans-serif;
 			background-color: #f8f9fa;
+			overflow-x: hidden;
 		}
 
 		.container {
@@ -22,6 +23,18 @@
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			margin-top: 50px;
 			margin-bottom: 50px;
+			animation: fadeIn 1s ease-in-out;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 
 		h1 {
@@ -29,6 +42,16 @@
 			font-weight: 700;
 			margin-bottom: 30px;
 			text-align: center;
+			animation: slideIn 1s ease-in-out;
+		}
+
+		@keyframes slideIn {
+			from {
+				transform: translateX(-100%);
+			}
+			to {
+				transform: translateX(0);
+			}
 		}
 
 		.form-label {
@@ -113,7 +136,6 @@
 			margin-bottom: 2rem;
 		}
 
-		/* Estilo para el campo de archivo */
 		.custom-file-input {
 			opacity: 0;
 			position: absolute;
@@ -135,7 +157,6 @@
 			background-color: #dde2e6;
 		}
 
-		/* Estilo para el nombre del archivo seleccionado */
 		#nombreArchivoGuardado {
 			display: block;
 			margin-top: 5px;
@@ -147,127 +168,140 @@
 
 <body>
 	<div th:replace="layout/layoutAdmin :: menu"></div>
-	<div th:replace="layout/layoutAdmin :: fondo"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
 	<div class="container mt-5">
-		<h1 class="mb-4" th:text="${titulo}">Formulario de Proyecto</h1>
+	    <h1 class="mb-4">Formulario de Proyecto</h1>
 
-		<form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
-			<input type="hidden" th:field="*{id_proyecto}" />
-			<input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
+	    <!-- Formulario para guardar el proyecto -->
+	    <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
+	        <!-- Campos ocultos -->
+	        <input type="hidden" th:field="*{id_proyecto}" />
+	        <input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
 
-			<!-- Mensajes de éxito o error -->
-			<div th:if="${mensaje}" class="alert alert-success" role="alert">
-				<span th:text="${mensaje}"></span>
-			</div>
-			<div th:if="${error}" class="alert alert-danger" role="alert">
-				<span th:text="${error}"></span>
-			</div>
+	        <!-- Mensajes de éxito o error -->
+	        <div th:if="${mensaje}" class="alert alert-success" role="alert">
+	            <span th:text="${mensaje}"></span>
+	        </div>
+	        <div th:if="${error}" class="alert alert-danger" role="alert">
+	            <span th:text="${error}"></span>
+	        </div>
 
-			<!-- Campos del formulario -->
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-					<input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
-						pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required title="Solo se permiten letras y espacios" />
-				</div>
+	        <!-- Sección de imagen del proyecto -->
+	        <div class="row mb-3">
+	            <div class="col-md-4 text-center">
+	                <!-- Imagen actual del proyecto -->
+	                <div class="mb-3">
+	                    <img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}"
+	                         alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 150px;" />
+	                </div>
+	                <!-- Cargar nueva imagen -->
+	                <div class="mb-3">
+	                    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+	                    <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
+	                           accept="image/*" onchange="mostrarNombreArchivo()" />
+	                    <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
+	                    <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
+	                </div>
+	            </div>
 
-				<div class="col-md-6 mb-3">
-					<label for="id_provincia" class="form-label">Provincia:</label>
-					<select id="id_provincia" class="form-control" required>
-						<option value="" disabled selected>Seleccione una Provincia</option>
-						<th:block th:each="provincia : ${provincias}">
-							<option th:value="${provincia.id_provincia}"
-								th:selected="${provincia.id_provincia == provinciaSeleccionada}"
-								th:text="${provincia.nombreProvincia}"></option>
-						</th:block>
-					</select>
-				</div>
-			</div>
+	            <!-- Nombre del Proyecto -->
+	            <div class="col-md-8">
+	                <div class="mb-3">
+	                    <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+	                    <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
+	                           placeholder="Ingresar nombre del proyecto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
+	                           title="Solo se permiten letras y espacios" oninput="this.setAttribute('value', this.value);" />
+	                </div>
+	            </div>
+	        </div>
 
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="id_canton" class="form-label">Cantón:</label>
-					<select id="id_canton" class="form-control" required>
-						<option value="" disabled>Seleccione un Cantón</option>
-						<th:block th:each="canton : ${cantones}">
-							<option th:value="${canton.id_canton}"
-								th:selected="${canton.id_canton == cantonSeleccionado}"
-								th:text="${canton.nombreCanton}"></option>
-						</th:block>
-					</select>
-				</div>
+	        <!-- Sección de ubicación (Provincia, Cantón, Parroquia) -->
+	        <div class="row">
+	            <div class="col-md-6 mb-3">
+	                <label for="id_provincia" class="form-label">Provincia:</label>
+	                <select id="id_provincia" class="form-control" required>
+	                    <option value="" disabled selected>Seleccione una Provincia</option>
+	                    <th:block th:each="provincia : ${provincias}">
+	                        <option th:value="${provincia.id_provincia}"
+	                                th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+	                                th:text="${provincia.nombreProvincia}"></option>
+	                    </th:block>
+	                </select>
+	            </div>
 
-				<div class="col-md-6 mb-3">
-					<label for="id_parroquia" class="form-label">Parroquia:</label>
-					<select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
-						<option value="" disabled>Seleccione una Parroquia</option>
-						<th:block th:each="parroquia : ${parroquias}">
-							<option th:value="${parroquia.id_parroquia}"
-								th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
-								th:text="${parroquia.nombreParroquia}"></option>
-						</th:block>
-					</select>
-				</div>
-			</div>
+	            <div class="col-md-6 mb-3">
+	                <label for="id_canton" class="form-label">Cantón:</label>
+	                <select id="id_canton" class="form-control" required>
+	                    <option value="" disabled>Seleccione un Cantón</option>
+	                    <th:block th:each="canton : ${cantones}">
+	                        <option th:value="${canton.id_canton}"
+	                                th:selected="${canton.id_canton == cantonSeleccionado}"
+	                                th:text="${canton.nombreCanton}"></option>
+	                    </th:block>
+	                </select>
+	            </div>
+	        </div>
 
-			<div class="mb-3 text-center">
-				<img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}"
-					alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 300px;" />
-			</div>
+	        <div class="row">
+	            <div class="col-md-6 mb-3">
+	                <label for="id_parroquia" class="form-label">Parroquia:</label>
+	                <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
+	                    <option value="" disabled>Seleccione una Parroquia</option>
+	                    <th:block th:each="parroquia : ${parroquias}">
+	                        <option th:value="${parroquia.id_parroquia}"
+	                                th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
+	                                th:text="${parroquia.nombreParroquia}"></option>
+	                    </th:block>
+	                </select>
+	            </div>
+	        </div>
 
-			<div class="mb-3">
-				<label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-				<input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
-					accept="image/*" onchange="mostrarNombreArchivo()" />
-				<label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
-				<small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún
-					archivo</small>
-			</div>
+	        <!-- Sección de fechas (Inicio y Fin) -->
+	        <div class="row">
+	            <div class="col-md-6 mb-3">
+	                <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+	                <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
+	            </div>
 
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-					<input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
-				</div>
+	            <div class="col-md-6 mb-3">
+	                <label for="fechaFin" class="form-label">Fecha de Fin:</label>
+	                <input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
+	            </div>
+	        </div>
 
-				<div class="col-md-6 mb-3">
-					<label for="fechaFin" class="form-label">Fecha de Fin:</label>
-					<input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
-				</div>
-			</div>
+	        <!-- Sección de estado y porcentaje -->
+	        <div class="row">
+	            <div class="col-md-6 mb-3">
+	                <label for="estado" class="form-label">Estado:</label>
+	                <select th:field="*{estado}" class="form-control" id="estado" required>
+	                    <option value="" disabled selected>Seleccione un Estado</option>
+	                    <option value="activo">Activo</option>
+	                    <option value="inactivo">Inactivo</option>
+	                    <option value="finalizado">Finalizado</option>
+	                </select>
+	            </div>
 
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="estado" class="form-label">Estado:</label>
-					<select th:field="*{estado}" class="form-control" id="estado" required>
-						<option value="" disabled selected>Seleccione un Estado</option>
-						<option value="activo">Activo</option>
-						<option value="inactivo">Inactivo</option>
-						<option value="finalizado">Finalizado</option>
-					</select>
-				</div>
+	            <div class="col-md-6 mb-3">
+	                <label for="porcentaje" class="form-label">Porcentaje:</label>
+	                <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
+	                       step="1" required />
+	            </div>
+	        </div>
 
-				<div class="col-md-6 mb-3">
-					<label for="porcentaje" class="form-label">Porcentaje:</label>
-					<input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
-						step="1" required />
-				</div>
-			</div>
+	        <!-- Voluntarios máximos -->
+	        <div class="mb-3">
+	            <label for="voluntariosMax" class="form-label">Voluntarios Máximos:</label>
+	            <input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1" required />
+	        </div>
 
-			<div class="mb-3">
-				<label for="voluntariosMax" class="form-label">Voluntarios Máximos:</label>
-				<input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1"
-					required />
-			</div>
-
-			<div class="mb-3 text-center">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-				<a th:href="@{/listarProyectos}" class="btn btn-secondary">Cancelar</a>
-			</div>
-		</form>
+	        <!-- Botones de acción -->
+	        <div class="mb-3 text-center">
+				<button type="submit" class="btn" style="background-color: #4F5B3A; border-color: #4F5B3A; color: white;">Guardar</button>
+	        </div>
+	    </form>
 	</div>
-
+	
 	<script>
 		function mostrarNombreArchivo() {
 			const input = document.getElementById('imagenArchivo');
@@ -334,8 +368,31 @@
 					});
 					parroquiaSelect.disabled = false;
 				});
-		}9
+		}
 	</script>
+	
+	<script>
+	        function validarFormulario() {
+	            let campos = document.querySelectorAll("#miFormulario input");
+	            let errorCard = document.getElementById("errorCard");
+	            let errorMensaje = document.getElementById("errorMensaje");
+	            let errores = [];
+
+	            campos.forEach(campo => {
+	                if (campo.value.trim() === "") {
+	                    errores.push(`El campo "${campo.previousElementSibling.textContent}" es obligatorio.`);
+	                }
+	            });
+
+	            if (errores.length > 0) {
+	                errorCard.classList.remove("d-none");
+	                errorMensaje.innerHTML = errores.join("<br>");
+	            } else {
+	                errorCard.classList.add("d-none");
+	                alert("Formulario enviado correctamente");
+	            }
+	        }
+	    </script>
 
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 

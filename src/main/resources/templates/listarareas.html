@@ -6,10 +6,11 @@
     <title th:text="${titulo}">Listado de Áreas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -17,32 +18,102 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
         .container {
             margin-top: 50px;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.85);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             max-width: 1100px;
+            animation: fadeIn 1s ease-in-out;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .table-container h1 {
             text-align: center;
-            color: #333;
+            color: #2d6a4f;
             font-weight: 700;
             margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
         }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
         .table th, .table td {
             text-align: center;
             vertical-align: middle;
         }
+
+        .table th {
+            background-color: #4F5B3A;
+            color: #fff;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f1f8e9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #a8d5ba;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
         .btn {
             border-radius: 5px;
             padding: 8px 15px;
             transition: all 0.3s ease-in-out;
         }
-        .btn-warning:hover, .btn-danger:hover {
+
+        .btn-primary {
+            background-color: #4F5B3A;
+            border-color: rgb(0, 0, 0);
+        }
+
+        .btn-primary:hover {
+            background-color: #4F5B3A;
             transform: scale(1.05);
         }
+
+        .btn-warning {
+            background-color: #F1E6D6;
+            border-color: #F1E6D6;
+        }
+
+        .btn-warning:hover {
+            background-color: #F1E6D6;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #D94F4F;
+            border-color: rgb(0, 0, 0);
+        }
+
+        .btn-danger:hover {
+            background-color: #D94F4F;
+            transform: scale(1.05);
+        }
+
         .footer {
             background-color: #388e3c;
             color: white;
@@ -51,10 +122,36 @@
             font-size: 12px;
             padding: 10px 0;
         }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .table-container input {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .table-container input:focus {
+            border-color: #4F5B3A;
+            box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
+        }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutAdmin :: menu"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+
 
     <div class="container">
         <h1 th:text="${titulo}">Listado de Áreas</h1>
@@ -95,10 +192,6 @@
         </div>
     </div>
 
-    <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
-    </footer>
-
     <script>
         function filterTable() {
             var input, filter, table, tr, td, i, txtValue;
@@ -122,6 +215,8 @@
             }
         }
     </script>
+	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
