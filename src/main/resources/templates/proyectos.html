@@ -192,9 +192,12 @@
 	            <div class="col-md-4 text-center">
 	                <!-- Imagen actual del proyecto -->
 	                <div class="mb-3">
-	                    <img th:if="${imagenGuardada}" th:src="@{/proyecto/imagen/${proyecto.id_proyecto}}"
-	                         alt="Imagen del proyecto" class="img-fluid rounded mb-3" style="max-width: 150px;" />
-	                </div>
+						<img th:if="${imagenGuardada}" 
+						     th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
+						     alt="Imagen del proyecto" 
+						     class="img-fluid rounded mb-3" 
+						     style="max-width: 150px;" />
+					</div>
 	                <!-- Cargar nueva imagen -->
 	                <div class="mb-3">
 	                    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>

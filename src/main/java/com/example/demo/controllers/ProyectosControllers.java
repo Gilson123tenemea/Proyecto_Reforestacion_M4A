@@ -65,10 +65,23 @@ public class ProyectosControllers {
         if (idAdministrador == null) {
             return "redirect:/login";
         }
+        
+        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+        
+        // Actualiza el estado de los proyectos según el porcentaje
+        for (Proyecto proyecto : proyectos) {
+            if (proyecto.getPorcentaje() >= 100) {
+                proyecto.setEstado("finalizado");
+            } else {
+                proyecto.setEstado("activo"); // Cambia a "Activo" si el porcentaje es menor a 100
+            }
+            proyectoService.save(proyecto); // Guarda el cambio en la base de datos
+        }
+        
         model.addAttribute("titulo", "Lista de Proyectos");
-        model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
+        model.addAttribute("proyectos", proyectos);
         return "listarProyectos";
-    }
+    }    
 
     
     
