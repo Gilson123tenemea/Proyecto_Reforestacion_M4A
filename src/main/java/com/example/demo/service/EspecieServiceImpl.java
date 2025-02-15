@@ -76,6 +76,11 @@ public class EspecieServiceImpl implements IEspecieService {
 	    // Eliminar la Especie
 	    especiedao.delete(id);
 	}
+	
+	@Override
+    public Especie findByNombre(String nombre) {
+        return especiedao.findByNombre(nombre);
+    }
 
 
 }

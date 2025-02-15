@@ -10,4 +10,5 @@ public interface IEspecieDao {
 	public void save(Especie especie);
 	public Especie findOne(Long id);
 	public void delete(Long id);
+	Especie findByNombre(String nombre);
 }

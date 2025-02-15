@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class Especie implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_especie;
 
+	@Column(unique = true)
 	private String nombre;
 	 private boolean activo = true;
 	
