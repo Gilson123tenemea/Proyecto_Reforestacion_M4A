@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,26 +41,71 @@ public class ParroquiaControllers {
     }
 
     @PostMapping("/guardarParroquia")
-    public String guardarParroquia(@Valid @ModelAttribute("parroquia") Parroquia parroquia, Model model) {
+    public String guardarParroquia(@Valid @ModelAttribute("parroquia") Parroquia parroquia, 
+                                    BindingResult bindingResult, 
+                                    Model model) {
         try {
-            if (parroquia.getId_canton() == null) {
-                throw new Exception("Debe seleccionar un Cantón.");
+            // Si hay errores de validación, regresamos al formulario con los errores
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("cantones", cantonService.findAll());  // Aseguramos que los cantones se carguen
+                model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
+                return "parroquia";  // Volver al formulario con los errores de validación
             }
-            parroquiaService.save(parroquia);
-            model.addAttribute("mensaje", "Parroquia guardada exitosamente");
-            return "redirect:/listarparroquia";
+
+            // Verificar si el nombre de la parroquia ya existe (ignorando mayúsculas y minúsculas)
+            String nombreParroquia = parroquia.getNombreParroquia().trim().toLowerCase();
+            List<Parroquia> parroquiasExistentes = parroquiaService.findAll();  // Obtener todas las parroquias
+
+            // Verificar si el nombre de la parroquia ya está en uso en cualquier cantón
+            for (Parroquia parroquiaExistente : parroquiasExistentes) {
+                if (parroquiaExistente.getNombreParroquia().trim().toLowerCase().equals(nombreParroquia)) {
+                    model.addAttribute("error", "Ya existe una parroquia con el mismo nombre.");
+                    model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones nuevamente
+                    model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
+                    model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+                    return "parroquia";  // Volver al formulario con el mensaje de error
+                }
+            }
+
+            // Verificar si el objeto parroquia tiene un cantón asociado
+            if (parroquia.getId_canton() == null) {
+                model.addAttribute("error", "Debe seleccionar un Cantón.");
+                model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones
+                model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
+                model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+                return "parroquia";  // Volver al formulario con el mensaje de error
+            }
+
+            // Guardar o actualizar la parroquia
+            if (parroquia.getId_parroquia() != null) {
+                Parroquia parroquiaExistente = parroquiaService.findOne(parroquia.getId_parroquia());
+                if (parroquiaExistente == null) {
+                    model.addAttribute("error", "La parroquia con ese ID no existe.");
+                    return "parroquia";
+                }
+                parroquiaService.save(parroquia);  // Actualizar la parroquia si ya tiene un ID
+                model.addAttribute("success", "Parroquia actualizada exitosamente");
+            } else {
+                parroquiaService.save(parroquia);  // Crear nueva parroquia si no tiene un ID
+                model.addAttribute("success", "Parroquia guardada exitosamente");
+            }
+
+            return "redirect:/listarparroquias";  // Redirigir a la lista de parroquias
         } catch (Exception e) {
-            model.addAttribute("mensaje", "Error al guardar la parroquia: " + e.getMessage());
-            return "error";
+            model.addAttribute("error", "Error al guardar la parroquia: " + e.getMessage());
+            model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones
+            model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
+            model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+            return "parroquia";  // Volver al formulario con mensaje de error
         }
     }
 
-    // Listar todas las parroquias
-    @GetMapping("/listarparroquia")
-    public String listarParroquia(Model model) {
-        model.addAttribute("titulo", "Lista de Parroquias");
-        model.addAttribute("parroquias", parroquiaService.findAll());
-        return "listarparroquia";
+
+    @GetMapping("/listarparroquias")
+    public String listarParroquias(Model model) {
+        List<Parroquia> parroquias = parroquiaService.findAll();
+        model.addAttribute("parroquias", parroquias);
+        return "listarparroquia";  // Nombre de la vista donde se mostrará la lista
     }
 
     @GetMapping("/parroquia/eliminar/{id}")
