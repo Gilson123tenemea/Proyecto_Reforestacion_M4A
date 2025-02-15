@@ -65,6 +65,12 @@ public class SuperAdministradorController {
 		}
 		return "iniciosuperadmin";
 	}
+	
+    @GetMapping("/verlistasuperadmin")
+    public String verlistasuperadmin(Model model) {
+        model.addAttribute("titulo", "lista usuarios y ubicaciones ");
+        return "verlistasuperadmin";
+    }
 
 	// Crear nuevo voluntario
 	@RequestMapping("/")
