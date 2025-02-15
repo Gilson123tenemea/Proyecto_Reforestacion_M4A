@@ -5,10 +5,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.service.ITipo_ActividadesService;
+
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -69,15 +72,36 @@ public class TipoActividadesController {
 
     @RequestMapping(value = "/formtipo", method = RequestMethod.POST)
     public String guardar(
-            @ModelAttribute Tipo_Actividades tactividad,
+            @Valid @ModelAttribute Tipo_Actividades tactividad,
+            BindingResult result,
             @SessionAttribute("idAdministrador") Long idAdministrador,
-            RedirectAttributes flash) {
+            RedirectAttributes flash,
+            Model model) {
+        
         tactividad.setId_administrador(idAdministrador);
         
+        // Validar que el nombre de la actividad no esté vacío
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Formulario de Tipo Actividad");
+            model.addAttribute("tactividad", tactividad);
+            return "formtipo"; // Volver a cargar la vista con errores
+        }
+        
+        // Validar que no exista otra actividad con el mismo nombre
+        List<Tipo_Actividades> actividadesExistentes = tipoActividadesService.findAll();
+        for (Tipo_Actividades actividadExistente : actividadesExistentes) {
+            if (actividadExistente.getNombre_act().equalsIgnoreCase(tactividad.getNombre_act())) {
+                model.addAttribute("error", "Ya existe una actividad con ese nombre.");
+                model.addAttribute("titulo", "Formulario de Tipo Actividad");
+                model.addAttribute("tactividad", tactividad);
+                return "formtipo"; // Volver a la vista con el mensaje de error
+            }
+        }
+
         String mensajeFls = (tactividad.getId_tipoActividades() != null) 
             ? "El registro del tipo de actividades se ha editado con éxito" 
             : "El registro de tipo de actividad se ha creado con éxito";
-        
+
         tipoActividadesService.save(tactividad);
         flash.addFlashAttribute("success", mensajeFls);
         
