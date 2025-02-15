@@ -13,6 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name="parcelas",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_suelo","id_plantas","id_area","id_parcelas"})})
@@ -27,9 +30,17 @@ public class Parcelas implements Serializable {
 	private Long id_plantas;
 	private Long id_area;
 	private Long id_suelo;
+	@NotNull(message = "El largo no puede ser nulo.")
+	@Positive(message = "El largo debe ser mayor que 0.")
 	private double largo;
+	@NotNull(message = "El ancho no puede ser nulo.")
+	@Positive(message = "El ancho debe ser mayor que 0.")
 	private double ancho;
+	@NotNull(message = "La coordenada X no puede ser nula.")
+	@Min(value = 0, message = "La coordenada X no puede ser negativa.")
 	private double x;
+	@NotNull(message = "La coordenada Y no puede ser nula.")
+	@Min(value = 0, message = "La coordenada Y no puede ser negativa.")
 	private double y;
 	
 	//relacion con monitoreo
