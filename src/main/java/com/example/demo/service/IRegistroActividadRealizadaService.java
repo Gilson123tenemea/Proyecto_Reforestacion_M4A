@@ -30,4 +30,5 @@ public interface IRegistroActividadRealizadaService {
 	List<Object[]> findById(Long id);
 	List<RegistroActividadRealiza> findAllActividades();
     void confirmarActividad(Long id);
+    Long obtenerIdProyectoPorTipoActividad(Long idTipoActividad);
 }

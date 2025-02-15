@@ -96,5 +96,7 @@ public class RegistroActividadRealizadaService {
     public List<Double> obtenerPorcentajesPorTipoActividad(Long idTipoActividad) {
         return registroActividadRealizadaDao.findPorcentajeByTipoActividad(idTipoActividad);
     } 
-    
+    public Long obtenerIdProyectoPorTipoActividad(Long idTipoActividad) {
+        return registroActividadRealizadaDao.findProyectoByTipoActividad(idTipoActividad);
+    }
 }

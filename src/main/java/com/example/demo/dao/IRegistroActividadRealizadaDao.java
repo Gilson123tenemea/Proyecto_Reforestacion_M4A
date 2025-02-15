@@ -33,5 +33,7 @@ public interface IRegistroActividadRealizadaDao {
 	@Query("SELECT a.porcentajeActividad FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad")
 	List<Double> findPorcentajeByTipoActividad(@Param("idTipoActividad") Long idTipoActividad);
 	
+	@Query("SELECT a.id_proyecto FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad")
+	Long findProyectoByTipoActividad(@Param("idTipoActividad") Long idTipoActividad);
 
 }

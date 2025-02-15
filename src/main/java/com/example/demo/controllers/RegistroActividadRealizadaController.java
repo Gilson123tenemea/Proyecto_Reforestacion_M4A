@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
+import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.RegistroActividadRealizadaService;
+import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.IVoluntariosService;
 
 @Controller
@@ -36,6 +38,8 @@ public class RegistroActividadRealizadaController {
 	@Autowired
 	private IRegistroActividadRealizadaDao iregistroActividadRealizadaDao;
 
+	@Autowired
+	private IProyectoServices proyectoService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -306,34 +310,57 @@ public class RegistroActividadRealizadaController {
 	@GetMapping("/confirmar_actividadreal")
 	public String mostrarActividadesPendientes(Model model) {
 	    List<RegistroActividadRealiza> actividades = registroActividadService.findAllActividades();
-	    
-	    // Crear una lista para almacenar la información que se pasará a la vista
 	    List<Map<String, Object>> actividadesConPorcentaje = new ArrayList<>();
 
 	    for (RegistroActividadRealiza actividad : actividades) {
 	        List<Double> porcentajes = registroActividadService.obtenerPorcentajesPorTipoActividad(actividad.getId_tipoActividades());
-	        Double porcentaje = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0); // Obtener el primer porcentaje
+	        Double porcentaje = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0);
 
-	        // Crear un mapa para almacenar la actividad y el porcentaje
 	        Map<String, Object> actividadMap = new HashMap<>();
 	        actividadMap.put("actividad", actividad);
 	        actividadMap.put("porcentaje", porcentaje);
 
-	        actividadesConPorcentaje.add(actividadMap); // Añadir a la lista
+	        actividadesConPorcentaje.add(actividadMap); 
 	    }
 
-	    model.addAttribute("actividadesConPorcentaje", actividadesConPorcentaje); // Pasar la lista a la vista
+	    model.addAttribute("actividadesConPorcentaje", actividadesConPorcentaje); 
 
 	    return "confirmar_actividadreal"; 
 	}
 
 	@GetMapping("/confirmar_actividad/{id}")
 	public String confirmarActividad(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-	    registroActividadService.confirmarActividad(id);
-	    redirectAttributes.addFlashAttribute("mensaje", "Actividad confirmada correctamente.");
+	    Optional<RegistroActividadRealiza> actividadOpt = registroActividadService.findOne(id);
+	    
+	    if (actividadOpt.isPresent()) {
+	        RegistroActividadRealiza actividad = actividadOpt.get();
+	        registroActividadService.confirmarActividad(id);
+	        Long idTipoActividad = actividad.getId_tipoActividades();
+	        List<Double> porcentajes = registroActividadService.obtenerPorcentajesPorTipoActividad(idTipoActividad);
+	        Double porcentajeActividad = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0);
+
+	        Long idProyecto = registroActividadService.obtenerIdProyectoPorTipoActividad(idTipoActividad);
+
+	        if (idProyecto != null) {
+	            Proyecto proyecto = proyectoService.findOne(idProyecto); 
+	            if (proyecto != null) { 
+	                double nuevoPorcentaje = proyecto.getPorcentaje() + porcentajeActividad; 
+	                proyecto.setPorcentaje(nuevoPorcentaje); 
+	                proyectoService.save(proyecto); 
+	            } else {
+	                redirectAttributes.addFlashAttribute("error", "Proyecto no encontrado con ID: " + idProyecto);
+	            }
+	        } else {
+	            redirectAttributes.addFlashAttribute("error", "ID de proyecto no encontrado para el tipo de actividad: " + idTipoActividad);
+	        }
+
+	        redirectAttributes.addFlashAttribute("mensaje", "Actividad confirmada correctamente y porcentaje actualizado en el proyecto.");
+	    } else {
+	        redirectAttributes.addFlashAttribute("error", "Actividad no encontrada.");
+	    }
+
 	    return "redirect:/registro-actividad/confirmar_actividadreal";
 	}
-	
 	
 	
 	@GetMapping("/informacion_registroacti_real")
@@ -341,9 +368,5 @@ public class RegistroActividadRealizadaController {
 	 
 	    return "informacion_registroacti_real"; 
 	}
-	
-	
-	
-	
-	
+
 }
