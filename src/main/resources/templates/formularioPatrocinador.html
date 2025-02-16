@@ -16,7 +16,6 @@
 			display: flex;
 			flex-direction: column;
 			font-family: 'Roboto', sans-serif;
-			background-image: url('/imagenes/cuenca.png');
 			background-size: cover;
 			background-position: center;
 			background-attachment: fixed;
@@ -143,38 +142,9 @@
 </head>
 
 <body>
+	<div th:replace="layout/layoutinicio :: menuinicio"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container-fluid">
-				<img src="/imagenes/logo_cuenca.png" alt="Logo Cuenca" class="img-fluid" style="max-height: 40px;">
-				<h1 class="text-white m-0" style="margin-left: 20px;"><strong>Deforest</strong></h1>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/layout">Inicio</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#proyectos">Proyectos</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#reportes">Reportes</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Registrarse</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="login">Iniciar Sesión</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
 
 	<div class="login-wrapper">
 		<div class="login-container">
@@ -188,7 +158,9 @@
 								<label for="cedula">Cédula:</label>
 								<input type="text" name="cedula" id="cedula" required maxlength="10"
 									placeholder="Cédula de 10 dígitos">
-								<button type="button" id="buscarBtn">Buscar</button>
+									<button type="button" id="buscarBtn" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+									  Buscar
+									</button>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -290,18 +262,15 @@
 					</div>
 				</fieldset>
 
-				<button type="submit">Guardar</button>
+				<button type="submit" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+				  Guardar
+				</button>
 				<div class="register-link">
 					<a href="/login"></a>
 				</div>
 			</form>
 		</div>
 	</div>
-
-	<footer>
-		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>
-	</footer>
-	
 	
 	<script>
 		
@@ -432,6 +401,8 @@
 				});
 		}
 	</script>
+	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+
 
 </body>
 
