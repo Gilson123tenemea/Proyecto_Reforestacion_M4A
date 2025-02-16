@@ -99,4 +99,8 @@ public class RegistroActividadRealizadaService {
     public Long obtenerIdProyectoPorTipoActividad(Long idTipoActividad) {
         return registroActividadRealizadaDao.findProyectoByTipoActividad(idTipoActividad);
     }
+    public List<Object[]> obtenerDetallesPorRegistroNuevo(Long idRegistro) {
+        return registroActividadRealizadaDao.findDetallesPorRegistroNuevo(idRegistro);
+    }
+    
 }

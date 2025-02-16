@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -287,13 +288,13 @@ public class RegistroActividadRealizadaController {
 	@GetMapping("/EdicionActivRealizada/imagen/{id}")
 	@ResponseBody
 	public byte[] obtenerImagenProyecto(@PathVariable("id") Long id) {
-		Optional<RegistroActividadRealiza> proyectoext = iregistroActividadRealizadaDao.findOne(id);
-		
-		RegistroActividadRealiza proyecto = proyectoext.get();
-		if (proyecto != null && proyecto.getFoto() != null) {
-			return proyecto.getFoto();
-		}
-		return new byte[0];
+	    Optional<RegistroActividadRealiza> registroOpt = iregistroActividadRealizadaDao.findOne(id);
+	    
+	    if (registroOpt.isPresent() && registroOpt.get().getFoto() != null) {
+	        return registroOpt.get().getFoto();
+	    }
+	    // Puedes retornar un arreglo vacío o una imagen por defecto
+	    return new byte[0]; // Retorna un arreglo vacío si no hay imagen
 	}
 	
 
@@ -362,11 +363,16 @@ public class RegistroActividadRealizadaController {
 	    return "redirect:/registro-actividad/confirmar_actividadreal";
 	}
 	
-	
-	@GetMapping("/informacion_registroacti_real")
-	public String informacionregistroacti(Model model) {
-	 
-	    return "informacion_registroacti_real"; 
+	@GetMapping("/informacion_registroacti_real/{idRegistro}")
+	public String informacionRegistroActiReal(@PathVariable Long idRegistro, Model model) {
+	    List<Object[]> detalles = registroActividadService.obtenerDetallesPorRegistroNuevo(idRegistro);
+
+	    for (Object[] detalle : detalles) {
+	        System.out.println(Arrays.toString(detalle));
+	    }
+
+	    model.addAttribute("detalles", detalles);
+	    return "informacion_registroacti_real";
 	}
 
 }

@@ -12,7 +12,8 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID Actividad</th> <!-- Columna para ID de la actividad -->
+					<th>ID</th>
+                    <th>ID Actividad</th>
                     <th>Actividad</th>
                     <th>Árboles Plantados</th>
                     <th>Equipo</th>
@@ -22,6 +23,7 @@
             </thead>
 			<tbody>
 			    <tr th:each="item : ${actividadesConPorcentaje}">
+					<td th:text="${item.actividad.id_registroactividadrealizada}"></td>
 			        <td th:text="${item.actividad.id_tipoActividades}"></td>
 			        <td th:text="${item.actividad.descripcion}"></td>
 			        <td th:text="${item.actividad.cantidad_realizada}"></td>
@@ -39,7 +41,7 @@
 			                    Confirmar
 			                </button>
 			            </form>
-			            <a th:href="@{/registro-actividad/mas_informacion/{id}(id=${item.actividad.id_registroactividadrealizada})}" class="btn btn-info">Más Información</a>
+						<a th:href="@{/registro-actividad/informacion_registroacti_real/{idRegistro}(idRegistro=${item.actividad.id_registroactividadrealizada})}" class="btn btn-info">Más Información</a>
 			        </td>
 			    </tr>
 			</tbody>

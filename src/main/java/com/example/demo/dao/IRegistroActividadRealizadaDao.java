@@ -35,5 +35,17 @@ public interface IRegistroActividadRealizadaDao {
 	
 	@Query("SELECT a.id_proyecto FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad")
 	Long findProyectoByTipoActividad(@Param("idTipoActividad") Long idTipoActividad);
-
+	@Query("SELECT e.nombre AS equipoNombre, u.nombre AS voluntarioNombre, r.cantidad_realizada, r.descripcion, r.foto, ta.nombre_act AS actividadNombre, p.nombre AS proyectoNombre "
+		      + "FROM RegistroActividadRealiza r "
+		      + "INNER JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario "
+		      + "INNER JOIN Usuarios u ON v.id_usuarios = u.id_usuarios "
+		      + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+		      + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+		      + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+		      + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+		      + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+		      + "WHERE r.id_registroactividadrealizada = :idRegistro")
+		List<Object[]> findDetallesPorRegistroNuevo(@Param("idRegistro") Long idRegistro);
+		
+		
 }
