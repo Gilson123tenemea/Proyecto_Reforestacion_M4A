@@ -72,9 +72,7 @@ public class ProyectosControllers {
         for (Proyecto proyecto : proyectos) {
             if (proyecto.getPorcentaje() >= 100) {
                 proyecto.setEstado("finalizado");
-            } else {
-                proyecto.setEstado("activo"); // Cambia a "Activo" si el porcentaje es menor a 100
-            }
+            } 
             proyectoService.save(proyecto); // Guarda el cambio en la base de datos
         }
         
