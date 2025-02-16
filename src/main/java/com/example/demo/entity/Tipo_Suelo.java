@@ -28,8 +28,7 @@ public class Tipo_Suelo implements Serializable {
     @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre del suelo solo puede contener letras y espacios.")
     private String nombre_suelo;
 
-    @NotEmpty(message = "La descripción no puede estar vacía.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La Descripción del suelo solo puede contener letras y espacios.")
+    
     private String descripcion;
 
     @NotEmpty(message = "El color no puede estar vacío.")
@@ -48,16 +47,14 @@ public class Tipo_Suelo implements Serializable {
     @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "El pH debe ser un número.")
     private String ph;
 
-    @NotEmpty(message = "La composición no puede estar vacía.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La Composición del suelo solo puede contener letras y espacios.")
+   
     private String composicion;
 
     @NotEmpty(message = "La fertilidad no puede estar vacía.")
     @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La Fertilidad del suelo solo puede contener letras y espacios.")
     private String fertilidad;
 
-    @NotEmpty(message = "El uso del suelo no puede estar vacío.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El uso del suelo solo puede contener letras y espacios.")
+    
     private String uso_del_suelo;
 
     @OneToMany(fetch = FetchType.LAZY)
