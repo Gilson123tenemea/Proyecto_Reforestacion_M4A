@@ -222,5 +222,15 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	        .setParameter("idRegistro", idRegistro)
 	        .getResultList();
 	}
+
+	@Override
+	public List<Object[]> findVoluntariosPorActividad(Long idRegistro) {
+		 return entityManager.createQuery("SELECT u.nombre, u.apellido FROM RegistroActividadRealiza r "
+		            + "JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario "
+		            + "JOIN Usuarios u ON v.usuario.id_usuarios = u.id_usuarios "
+		            + "WHERE r.id_registroactividadrealizada = :idRegistro", Object[].class)
+		            .setParameter("idRegistro", idRegistro)
+		            .getResultList();
+	}
 	
 }

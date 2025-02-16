@@ -102,5 +102,8 @@ public class RegistroActividadRealizadaService {
     public List<Object[]> obtenerDetallesPorRegistroNuevo(Long idRegistro) {
         return registroActividadRealizadaDao.findDetallesPorRegistroNuevo(idRegistro);
     }
+    public List<Object[]> obtenerVoluntariosPorActividad(Long idRegistro) {
+        return registroActividadRealizadaDao.findVoluntariosPorActividad(idRegistro);
+    }
     
 }

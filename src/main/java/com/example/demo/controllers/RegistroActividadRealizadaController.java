@@ -367,11 +367,15 @@ public class RegistroActividadRealizadaController {
 	public String informacionRegistroActiReal(@PathVariable Long idRegistro, Model model) {
 	    List<Object[]> detalles = registroActividadService.obtenerDetallesPorRegistroNuevo(idRegistro);
 
+	    // Obtener todos los voluntarios asignados a la actividad
+	    List<Object[]> voluntarios = registroActividadService.obtenerVoluntariosPorActividad(idRegistro);
+
 	    for (Object[] detalle : detalles) {
 	        System.out.println(Arrays.toString(detalle));
 	    }
 
 	    model.addAttribute("detalles", detalles);
+	    model.addAttribute("voluntarios", voluntarios); // Agregar voluntarios al modelo
 	    return "informacion_registroacti_real";
 	}
 

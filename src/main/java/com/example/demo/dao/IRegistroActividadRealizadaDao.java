@@ -48,4 +48,10 @@ public interface IRegistroActividadRealizadaDao {
 		List<Object[]> findDetallesPorRegistroNuevo(@Param("idRegistro") Long idRegistro);
 		
 		
+		@Query("SELECT u.nombre, u.apellido FROM RegistroActividadRealiza r "
+			      + "JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario "
+			      + "JOIN Usuarios u ON v.usuario.id_usuarios = u.id_usuarios "
+			      + "WHERE r.id_registroactividadrealizada = :idRegistro")
+			List<Object[]> findVoluntariosPorActividad(@Param("idRegistro") Long idRegistro);
+		
 }
