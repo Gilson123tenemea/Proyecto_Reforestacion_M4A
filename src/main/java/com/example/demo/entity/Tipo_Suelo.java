@@ -40,7 +40,7 @@ public class Tipo_Suelo implements Serializable {
     private String textura;
 
     @NotNull(message = "La densidad no puede ser nula.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La Composición del suelo solo puede contener letras y espacios.")
+    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "La densidad debe ser un número.")
     private String densidad;
 
     @NotNull(message = "El pH no puede ser nulo.")
