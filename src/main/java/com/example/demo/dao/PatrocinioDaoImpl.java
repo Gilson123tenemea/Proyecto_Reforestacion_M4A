@@ -44,6 +44,15 @@ public class PatrocinioDaoImpl implements IPatrocinioDao{
 	             .setParameter("idProyecto", idProyecto)
 	             .getResultList();
 	}
+
+	@Override
+	public List<Patrocinio> findByIdPatrocinador(Long idPatrocinador) {
+		return em.createQuery("SELECT p FROM Patrocinio p WHERE p.Id_patrocinador = :idPatrocinador", Patrocinio.class)
+                .setParameter("idPatrocinador", idPatrocinador)
+                .getResultList();
+	}
+	
+	
 	
 
 }

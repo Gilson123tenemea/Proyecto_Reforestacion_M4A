@@ -68,34 +68,34 @@ public class PatrocinioController {
         // Obtener todos los proyectos
         List<Proyecto> proyectos = proyectoService.findAll();
         
-        // Obtener todos los patrocinios
-        List<Patrocinio> allPatrocinios = patrocinioservice.findAll();
+        // Filtrar solo los proyectos activos
+        List<Proyecto> proyectosFiltrados = proyectos.stream()
+            .filter(proyecto -> "Activo".equalsIgnoreCase(proyecto.getEstado()))
+            .collect(Collectors.toList());
+
+        // Obtener todos los patrocinios del patrocinador actual
+        List<Patrocinio> filteredPatrocinios = patrocinioservice.findByIdPatrocinador(idPatrocinador);
         
-        // Obtener IDs de proyectos que ya tienen patrocinios
-        List<Long> proyectosPatrocinados = allPatrocinios.stream()
+        // Obtener IDs de proyectos que han sido patrocinados por el patrocinador actual
+        List<Long> proyectosPatrocinadosPorActual = filteredPatrocinios.stream()
             .map(Patrocinio::getId_proyecto)
             .collect(Collectors.toList());
 
-        // Filtrar solo los proyectos activos y que no han sido patrocinados
-        List<Proyecto> proyectosFiltrados = proyectos.stream()
-            .filter(proyecto -> "Activo".equalsIgnoreCase(proyecto.getEstado()))
-            .filter(proyecto -> !proyectosPatrocinados.contains(proyecto.getId_proyecto()))
-            .collect(Collectors.toList());
-
-        // Filtrar patrocinios por el id del patrocinador
-        List<Patrocinio> filteredPatrocinios = allPatrocinios.stream()
-            .filter(patrocinio -> patrocinio.getId_patrocinador().equals(idPatrocinador))
+        // Filtrar los proyectos activos para excluir los que ya han sido patrocinados por el patrocinador actual
+        List<Proyecto> proyectosDisponibles = proyectosFiltrados.stream()
+            .filter(proyecto -> !proyectosPatrocinadosPorActual.contains(proyecto.getId_proyecto()))
             .collect(Collectors.toList());
 
         model.addAttribute("titulo", "Proyectos y Patrocinios");
-        model.addAttribute("proyectos", proyectosFiltrados); // Cambiar a proyectos filtrados
-        model.addAttribute("patrocinios", filteredPatrocinios);
+        model.addAttribute("proyectos", proyectosDisponibles); // Proyectos que el patrocinador puede patrocinar
+        model.addAttribute("patrocinios", filteredPatrocinios); // Patrocinios del patrocinador actual
         
         // También puedes agregar la lista completa de proyectos si necesitas mostrarla en otra parte
         model.addAttribute("todosProyectos", proyectos); // Mantener la lista completa de proyectos si es necesario
         
         return "verproyectospatrocinador"; 
     }
+    
     @RequestMapping("/patrocinarproyecto")
     public String crear(Map<String, Object> model) {
         Patrocinio patrocinio = new Patrocinio();

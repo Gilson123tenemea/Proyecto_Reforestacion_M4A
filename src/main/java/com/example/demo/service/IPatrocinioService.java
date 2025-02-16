@@ -14,4 +14,5 @@ public interface IPatrocinioService {
 	public Patrocinio findOne (Long id);
 	public void delete(Long id);
 	public List<Patrocinio> findByIdProyecto(Long idProyecto);
+	public List<Patrocinio> findByIdPatrocinador(Long idPatrocinador); 
 }
