@@ -36,11 +36,7 @@ public class Parcelas implements Serializable {
 	@NotNull(message = "El ancho no puede ser nulo.")
 	@Positive(message = "El ancho debe ser mayor que 0.")
 	private double ancho;
-	@NotNull(message = "La coordenada X no puede ser nula.")
-	@Min(value = 0, message = "La coordenada X no puede ser negativa.")
 	private double x;
-	@NotNull(message = "La coordenada Y no puede ser nula.")
-	@Min(value = 0, message = "La coordenada Y no puede ser negativa.")
 	private double y;
 	
 	//relacion con monitoreo
