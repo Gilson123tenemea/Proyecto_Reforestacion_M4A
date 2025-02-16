@@ -133,10 +133,15 @@
                         placeholder="Ingrese el nombre de la parroquia" />
                 </div>
 
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-danger">Guardar</button>
-                    <a th:href="@{/listarParroquia}" class="btn btn-secondary">Cancelar</a>
-                </div>
+				<div class="btn-group">
+				          <button type="submit" class="btn btn-danger">
+				            <i class="fas fa-save"></i> Guardar
+				          </button>
+				          <a th:href="@{/listarparroquias}" class="btn btn-secondary">
+				            <i class="fas fa-times"></i> Cancelar
+				          </a>
+				        </div>
+				
             </form>
         </div>
     </div>
