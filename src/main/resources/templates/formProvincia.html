@@ -118,20 +118,37 @@
         <div class="form-container">
             <h2 th:text="${titulo}"></h2>
 
-            <form th:action="@{/formprovincia}" th:object="${provincia}" method="post">
-                <div class="mb-3">
-                    <label for="nombreProvincia" class="form-label">Nombre de la Provincia</label>
-                    <input type="text" id="nombreProvincia" name="nombreProvincia" 
-                           pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
-                           title="Solo se permiten letras y espacios" 
-                           placeholder="Ingrese el nombre de la provincia" class="form-control" />
-                </div>
-                <button type="submit" class="btn btn-save">Guardar</button>
-                <input type="hidden" th:field="*{id_provincia}" />
-                <a href="/listarprovincia" class="btn btn-secondary mt-2">Cancelar</a>
-            </form>
+			<form th:action="@{/formprovincia}" th:object="${provincia}" method="post" onsubmit="return validarFormulario()">
+			    <div class="form-group">
+			        <label for="nombreProvincia">Nombre de la Provincia</label>
+			        <input type="text" id="nombreProvincia" class="form-control" th:field="*{nombreProvincia}" 
+			               pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="Solo se permiten letras y espacios" required>
+			        <div id="errorNombre" class="alert alert-danger mt-2" style="display: none;">
+			            No se permiten números en el nombre de la provincia.
+			        </div>
+			    </div>
+			    <button type="submit" class="btn btn-save">Guardar</button>
+			    <input type="hidden" th:field="*{id_provincia}" />
+			    <a href="/listarprovincia" class="btn btn-secondary mt-2">Cancelar</a>
+			</form>
         </div>
     </div>
+	
+	<script>
+	    function validarFormulario() {
+	        var nombreProvincia = document.getElementById("nombreProvincia").value;
+	        var regex = /^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$/;
+	        var errorDiv = document.getElementById("errorNombre");
+
+	        if (!regex.test(nombreProvincia)) {
+	            errorDiv.style.display = "block";
+	            return false; 
+	        } else {
+	            errorDiv.style.display = "none";
+	            return true;
+	        }
+	    }
+	</script>
 	
 	<div th:if="${error}" class="alert alert-danger">
 	    <p th:text="${error}"></p>
