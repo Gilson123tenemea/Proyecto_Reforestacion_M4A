@@ -116,7 +116,7 @@ public class ParroquiaControllers {
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al eliminar la parroquia");
         }
-        return "redirect:/listarparroquia";
+        return "redirect:/listarparroquias";
     }
 
     @GetMapping("/parroquia/editar/{id}")
@@ -125,15 +125,29 @@ public class ParroquiaControllers {
             Parroquia parroquia = parroquiaService.findOne(id);
             if (parroquia == null) {
                 attributes.addFlashAttribute("error", "La parroquia no existe");
-                return "redirect:/listarparroquia";
+                return "redirect:/listarparroquias";
             }
+            
             model.addAttribute("parroquia", parroquia);
-            model.addAttribute("cantones", cantonService.findAll());
+            
+            // Cargar las provincias
+            model.addAttribute("provincias", provinciaService.findAll());
+            
+            // Cargar el cantón de la parroquia
+            Canton canton = cantonService.findOne(parroquia.getId_canton());
+            if (canton != null) {
+                model.addAttribute("cantonSeleccionado", canton);
+                model.addAttribute("cantones", cantonService.findByProvincia(canton.getId_provincia()));
+                model.addAttribute("provinciaSeleccionada", canton.getId_provincia());
+            } else {
+                model.addAttribute("cantones", List.of());
+            }
+            
             model.addAttribute("titulo", "Editar Parroquia");
             return "parroquia"; // Redirige al formulario de edición
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al cargar la parroquia: " + e.getMessage());
-            return "redirect:/listarparroquia";
+            return "redirect:/listarparroquias";
         }
     }
     

@@ -124,20 +124,26 @@
       <form th:action="@{/cantones}" th:object="${canton}" method="post">
         <input type="hidden" th:field="*{id_canton}" />
 
-        <div class="mb-3">
-          <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-          <select th:field="*{id_provincia}" class="form-control" required>
-            <option value="" disabled selected>Seleccione una Provincia</option>
-            <th:block th:each="provincia : ${provincias}">
-              <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
-            </th:block>
-          </select>
-        </div>
+		<div class="mb-3">
+		    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+		    <select th:field="*{id_provincia}" class="form-control" required>
+		        <option value="" disabled selected>Seleccione una Provincia</option>
+		        <th:block th:each="provincia : ${provincias}">
+		            <th:block th:if="${provincia.nombreProvincia != 'NombreDeLaProvinciaAExcluir'}">
+		                <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+		            </th:block>
+		        </th:block>
+		    </select>
+		</div>
 
-        <div class="mb-3">
-          <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
-          <input type="text" id="nombreCanton" name="nombreCanton" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" class="form-control" required title="Solo se permiten letras y espacios">
-        </div>
+       
+		<div class="mb-3">
+		  <label for="nombreCanton" class="form-label">Nombre del Cantón:</label>
+		  <input type="text" th:field="*{nombreCanton}" class="form-control" 
+		  pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required 
+		  title="Solo se permiten letras y espacios" 
+		  placeholder="Ingrese el nombre  del Cantón" />
+		  </div>
 
         <div class="btn-group">
           <button type="submit" class="btn btn-danger">
