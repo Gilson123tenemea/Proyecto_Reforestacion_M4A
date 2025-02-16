@@ -11,7 +11,6 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4f4f9;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/imagenes/cuenca.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -38,10 +37,22 @@
             max-width: 900px;
             width: 100%;
             transition: transform 0.3s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .table-container:hover {
             transform: translateY(-5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .table-container h1 {
@@ -49,6 +60,16 @@
             color: #444;
             font-weight: 700;
             font-size: 24px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         .table {
@@ -65,13 +86,19 @@
         }
 
         .table th {
-            background-color: #d32f2f;
+            background-color: #4F5B3A;
             color: white;
         }
 
         .table tbody tr:nth-child(even) {
             background-color: #f8f9fa;
         }
+
+		.table tbody tr:hover {
+		    transform: scale(1.02);
+		    transition: all 0.3s ease-in-out;
+		}
+
 
         .btn-group {
             display: flex;
@@ -80,37 +107,88 @@
         }
 
         .btn {
-            background: linear-gradient(to right, #d32f2f, #b71c1c);
-            color: white;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 5px;
+            padding: 8px 15px;
             transition: all 0.3s ease-in-out;
-            min-width: 100px;
-            text-align: center;
         }
 
-        .btn:hover {
-            background: #b71c1c;
-            transform: scale(1.07);
-            box-shadow: 0 6px 15px rgba(183, 28, 28, 0.3);
+        .btn-primary {
+            background-color: #4F5B3A;
+            border-color: rgb(0, 0, 0);
         }
 
-        .footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: auto;
-            font-size: 14px;
-            position: fixed;
-            bottom: 0;
+        .btn-primary:hover {
+            background-color: #4F5B3A;
+            transform: scale(1.05);
+        }
+
+        .btn-warning {
+            background-color: #F1E6D6 ;
+            border-color: #F1E6D6 ;
+        }
+
+        .btn-warning:hover {
+            background-color: #F1E6D6 ;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #D94F4F ;
+            border-color: rgb(0, 0, 0);
+        }
+
+        .btn-danger:hover {
+            background-color: #D94F4F ;
+            transform: scale(1.05);
+        }
+
+        .table-container input {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
             width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
         }
+
+        .table-container input:focus {
+            border-color: #4F5B3A;
+            box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
+        }
+		.btn-regresar {
+		        background-color: #4F5B3A;
+		        color: white;
+		        border-radius: 8px;
+		        padding: 10px 20px;
+		        font-size: 16px;
+		        font-weight: bold;
+		        transition: all 0.3s ease-in-out;
+		        min-width: 100px;
+		        text-align: center;
+		        display: inline-block;
+		    }
+
+		    .btn-regresar:hover {
+		        background-color: #3b472a; /* Color más oscuro al pasar el mouse */
+		        transform: scale(1.05);
+		        box-shadow: 0 6px 15px rgba(79, 91, 58, 0.3);
+		    }
+
+		    .btn-regresar:active {
+		        transform: scale(0.98);
+		    }
+
+		    .btn-regresar:focus {
+		        outline: none;
+		        box-shadow: 0 0 10px rgba(79, 91, 58, 0.8);
+		    }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutAdmin :: menu"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+
 
     <div class="container">
         <div class="table-container">
@@ -143,14 +221,10 @@
             </table>
 
             <div class="btn-group">
-                <a href="/suelo" class="btn btn-danger">Regresar</a>
+				<a href="/suelo" class="btn btn-regresar">Regresar</a>
             </div>
         </div>
     </div>
-
-    <footer class="footer">
-        &copy; 2025 Reforest. Todos los derechos reservados.
-    </footer>
 
     <script>
         function filterTable() {
@@ -176,5 +250,6 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 </body>
 </html>
