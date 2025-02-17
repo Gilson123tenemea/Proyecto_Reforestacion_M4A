@@ -12,5 +12,7 @@ public interface ITipo_ActividadesDao {
 	public Tipo_Actividades findOne (Long id);
 	public void delete(Long id);
 	List<Tipo_Actividades> findByAdministradorId(Long adminId);
+	long countAsignacionesByTipoActividadId(Long idTipoActividad);
+	 long countRegistrosByTipoActividadId(Long idTipoActividad);
 	
 }

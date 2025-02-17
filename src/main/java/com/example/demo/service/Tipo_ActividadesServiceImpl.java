@@ -54,5 +54,15 @@ public class Tipo_ActividadesServiceImpl implements ITipo_ActividadesService {
 	public List<Tipo_Actividades> findByAdministradorId(Long adminId) {
 		 return tpactividadesDao.findByAdministradorId(adminId);
 	}
+	
+	@Override
+	public long countAsignacionesByTipoActividadId(Long idTipoActividad) {
+	    return tpactividadesDao.countAsignacionesByTipoActividadId(idTipoActividad);
+	}
+
+	@Override
+	public long countRegistrosByTipoActividadId(Long idTipoActividad) {
+	    return tpactividadesDao.countRegistrosByTipoActividadId(idTipoActividad);
+	}
 
 }

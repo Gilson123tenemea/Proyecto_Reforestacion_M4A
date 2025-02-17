@@ -48,4 +48,18 @@ public class Tipo_ActividadesDaoImpl implements ITipo_ActividadesDao {
 		        .setParameter("adminId", adminId)
 		        .getResultList();
 	}
+	
+	@Override
+	public long countAsignacionesByTipoActividadId(Long idTipoActividad) {
+	    return em.createQuery("SELECT COUNT(a) FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad", Long.class)
+	             .setParameter("idTipoActividad", idTipoActividad)
+	             .getSingleResult();
+	}
+
+	@Override
+	public long countRegistrosByTipoActividadId(Long idTipoActividad) {
+	    return em.createQuery("SELECT COUNT(r) FROM RegistroActividadRealiza r WHERE r.id_tipoActividades = :idTipoActividad", Long.class)
+	             .setParameter("idTipoActividad", idTipoActividad)
+	             .getSingleResult();
+	}
 }

@@ -110,17 +110,25 @@ public class TipoActividadesController {
 
 
     
-    @RequestMapping(value="/eliminartipo/{id}", method=RequestMethod.GET)
-    public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
+    @RequestMapping(value = "/eliminartipo/{id}", method = RequestMethod.GET)
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
+            // Verificar si hay asignaciones o registros asociados
+            long asignacionesCount = tipoActividadesService.countAsignacionesByTipoActividadId(id);
+            long registrosCount = tipoActividadesService.countRegistrosByTipoActividadId(id);
+
+            if (asignacionesCount > 0 || registrosCount > 0) {
+                flash.addFlashAttribute("error", "No se puede eliminar la actividad porque esta relaciondo con otras entidades.");
+                return "redirect:/listartipo"; // Redirige si no se puede eliminar
+            }
+
             if (id > 0) {
                 tipoActividadesService.delete(id);
                 flash.addFlashAttribute("success", "La actividad ha sido eliminada correctamente.");
             }
             return "redirect:/listartipo";
         } catch (Exception e) {
-           
-            flash.addFlashAttribute("error", "No se puede eliminar la actividad porque está siendo referenciada por otras entidades.");
+            flash.addFlashAttribute("error", "Error al eliminar la actividad: " + e.getMessage());
             return "redirect:/listartipo";
         }
     }

@@ -15,5 +15,7 @@ public interface ITipo_ActividadesService {
 	public void delete(Long id);
 	public List<Tipo_Actividades> listaractividades(); 
 	List<Tipo_Actividades> findByAdministradorId(Long adminId);
+	  long countAsignacionesByTipoActividadId(Long idTipoActividad);
+	    long countRegistrosByTipoActividadId(Long idTipoActividad);
 	
 }
