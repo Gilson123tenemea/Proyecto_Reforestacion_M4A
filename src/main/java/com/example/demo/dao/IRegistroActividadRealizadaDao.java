@@ -60,6 +60,9 @@ public interface IRegistroActividadRealizadaDao {
 	
 			List<Object[]> findInfo_RegistroRealizado(Long voluntarioId, Long RegistroActividadRealizada_Id);
 			
+			 List<Object[]> findInfo_RegistroRealizado_cumplido(Long voluntarioId, Long RegistroActividadRealizada_Id);
+
+			
 		///////////////////////////////////////////////////////////////////////////
 			List<Asignar_equipos> listarvoluntariosporequipos (Long idvolunta);
 			
