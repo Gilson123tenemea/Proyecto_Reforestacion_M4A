@@ -275,6 +275,19 @@
         function enviarProyecto() {
             document.getElementById("proyectoForm").submit();
         }
+		
+		function obtenerDatosEquipo() {
+		            const equipos = [];
+		            const rows = document.querySelectorAll("#equiposTable tr");
+
+		            rows.forEach(row => {
+		                const cedula = row.querySelector('td:nth-child(1)').textContent;
+		                const nombre = row.querySelector('td:nth-child(2)').textContent;
+		                equipos.push({ cedula, nombre });  // Añadimos los datos de cada voluntario
+		            });
+
+		            return equipos;  // Retornamos el array con los datos
+		        }
 
         function inscribirVoluntario(event) {
             const tr = event.target.closest('tr');
