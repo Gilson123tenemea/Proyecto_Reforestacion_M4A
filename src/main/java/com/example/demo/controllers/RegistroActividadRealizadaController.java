@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
 import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Area;
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.Parcelas;
 import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Patrocinio;
@@ -504,16 +505,24 @@ public class RegistroActividadRealizadaController {
 	    for (RegistroActividadRealiza actividad : actividades) {
 	        List<Double> porcentajes = registroActividadService.obtenerPorcentajesPorTipoActividad(actividad.getId_tipoActividades());
 	        Double porcentaje = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0);
+	        
+	        // Obtener nombre y apellido del voluntario
+	        List<Object[]> voluntarioInfo = iregistroActividadRealizadaDao.findVoluntariosPorActividad(actividad.getId_registroactividadrealizada());
+	        String voluntarioNombre = "";
+	        if (!voluntarioInfo.isEmpty()) {
+	            Object[] info = voluntarioInfo.get(0);
+	            voluntarioNombre = info[0] + " " + info[1]; // Suponiendo que el índice 0 es nombre y 1 es apellido
+	        }
 
 	        Map<String, Object> actividadMap = new HashMap<>();
 	        actividadMap.put("actividad", actividad);
 	        actividadMap.put("porcentaje", porcentaje);
+	        actividadMap.put("voluntarioNombre", voluntarioNombre); // Agregar nombre del voluntario
 
 	        actividadesConPorcentaje.add(actividadMap); 
 	    }
 
 	    model.addAttribute("actividadesConPorcentaje", actividadesConPorcentaje); 
-
 	    return "confirmar_actividadreal"; 
 	}
 
@@ -554,16 +563,24 @@ public class RegistroActividadRealizadaController {
 	@GetMapping("/informacion_registroacti_real/{idRegistro}")
 	public String informacionRegistroActiReal(@PathVariable Long idRegistro, Model model) {
 	    List<Object[]> detalles = registroActividadService.obtenerDetallesPorRegistroNuevo(idRegistro);
-
-	    // Obtener todos los voluntarios asignados a la actividad
-	    List<Object[]> voluntarios = registroActividadService.obtenerVoluntariosPorActividad(idRegistro);
+	    Map<Long, List<Usuarios>> voluntariosPorEquipo = new HashMap<>();
 
 	    for (Object[] detalle : detalles) {
-	        System.out.println(Arrays.toString(detalle));
+	        Long id = (long) detalle[0];
+
+	        List<Asignar_equipos> voluntariosEquipos = registroActividadService.listarvoluntariosporequipos(id);
+	        List<Usuarios> voluntarios = new ArrayList<>();
+
+	        for (Asignar_equipos voluntarioEquipo : voluntariosEquipos) {     
+	            Usuarios usuario = registroActividadService.listarvoluntariosUsuarios(voluntarioEquipo.getId_voluntario()).get(0); // Suponiendo que solo hay uno
+	            voluntarios.add(usuario);
+	        }
+
+	        voluntariosPorEquipo.put(id, voluntarios);
 	    }
 
 	    model.addAttribute("detalles", detalles);
-	    model.addAttribute("voluntarios", voluntarios); // Agregar voluntarios al modelo
+	    model.addAttribute("voluntariosPorEquipo", voluntariosPorEquipo); 
 	    return "informacion_registroacti_real";
 	}
 

@@ -137,26 +137,25 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>ID Actividad</th>
-                    <th>Actividad</th>
-                    <th>Árboles Plantados</th>
-                    <th>Equipo</th>
+                    
+                    <th>Descripcion</th>
+                    <th>Cantidad Realizada</th>
+                    <th>Voluntarios</th>
                     <th>Foto Evidencia</th>
+					<th>Porcentaje del Proyecto</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="item : ${actividadesConPorcentaje}">
-                    <td th:text="${item.actividad.id_registroactividadrealizada}"></td>
-                    <td th:text="${item.actividad.id_tipoActividades}"></td>
+                 
                     <td th:text="${item.actividad.descripcion}"></td>
                     <td th:text="${item.actividad.cantidad_realizada}"></td>
-                    <td th:text="${item.actividad.id_voluntario}"></td>
+                    <td th:text="${item.voluntarioNombre}"></td>
                     <td>
                         <img th:src="${item.actividad.foto}" alt="Evidencia" class="img-thumbnail" width="100">
                     </td>
-                    <td th:text="${item.porcentaje} + '%'"></td> <!-- Mostrar el porcentaje aquí -->
+                    <td th:text="${item.porcentaje} + '%'"></td> 
                     <td>
                         <form th:action="@{/registro-actividad/confirmar_actividad/{id}(id=${item.actividad.id_registroactividadrealizada})}" method="get">
                             <button type="submit" 

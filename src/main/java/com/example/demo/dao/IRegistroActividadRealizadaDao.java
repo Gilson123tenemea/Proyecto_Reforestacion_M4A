@@ -1,6 +1,9 @@
 package com.example.demo.dao;
 
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +38,8 @@ public interface IRegistroActividadRealizadaDao {
 	
 	@Query("SELECT a.id_proyecto FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad")
 	Long findProyectoByTipoActividad(@Param("idTipoActividad") Long idTipoActividad);
-	@Query("SELECT e.nombre AS equipoNombre, u.nombre AS voluntarioNombre, r.cantidad_realizada, r.descripcion, r.foto, ta.nombre_act AS actividadNombre, p.nombre AS proyectoNombre "
+	
+	@Query("SELECT e.id_equipos, e.nombre AS equipoNombre, u.nombre AS voluntarioNombre, r.cantidad_realizada, r.descripcion, r.foto, ta.nombre_act AS actividadNombre, p.nombre AS proyectoNombre "
 		      + "FROM RegistroActividadRealiza r "
 		      + "INNER JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario "
 		      + "INNER JOIN Usuarios u ON v.id_usuarios = u.id_usuarios "
@@ -53,8 +57,13 @@ public interface IRegistroActividadRealizadaDao {
 			      + "JOIN Usuarios u ON v.usuario.id_usuarios = u.id_usuarios "
 			      + "WHERE r.id_registroactividadrealizada = :idRegistro")
 			List<Object[]> findVoluntariosPorActividad(@Param("idRegistro") Long idRegistro);
-			
-			
+	
 			List<Object[]> findInfo_RegistroRealizado(Long voluntarioId, Long RegistroActividadRealizada_Id);
-		
+			
+		///////////////////////////////////////////////////////////////////////////
+			List<Asignar_equipos> listarvoluntariosporequipos (Long idvolunta);
+			
+			List<Usuarios> listarvoluntariosUsuarios(Long idusu);
+			
+			
 }

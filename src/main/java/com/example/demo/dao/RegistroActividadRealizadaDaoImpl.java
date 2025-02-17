@@ -1,6 +1,9 @@
 package com.example.demo.dao;
 
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -235,7 +238,7 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	@Override
 	public List<Object[]> findDetallesPorRegistroNuevo(Long idRegistro) {
 	    return entityManager.createQuery(
-	        "SELECT e.nombre AS equipoNombre, u.nombre AS voluntarioNombre, u.apellido AS voluntarioApellido, "
+	        "SELECT e.id_equipos, e.nombre AS equipoNombre, u.nombre AS voluntarioNombre, u.apellido AS voluntarioApellido, "
 	        + "r.cantidad_realizada, r.descripcion, r.foto, ta.nombre_act AS actividadNombre, p.nombre AS proyectoNombre "
 	        + "FROM RegistroActividadRealiza r "
 	        + "INNER JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario "
@@ -248,7 +251,7 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	        + "WHERE r.id_registroactividadrealizada = :idRegistro", Object[].class)
 	        .setParameter("idRegistro", idRegistro)
 	        .getResultList();
-	}
+	}	
 
 	@Override
 	public List<Object[]> findVoluntariosPorActividad(Long idRegistro) {
@@ -259,5 +262,26 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 		            .setParameter("idRegistro", idRegistro)
 		            .getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Asignar_equipos> listarvoluntariosporequipos(Long idvolunta) {
+		return entityManager.createQuery(
+                "from  Asignar_equipos asi where asi.id_equipos = :idvolunta"
+				).setParameter("idvolunta", idvolunta).getResultList();
+				
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Usuarios> listarvoluntariosUsuarios(Long idusu) {
+		 return entityManager.createQuery(
+		            "SELECT u FROM Usuarios u JOIN Voluntarios v ON v.id_usuarios = u.id_usuarios WHERE v.id_voluntario = :idusu"
+		        )
+		        .setParameter("idusu", idusu)
+		        .getResultList();
+
+	}
+	
 	
 }
