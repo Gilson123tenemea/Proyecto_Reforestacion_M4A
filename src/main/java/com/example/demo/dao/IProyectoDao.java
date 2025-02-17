@@ -17,5 +17,6 @@ public interface IProyectoDao {
 	public List<Proyecto> findByAreaId(Long idArea);
 	public List<Proyecto> findByAdministradorId(Long idAdministrador);
 	long countAreasByProyectoId(Long idProyecto);
+	public List<Proyecto> findByPatrocinadorId(Long idPatrocinador);
 }
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reporte Gráfico de Proyectos por Patrocinador</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+    <style>
+        .charts-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .chart {
+            width: 80%;
+            height: 500px;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3a3a3a;
+            font-size: 2em;
+            margin: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .chart {
+                width: 100%;
+            }
+        }
+
+        .chart {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Reporte Gráfico de Proyectos por Patrocinador</h1>
+
+<div class="charts-container">
+    <div id="chartPatrocinador" class="chart"></div>
+</div>
+
+<script th:inline="javascript">
+    var nombresProyectosPatrocinador = [[${nombresProyectosPatrocinador}]];
+
+    var myChartPatrocinador = echarts.init(document.getElementById('chartPatrocinador'));
+
+    var option = {
+        title: {
+            text: 'Proyectos por Patrocinador',
+            subtext: 'Distribución de proyectos',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+            formatter: '{b}: ({c}%)'
+        },
+        xAxis: {
+            type: 'category',
+            data: nombresProyectosPatrocinador.map(function(proyecto) {
+                return proyecto.nombre;
+            }),
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}%'
+            }
+        },
+        series: [
+            {
+                name: 'Proyectos',
+                type: 'bar',
+                data: nombresProyectosPatrocinador.map(function(proyecto) {
+                    return proyecto.porcentaje;
+                }),
+                barWidth: '30%',
+                itemStyle: {
+                    color: '#4caf50',
+                }
+            }
+        ]
+    };
+
+    myChartPatrocinador.setOption(option);
+</script>
+
+</body>
+</html>

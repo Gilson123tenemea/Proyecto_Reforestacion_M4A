@@ -101,6 +101,19 @@ public class ProyectosControllers {
 
         return "ReporteGrafico"; // Nombre de la vista (HTML con Thymeleaf)
     }
+    
+    @GetMapping("/proyectosPatrocinador")
+    public String mostrarProyectosPorPatrocinador(Model model, @SessionAttribute(name = "idPatrocinador", required = false) Long idAdministrador) {
+        if (idAdministrador == null) {
+            return "redirect:/login";
+        }
+
+        // Obtener los proyectos por patrocinador
+        List<Proyecto> proyectosPorPatrocinador = proyectoService.findByPatrocinadorId(idAdministrador); // Asegúrate de implementar este método en el servicio
+
+        model.addAttribute("nombresProyectosPatrocinador", proyectosPorPatrocinador);
+        return "ReporteGraficoPatrocinador"; // Nueva vista para el reporte
+    }
 
 
 

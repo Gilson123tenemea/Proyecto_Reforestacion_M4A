@@ -104,5 +104,12 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	             .getSingleResult();
 	}
 	
+	@Override
+	public List<Proyecto> findByPatrocinadorId(Long idPatrocinador) {
+	    return em.createQuery("SELECT p FROM Proyecto p JOIN Patrocinio pat ON p.id_proyecto = pat.id_proyecto WHERE pat.Id_patrocinador = :idPatrocinador", Proyecto.class)
+	             .setParameter("idPatrocinador", idPatrocinador)
+	             .getResultList();
+	}
+	
 
 }

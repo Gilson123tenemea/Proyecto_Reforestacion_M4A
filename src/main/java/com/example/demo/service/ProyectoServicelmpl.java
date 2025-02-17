@@ -114,5 +114,10 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	    return proyectodao.countAreasByProyectoId(idProyecto);
 	}
 	
+	@Override
+	public List<Proyecto> findByPatrocinadorId(Long idPatrocinador) {
+	    return proyectodao.findByPatrocinadorId(idPatrocinador);
+	}
+	
 	
 }

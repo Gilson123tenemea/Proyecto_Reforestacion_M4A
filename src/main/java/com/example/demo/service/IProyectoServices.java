@@ -27,5 +27,6 @@ public interface IProyectoServices {
 	List<Proyecto> findByAreaId(Long idArea);
 	public List<Proyecto> findByAdministradorId(Long idAdministrador);
 	long countAreasByProyectoId(Long idProyecto);
+	List<Proyecto> findByPatrocinadorId(Long idPatrocinador);
 	
 }
