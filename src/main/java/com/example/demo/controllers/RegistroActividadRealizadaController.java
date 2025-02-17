@@ -20,12 +20,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
 import com.example.demo.entity.Administrador;
+import com.example.demo.entity.Area;
+import com.example.demo.entity.Parcelas;
+import com.example.demo.entity.Patrocinador;
+import com.example.demo.entity.Patrocinio;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.RegistroActividadRealizadaService;
 import com.example.demo.service.IAdministradorServices;
+import com.example.demo.service.IAreaServices;
+import com.example.demo.service.IParcelaService;
+import com.example.demo.service.IPatrocinadorServices;
+import com.example.demo.service.IPatrocinioService;
 import com.example.demo.service.IProyectoServices;
+import com.example.demo.service.ISueloService;
 import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 
@@ -49,6 +58,27 @@ public class RegistroActividadRealizadaController {
 
 	@Autowired
 	private IUsuarioServices usuarioService;
+	
+	
+	
+	
+	@Autowired
+	private IUsuarioServices usuarioServices;
+	
+	@Autowired
+	private IParcelaService parcelaService;
+
+	@Autowired
+	private IAreaServices areaService;
+
+	@Autowired
+	private IPatrocinioService patrocinioService;
+
+	@Autowired
+	private IPatrocinadorServices PatrocinadorService;
+	
+	  @Autowired
+	    private ISueloService sueloservice;
 	
 
 	@InitBinder
@@ -118,6 +148,101 @@ public class RegistroActividadRealizadaController {
 				model.addAttribute("actividadDuracion", datos[1]);
 				model.addAttribute("proyectoNombre", datos[2]);
 				model.addAttribute("equipoNombre", datos[3]);
+				
+				
+				//====================\
+				
+				Long id = (Long)datos[5];
+				
+				 Long idArea = 0L;
+				    Long idPatrocinio = 0L;
+				    Long idPatrocinador = 0L;
+
+				    // Buscar el proyecto
+				    Proyecto proyecto = proyectoService.findOne(id);
+				    if (proyecto == null) {
+				        model.addAttribute("error", "No se encontró el proyecto.");
+				        return "listaProyectos";
+				    }
+
+				    // Obtener todas las listas
+				    List<Patrocinio> patrocinioList = patrocinioService.findAll();
+				    List<Area> areaList = areaService.findAll();
+				    List<Parcelas> parcelaList = parcelaService.findAll();
+
+				    List<Area> areaIngre = new ArrayList<>();
+				    List<Parcelas> parcelaIngre = new ArrayList<>();
+
+				    // Buscar Patrocinio relacionado
+				    for (Patrocinio p : patrocinioList) {
+				        if (p.getId_proyecto() != null && p.getId_proyecto().equals(id)) { // Verificación null
+				            idPatrocinador = p.getId_patrocinador() != null ? p.getId_patrocinador() : 0L;
+				            idPatrocinio = p.getId_patrocina() != null ? p.getId_patrocina() : 0L;
+				        }
+				    }
+
+				    // Buscar Áreas relacionadas
+				    for (Area a : areaList) {
+				        if (a.getId_proyecto() != null && a.getId_proyecto().equals(id)) { // Verificación null
+				            areaIngre.add(a);
+				            idArea = a.getId_area() != null ? a.getId_area() : 0L;
+				        }
+				    }
+
+				    // Buscar Parcelas relacionadas
+				    for (Parcelas p : parcelaList) {
+				        if (p.getId_area() != null && p.getId_area().equals(idArea)) { // Verificación null
+				            parcelaIngre.add(p);
+				        }
+				    }
+
+				    // Obtener información del patrocinador solo si hay un ID válido
+				    Patrocinio patro = Optional.ofNullable(patrocinioService.findOne(idPatrocinio)).orElse(null);
+				    Patrocinador patrocinador = patro != null ? 
+				        Optional.ofNullable(PatrocinadorService.findOne(patro.getId_patrocinador())).orElse(null) 
+				        : null;
+
+				    if (patro != null && patrocinador != null) {
+				        model.addAttribute("usuario", Optional.ofNullable(
+				            usuarioServices.findOne(patrocinador.getId_usuarios())
+				        ).orElse(null));
+				    }
+
+				    model.addAttribute("patrocinio", patro);
+				    model.addAttribute("patrocinador", patrocinador);
+				    model.addAttribute("proyecto", proyecto);
+				    model.addAttribute("areas", areaIngre);
+				    model.addAttribute("id_proyecto", id);
+				    model.addAttribute("parcelas", parcelaIngre);
+
+				    // Mapas de nombres de proyectos y suelos con validación de nulos
+				    Map<Long, String> proyectoNombres = new HashMap<>();
+				    Map<Long, String> sueloNombres = new HashMap<>();
+				    
+				    for (Parcelas parcela : parcelaIngre) {
+				        String proyectoNombre = Optional.ofNullable(areaService.findProyectoNameByAreaId(parcela.getId_area()))
+				                                        .orElse("No disponible");
+				        String sueloNombre = Optional.ofNullable(sueloservice.findSueloName(parcela.getId_suelo()))
+				                                     .orElse("No disponible");
+				        
+				        proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre);
+				        sueloNombres.put(parcela.getId_parcelas(), sueloNombre);
+				    }
+
+				    model.addAttribute("proyectoNombres", proyectoNombres);
+				    model.addAttribute("sueloNombres", sueloNombres);
+				
+				
+				
+				
+				
+				
+				
+				
+				//====================
+				
+				
+				
 
 				System.out.println("✅ Datos agregados al modelo correctamente.");
 			} else {
