@@ -161,8 +161,16 @@
                             <img th:src="${actividad[3]}" alt="Evidencia" class="img-thumbnail">
                         </td>
                         <td>
-                            <button class="btn-action">Más Información</button>
+                           
+							
+								
+						<a th:href="@{/registro-actividad/Infor(id=${actividad[6]})}" class="btn-action">
+														Más Información
+													</a>
                         </td>
+					
+						
+						
                     </tr>
                 </tbody>
             </table>

@@ -28,7 +28,7 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	@Override
 	public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
 		return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
-				+ "e.nombre, ta.nombre_act " // Agregar nombre del equipo y nombre de la actividad
+				+ "e.nombre, ta.nombre_act, r.id_registroactividadrealizada  " // Agregar nombre del equipo y nombre de la actividad
 				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
 				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
 				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
