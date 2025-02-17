@@ -6,23 +6,116 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-		body {
-		            font-family: 'Roboto', sans-serif;
-		            background-color: #ffffff;
-		            background-image: url('/imagenes/cuenca.png');
-		            background-size: cover;
-		            background-position: center;
-		            background-attachment: fixed;
-		            display: flex;
-		            flex-direction: column;
-		            min-height: 100vh;
-		            opacity: 0;
-		            animation: fadeIn 0.8s ease-in-out forwards;
-		        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in-out forwards;
+            overflow-x: hidden;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+            margin: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            color: #343a40;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
+
+        .btn-save {
+            background-color: #155724;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn-save:hover {
+            background-color: #5a6268;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.02);
+        }
+
+        .alert {
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
         }
 
         .container {
@@ -31,75 +124,6 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-        }
-
-        .form-container {
-            background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .form-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .form-container h2 {
-            color: #333;
-            font-weight: 700;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            font-size: 16px;
-            padding: 10px;
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .form-control:focus {
-            border-color: #c62828;
-            box-shadow: 0 0 8px rgba(198, 40, 40, 0.5);
-        }
-
-        .btn-save {
-            background-color: #d32f2f;
-            border-color: #d32f2f;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 12px;
-            width: 100%;
-            transition: all 0.3s ease-in-out;
-            font-size: 16px;
-        }
-
-        .btn-save:hover {
-            background-color: #b71c1c;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 12px;
-            width: 100%;
-            transition: all 0.3s ease-in-out;
-            font-size: 16px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-            transform: scale(1.05);
         }
 
         .footer {
@@ -113,55 +137,53 @@
 </head>
 <body>
     <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="container">
         <div class="form-container">
             <h2 th:text="${titulo}"></h2>
 
-			<form th:action="@{/formprovincia}" th:object="${provincia}" method="post" onsubmit="return validarFormulario()">
-			    <div class="form-group">
-			        <label for="nombreProvincia">Nombre de la Provincia</label>
-			        <input type="text" id="nombreProvincia" class="form-control" th:field="*{nombreProvincia}" 
-			               pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="Solo se permiten letras y espacios" required>
-			        <div id="errorNombre" class="alert alert-danger mt-2" style="display: none;">
-			            No se permiten números en el nombre de la provincia.
-			        </div>
-			    </div>
-			    <button type="submit" class="btn btn-save">Guardar</button>
-			    <input type="hidden" th:field="*{id_provincia}" />
-			    <a href="/listarprovincia" class="btn btn-secondary mt-2">Cancelar</a>
-			</form>
+            <form th:action="@{/formprovincia}" th:object="${provincia}" method="post" onsubmit="return validarFormulario()">
+                <div class="mb-3">
+                    <label for="nombreProvincia" class="form-label">Nombre de la Provincia</label>
+                    <input type="text" id="nombreProvincia" name="nombreProvincia" 
+                           pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="Solo se permiten letras y espacios" 
+                           required placeholder="Ingrese el nombre de la provincia" class="form-control" th:field="*{nombreProvincia}" />
+                    <div id="errorNombre" class="alert alert-danger mt-2" style="display: none;">
+                        No se permiten números en el nombre de la provincia.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-save">Guardar</button>
+                <input type="hidden" th:field="*{id_provincia}" />
+                <a href="/listarprovincia" class="btn btn-secondary mt-2">Cancelar</a>
+            </form>
         </div>
     </div>
-	
-	<script>
-	    function validarFormulario() {
-	        var nombreProvincia = document.getElementById("nombreProvincia").value;
-	        var regex = /^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$/;
-	        var errorDiv = document.getElementById("errorNombre");
+    
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
 
-	        if (!regex.test(nombreProvincia)) {
-	            errorDiv.style.display = "block";
-	            return false; 
-	        } else {
-	            errorDiv.style.display = "none";
-	            return true;
-	        }
-	    }
-	</script>
-	
-	<div th:if="${error}" class="alert alert-danger">
-	    <p th:text="${error}"></p>
-	</div>
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
 
-	<div th:if="${success}" class="alert alert-success">
-	    <p th:text="${success}"></p>
-	</div>
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
+    <script>
+        function validarFormulario() {
+            var nombreProvincia = document.getElementById("nombreProvincia").value;
+            var regex = /^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$/;
+            var errorDiv = document.getElementById("errorNombre");
 
-
-    <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
-    </footer>
+            if (!regex.test(nombreProvincia)) {
+                errorDiv.style.display = "block";
+                return false; 
+            } else {
+                errorDiv.style.display = "none";
+                return true;
+            }
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
