@@ -84,14 +84,28 @@ public class AsignarProyectosController {
     }
     
     @RequestMapping(value = "/asignacion", method = RequestMethod.POST)
-    public String guardarAsignacion(Asignacion_proyectoActi asignacion, RedirectAttributes flash) {
+    public String guardarAsignacion(Asignacion_proyectoActi asignacion, 
+                                     RedirectAttributes flash, 
+                                     Model model, 
+                                     @SessionAttribute("idAdministrador") Long idAdministrador) {
         try {
-            // Verificar si ya existe una asignación para el mismo proyecto y actividad
-            List<Asignacion_proyectoActi> asignacionesExistentes = asignar_p.findByProyectoId(asignacion.getId_proyecto());
-            for (Asignacion_proyectoActi a : asignacionesExistentes) {
-                if (a.getId_tipoActividades().equals(asignacion.getId_tipoActividades())) {
-                    flash.addFlashAttribute("error", "La actividad ya está asignada a este proyecto");
-                    return "redirect:/listarAsignaciones";
+            // Verificar si se está editando una asignación
+            if (asignacion.getId_asignacionproyecto() == null) {
+                // Nueva asignación: verificar si ya existe una asignación para el mismo proyecto y actividad
+                List<Asignacion_proyectoActi> asignacionesExistentes = asignar_p.findByProyectoId(asignacion.getId_proyecto());
+                for (Asignacion_proyectoActi a : asignacionesExistentes) {
+                    if (a.getId_tipoActividades().equals(asignacion.getId_tipoActividades())) {
+                        // Si ya existe la asignación, mostrar mensaje de error
+                        model.addAttribute("error", "La actividad ya está asignada a este proyecto");
+                        
+                        // Recargar la misma vista con los datos para que no se borren
+                        model.addAttribute("titulo", "Formulario de Nueva Asignación");
+                        model.addAttribute("asignacion", asignacion);
+                        model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
+                        model.addAttribute("actividades", actividadService.findByAdministradorId(idAdministrador));
+
+                        return "asignacion"; // Recargar la vista sin redirigir
+                    }
                 }
             }
 
@@ -100,8 +114,8 @@ public class AsignarProyectosController {
                 // Busca la asignación existente
                 Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto());
                 if (asignacionExistente == null) {
-                    flash.addFlashAttribute("error", "La Asignación con ese ID no existe");
-                    return "redirect:/listarAsignaciones";
+                    model.addAttribute("error", "La Asignación con ese ID no existe");
+                    return "asignacion"; // Recargar la vista sin redirigir
                 }
 
                 // Actualiza los campos necesarios
@@ -110,11 +124,11 @@ public class AsignarProyectosController {
                 asignacionExistente.setEstado(asignacion.getEstado());
                 asignacionExistente.setMeta_deseada(asignacion.getMeta_deseada());
                 asignar_p.save(asignacionExistente);
-                flash.addFlashAttribute("success", "Asignación actualizada exitosamente");
+                model.addAttribute("success", "Asignación actualizada exitosamente");
             } else {
                 // Guarda nueva asignación
                 asignar_p.save(asignacion);
-                flash.addFlashAttribute("success", "Asignación guardada exitosamente");
+                model.addAttribute("success", "Asignación guardada exitosamente");
             }
 
             // Contar las actividades asignadas al proyecto
@@ -130,16 +144,20 @@ public class AsignarProyectosController {
                 asignar_p.save(a); // Guarda cada actividad con el nuevo porcentaje
             }
 
-            // Imprimir en la consola
-            System.out.println("Total de Actividades asignadas al Proyecto ID " + asignacion.getId_proyecto() + ": " + totalActividades);
-            System.out.println("Porcentaje asignado a cada actividad: " + porcentajePorActividad + "%");
-
-            return "redirect:/listarAsignaciones";
+            // Redirigir al listado de asignaciones después de guardar
+            return "redirect:/listarAsignaciones"; // Redirección al listado de asignaciones
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "Error al guardar la Asignación: " + e.getMessage());
-            return "redirect:/listarAsignaciones";
+            model.addAttribute("error", "Error al guardar la Asignación: " + e.getMessage());
+            // En caso de error, recargar la misma página con el mensaje de error
+            model.addAttribute("titulo", "Formulario de Nueva Asignación");
+            model.addAttribute("asignacion", asignacion);
+            model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
+            model.addAttribute("actividades", actividadService.findByAdministradorId(idAdministrador));
+            return "asignacion"; // Recargar la vista sin redirigir
         }
     }
+
+
     
     @RequestMapping(value = "/proyecto/{id}/count", method = RequestMethod.GET)
     public String contarAsignaciones(@PathVariable("id") Long idProyecto, Model model) {
