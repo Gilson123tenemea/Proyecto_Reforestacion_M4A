@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="asignaciones",uniqueConstraints = {@UniqueConstraint(columnNames = {"id_asignacionproyecto","id_actividades","id_proyecto"})})
@@ -35,7 +36,8 @@ public class Asignacion_proyectoActi implements Serializable {
 	
 	private Long id_tipoActividades;
 	private Boolean estado;
-	private int meta_deseada;
+	@NotEmpty(message = "La meta deseada no puede estar vacía.")
+	private String meta_deseada;
 	private Double porcentajeActividad;
 
 
@@ -91,11 +93,12 @@ public class Asignacion_proyectoActi implements Serializable {
 		this.estado = estado;
 	}
 
-	public int getMeta_deseada() {
+
+	public String getMeta_deseada() {
 		return meta_deseada;
 	}
 
-	public void setMeta_deseada(int meta_deseada) {
+	public void setMeta_deseada(String meta_deseada) {
 		this.meta_deseada = meta_deseada;
 	}
 
