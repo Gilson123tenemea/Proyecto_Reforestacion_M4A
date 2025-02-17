@@ -246,7 +246,7 @@
                     <select class="form-select" id="actividad" name="actividad">
                         <option selected>Selecciona una Actividad</option>
                         <option th:each="actividad : ${actividades}" 
-                                th:value="${actividad[1]}"
+                                th:value="${actividad[1]}" 
                                 th:text="${actividad[0]}"></option>
                     </select>
                 </div>
@@ -264,7 +264,7 @@
                         </tbody>
                     </table>
                     <div class="text-center mt-3">
-                        <button class="btn btn-success" onclick="registrarEquipo()">Registrar</button>
+                        <button id="btnRegistrar" class="btn btn-success" onclick="registrarEquipo()" disabled>Registrar</button>
                     </div>
                 </div>
             </div>
@@ -275,19 +275,19 @@
         function enviarProyecto() {
             document.getElementById("proyectoForm").submit();
         }
-		
-		function obtenerDatosEquipo() {
-		            const equipos = [];
-		            const rows = document.querySelectorAll("#equiposTable tr");
+        
+        function obtenerDatosEquipo() {
+            const equipos = [];
+            const rows = document.querySelectorAll("#equiposTable tr");
 
-		            rows.forEach(row => {
-		                const cedula = row.querySelector('td:nth-child(1)').textContent;
-		                const nombre = row.querySelector('td:nth-child(2)').textContent;
-		                equipos.push({ cedula, nombre });  // Añadimos los datos de cada voluntario
-		            });
+            rows.forEach(row => {
+                const cedula = row.querySelector('td:nth-child(1)').textContent;
+                const nombre = row.querySelector('td:nth-child(2)').textContent;
+                equipos.push({ cedula, nombre });
+            });
 
-		            return equipos;  // Retornamos el array con los datos
-		        }
+            return equipos;
+        }
 
         function inscribirVoluntario(event) {
             const tr = event.target.closest('tr');
@@ -306,6 +306,7 @@
             equiposCount.textContent = parseInt(equiposCount.textContent) + 1;
 
             tr.remove();
+            validarFormulario();
         }
 
         function eliminarDeEquipo(event) {
@@ -325,6 +326,7 @@
             equiposCount.textContent = parseInt(equiposCount.textContent) - 1;
 
             tr.remove();
+            validarFormulario();
         }
 
         function registrarEquipo() {
@@ -357,7 +359,30 @@
             document.body.appendChild(form);
             form.submit();
         }
+
+		function validarFormulario() {
+		       const nombreEquipo = document.getElementById("nombreEquipo").value;
+		       const equiposTable = document.getElementById("equiposTable").children.length; // Verifica cuántos voluntarios hay en el equipo
+		       const actividad = document.getElementById("actividad").value;
+
+		       const btnRegistrar = document.getElementById("btnRegistrar");
+
+		       // Comprobamos que se haya seleccionado una actividad válida (que no sea la opción predeterminada)
+		       const actividadValida = actividad && actividad !== "Selecciona una Actividad";
+
+		       // Si el nombre del equipo, la actividad están seleccionados y hay voluntarios en el equipo, habilita el botón de registrar
+		       if (nombreEquipo && equiposTable > 0 && actividadValida) {
+		           btnRegistrar.removeAttribute("disabled");
+		       } else {
+		           btnRegistrar.setAttribute("disabled", "true");
+		       }
+		   }
+
+        // Vincular validación a los eventos de los campos
+        document.getElementById("nombreEquipo").addEventListener("input", validarFormulario);
+        document.getElementById("actividad").addEventListener("change", validarFormulario);
     </script>
+
     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

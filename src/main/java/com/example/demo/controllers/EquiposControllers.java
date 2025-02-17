@@ -233,6 +233,8 @@ public class EquiposControllers {
 
 	        model.addAttribute("equiposConIntegrantes", equiposConIntegrantes);  // Agregar los equipos con sus integrantes al modelo
 
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos(id_administrador));
+
 	        return "ListarEquipos";  // La vista donde se mostrará la tabla
 	    }
 
