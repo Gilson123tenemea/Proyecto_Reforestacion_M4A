@@ -54,5 +54,12 @@ public class SueloDaoImpl implements ISueloDao {
 	public List<Suelo> listarsuelos() {
 	    return en.createQuery("SELECT s FROM Suelo s JOIN FETCH s.tipo_suelos", Suelo.class).getResultList();
 	}
+	
+	@Override
+	public long countParcelasBySueloId(Long idSuelo) {
+	    return en.createQuery("SELECT COUNT(p) FROM Parcelas p WHERE p.id_suelo = :idSuelo", Long.class)
+	             .setParameter("idSuelo", idSuelo)
+	             .getSingleResult();
+	}
 
 }

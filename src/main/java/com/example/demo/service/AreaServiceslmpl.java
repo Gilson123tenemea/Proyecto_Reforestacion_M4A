@@ -66,5 +66,10 @@ public class AreaServiceslmpl implements IAreaServices{
 	public List<Area> findByProyectoIdAdministrador(Long adminId) {
 		return areadao.findByProyectoIdAdministrador(adminId);
 	}
+	
+	@Override
+	public long countParcelasByAreaId(Long idArea) {
+	    return areadao.countParcelasByAreaId(idArea);
+	}
 
 }

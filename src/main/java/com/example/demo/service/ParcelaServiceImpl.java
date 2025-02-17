@@ -63,9 +63,16 @@ public class ParcelaServiceImpl implements IParcelaService{
 		return parceladao.findByAdministradorId(adminId);
 	}
 	
+	@Transactional(readOnly = true)
 	@Override
-	public String findAreaName(Long idArea) {
-		 Parcelas parcelas = parceladao.findOne(idArea);
+	public List<Parcelas> listarparcelas() {
+		
+		return parceladao.findAll();
+	}
+	
+	@Override
+	public String findAreaName(Long idAreas) {
+		 Parcelas parcelas = parceladao.findOne(idAreas);
 		    if (parcelas != null) {
 		        Long idarea = parcelas.getId_area();
 		        Area area = areadao.findOne(idarea); 
@@ -73,11 +80,10 @@ public class ParcelaServiceImpl implements IParcelaService{
 		    }
 		    return null;
 	}
-	@Transactional(readOnly = true)
-	@Override
-	public List<Parcelas> listarparcelas() {
-		
-		return parceladao.findAll();
-	}
+	
+	
+	
+	
+	
 
 }

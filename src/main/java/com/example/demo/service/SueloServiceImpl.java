@@ -63,9 +63,14 @@ public class SueloServiceImpl implements ISueloService {
 		    if (suelo != null) {
 		        Long idtiposuelo = suelo.getId_tiposuelo();
 		        Tipo_Suelo tsuelo = tsuelodao.findOne(idtiposuelo); 
-		        return tsuelo != null ?tsuelo.getDescripcion() : null;
+		        return tsuelo != null ?tsuelo.getNombre_suelo() : null;
 		    }
 		    return null;
+	}
+	
+	@Override
+	public long countParcelasBySueloId(Long idSuelo) {
+	    return suelodao.countParcelasBySueloId(idSuelo);
 	}
 
 

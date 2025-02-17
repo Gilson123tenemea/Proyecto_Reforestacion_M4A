@@ -10,4 +10,5 @@ public interface IPlantasDao {
 	public void save(Plantas plantas);
 	public Plantas findOne(Long id);
 	public void delete(Long id);
+	long countParcelasByPlantaId(Long idPlanta);
 }

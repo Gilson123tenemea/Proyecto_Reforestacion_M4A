@@ -10,5 +10,6 @@ public interface IAreaDao {
 	public void save(Area area);
 	public Area findOne(Long id);
 	public void delete(Long id);
-	 List<Area> findByProyectoIdAdministrador(Long adminId); 
+	List<Area> findByProyectoIdAdministrador(Long adminId); 
+	long countParcelasByAreaId(Long idArea);
 }

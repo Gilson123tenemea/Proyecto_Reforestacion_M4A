@@ -23,12 +23,11 @@
 		}
 
 		.img-thumbnail {
-		    width: 100px;
-		    height: 100px;
-		    object-fit: cover;
-		    border-radius: 5px;
+			width: 100px;
+			height: 100px;
+			object-fit: cover;
+			border-radius: 5px;
 		}
-
 	</style>
 </head>
 
@@ -64,11 +63,11 @@
 						<td th:text="${actividad[3]}"></td>
 						<td>
 							<!-- Redirigir a la página de creación de actividad pasando el ID del voluntario -->
-					
-							
+
+
 							<a th:href="@{/registro-actividad/crear	(id_actividad=${actividad[5]})        }"
-							   class="btn btn-success btn-sm">
-							   Registrar
+								class="btn btn-success btn-sm">
+								Registrar
 							</a>
 
 							<!-- Botón adicional para mostrar más información -->
@@ -101,11 +100,17 @@
 						<td th:text="${actividad[1]}"></td> <!-- Nombre del proyecto -->
 						<td th:text="${actividad[4]}"></td> <!-- Nombre del equipo -->
 						<td>
-							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[8]})}" alt="Evidencia" class="img-thumbnail" width="100">
+							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[8]})}"
+								alt="Evidencia" class="img-thumbnail" width="100">
 						</td>
 						<td>
-							
-							<button class="btn btn-info btn-sm">Más Información</button>
+
+							<a th:href="@{/registro-actividad/Infor(id=${actividad[8]})}" class="btn btn-info btn-sm">
+								Más Información
+							</a>
+
+
+
 							<a th:href="@{/registro-actividad/editar(id=${actividad[8]})}"
 								class="btn btn-warning btn-sm">
 								Editar
@@ -120,7 +125,7 @@
 
 	</div>
 
-	
+
 
 	<footer>
 		<p>&copy; 2025 Mi Proyecto. Todos los derechos reservados.</p>

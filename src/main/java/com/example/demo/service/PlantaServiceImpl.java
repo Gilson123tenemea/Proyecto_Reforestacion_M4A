@@ -51,6 +51,10 @@ public class PlantaServiceImpl implements IPlantasService {
 		return plantadao.findAll();
 	}
 	
+	@Override
+	public long countParcelasByPlantaId(Long idPlanta) {
+	    return plantadao.countParcelasByPlantaId(idPlanta);
+	}
 	
 
 }

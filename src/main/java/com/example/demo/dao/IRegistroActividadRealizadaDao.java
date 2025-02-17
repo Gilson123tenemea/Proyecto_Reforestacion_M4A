@@ -53,5 +53,8 @@ public interface IRegistroActividadRealizadaDao {
 			      + "JOIN Usuarios u ON v.usuario.id_usuarios = u.id_usuarios "
 			      + "WHERE r.id_registroactividadrealizada = :idRegistro")
 			List<Object[]> findVoluntariosPorActividad(@Param("idRegistro") Long idRegistro);
+			
+			
+			List<Object[]> findInfo_RegistroRealizado(Long voluntarioId, Long RegistroActividadRealizada_Id);
 		
 }

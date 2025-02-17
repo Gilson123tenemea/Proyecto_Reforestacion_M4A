@@ -19,11 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
+import com.example.demo.entity.Administrador;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.RegistroActividadRealizadaService;
+import com.example.demo.service.IAdministradorServices;
 import com.example.demo.service.IProyectoServices;
+import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 
 @Controller
@@ -41,6 +44,12 @@ public class RegistroActividadRealizadaController {
 
 	@Autowired
 	private IProyectoServices proyectoService;
+	@Autowired
+	private IAdministradorServices administradorService;
+
+	@Autowired
+	private IUsuarioServices usuarioService;
+	
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -243,6 +252,60 @@ public class RegistroActividadRealizadaController {
 
 		return "editarRegistroActividadRealizada";
 	}
+	//-------------------------=======================================================
+
+		@GetMapping("/Infor")
+		public String InfoRegistroActividad(
+				@SessionAttribute("idVoluntario") Long idVoluntario,
+				@RequestParam(value = "id", required = false) Long id, 
+				Model model, 
+				RedirectAttributes redirectAttributes) {
+			
+			
+			List<Object[]> resultados = iregistroActividadRealizadaDao.findInfo_RegistroRealizado(idVoluntario, id);
+			
+
+	   
+			if (!resultados.isEmpty()) {
+				Object[] datos = resultados.get(0);
+				model.addAttribute("UsuarioNombre", datos[0]);
+				model.addAttribute("ProyectoNombre", datos[1]);
+				model.addAttribute("CantidadRealizada", datos[2]);
+				// model.addAttribute("foto", datos[3]);
+				model.addAttribute("EquipoNombre", datos[4]);
+				model.addAttribute("TipoActividadNombre", datos[5]);
+				
+				model.addAttribute("valAdmin", datos[6]);
+				model.addAttribute("ValVoluntario", datos[7]);
+				model.addAttribute("Id_RegistroAdtividades", datos[8]);
+				model.addAttribute("Id_TipoActividades", datos[9]);
+				model.addAttribute("duracion", datos[10]);
+				
+				if (datos[11] != null) {
+				Administrador Admin = administradorService.findOne((Long)datos[11]);		
+				Usuarios usuarioAdmin =usuarioService.findOne(Admin.getId_usuarios());
+				
+				model.addAttribute("AdminNombre",usuarioAdmin.getNombre());	
+				}
+				
+				model.addAttribute("descripcion", datos[12]);
+				
+
+				System.out.println("✅ Datos agregados al modelo correctamente.");
+			} else {
+				System.out.println(
+						"⚠️ No se encontraron actividades realizadas para el voluntario con ID: " + idVoluntario);
+			}
+			
+			
+
+			return "Info_RegistroActvRealizadas";
+		}
+		
+		
+		
+		
+		//-------------------------=======================================================
 
 	
 	

@@ -41,5 +41,12 @@ public class PlantasDaoImpl implements IPlantasDao {
 		em.remove(findOne(id));
 
 	}
+	
+	@Override
+	public long countParcelasByPlantaId(Long idPlanta) {
+	    return em.createQuery("SELECT COUNT(p) FROM Parcelas p WHERE p.id_plantas = :idPlanta", Long.class)
+	             .setParameter("idPlanta", idPlanta)
+	             .getSingleResult();
+	}
 
 }

@@ -56,18 +56,23 @@ public class SueloController {
         return "listarsuelo";
     }
 	
-	@GetMapping("/suelo/eliminar/{id}")
-	public String eliminarSuelo(@PathVariable("id") Long id, RedirectAttributes attributes) {
-	    try {
-	    	sueloservice.delete(id);
-	        attributes.addFlashAttribute("mensaje", "Suelo eliminado correctamente");
-	    } catch (IllegalStateException e) {
-	        attributes.addFlashAttribute("error", e.getMessage());
-	    } catch (Exception e) {
-	        attributes.addFlashAttribute("error", "Error al eliminar el Suelo");
+	 @GetMapping("/suelo/eliminar/{id}")
+	    public String eliminarSuelo(@PathVariable("id") Long id, RedirectAttributes attributes) {
+	        try {
+	            long count = sueloservice.countParcelasBySueloId(id);
+	            if (count > 0) {
+	                attributes.addFlashAttribute("error", "No se puede eliminar el suelo porque tiene parcelas asociadas.");
+	                return "redirect:/listarsuelo"; // Redirige si no se puede eliminar
+	            }
+	            sueloservice.delete(id);
+	            attributes.addFlashAttribute("mensaje", "Suelo eliminado correctamente");
+	        } catch (IllegalStateException e) {
+	            attributes.addFlashAttribute("error", e.getMessage());
+	        } catch (Exception e) {
+	            attributes.addFlashAttribute("error", "Error al eliminar el Suelo");
+	        }
+	        return "redirect:/listarsuelo";
 	    }
-	    return "redirect:/listarsuelo";
-	}
 	
 	
 	
