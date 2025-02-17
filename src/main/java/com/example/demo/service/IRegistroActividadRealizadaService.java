@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,4 +35,6 @@ public interface IRegistroActividadRealizadaService {
     Long obtenerIdProyectoPorTipoActividad(Long idTipoActividad);
     List<Object[]> obtenerDetallesPorRegistroNuevo(Long idRegistro);
     
+	List<Asignar_equipos> listarvoluntariosporequipos (Long idvolunta);
+	List<Usuarios> listarvoluntariosUsuarios(Long idusu);
 }

@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
+import com.example.demo.entity.Asignar_equipos;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +113,10 @@ public class RegistroActividadRealizadaService {
     	return registroActividadRealizadaDao.findInfo_RegistroRealizado(voluntarioId, RegistroActividadRealizada_Id);
     }
     
-    
-    
+	public List<Asignar_equipos> listarvoluntariosporequipos (Long idvolunta){
+		return registroActividadRealizadaDao.listarvoluntariosporequipos(idvolunta);
+	}
+	public List<Usuarios> listarvoluntariosUsuarios(Long idusu){
+		return registroActividadRealizadaDao.listarvoluntariosUsuarios(idusu);
+	}
 }
