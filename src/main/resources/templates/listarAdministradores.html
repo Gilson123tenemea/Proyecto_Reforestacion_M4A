@@ -13,115 +13,171 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .container {
             margin-top: 50px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .title-container {
-            text-align: center;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.85);
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .title-container h1 {
-            color: #333;
-            font-weight: bold;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .table-container {
-            background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            width: 100%;
-            margin-bottom: 30px;
-            text-align: center;
-            overflow-x: auto;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            font-family: 'Montserrat', sans-serif;
+            max-width: 1100px;
+            animation: fadeIn 1s ease-in-out;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-container h1 {
+            text-align: center;
+            color: #2d6a4f;
+            font-weight: 700;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         .table th, .table td {
             text-align: center;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            vertical-align: middle;
         }
 
-        .table thead {
-            background-color: #007bff;
-            color: white;
-            font-weight: 600;
+        .table th {
+            background-color: #4F5B3A;
+            color: #fff;
+            animation: slideIn 1s ease-in-out;
         }
 
         .table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f1f8e9;
         }
 
         .table tbody tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer;
+            background-color: #a8d5ba;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn {
+            border-radius: 5px;
+            padding: 8px 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary {
+            background-color: #4F5B3A;
+            border-color: rgb(0, 0, 0);
+        }
+
+        .btn-primary:hover {
+            background-color: #4F5B3A;
+            transform: scale(1.05);
+        }
+
+        .btn-warning {
+            background-color: #F1E6D6;
+            border-color: #F1E6D6;
+        }
+
+        .btn-warning:hover {
+            background-color: #F1E6D6;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #D94F4F;
+            border-color: rgb(0, 0, 0);
+        }
+
+        .btn-danger:hover {
+            background-color: #D94F4F;
+            transform: scale(1.05);
         }
 
         .footer {
-            background-color: #d32f2f;
+            background-color: #388e3c;
             color: white;
             text-align: center;
-            padding: 10px;
+            margin-top: auto;
+            font-size: 12px;
+            padding: 10px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
             margin-top: 30px;
+        }
+
+        .table-container input {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .table-container input:focus {
+            border-color: #4F5B3A;
+            box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
         }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="container">
         <div class="title-container">
             <h1 th:text="${titulo}">Listado de Administradores y Usuarios</h1>
-            <a href="/administrador" class="btn btn-primary">
+            <a href="/administrador" class="btn btn-primary mb-3">
                 <i class="fas fa-plus"></i><span> Agregar Administrador</span>
             </a>
         </div>
 
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <p th:text="${success}"></p>
+        </div>
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+
         <div class="table-container">
+            <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre o apellido..." onkeyup="filterTable()">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -165,11 +221,35 @@
             </table>
         </div>
     </div>
-
-    <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
-    </footer>
-
+	<br>
+	<br>
+    <br>
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
+	
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para filtrar la tabla
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.querySelector('table');
+            tr = table.getElementsByTagName('tr');
+            
+            for (i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+                td = tr[i].getElementsByTagName('td');
+                if (td.length > 0) {
+                    // Filtrar por la columna de nombre (2) y apellido (3)
+                    var nombre = td[2].textContent || td[2].innerText;
+                    var apellido = td[3].textContent || td[3].innerText;
+                    if (nombre.toUpperCase().indexOf(filter) > -1 || apellido.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>
