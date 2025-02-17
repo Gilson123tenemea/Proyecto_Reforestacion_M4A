@@ -25,34 +25,39 @@ public class Tipo_Suelo implements Serializable {
     private Long id_tiposuelo;
 
     @NotEmpty(message = "El nombre del suelo no puede estar vacío.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre del suelo solo puede contener letras y espacios.")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$", message = "El nombre del suelo solo puede contener letras, espacios y tildes.")
     private String nombre_suelo;
+
 
     
     private String descripcion;
 
     @NotEmpty(message = "El color no puede estar vacío.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El color solo puede contener letras y espacios.")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$", message = "El color solo puede contener letras, espacios y tildes.")
     private String color;
 
     @NotEmpty(message = "La textura no puede estar vacía.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La textura del suelo solo puede contener letras y espacios.")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$", message = "La textura del suelo solo puede contener letras, espacios y tildes.")
     private String textura;
 
+
     @NotNull(message = "La densidad no puede ser nula.")
-    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "La densidad debe ser un número.")
+    @Pattern(regexp = "^\\d+(\\.\\d+)?\\s?-\\s?\\d+(\\.\\d+)?$", 
+             message = "La densidad debe estar en formato 'x.x - y.y'.")
     private String densidad;
 
     @NotNull(message = "El pH no puede ser nulo.")
-    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "El pH debe ser un número.")
+    @Pattern(regexp = "^\\d+(\\.\\d+)?\\s?-\\s?\\d+(\\.\\d+)?$", 
+             message = "El pH debe estar en formato 'x.x - y.y'.")
     private String ph;
 
    
     private String composicion;
 
     @NotEmpty(message = "La fertilidad no puede estar vacía.")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "La Fertilidad del suelo solo puede contener letras y espacios.")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$", message = "La fertilidad del suelo solo puede contener letras, espacios y tildes.")
     private String fertilidad;
+
 
     
     private String uso_del_suelo;
