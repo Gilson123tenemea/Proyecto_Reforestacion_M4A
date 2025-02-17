@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -135,6 +136,7 @@ public class VoluntariosControllers {
 	// --------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------
 // Método para obtener actividades pendientes de validación
+	
 	@GetMapping("/voluntario/actividades")
 	public String getActividadesPorAceptar(@SessionAttribute("idVoluntario") Long idVoluntario, Model model) {
 		List<Object[]> actividadesPorAceptar = registroActividadRealizadaService
@@ -142,6 +144,12 @@ public class VoluntariosControllers {
 		model.addAttribute("actividadesPorAceptar", actividadesPorAceptar);
 		return "actividades_voluntariosss"; // Asegúrate de que esta es la vista correcta
 	}
+	
+	
+	//mas actifvidades realizadas-----------------------------------
+	
+	
+	//------------------------------
 
 // Método para obtener actividades completamente realizadas
 	@GetMapping("/actividades-realizadas")
@@ -161,6 +169,74 @@ public class VoluntariosControllers {
 		return "actividades_voluntariossss";
 	}
 
+	//voluntarios actividades realizadas mas.....
+	
+	@GetMapping("/proyectosVoluntariosMas")
+	public String mostrarProyectosVoluntariosMas(
+	    @SessionAttribute(name = "idVoluntario", required = false) Long idVoluntario,
+	    Model model) {
+	    
+	    if (idVoluntario == null) {
+	        return "redirect:/inicio";
+	    }
+
+	    try {
+	        // Cargar actividades del voluntario
+	        model.addAttribute("actividades", Optional.ofNullable(equipoService.obtenerActividadesPorHacer(idVoluntario))
+	            .orElseGet(Collections::emptyList));
+	        model.addAttribute("actividadesPorAceptar", Optional.ofNullable(registroActividadRealizadaService.findActividadesPorAceptar(idVoluntario))
+	            .orElseGet(Collections::emptyList));
+	        model.addAttribute("actividadesRealizadas", Optional.ofNullable(registroActividadRealizadaService.obtenerActividadesRealizadas(idVoluntario))
+	            .orElseGet(Collections::emptyList));
+
+	        // Cargar provincias
+	        model.addAttribute("provincias", Optional.ofNullable(provinciaService.findAll())
+	            .orElseGet(Collections::emptyList));
+
+	        // Obtener el proyecto asociado al voluntario
+	        Proyecto proyecto = Optional.ofNullable(proyectoService.findOne(idVoluntario)).orElse(new Proyecto());
+	        model.addAttribute("proyecto", proyecto);
+
+	        // Cargar áreas y parcelas si el proyecto tiene un ID válido
+	        Long idProyecto = proyecto.getId_proyecto();
+	        if (idProyecto != null) {
+	            model.addAttribute("areas", Optional.ofNullable(areaService.findByProyectoIdAdministrador(idProyecto))
+	                .orElseGet(Collections::emptyList));
+	            model.addAttribute("parcelas", Optional.ofNullable(parcelaService.findByAreaId(idProyecto))
+	                .orElseGet(Collections::emptyList));
+	        } else {
+	            model.addAttribute("areas", Collections.emptyList());
+	            model.addAttribute("parcelas", Collections.emptyList());
+	        }
+
+	        // Cargar patrocinio, patrocinador y representante si el proyecto tiene administrador
+	        Long idAdministrador = proyecto.getId_administrador();
+	        if (idAdministrador != null) {
+	            Patrocinio patrocinio = Optional.ofNullable(patrocinioService.findOne(idAdministrador))
+	                .orElse(new Patrocinio());
+	            model.addAttribute("patrocinio", patrocinio);
+
+	            Patrocinador patrocinador = Optional.ofNullable(PatrocinadorService.findOne(patrocinio.getId_patrocinador()))
+	                .orElse(new Patrocinador());
+	            model.addAttribute("patrocinador", patrocinador);
+
+	            Usuarios representante = Optional.ofNullable(usuarioServices.findOne(patrocinador.getId_usuarios()))
+	                .orElse(new Usuarios());
+	            model.addAttribute("representante", representante);
+	        } else {
+	            model.addAttribute("patrocinio", new Patrocinio());
+	            model.addAttribute("patrocinador", new Patrocinador());
+	            model.addAttribute("representante", new Usuarios());
+	        }
+
+	        return "proyectosVoluntariosMas";
+
+	    } catch (Exception e) {
+	        model.addAttribute("mensajeError", "Hubo un error al cargar los datos: " + e.getMessage());
+	        return "error";
+	    }
+	}
+	
 	
 	
 	

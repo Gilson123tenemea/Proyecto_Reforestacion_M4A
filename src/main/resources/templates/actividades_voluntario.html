@@ -168,7 +168,7 @@
 							   class="btn btn-success btn-sm">
 							   Registrar
 							</a>
-							<button class="btn btn-info btn-sm" >Más Información</button>
+							<a th:href="@{/proyectosVoluntariosMas}" class="btn btn-info btn-sm">Más Información</a>
 						</td>
 					</tr>
 				</tbody>
@@ -199,7 +199,7 @@
 							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[8]})}" alt="Evidencia" class="img-thumbnail" width="100">
 						</td>
 						<td>
-							<button class="btn btn-info btn-sm">Más Información</button>
+							<a th:href="@{/voluntarioActividadesRealizadasMas}" class="btn btn-info btn-sm">Más Información</a>
 							<a th:href="@{/registro-actividad/editar(id=${actividad[8]})}"
 								class="btn btn-warning btn-sm">
 								Editar
