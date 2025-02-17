@@ -7,27 +7,27 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-		body {
-		    font-family: 'Roboto', sans-serif;
-		    background-color: #f8f9fa;
-		    display: flex;
-		    flex-direction: column;
-		    min-height: 100vh; /* Hace que el body ocupe al menos el 100% de la altura de la pantalla */
-		    margin: 0; /* Elimina márgenes para evitar desajustes */
-		}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-		.container {
-		    max-width: 800px;
-		    margin: 0 auto;
-		    padding: 20px;
-		    background-color: #ffffff;
-		    border-radius: 10px;
-		    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-		    margin-top: 50px;
-		    margin-bottom: 50px;
-		    animation: fadeIn 1s ease-in-out;
-		    flex-grow: 1; 
-		}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-in-out;
+            flex-grow: 1; 
+        }
 
         @keyframes fadeIn {
             from {
@@ -137,8 +137,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Cantidad Realizada</th>
                     <th>Voluntarios</th>
                     <th>Foto Evidencia</th>
@@ -148,12 +147,11 @@
             </thead>
             <tbody>
                 <tr th:each="item : ${actividadesConPorcentaje}">
-                 
                     <td th:text="${item.actividad.descripcion}"></td>
                     <td th:text="${item.actividad.cantidad_realizada}"></td>
                     <td th:text="${item.voluntarioNombre}"></td>
                     <td>
-                        <img th:src="${item.actividad.foto}" alt="Evidencia" class="img-thumbnail" width="100">
+                        <img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${item.actividad.id_registroactividadrealizada})}" alt="Evidencia" class="img-thumbnail" width="100">
                     </td>
                     <td th:text="${item.porcentaje} + '%'"></td> 
                     <td>

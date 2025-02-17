@@ -16,10 +16,9 @@
                 <strong>Descripción:</strong> <span th:text="${detalle[5]}"></span><br>
                 <strong>Actividad Asignada:</strong> <span th:text="${detalle[7]}"></span><br>
                 <strong>Proyecto:</strong> <span th:text="${detalle[8]}"></span><br>
-                <strong>Foto:</strong>
-                <img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${detalle[3]})}" alt="Foto de actividad" style="max-width: 200px;"/>
-
-                <h4>Voluntarios del Equipo</h4>
+				<strong>Foto:</strong>
+				<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${detalle[0]})}" alt="Foto de actividad" style="max-width: 200px;"/>
+				<h4>Voluntarios del Equipo</h4>
                 <ul class="list-group" th:if="${voluntariosPorEquipo[detalle[0]]}">
                     <li class="list-group-item" th:each="voluntario : ${voluntariosPorEquipo[detalle[0]]}">
                         <strong>Nombre:</strong> <span th:text="${voluntario.nombre}"></span> 
