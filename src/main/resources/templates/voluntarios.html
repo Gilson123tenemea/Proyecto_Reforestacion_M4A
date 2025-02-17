@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -139,16 +139,20 @@
 			color: #333333;
 			padding: 0 10px;
 		}
-		
+
 		/* Estilo contra*/
 		.mostrar-contraseña {
-		    font-size: 0.8em; /* Tamaño más pequeño */
-		    color: rgba(0, 0, 0, 0.6); /* Color negro con algo de transparencia */
-		    cursor: pointer; /* Cambia el cursor al pasar por encima */
+			font-size: 0.8em;
+			/* Tamaño más pequeño */
+			color: rgba(0, 0, 0, 0.6);
+			/* Color negro con algo de transparencia */
+			cursor: pointer;
+			/* Cambia el cursor al pasar por encima */
 		}
 
 		.mostrar-contraseña input {
-		    margin-right: 5px; /* Espacio entre el checkbox y el texto */
+			margin-right: 5px;
+			/* Espacio entre el checkbox y el texto */
 		}
 	</style>
 </head>
@@ -160,19 +164,19 @@
 		<div class="login-container">
 
 			<h2>Crear Nuevo Voluntario</h2>
-			<form action="/guardarvolun" method="post">
+			<form action="/guardarvolun" method="post" onsubmit="return validarFormulario()">
 
-				
+
 				<fieldset>
-					
 					<div class="row g-3">
 
 						<div class="col-md-6">
-						    <div class="form-group">
-						        <label for="cedula">Cédula:</label>
-						        <input type="text" name="cedula" id="cedula" required maxlength="10" placeholder="Cédula de 10 dígitos">
-						        <div id="mensajeCedula"></div> <!-- Aquí se mostrará si la cédula existe o no -->
-						    </div>
+							<div class="form-group">
+								<label for="cedula">Cédula:</label>
+								<input type="text" name="cedula" id="cedula" required maxlength="10"
+									placeholder="Cédula de 10 dígitos">
+								<div id="mensajeCedula"></div> <!-- Aquí se mostrará si la cédula existe o no -->
+							</div>
 						</div>
 
 						<div class="col-md-6">
@@ -203,7 +207,7 @@
 							<div class="form-group">
 								<label for="genero">Género:</label>
 								<select id="genero" name="genero" class="form-select" required>
-									<option selected disabled>Selecciona tu género</option>
+									<option value="" disabled selected>Selecciona tu género</option>
 									<option value="MASCULINO">Masculino</option>
 									<option value="FEMENINO">Femenino</option>
 								</select>
@@ -213,7 +217,7 @@
 							<div class="form-group">
 								<label for="celular">Celular:</label>
 								<input type="text" id="celular" name="celular" required>
-								<small id="mensajeCelular"  ></small>
+								<small id="mensajeCelular"></small>
 
 							</div>
 						</div>
@@ -245,24 +249,26 @@
 						</div>
 
 						<div class="col-md-6">
-						    <div class="form-group">
-						        <label for="contraseña">Contraseña:</label>
-						        <input type="password" id="contraseña" name="contraseña" required>
-						        <label for="mostrarContraseña" class="mostrar-contraseña">
-						            <input type="checkbox" id="mostrarContraseña" onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
-						        </label>
-						        <small id="mensajeContraseña" ></small>
-						    </div>
+							<div class="form-group">
+								<label for="contraseña">Contraseña:</label>
+								<input type="password" id="contraseña" name="contraseña" required minlength="8">
+								<label for="mostrarContraseña" class="mostrar-contraseña">
+									<input type="checkbox" id="mostrarContraseña"
+										onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+								</label>
+								<small id="mensajeContraseña"></small>
+							</div>
 						</div>
 						<div class="col-md-6">
-						    <div class="form-group">
-						        <label for="confirmar_contraseña">Confirmar Contraseña:</label>
-						        <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
-						        <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
-						            <input type="checkbox" id="mostrarConfirmarContraseña" onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
-						        </label>
-						        <small id="mensajeConfirmacion" ></small>
-						    </div>
+							<div class="form-group">
+								<label for="confirmar_contraseña">Confirmar Contraseña:</label>
+								<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8">
+								<label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
+									<input type="checkbox" id="mostrarConfirmarContraseña"
+										onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
+								</label>
+								<small id="mensajeConfirmacion"></small>
+							</div>
 						</div>
 
 					</div>
@@ -294,7 +300,7 @@
 
 
 				<button type="submit">Guardar</button>
-				
+
 			</form>
 		</div>
 	</div>
@@ -303,148 +309,162 @@
 
 
 
-	
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
+		function validarFormulario() {
+		       // Obtener los elementos de mensaje
+		       const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
+		       const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
+		       const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
+		       const mensajeConfirmacion = document.getElementById("mensajeConfirmacion").innerText.trim();
+
+		       // Comprobar si todos los mensajes contienen las palabras de validación
+		       if (mensajeCedula !== "✅ Cédula válida y disponible" || 
+		           mensajeCelular !== "✅ Número de celular válido" || 
+		           mensajeContraseña !== "✅ Contraseña válida" || 
+		           mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
+		           
+		           // Si alguno de los mensajes no es válido, mostrar una alerta
+		           alert("Por favor, revise la información. Algunos campos no son válidos.");
+		           return false; // No permitir que el formulario se envíe
+		       }
+
+		       // Si todos los mensajes son válidos, permitir el envío del formulario
+		       return true;
+		   }
+		
+		
 		
 		function togglePasswordVisibility(id) {
-		    var passwordInput = document.getElementById(id);
-		    // Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
-		    if (passwordInput.type === "password") {
-		        passwordInput.type = "text";
-		    } else {
-		        passwordInput.type = "password";
-		    }
+			var passwordInput = document.getElementById(id);
+			// Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
+			if (passwordInput.type === "password") {
+				passwordInput.type = "text";
+			} else {
+				passwordInput.type = "password";
+			}
 		}
-		
+
 		document.addEventListener("DOMContentLoaded", function () {
-		    let inputCedula = document.getElementById("cedula");
-		    let mensaje = document.getElementById("mensajeCedula");
-		    let botonGuardar = document.querySelector("button[type='submit']");
+			let inputCedula = document.getElementById("cedula");
+			let mensaje = document.getElementById("mensajeCedula");
+			let botonGuardar = document.querySelector("button[type='submit']");
 
-		    inputCedula.addEventListener("blur", function () {
-		        let cedula = this.value.trim();
+			inputCedula.addEventListener("blur", function () {
+				let cedula = this.value.trim();
 
-		        if (!validarCedulaEcuatoriana(cedula)) {
-		            mensaje.innerHTML = `<span style="color: red;">⚠️ Cédula inválida. Verifica los datos.</span>`;
-		            botonGuardar.disabled = true;
-		            return;
-		        }
+				if (!validarCedulaEcuatoriana(cedula)) {
+					mensaje.innerHTML = `<span style="color: red;">⚠️ Cédula inválida. Verifica los datos.</span>`;
+					botonGuardar.disabled = true;
+					return;
+				}
 
-		        // Si la cédula es válida, verificamos si está registrada
-		        fetch(`/cedulaVoltuntarui/${cedula}`)
-		            .then(response => response.json())
-		            .then(data => {
-		                if (data) {
-		                    mensaje.innerHTML = `<span style="color: red;">⚠️ La cédula ya está registrada</span>`;
-		                    botonGuardar.disabled = true;
-		                } else {
-		                    mensaje.innerHTML = `<span style="color: green;">✅ Cédula válida y disponible</span>`;
-		                    botonGuardar.disabled = false;
-		                }
-		            })
-		            .catch(error => {
-		                console.error("Error en la verificación:", error);
-		                mensaje.innerHTML = `<span style="color: red;">⚠️ Error al verificar la cédula</span>`;
-		                botonGuardar.disabled = true;
-		            });
-		    });
-			
+				// Si la cédula es válida, verificamos si está registrada
+				fetch(`/cedulaVoltuntarui/${cedula}`)
+					.then(response => response.json())
+					.then(data => {
+						if (data) {
+							mensaje.innerHTML = `<span style="color: red;">⚠️ La cédula ya está registrada</span>`;
+							botonGuardar.disabled = true;
+						} else {
+							mensaje.innerHTML = `<span style="color: green;">✅ Cédula válida y disponible</span>`;
+							botonGuardar.disabled = false;
+						}
+					})
+					.catch(error => {
+						console.error("Error en la verificación:", error);
+						mensaje.innerHTML = `<span style="color: red;">⚠️ Error al verificar la cédula</span>`;
+						botonGuardar.disabled = true;
+					});
+			});
+
 			//Contraseña
 			const contraseñaInput = document.getElementById("contraseña");
-				    const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
-				    const mensajeContraseña = document.getElementById("mensajeContraseña");
-				    const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
+			const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
+			const mensajeContraseña = document.getElementById("mensajeContraseña");
+			const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
 
-				    // Expresión regular para validar la contraseña
-				    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
+			// Expresión regular para validar la contraseña
+			const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
 
-				    contraseñaInput.addEventListener("input", function () {
-				        const contraseña = contraseñaInput.value;
-				        const especiales = contraseña.match(/[@#$%]/g);
-				        const cantidadEspeciales = especiales ? especiales.length : 0;
+			contraseñaInput.addEventListener("input", function () {
+				const contraseña = contraseñaInput.value;
+				const especiales = contraseña.match(/[@#$%]/g);
+				const cantidadEspeciales = especiales ? especiales.length : 0;
 
-				        if (!regex.test(contraseña) || cantidadEspeciales > 3) {
-				            mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
-				            mensajeContraseña.style.color = "red";
-				        } else {
-				            mensajeContraseña.textContent = "✅ Contraseña válida";
-				            mensajeContraseña.style.color = "green";
-				        }
-				    });
+				if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+					mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+					mensajeContraseña.style.color = "red";
+				} else {
+					mensajeContraseña.textContent = "✅ Contraseña válida";
+					mensajeContraseña.style.color = "green";
+				}
+			});
 
-				    confirmarContraseñaInput.addEventListener("input", function () {
-				        if (contraseñaInput.value !== confirmarContraseñaInput.value) {
-				            mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
-				            mensajeConfirmacion.style.color = "red";
-				        } else {
-				            mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
-				            mensajeConfirmacion.style.color = "green";
-				        }
-				    });
-			
-			
-			
-			
-					// Valiadr celular: 			
-								const celularInput = document.getElementById("celular");
-								    const mensajeCelular = document.getElementById("mensajeCelular");
+			confirmarContraseñaInput.addEventListener("input", function () {
+				if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+					mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
+					mensajeConfirmacion.style.color = "red";
+				} else {
+					mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
+					mensajeConfirmacion.style.color = "green";
+				}
+			});
 
-								    // Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
-								    const regexCelular = /^09\d{8}$/;
 
-								    celularInput.addEventListener("input", function () {
-								        const celular = celularInput.value;
 
-								        if (!regexCelular.test(celular)) {
-								            mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
-								            mensajeCelular.style.color = "red";
-								        } else {
-								            mensajeCelular.textContent = "✅ Número de celular válido";
-								            mensajeCelular.style.color = "green";
-								        }
-								    });
 
-								   
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			// Valiadr celular: 			
+			const celularInput = document.getElementById("celular");
+			const mensajeCelular = document.getElementById("mensajeCelular");
+
+			// Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
+			const regexCelular = /^09\d{8}$/;
+
+			celularInput.addEventListener("input", function () {
+				const celular = celularInput.value;
+
+				if (!regexCelular.test(celular)) {
+					mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
+					mensajeCelular.style.color = "red";
+				} else {
+					mensajeCelular.textContent = "✅ Número de celular válido";
+					mensajeCelular.style.color = "green";
+				}
+			});
+
+
 		});
 
 		/**
 		 * Función para validar una cédula ecuatoriana
 		 */
 		function validarCedulaEcuatoriana(cedula) {
-		    if (!/^\d{10}$/.test(cedula)) return false; // Verifica que sean solo 10 números
+			if (!/^\d{10}$/.test(cedula)) return false; // Verifica que sean solo 10 números
 
-		    let provincia = parseInt(cedula.substring(0, 2));
-		    let tercerDigito = parseInt(cedula.charAt(2));
-		    let coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]; // Para cálculo del dígito verificador
-		    let suma = 0;
+			let provincia = parseInt(cedula.substring(0, 2));
+			let tercerDigito = parseInt(cedula.charAt(2));
+			let coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]; // Para cálculo del dígito verificador
+			let suma = 0;
 
-		    if (provincia < 1 || provincia > 24 || tercerDigito > 5) return false; // Reglas de provincia y tercer dígito
+			if (provincia < 1 || provincia > 24 || tercerDigito > 5) return false; // Reglas de provincia y tercer dígito
 
-		    for (let i = 0; i < coeficientes.length; i++) {
-		        let valor = parseInt(cedula.charAt(i)) * coeficientes[i];
-		        suma += valor > 9 ? valor - 9 : valor; // Si es mayor a 9, restar 9
-		    }
+			for (let i = 0; i < coeficientes.length; i++) {
+				let valor = parseInt(cedula.charAt(i)) * coeficientes[i];
+				suma += valor > 9 ? valor - 9 : valor; // Si es mayor a 9, restar 9
+			}
 
-		    let verificador = (10 - (suma % 10)) % 10; // Cálculo del dígito verificador
+			let verificador = (10 - (suma % 10)) % 10; // Cálculo del dígito verificador
 
-		    return verificador === parseInt(cedula.charAt(9)); // Comparar con el último dígito
+			return verificador === parseInt(cedula.charAt(9)); // Comparar con el último dígito
 		}
 
-		
-		
+
+
 		const provinciaSelect = document.getElementById('id_provincia');
 		const cantonSelect = document.getElementById('id_canton');
 		const parroquiaSelect = document.getElementById('id_parroquia');
@@ -493,13 +513,13 @@
 			}
 		});
 
-		
-		
-		
-		
+
+
+
+
 
 	</script>
-	
+
 	<div th:replace="layout/layoutAdmin :: footer"></div>
 
 </body>
