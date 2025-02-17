@@ -10,115 +10,149 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
+		body {
+		            font-family: 'Roboto', sans-serif;
+		            background-color: #ffffff;
+		            background-size: cover;
+		            background-position: center;
+		            background-attachment: fixed;
+		            display: flex;
+		            flex-direction: column;
+		            min-height: 100vh;
+		        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+		        .container {
+		            margin-top: 50px;
+		            background-color: rgba(255, 255, 255, 0.85);
+		            padding: 30px;
+		            border-radius: 10px;
+		            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		            max-width: 1100px;
+		            animation: fadeIn 1s ease-in-out;
+		        }
 
-        .container {
-            margin-top: 50px;
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+		        @keyframes fadeIn {
+		            from {
+		                opacity: 0;
+		                transform: translateY(-20px);
+		            }
+		            to {
+		                opacity: 1;
+		                transform: translateY(0);
+		            }
+		        }
 
-        .table-container {
-            background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            width: 100%;
-            text-align: center;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
+		        .table-container h1 {
+		            text-align: center;
+		            color: #2d6a4f;
+		            font-weight: 700;
+		            margin-bottom: 30px;
+		            animation: slideIn 1s ease-in-out;
+		        }
 
-        .table-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
+		        @keyframes slideIn {
+		            from {
+		                transform: translateX(-100%);
+		            }
+		            to {
+		                transform: translateX(0);
+		            }
+		        }
 
-        h2 {
-            color: #333333;
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 36px;
-            text-transform: uppercase;
-            font-family: 'Montserrat', sans-serif;
-        }
+		        .table th, .table td {
+		            text-align: center;
+		            vertical-align: middle;
+		        }
 
-        .table th, .table td {
-            text-align: center;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
-        }
+		        .table th {
+		            background-color: #4F5B3A;
+		            color: #fff;
+		            animation: slideIn 1s ease-in-out;
+		        }
 
-        .table thead {
-            background-color: #d32f2f;
-            color: white;
-            font-weight: 600;
-        }
+		        .table tbody tr:nth-child(even) {
+		            background-color: #f1f8e9;
+		        }
 
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-            transform: scale(1.02);
-            transition: all 0.3s ease-in-out;
-        }
+		        .table tbody tr:hover {
+		            background-color: #a8d5ba;
+		            transform: scale(1.02);
+		            transition: all 0.3s ease-in-out;
+		        }
 
-        .btn-primary, .btn-warning, .btn-danger {
-            transition: all 0.3s ease-in-out;
-            font-size: 14px;
-            padding: 8px 14px;
-            border-radius: 8px;
-        }
+		        .btn {
+		            border-radius: 5px;
+		            padding: 8px 15px;
+		            transition: all 0.3s ease-in-out;
+		        }
 
-        .btn-primary {
-            background-color: #d32f2f;
-            border-color: #d32f2f;
-        }
+		        .btn-primary {
+		            background-color: #4F5B3A;
+		            border-color: rgb(0, 0, 0);
+		        }
 
-        .btn-primary:hover {
-            background-color: #b71c1c;
-        }
+		        .btn-primary:hover {
+		            background-color: #4F5B3A;
+		            transform: scale(1.05);
+		        }
 
-        .btn-warning:hover {
-            background-color: #ff9800;
-        }
+		        .btn-warning {
+		            background-color: #F1E6D6;
+		            border-color: #F1E6D6;
+		        }
 
-        .btn-danger:hover {
-            background-color: #b71c1c;
-        }
+		        .btn-warning:hover {
+		            background-color: #F1E6D6;
+		            transform: scale(1.05);
+		        }
 
-        .footer {
-            text-align: center;
-            padding: 15px;
-            background-color: #e9ecef;
-            font-weight: 500;
-            font-size: 14px;
-        }
+		        .btn-danger {
+		            background-color: #D94F4F;
+		            border-color: rgb(0, 0, 0);
+		        }
+
+		        .btn-danger:hover {
+		            background-color: #D94F4F;
+		            transform: scale(1.05);
+		        }
+
+		        .footer {
+		            background-color: #388e3c;
+		            color: white;
+		            text-align: center;
+		            margin-top: auto;
+		            font-size: 12px;
+		            padding: 10px 0;
+		        }
+
+		        .footer a {
+		            color: white;
+		            text-decoration: none;
+		        }
+
+		        .footer a:hover {
+		            text-decoration: underline;
+		        }
+
+		        .table-container input {
+		            margin-bottom: 15px;
+		            border-radius: 5px;
+		            border: 1px solid #ced4da;
+		            padding: 10px;
+		            width: 100%;
+		            box-sizing: border-box;
+		            transition: border-color 0.3s ease;
+		        }
+
+		        .table-container input:focus {
+		            border-color: #4F5B3A;
+		            box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
+		        }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="container">
         <div class="table-container">
@@ -135,8 +169,11 @@
                 <p th:text="${error}"></p>
             </div>
 
+			<!-- Campo de búsqueda -->
+			        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre o apellido..." onkeyup="filterTable()">
+
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>ID Voluntario</th>
@@ -181,8 +218,34 @@
         </div>
     </div>
 
-    <footer class="footer">&copy; 2025 Mi Proyecto. Todos los derechos reservados.</footer>
+	<br>
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+	    // Función para filtrar la tabla
+	    function filterTable() {
+	        var input, filter, table, tr, td, i, txtValue;
+	        input = document.getElementById('searchInput');
+	        filter = input.value.toUpperCase();
+	        table = document.querySelector('table');
+	        tr = table.getElementsByTagName('tr');
+	        
+	        for (i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+	            td = tr[i].getElementsByTagName('td');
+	            if (td.length > 0) {
+	                // Filtrar por la columna de nombre (2) y apellido (3)
+	                var nombre = td[2].textContent || td[2].innerText;
+	                var apellido = td[3].textContent || td[3].innerText;
+	                if (nombre.toUpperCase().indexOf(filter) > -1 || apellido.toUpperCase().indexOf(filter) > -1) {
+	                    tr[i].style.display = "";
+	                } else {
+	                    tr[i].style.display = "none";
+	                }
+	            }
+	        }
+	    }
+	</script>
 
 </body>
+
 </html>
