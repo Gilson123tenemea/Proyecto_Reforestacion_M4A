@@ -28,15 +28,15 @@ public class Plantas implements Serializable {
     private Long id_especie;
 
     @NotNull(message = "El nombre científico no puede ser nulo")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre científico debe contener solo letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\\\s]+$", message = "El nombre científico debe contener solo letras y espacios")
     private String nombre_cientifico;
 
     @NotNull(message = "El clima no puede ser nulo")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El clima debe contener solo letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\\\s]+$", message = "El clima debe contener solo letras y espacios")
     private String clima;
 
     @NotNull(message = "El nombre común no puede ser nulo")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre común debe contener solo letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\\\s]+$", message = "El nombre común debe contener solo letras y espacios")
     private String nombre_comun;
 
     @NotNull(message = "El tamaño no puede ser nulo")
@@ -44,7 +44,7 @@ public class Plantas implements Serializable {
     private Double tamaño;
 
     @NotNull(message = "El color de las hojas no puede ser nulo")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El color de las hojas debe contener solo letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\\\s]+$", message = "El color de las hojas debe contener solo letras y espacios")
     private String color_hojas;
     
     // Relación con parcelas
