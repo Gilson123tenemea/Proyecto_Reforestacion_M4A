@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licencia de Uso</title>
+    
+    <!-- Bootstrap y fuentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/estilos.css"> <!-- Asegúrate de tener este archivo en tu proyecto -->
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f8e9; /* Color verde claro */
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        h2 {
+            color: #2e7d32; /* Verde oscuro */
+            text-align: center;
+            font-weight: 700;
+        }
+
+        h4 {
+            color: #388e3c;
+        }
+
+        .btn-primary {
+            background-color: #388e3c;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2e7d32;
+        }
+
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Layouts -->
+    <div th:replace="layout/layoutinicio :: menuinicio"></div>
+
+    <div class="container mt-5">
+        <h2>Términos y Condiciones de Uso</h2>
+        <p>
+            Esta licencia establece las condiciones bajo las cuales se puede utilizar el software desarrollado
+            para el proyecto de reforestación del Parque Nacional El Cajas. El uso del software implica la aceptación de estos términos.
+        </p>
+
+        <h4>1. Uso permitido</h4>
+        <p>El software solo podrá ser utilizado por los usuarios debidamente registrados y autorizados, dentro del marco del proyecto de reforestación. El acceso y uso del software están restringidos a las actividades relacionadas con la reforestación y el seguimiento de intervenciones, tal como se define en el alcance del proyecto.</p>
+
+        <h4>2. Restricciones</h4>
+        <p>No se permite la modificación, distribución, reproducción, ni el uso comercial del software sin la autorización expresa de los administradores del proyecto. Cualquier intento de manipular o utilizar el software fuera del contexto del proyecto de reforestación será considerado un incumplimiento de los términos de uso.</p>
+
+        <h4>3. Seguridad</h4>
+        <p>El usuario se compromete a mantener la seguridad del sistema, proteger la integridad de la información almacenada y a no divulgar ni compartir información confidencial relacionada con el proyecto, los participantes o las actividades realizadas, excepto en los casos permitidos por la normativa del proyecto.</p>
+
+        <div class="form-check mt-4">
+            <label class="form-check-label" for="acceptLicense">
+            </label>
+        </div>
+
+        <div class="text-center mt-4">
+            <button id="acceptBtn" class="btn btn-primary disabled" onclick="acceptLicense()">Aceptar</button>
+        </div>
+    </div>
+
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
+
+</body>
+
+</html>

@@ -43,18 +43,25 @@ public class EquiposDaoImpl implements IEquiposDao {
 
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {
-		  return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, ta.id_tipoActividades "
-		            + "FROM Usuarios u "
-		            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-		            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
-		            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
-		            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-		            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-		            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " // Se añade esta relación
-		            + "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL", Object[].class)
-		        .setParameter("voluntarioId", voluntarioId)
-		        .getResultList();
-		}
+	    return entityManager.createQuery(
+	        "SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, ta.id_tipoActividades "
+	        + "FROM Usuarios u "
+	        + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+	        + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+	        + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+	        + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+	        + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+	        + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+	        + "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL "
+	        + "AND NOT EXISTS ( "
+	        + "    SELECT 1 FROM RegistroActividadRealiza rar "
+	        + "    WHERE rar.id_voluntario = v.id_voluntario "
+	        + "    AND rar.id_tipoActividades = ta.id_tipoActividades"
+	        + ")",
+	        Object[].class)
+	    .setParameter("voluntarioId", voluntarioId)
+	    .getResultList();
+	}
 
 	@Override
 	public List<Equipos> findAll() {
