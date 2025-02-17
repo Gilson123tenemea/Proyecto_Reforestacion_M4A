@@ -46,11 +46,15 @@ public class ParcelaController {
         model.addAttribute("titulo", "Listado de Parcelas");
         List<Parcelas> parcelas = parcelaservice.findByAdministradorId(idAdministrador);
         Map<Long, String> proyectoNombres = new HashMap<>();
+        Map<Long, String> areaNombres = new HashMap<>();
         for (Parcelas parcela : parcelas) {
             String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
             proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
+            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+            areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
         }
         
+        model.addAttribute("areaNombres", areaNombres);
         model.addAttribute("parcelas", parcelas);
         model.addAttribute("proyectoNombres", proyectoNombres);
         return "listarparcelas";
@@ -174,7 +178,7 @@ public class ParcelaController {
         }
         Map<Long, String> areaNombres = new HashMap<>();
         for (Parcelas parcela : parcelas) {
-            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+            String areaNombre = parcelaservice.findAreaName(parcela.getId_parcelas());
             areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
         }
 
@@ -206,7 +210,7 @@ public class ParcelaController {
         
         Map<Long, String> areaNombres = new HashMap<>();
         for (Parcelas parcela : parcelas) {
-            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+            String areaNombre = parcelaservice.findAreaName(parcela.getId_parcelas());
             areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
         }
         model.addAttribute("parcelas", parcelas);
