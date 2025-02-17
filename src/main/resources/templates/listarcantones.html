@@ -10,170 +10,150 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            background-image: url('/imagenes/cuenca.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
+		body {
+						            font-family: 'Roboto', sans-serif;
+						            background-color: #ffffff;
+						            background-size: cover;
+						            background-position: center;
+						            background-attachment: fixed;
+						            display: flex;
+						            flex-direction: column;
+						            min-height: 100vh;
+						        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+						        .container {
+						            margin-top: 50px;
+						            background-color: rgba(255, 255, 255, 0.85);
+						            padding: 30px;
+						            border-radius: 10px;
+						            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+						            max-width: 1100px;
+						            animation: fadeIn 1s ease-in-out;
+						        }
 
-        .container {
-            margin-top: 50px;
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+						        @keyframes fadeIn {
+						            from {
+						                opacity: 0;
+						                transform: translateY(-20px);
+						            }
+						            to {
+						                opacity: 1;
+						                transform: translateY(0);
+						            }
+						        }
 
-        .table-container {
-            background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            width: 100%;
-            text-align: center;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
+						        .table-container h1 {
+						            text-align: center;
+						            color: #2d6a4f;
+						            font-weight: 700;
+						            margin-bottom: 30px;
+						            animation: slideIn 1s ease-in-out;
+						        }
 
-        .table-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
+						        @keyframes slideIn {
+						            from {
+						                transform: translateX(-100%);
+						            }
+						            to {
+						                transform: translateX(0);
+						            }
+						        }
 
-        h2 {
-            color: #333333;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 36px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 10px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            font-family: 'Montserrat', sans-serif;
-        }
+						        .table th, .table td {
+						            text-align: center;
+						            vertical-align: middle;
+						        }
 
-        .btn-primary {
-            background-color: #d32f2f;
-            border-color: #d32f2f;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-            padding: 8px 12px;
-            position: relative;
-            border-radius: 8px;
-            transition: all 0.3s ease-in-out;
-        }
+						        .table th {
+						            background-color: #4F5B3A;
+						            color: #fff;
+						            animation: slideIn 1s ease-in-out;
+						        }
 
-        .btn-primary:hover {
-            background-color: #b71c1c;
-        }
+						        .table tbody tr:nth-child(even) {
+						            background-color: #f1f8e9;
+						        }
 
-        .btn-primary i {
-            margin-right: 8px;
-            font-size: 18px;
-        }
+						        .table tbody tr:hover {
+						            background-color: #a8d5ba;
+						            transform: scale(1.02);
+						            transition: all 0.3s ease-in-out;
+						        }
 
-        .btn-primary span {
-            font-weight: 600;
-        }
+						        .btn {
+						            border-radius: 5px;
+						            padding: 8px 15px;
+						            transition: all 0.3s ease-in-out;
+						        }
 
-        .btn-warning, .btn-danger {
-            transition: all 0.3s ease-in-out;
-            font-size: 14px;
-            padding: 8px 14px;
-            border-radius: 8px;
-        }
+						        .btn-primary {
+						            background-color: #4F5B3A;
+						            border-color: rgb(0, 0, 0);
+						        }
 
-        .btn-warning:hover {
-            background-color: #f57c00;
-        }
+						        .btn-primary:hover {
+						            background-color: #4F5B3A;
+						            transform: scale(1.05);
+						        }
 
-        .btn-danger:hover {
-            background-color: #b71c1c;
-        }
+						        .btn-warning {
+						            background-color: #F1E6D6;
+						            border-color: #F1E6D6;
+						        }
 
-        .footer {
-            text-align: center;
-            padding: 15px;
-            background-color: #e9ecef;
-            font-weight: 500;
-            font-size: 14px;
-        }
+						        .btn-warning:hover {
+						            background-color: #F1E6D6;
+						            transform: scale(1.05);
+						        }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            font-family: 'Montserrat', sans-serif;
-        }
+						        .btn-danger {
+						            background-color: #D94F4F;
+						            border-color: rgb(0, 0, 0);
+						        }
 
-        .table th, .table td {
-            text-align: center;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
-        }
+						        .btn-danger:hover {
+						            background-color: #D94F4F;
+						            transform: scale(1.05);
+						        }
 
-        .table thead {
-            background-color: #007bff;
-            color: white;
-            font-weight: 600;
-        }
+						        .footer {
+						            background-color: #388e3c;
+						            color: white;
+						            text-align: center;
+						            margin-top: auto;
+						            font-size: 12px;
+						            padding: 10px 0;
+						        }
 
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer;
-            transform: scale(1.02);
-            transition: all 0.3s ease-in-out;
-        }
+						        .footer a {
+						            color: white;
+						            text-decoration: none;
+						        }
 
-        .table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+						        .footer a:hover {
+						            text-decoration: underline;
+						        }
 
-        .table tbody tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
+						        .table-container input {
+						            margin-bottom: 15px;
+						            border-radius: 5px;
+						            border: 1px solid #ced4da;
+						            padding: 10px;
+						            width: 100%;
+						            box-sizing: border-box;
+						            transition: border-color 0.3s ease;
+						        }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
+						        .table-container input:focus {
+						            border-color: #4F5B3A;
+						            box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
+						        }
 
-        .btn-group .btn {
-            font-size: 14px;
-            padding: 8px 12px;
-        }
-
-        .table tbody tr:hover td {
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-        }
     </style>
 </head>
 <body>
     <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="container">
         <div class="table-container">
@@ -192,8 +172,11 @@
                 <p th:text="${error}"></p>
             </div>
 
+			<!-- Campo de búsqueda -->
+				<input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre..." onkeyup="filterTable()">
+
             <!-- Tabla de Cantones -->
-            <table class="table table-bordered mt-4">
+            <table class="table table-bordered  table-striped mt-4">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -221,10 +204,33 @@
         </div>
     </div>
 
-    <footer class="footer">
-        &copy; 2025 Mi Proyecto. Todos los derechos reservados.
-    </footer>
+	<br>
+     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		    // Función para filtrar la tabla
+		    function filterTable() {
+		        var input, filter, table, tr, td, i, txtValue;
+		        input = document.getElementById('searchInput');
+		        filter = input.value.toUpperCase();
+		        table = document.querySelector('table');
+		        tr = table.getElementsByTagName('tr');
+		        
+		        for (i = 1; i < tr.length; i++) {  // Comienza en 1 para saltar el encabezado
+		            td = tr[i].getElementsByTagName('td');
+		            if (td.length > 0) {
+		                // Filtrar solo por la columna del nombre del cantón (1)
+		                var nombreCanton = td[1].textContent || td[1].innerText;
+		                if (nombreCanton.toUpperCase().indexOf(filter) > -1) {
+		                    tr[i].style.display = "";
+		                } else {
+		                    tr[i].style.display = "none";
+		                }
+		            }
+		        }
+		    }
+		</script>
+
 </body>
 </html>
