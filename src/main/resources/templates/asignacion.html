@@ -233,6 +233,16 @@
     <div class="container">
         <div class="form-container">
             <h1 th:text="${titulo}">Formulario Asignar Proyectos</h1>
+			
+			<!-- Mostrar mensaje de error si existe -->
+			            <div th:if="${error}" class="alert alert-danger">
+			                <strong>Error:</strong> <span th:text="${error}"></span>
+			            </div>
+
+			            <!-- Mostrar mensaje de éxito si existe -->
+			            <div th:if="${success}" class="alert alert-success">
+			                <strong>Éxito:</strong> <span th:text="${success}"></span>
+			            </div>
 
             <form th:action="@{/asignacion}" th:object="${asignacion}" method="POST">
                 <!-- Campo oculto para el ID -->
