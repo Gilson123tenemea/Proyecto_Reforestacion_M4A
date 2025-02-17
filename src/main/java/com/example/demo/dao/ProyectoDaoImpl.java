@@ -97,6 +97,12 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	             .getResultList();
 	}
 	
+	@Override
+	public long countAreasByProyectoId(Long idProyecto) {
+	    return em.createQuery("SELECT COUNT(a) FROM Area a WHERE a.id_proyecto = :idProyecto", Long.class)
+	             .setParameter("idProyecto", idProyecto)
+	             .getSingleResult();
+	}
 	
 
 }

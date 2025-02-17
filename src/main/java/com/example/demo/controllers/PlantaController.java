@@ -122,10 +122,15 @@ public class PlantaController {
         return "listarplantas";
     }
 
-    // Eliminar una Planta
+ // Eliminar una Planta
     @GetMapping("/planta/eliminar/{id}")
     public String eliminarPlanta(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
+            long count = plantasService.countParcelasByPlantaId(id);
+            if (count > 0) {
+                attributes.addFlashAttribute("error", "No se puede eliminar la planta porque tiene parcelas asociadas.");
+                return "redirect:/listarplantas"; // Redirige si no se puede eliminar
+            }
             plantasService.delete(id);
             attributes.addFlashAttribute("mensaje", "Planta eliminada correctamente");
         } catch (IllegalStateException e) {
@@ -135,6 +140,7 @@ public class PlantaController {
         }
         return "redirect:/listarplantas";
     }
+
 
     // Editar una Planta
     @GetMapping("/planta/editar/{id}")

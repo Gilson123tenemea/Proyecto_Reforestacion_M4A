@@ -83,12 +83,18 @@ public class AsignarProyectosController {
         return "asignacion";
     }
     
-    
-
-   
     @RequestMapping(value = "/asignacion", method = RequestMethod.POST)
     public String guardarAsignacion(Asignacion_proyectoActi asignacion, RedirectAttributes flash) {
         try {
+            // Verificar si ya existe una asignación para el mismo proyecto y actividad
+            List<Asignacion_proyectoActi> asignacionesExistentes = asignar_p.findByProyectoId(asignacion.getId_proyecto());
+            for (Asignacion_proyectoActi a : asignacionesExistentes) {
+                if (a.getId_tipoActividades().equals(asignacion.getId_tipoActividades())) {
+                    flash.addFlashAttribute("error", "La actividad ya está asignada a este proyecto");
+                    return "redirect:/listarAsignaciones";
+                }
+            }
+
             // Guarda nueva asignación o actualiza existente
             if (asignacion.getId_asignacionproyecto() != null) {
                 // Busca la asignación existente

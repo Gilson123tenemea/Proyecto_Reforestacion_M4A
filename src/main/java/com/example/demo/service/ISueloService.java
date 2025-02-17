@@ -12,4 +12,5 @@ public interface ISueloService {
 	public void delete(Long id);
 	public List<Suelo> listarsuelos(); 
 	public String findSueloName(Long idSuelo);
+	long countParcelasBySueloId(Long idSuelo);
 }

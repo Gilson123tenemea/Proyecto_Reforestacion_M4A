@@ -11,4 +11,5 @@ public interface IPlantasService {
 	public Plantas findOne(Long id);
 	public void delete(Long id);
 	public List<Plantas> listarPlantas(); 
+	long countParcelasByPlantaId(Long idPlanta);
 }

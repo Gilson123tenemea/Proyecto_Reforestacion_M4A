@@ -67,6 +67,11 @@ public class SueloServiceImpl implements ISueloService {
 		    }
 		    return null;
 	}
+	
+	@Override
+	public long countParcelasBySueloId(Long idSuelo) {
+	    return suelodao.countParcelasBySueloId(idSuelo);
+	}
 
 
 }

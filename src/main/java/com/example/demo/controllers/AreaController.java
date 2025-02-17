@@ -67,6 +67,11 @@ public class AreaController {
     @GetMapping("/area/eliminar/{id}")
     public String eliminarArea(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
+            long count = areaService.countParcelasByAreaId(id);
+            if (count > 0) {
+                attributes.addFlashAttribute("error", "No se puede eliminar el área porque tiene parcelas asociadas.");
+                return "redirect:/listarareas"; // Redirige si no se puede eliminar
+            }
             areaService.delete(id);
             attributes.addFlashAttribute("mensaje", "Área eliminada correctamente");
         } catch (IllegalStateException e) {

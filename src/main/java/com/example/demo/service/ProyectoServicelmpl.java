@@ -62,7 +62,11 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	@Transactional
 	@Override
 	public void delete(Long id) {
-		proyectodao.delete(id);
+	    long count = proyectodao.countAreasByProyectoId(id);
+	    if (count > 0) {
+	        throw new IllegalStateException("No se puede eliminar el proyecto porque tiene áreas asociadas.");
+	    }
+	    proyectodao.delete(id);
 	}
 
 	@Transactional(readOnly = true)
@@ -103,6 +107,11 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> findactivos() {
 		// TODO Auto-generated method stub
 		return proyectodao.findactivos();
+	}
+	
+	@Override
+	public long countAreasByProyectoId(Long idProyecto) {
+	    return proyectodao.countAreasByProyectoId(idProyecto);
 	}
 	
 	

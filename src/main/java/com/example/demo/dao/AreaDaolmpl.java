@@ -48,5 +48,12 @@ public class AreaDaolmpl implements IAreaDao {
 			        .setParameter("adminId", adminId)
 			        .getResultList();
 	}
+	
+	@Override
+	public long countParcelasByAreaId(Long idArea) {
+	    return em.createQuery("SELECT COUNT(p) FROM Parcelas p WHERE p.id_area = :idArea", Long.class)
+	             .setParameter("idArea", idArea)
+	             .getSingleResult();
+	}
 
 }

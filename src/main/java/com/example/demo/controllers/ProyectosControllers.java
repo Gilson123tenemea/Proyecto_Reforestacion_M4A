@@ -178,6 +178,11 @@ public class ProyectosControllers {
     @PostMapping("/proyectos/eliminar/{id}")
     public String eliminarProyecto(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
+            long count = proyectoService.countAreasByProyectoId(id);
+            if (count > 0) {
+                flash.addFlashAttribute("error", "No se puede eliminar el proyecto porque tiene áreas asociadas.");
+                return "redirect:/listarProyectos"; // Redirige si no se puede eliminar
+            }
             proyectoService.delete(id);
             flash.addFlashAttribute("success", "Proyecto eliminado correctamente");
         } catch (Exception e) {

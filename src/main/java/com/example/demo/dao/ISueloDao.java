@@ -11,6 +11,6 @@ public interface ISueloDao {
 	public Suelo findOne(Long id);
 	public void delete(Long id);
 	public List<Suelo> listarsuelos(); 
-	
+	long countParcelasBySueloId(Long idSuelo);
 
 }
