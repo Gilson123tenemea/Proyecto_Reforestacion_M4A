@@ -16,15 +16,14 @@
 			display: flex;
 			flex-direction: column;
 			font-family: 'Roboto', sans-serif;
-			background-image: url('/imagenes/cuenca.png');
 			background-size: cover;
 			background-position: center;
 			background-attachment: fixed;
-			color: white;
+			color: #fbffed; /* Color de texto principal */
 		}
 
 		header {
-			background-color: rgba(211, 47, 47, 0.8);
+			background-color: rgba(116, 123, 79, 0.8); /* #747b4f con transparencia */
 			width: 100%;
 		}
 
@@ -32,20 +31,18 @@
 			display: flex;
 			flex-direction: column;
 			min-height: 100vh;
-			/* Hace que el contenedor ocupe toda la pantalla */
 		}
 
 		main {
 			flex: 1;
-			/* Hace que el contenido ocupe el espacio disponible y empuje el footer hacia abajo */
 		}
-		
 
 		footer {
 			text-align: center;
 			padding: 15px 0;
-			background-color: rgba(211, 47, 47, 0.8);
+			background-color: rgba(116, 123, 79, 0.8); /* #747b4f con transparencia */
 			width: 100%;
+			color: #fbffed;
 		}
 
 		.login-wrapper {
@@ -57,7 +54,7 @@
 		}
 
 		.login-container {
-			background-color: rgba(255, 255, 255, 0.9);
+			background-color: rgba(180, 190, 154, 0.9); /* #b4be9a con transparencia */
 			padding: 30px;
 			border-radius: 10px;
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -73,7 +70,7 @@
 		h2 {
 			text-align: center;
 			margin-bottom: 20px;
-			color: #333333;
+			color: #68705a; /* #68705a */
 		}
 
 		.form-group {
@@ -83,7 +80,7 @@
 		label {
 			display: block;
 			margin-bottom: 5px;
-			color: #555555;
+			color: #68705a; /* #68705a */
 		}
 
 		input[type="text"],
@@ -93,22 +90,24 @@
 		.form-select {
 			width: 100%;
 			padding: 12px;
-			border: 1px solid #cccccc;
+			border: 1px solid #a6b285; /* #a6b285 */
 			border-radius: 5px;
 			transition: border 0.3s;
+			background-color: #fbffed; /* #fbffed */
+			color: #68705a; /* #68705a */
 		}
 
 		input:focus,
 		.form-select:focus {
-			border-color: #d32f2f;
+			border-color: #747b4f; /* #747b4f */
 			outline: none;
 		}
 
 		button {
 			width: 100%;
 			padding: 12px;
-			background-color: #d32f2f;
-			color: white;
+			background-color: #747b4f; /* #747b4f */
+			color: #fbffed; /* #fbffed */
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
@@ -116,22 +115,22 @@
 		}
 
 		button:hover {
-			background-color: #c62828;
+			background-color: #68705a; /* #68705a */
 		}
 
 		.error {
-			color: red;
+			color: #d32f2f; /* Rojo para errores */
 			text-align: center;
 		}
 
 		.register-link {
 			text-align: center;
 			margin-top: 15px;
-			color: #555555;
+			color: #68705a; /* #68705a */
 		}
 
 		.register-link a {
-			color: #d32f2f;
+			color: #747b4f; /* #747b4f */
 			text-decoration: none;
 		}
 
@@ -140,7 +139,7 @@
 		}
 
 		fieldset {
-			border: 1px solid #cccccc;
+			border: 1px solid #a6b285; /* #a6b285 */
 			border-radius: 5px;
 			padding: 20px;
 			margin-bottom: 20px;
@@ -149,33 +148,31 @@
 		legend {
 			font-size: 1.2em;
 			font-weight: bold;
-			color: #333333;
+			color: #68705a; /* #68705a */
 			padding: 0 10px;
 		}
-		
-		/* Estilo contra*/
-			.mostrar-contraseña {
-			    font-size: 0.8em; /* Tamaño más pequeño */
-			    color: rgba(0, 0, 0, 0.6); /* Color negro con algo de transparencia */
-			    cursor: pointer; /* Cambia el cursor al pasar por encima */
-			}
 
-			.mostrar-contraseña input {
-			    margin-right: 5px; /* Espacio entre el checkbox y el texto */
-			}
+		.mostrar-contraseña {
+			font-size: 0.8em;
+			color: rgba(104, 112, 90, 0.8); /* #68705a con transparencia */
+			cursor: pointer;
+		}
+
+		.mostrar-contraseña input {
+			margin-right: 5px;
+		}
 	</style>
 </head>
 
 <body>
 
 	<div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
 	<div class="login-wrapper">
 		<div class="login-container">
 			<h2>Editar Voluntario</h2>
 			<form action="/ActualizarVoluntario" method="post">
-
-			
 
 				<input type="hidden" name="id_voluntario" th:value="${voluntarios?.id_voluntario}" />
 				<input type="hidden" name="id_usuarios" th:value="${usuario?.id_usuarios}" />
@@ -208,7 +205,7 @@
 						<div class="col-md-6">
 						    <label for="celular">Celular:</label>
 						    <input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}" required>
-						    <small id="mensajeCelular"  ></small>
+						    <small id="mensajeCelular"></small>
 						</div>
 
 						<div class="col-md-6">
@@ -236,7 +233,6 @@
 							</select>
 						</div>
 
-
 						<div class="col-md-6">
 						    <div class="form-group">
 						        <label for="contraseña">Contraseña:</label>
@@ -249,8 +245,6 @@
 						        </label>
 						    </div>
 						</div>
-
-
 					</div>
 				</fieldset>
 
@@ -264,7 +258,6 @@
 									th:value="${voluntarios?.experiencia ?: ''}"></input>
 							</div>
 						</div>
-
 					</div>
 				</fieldset>
 
@@ -282,18 +275,13 @@
 	// contraseña visualizar
 	function togglePasswordVisibility(id) {
 	    var passwordInput = document.getElementById(id);
-	    // Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
 	    if (passwordInput.type === "password") {
 	        passwordInput.type = "text";
 	    } else {
 	        passwordInput.type = "password";
 	    }
 	}
-	
-	
-	
-	
-	
+
 	const provinciaSelect = document.getElementById('id_provincia');
 	const cantonSelect = document.getElementById('id_canton');
 	const parroquiaSelect = document.getElementById('id_parroquia');
@@ -316,7 +304,7 @@
 				});
 				cantonSelect.disabled = false;
 				parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-				parroquiaSelect.disabled = true; // Deshabilitar hasta que se seleccione un cantón
+				parroquiaSelect.disabled = true;
 			});
 	}
 
@@ -333,72 +321,57 @@
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {
-	        const contraseñaInput = document.getElementById("contraseña");
-	        const mensajeContraseña = document.getElementById("mensajeContraseña");
+	    const contraseñaInput = document.getElementById("contraseña");
+	    const mensajeContraseña = document.getElementById("mensajeContraseña");
+	    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
 
-	        // Expresión regular para validar la contraseña
-	        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
+	    contraseñaInput.addEventListener("input", function () {
+	        const contraseña = contraseñaInput.value;
+	        const especiales = contraseña.match(/[@#$%]/g);
+	        const cantidadEspeciales = especiales ? especiales.length : 0;
 
-	        // Validación de la contraseña mientras el usuario escribe
-	        contraseñaInput.addEventListener("input", function () {
-	            const contraseña = contraseñaInput.value;
-	            const especiales = contraseña.match(/[@#$%]/g);
-	            const cantidadEspeciales = especiales ? especiales.length : 0;
-
-	            if (!regex.test(contraseña) || cantidadEspeciales > 3) {
-	                mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
-	                mensajeContraseña.style.color = "red";
-	            } else {
-	                mensajeContraseña.textContent = "✅ Contraseña válida";
-	                mensajeContraseña.style.color = "green";
-	            }
-	        });
-
-	        // Prevenir envío del formulario si la contraseña no es válida y mostrar mensaje en mensajeContraseña
-	        document.querySelector("form").addEventListener("submit", function (event) {
-	            const contraseña = contraseñaInput.value;
-
-	            // Verifica si la contraseña es válida antes de enviar
-	            if (!regex.test(contraseña) || (contraseña.match(/[@#$%]/g) || []).length > 3) {
-	                mensajeContraseña.textContent = "La contraseña no cumple con los requisitos.";
-	                mensajeContraseña.style.color = "red";
-	                event.preventDefault(); // Detiene el envío del formulario
-	            }
-	        });
-			
-			
-			
-			
-			// Valiadr celular: 			
-			const celularInput = document.getElementById("celular");
-			    const mensajeCelular = document.getElementById("mensajeCelular");
-
-			    // Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
-			    const regexCelular = /^09\d{8}$/;
-
-			    celularInput.addEventListener("input", function () {
-			        const celular = celularInput.value;
-
-			        if (!regexCelular.test(celular)) {
-			            mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
-			            mensajeCelular.style.color = "red";
-			        } else {
-			            mensajeCelular.textContent = "✅ Número de celular válido";
-			            mensajeCelular.style.color = "green";
-			        }
-			    });
-
-			    // Validación al enviar el formulario
-			    document.querySelector("form").addEventListener("submit", function (event) {
-			        const celular = celularInput.value;
-
-			        if (!regexCelular.test(celular)) {
-			            mensajeCelular.textContent = "El número de celular debe comenzar con 09 y tener 10 dígitos en total.";
-			            mensajeCelular.style.color = "red";
-			            event.preventDefault(); // Detiene el envío del formulario si no es válido
-			        }
-			    });
+	        if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+	            mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+	            mensajeContraseña.style.color = "red";
+	        } else {
+	            mensajeContraseña.textContent = "✅ Contraseña válida";
+	            mensajeContraseña.style.color = "green";
+	        }
 	    });
+
+	    document.querySelector("form").addEventListener("submit", function (event) {
+	        const contraseña = contraseñaInput.value;
+	        if (!regex.test(contraseña) || (contraseña.match(/[@#$%]/g) || []).length > 3) {
+	            mensajeContraseña.textContent = "La contraseña no cumple con los requisitos.";
+	            mensajeContraseña.style.color = "red";
+	            event.preventDefault();
+	        }
+	    });
+
+	    const celularInput = document.getElementById("celular");
+	    const mensajeCelular = document.getElementById("mensajeCelular");
+	    const regexCelular = /^09\d{8}$/;
+
+	    celularInput.addEventListener("input", function () {
+	        const celular = celularInput.value;
+	        if (!regexCelular.test(celular)) {
+	            mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
+	            mensajeCelular.style.color = "red";
+	        } else {
+	            mensajeCelular.textContent = "✅ Número de celular válido";
+	            mensajeCelular.style.color = "green";
+	        }
+	    });
+
+	    document.querySelector("form").addEventListener("submit", function (event) {
+	        const celular = celularInput.value;
+	        if (!regexCelular.test(celular)) {
+	            mensajeCelular.textContent = "El número de celular debe comenzar con 09 y tener 10 dígitos en total.";
+	            mensajeCelular.style.color = "red";
+	            event.preventDefault();
+	        }
+	    });
+	});
 </script>
 
 </html>

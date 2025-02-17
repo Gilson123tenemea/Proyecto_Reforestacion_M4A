@@ -12,130 +12,217 @@
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+	    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-		* {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
+	    * {
+	        box-sizing: border-box;
+	        margin: 0;
+	        padding: 0;
+	    }
+
+	    body {
+	        font-family: 'Roboto', sans-serif;
+	        background-color: #fbffed; /* Fondo principal */
+	        color: #68705a; /* Color de texto principal */
+	    }
+
+	    .main-content {
+	        margin-top: 50px;
+	    }
+
+	    .container {
+	        max-width: 1200px;
+	        margin: auto;
+	        padding: 20px;
+	    }
+
+	    .card {
+	        border-radius: 12px;
+	        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+	        background-color: #fbffed; /* Fondo de la tarjeta */
+	        border: 1px solid #a6b285; /* Borde de la tarjeta */
+	    }
+
+	    .card-body {
+	        padding: 20px;
+	    }
+
+	    .row {
+	        display: flex;
+	        flex-wrap: wrap;
+	        gap: 20px;
+	    }
+
+	    .col-md-6 {
+	        flex: 1;
+	        min-width: 300px;
+	    }
+
+	    .form-container {
+	        background: #b4be9a; /* Fondo del formulario */
+	        padding: 20px;
+	        border-radius: 12px;
+	        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+	        transition: transform 0.3s ease-in-out;
+	    }
+
+	    .form-container:hover {
+	        transform: translateY(-3px);
+	    }
+
+	    .form-container h4 {
+	        text-align: center;
+	        color: #68705a; /* Color del título del formulario */
+	        font-weight: 700;
+	        font-size: 20px;
+	        margin-bottom: 15px;
+	    }
+
+	    .form-control {
+	        border-radius: 6px;
+	        border: 1px solid #a6b285; /* Borde del input */
+	        padding: 8px;
+	        font-size: 14px;
+	        transition: all 0.3s ease-in-out;
+	        width: 100%;
+	        background-color: #fbffed; /* Fondo del input */
+	        color: #68705a; /* Color del texto del input */
+	    }
+
+	    .form-control:focus {
+	        border-color: #747b4f; /* Borde del input al enfocar */
+	        box-shadow: 0 0 8px rgba(116, 123, 79, 0.4); /* Sombra al enfocar */
+	    }
+
+	    .btn {
+	        background: linear-gradient(to right, #747b4f, #68705a); /* Fondo del botón */
+	        color: #fbffed; /* Color del texto del botón */
+	        border-radius: 6px;
+	        width: 100%;
+	        padding: 10px;
+	        font-size: 16px;
+	        font-weight: bold;
+	        transition: all 0.3s ease-in-out;
+	        border: none;
+	    }
+
+	    .btn:hover {
+	        background: #68705a; /* Fondo del botón al pasar el mouse */
+	        transform: scale(1.05);
+	        box-shadow: 0 5px 12px rgba(104, 112, 90, 0.3); /* Sombra al pasar el mouse */
+	    }
+
+	    .btn:active {
+	        background: #747b4f; /* Fondo del botón al hacer clic */
+	        transform: scale(0.97);
+	    }
+		/* Estilos para el título principal */
+		h2.text-center {
+		    font-size: 2.5rem;
+		    font-weight: 700;
+		    color: #4a5a3a; /* Color más oscuro para el título */
+		    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+		    margin-bottom: 30px;
+		    padding-bottom: 10px;
+		    border-bottom: 3px solid #a6b285; /* Línea decorativa bajo el título */
 		}
 
-		body {
-			font-family: 'Roboto', sans-serif;
+		/* Estilos para la información del proyecto */
+		.card-body .col-md-6 {
+		    background-color: #f0f4e3; /* Fondo más claro para la información */
+		    padding: 20px;
+		    border-radius: 12px;
+		    border: 1px solid #a6b285; /* Borde sutil */
+		    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 		}
 
-		.main-content {
-			margin-top: 50px;
+		.card-body .col-md-6 .mb-3 {
+		    margin-bottom: 1.5rem !important;
 		}
 
-		.container {
-			max-width: 1200px;
-			margin: auto;
-			padding: 20px;
+		.card-body .col-md-6 .form-label {
+		    font-weight: 600;
+		    color: #4a5a3a; /* Color más oscuro para las etiquetas */
+		    margin-bottom: 0.5rem;
 		}
 
-		.card {
-			border-radius: 12px;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+		.card-body .col-md-6 .form-control-plaintext {
+		    font-size: 1rem;
+		    color: #68705a; /* Color de texto principal */
+		    background-color: transparent;
+		    padding: 0.5rem 0;
+		    border-bottom: 1px solid #a6b285; /* Línea sutil bajo cada campo */
 		}
 
-		.card-body {
-			padding: 20px;
+		/* Estilos para el formulario y el mapa */
+		.col-md-6 h4 {
+		    font-size: 1.5rem;
+		    font-weight: 700;
+		    color: #4a5a3a; /* Color más oscuro para el título */
+		    margin-bottom: 20px;
+		    text-align: center;
 		}
 
-		.row {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 20px;
+
+		/* Estilos para el botón "Inscribirme" */
+		.inscribirme-btn {
+		    background: linear-gradient(to right, #747b4f, #68705a);
+		    color: #fbffed;
+		    border-radius: 8px;
+		    padding: 12px;
+		    font-size: 1rem;
+		    font-weight: 700;
+		    transition: all 0.3s ease-in-out;
+		    border: none;
+		    width: 100%;
+		    margin-top: 20px;
 		}
 
-		.col-md-6 {
-			flex: 1;
-			min-width: 300px;
+		.inscribirme-btn:hover {
+		    background: #68705a;
+		    transform: scale(1.05);
+		    box-shadow: 0 5px 12px rgba(104, 112, 90, 0.3);
 		}
 
-		.form-container {
-			background: rgba(255, 255, 255, 0.9);
-			padding: 20px;
-			border-radius: 12px;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-			transition: transform 0.3s ease-in-out;
+		.inscribirme-btn:active {
+		    background: #747b4f;
+		    transform: scale(0.97);
 		}
 
-		.form-container:hover {
-			transform: translateY(-3px);
-		}
+	    /* Estilos del mapa */
+	    #map {
+	        height: 350px; /* Ajustable */
+	        width: 100%;
+	        border-radius: 12px;
+	        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	        transition: all 0.3s ease;
+	        border: 1px solid #a6b285; /* Borde del mapa */
+	    }
 
-		.form-container h4 {
-			text-align: center;
-			color: #444;
-			font-weight: 700;
-			font-size: 20px;
-			margin-bottom: 15px;
-		}
+	    /* Estilos para la barra de carga */
+	    .loading-bar {
+	        text-align: center;
+	        color: #68705a; /* Color del texto de carga */
+	        font-weight: bold;
+	        margin-top: 10px;
+	    }
 
-		.form-control {
-			border-radius: 6px;
-			border: 1px solid #ccc;
-			padding: 8px;
-			font-size: 14px;
-			transition: all 0.3s ease-in-out;
-			width: 100%;
-		}
+	    @media (max-width: 768px) {
+	        .row {
+	            flex-direction: column;
+	        }
 
-		.form-control:focus {
-			border-color: #d32f2f;
-			box-shadow: 0 0 8px rgba(211, 47, 47, 0.4);
-		}
-
-		.btn {
-			background: linear-gradient(to right, #d32f2f, #b71c1c);
-			color: white;
-			border-radius: 6px;
-			width: 100%;
-			padding: 10px;
-			font-size: 16px;
-			font-weight: bold;
-			transition: all 0.3s ease-in-out;
-		}
-
-		.btn:hover {
-			background: #b71c1c;
-			transform: scale(1.05);
-			box-shadow: 0 5px 12px rgba(183, 28, 28, 0.3);
-		}
-
-		.btn:active {
-			background: #d32f2f;
-			transform: scale(0.97);
-		}
-
-		/* Ajuste del mapa para evitar desbordes */
-		#map {
-			height: 350px; /* Ajustable */
-			width: 100%;
-			border-radius: 12px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			transition: all 0.3s ease;
-		}
-
-		@media (max-width: 768px) {
-			.row {
-				flex-direction: column;
-			}
-
-			#map {
-				height: 250px; /* Reducido en móviles */
-			}
-		}
+	        #map {
+	            height: 250px; /* Reducido en móviles */
+	        }
+	    }
 	</style>
-
 </head>
 
 <body>
 
 	<div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
-
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 	<div class="container mt-5">
 	    <h2 class="text-center mb-4" th:text="${proyecto.nombre ?: 'Formulario Parcela'}">Formulario Parcela</h2>
 
