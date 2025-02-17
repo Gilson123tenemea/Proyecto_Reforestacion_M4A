@@ -2,404 +2,404 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title th:text="${titulo}">Formulario de Proyecto</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<style>
-		body {
-			font-family: 'Roboto', sans-serif;
-			background-color: #f8f9fa;
-			overflow-x: hidden;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Formulario de Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
 
-		.container {
-			max-width: 800px;
-			margin: 0 auto;
-			padding: 20px;
-			background-color: #ffffff;
-			border-radius: 10px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			margin-top: 50px;
-			margin-bottom: 50px;
-			animation: fadeIn 1s ease-in-out;
-		}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-in-out;
+        }
 
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: translateY(-20px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
 
-		h1 {
-			color: #343a40;
-			font-weight: 700;
-			margin-bottom: 30px;
-			text-align: center;
-			animation: slideIn 1s ease-in-out;
-		}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-		@keyframes slideIn {
-			from {
-				transform: translateX(-100%);
-			}
-			to {
-				transform: translateX(0);
-			}
-		}
+        h1 {
+            color: #343a40;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: slideIn 1s ease-in-out;
+        }
 
-		.form-label {
-			font-weight: 500;
-			color: #495057;
-		}
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
 
-		.form-control {
-			border-radius: 5px;
-			border: 1px solid #ced4da;
-			padding: 10px;
-			transition: border-color 0.3s, box-shadow 0.3s;
-		}
+            to {
+                transform: translateX(0);
+            }
+        }
 
-		.form-control:focus {
-			border-color: #80bdff;
-			box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
-		}
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
 
-		.btn-primary {
-			background-color: #007bff;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 5px;
-			transition: background-color 0.3s;
-		}
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
 
-		.btn-primary:hover {
-			background-color: #0056b3;
-		}
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
 
-		.btn-secondary {
-			background-color: #6c757d;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 5px;
-			transition: background-color 0.3s;
-		}
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-		.btn-secondary:hover {
-			background-color: #5a6268;
-		}
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
 
-		.alert {
-			border-radius: 5px;
-			padding: 10px;
-			margin-bottom: 20px;
-		}
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-		.alert-success {
-			background-color: #d4edda;
-			border-color: #c3e6cb;
-			color: #155724;
-		}
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
 
-		.alert-danger {
-			background-color: #f8d7da;
-			border-color: #f5c6cb;
-			color: #721c24;
-		}
+        .alert {
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
 
-		.img-fluid {
-			max-width: 100%;
-			height: auto;
-			border-radius: 5px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-		}
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
 
-		.text-center {
-			text-align: center;
-		}
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
 
-		.mb-3 {
-			margin-bottom: 1.5rem;
-		}
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-		.mt-5 {
-			margin-top: 3rem;
-		}
+        .text-center {
+            text-align: center;
+        }
 
-		.mb-4 {
-			margin-bottom: 2rem;
-		}
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
 
-		.custom-file-input {
-			opacity: 0;
-			position: absolute;
-			z-index: -1;
-		}
+        .mt-5 {
+            margin-top: 3rem;
+        }
 
-		.custom-file-label {
-			display: block;
-			padding: 10px;
-			background-color: #e9ecef;
-			border: 1px solid #ced4da;
-			border-radius: 5px;
-			cursor: pointer;
-			text-align: center;
-			transition: background-color 0.3s;
-		}
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
 
-		.custom-file-label:hover {
-			background-color: #dde2e6;
-		}
+        .custom-file-input {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
 
-		#nombreArchivoGuardado {
-			display: block;
-			margin-top: 5px;
-			font-size: 0.9em;
-			color: #6c757d;
-		}
-	</style>
+        .custom-file-label {
+            display: block;
+            padding: 10px;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-label:hover {
+            background-color: #dde2e6;
+        }
+
+        #nombreArchivoGuardado {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
 </head>
 
 <body>
-	<div th:replace="layout/layoutAdmin :: menu"></div>
-	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+    <div th:replace="layout/layoutAdmin :: menu"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
-	<div class="container mt-5">
-	    <h1 class="mb-4">Formulario de Proyecto</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Formulario de Proyecto</h1>
 
-	    <!-- Formulario para guardar el proyecto -->
-	    <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
-	        <!-- Campos ocultos -->
-	        <input type="hidden" th:field="*{id_proyecto}" />
-	        <input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
+        <!-- Formulario para guardar el proyecto -->
+        <form th:action="@{/guardarProyecto}" th:object="${proyecto}" method="post" enctype="multipart/form-data">
+            <!-- Campos ocultos -->
+            <input type="hidden" th:field="*{id_proyecto}" />
+            <input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
 
-	        <!-- Mensajes de éxito o error -->
-	        <div th:if="${mensaje}" class="alert alert-success" role="alert">
-	            <span th:text="${mensaje}"></span>
-	        </div>
-	        <div th:if="${error}" class="alert alert-danger" role="alert">
-	            <span th:text="${error}"></span>
-	        </div>
+            <!-- Mensajes de éxito o error -->
+            <div th:if="${mensaje}" class="alert alert-success" role="alert">
+                <span th:text="${mensaje}"></span>
+            </div>
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
 
-	        <!-- Sección de imagen del proyecto -->
-	        <div class="row mb-3">
-	            <div class="col-md-4 text-center">
-	                <!-- Imagen actual del proyecto -->
-	                <div class="mb-3">
-						<img th:if="${imagenGuardada}" 
-						     th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
-						     alt="Imagen del proyecto" 
-						     class="img-fluid rounded mb-3" 
-						     style="max-width: 150px;" />
-					</div>
-	                <!-- Cargar nueva imagen -->
-	                <div class="mb-3">
-	                    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-	                    <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
-	                           accept="image/*" onchange="mostrarNombreArchivo()" />
-	                    <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
-	                    <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
-	                </div>
-	            </div>
+            <!-- Sección de imagen del proyecto -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-center">
+                    <!-- Imagen actual del proyecto -->
+                    <div class="mb-3">
+                        <img th:if="${imagenGuardada}" 
+                             th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
+                             alt="Imagen del proyecto" 
+                             class="img-fluid rounded mb-3" 
+                             style="max-width: 150px;" />
+                    </div>
+                    <!-- Cargar nueva imagen -->
+                    <div class="mb-3">
+                        <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+                        <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
+                               accept="image/*" onchange="mostrarNombreArchivo(); mostrarImagenPrevia();" />
+                        <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
+                        <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
+                    </div>
+                    <!-- Imagen previa -->
+                    <img id="imagenPrevia" src="" alt="Vista previa" class="img-fluid rounded mb-3" style="max-width: 150px; display:none;" />
+                </div>
 
-	            <!-- Nombre del Proyecto -->
-	            <div class="col-md-8">
-	                <div class="mb-3">
-	                    <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-	                    <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
-	                           placeholder="Ingresar nombre del proyecto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
-	                           title="Solo se permiten letras y espacios" oninput="this.setAttribute('value', this.value);" />
-	                </div>
-	            </div>
-	        </div>
+                <!-- Nombre del Proyecto -->
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+                        <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
+                               placeholder="Ingresar nombre del proyecto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
+                               title="Solo se permiten letras y espacios" oninput="this.setAttribute('value', this.value);" />
+                    </div>
+                </div>
+            </div>
 
-	        <!-- Sección de ubicación (Provincia, Cantón, Parroquia) -->
-	        <div class="row">
-	            <div class="col-md-6 mb-3">
-	                <label for="id_provincia" class="form-label">Provincia:</label>
-	                <select id="id_provincia" class="form-control" required>
-	                    <option value="" disabled selected>Seleccione una Provincia</option>
-	                    <th:block th:each="provincia : ${provincias}">
-	                        <option th:value="${provincia.id_provincia}"
-	                                th:selected="${provincia.id_provincia == provinciaSeleccionada}"
-	                                th:text="${provincia.nombreProvincia}"></option>
-	                    </th:block>
-	                </select>
-	            </div>
+            <!-- Sección de ubicación (Provincia, Cantón, Parroquia) -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_provincia" class="form-label">Provincia:</label>
+                    <select id="id_provincia" class="form-control" required>
+                        <option value="" disabled selected>Seleccione una Provincia</option>
+                        <th:block th:each="provincia : ${provincias}">
+                            <option th:value="${provincia.id_provincia}"
+                                    th:selected="${provincia.id_provincia == provinciaSeleccionada}"
+                                    th:text="${provincia.nombreProvincia}"></option>
+                        </th:block>
+                    </select>
+                </div>
 
-	            <div class="col-md-6 mb-3">
-	                <label for="id_canton" class="form-label">Cantón:</label>
-	                <select id="id_canton" class="form-control" required>
-	                    <option value="" disabled>Seleccione un Cantón</option>
-	                    <th:block th:each="canton : ${cantones}">
-	                        <option th:value="${canton.id_canton}"
-	                                th:selected="${canton.id_canton == cantonSeleccionado}"
-	                                th:text="${canton.nombreCanton}"></option>
-	                    </th:block>
-	                </select>
-	            </div>
-	        </div>
+                <div class="col-md-6 mb-3">
+                    <label for="id_canton" class="form-label">Cantón:</label>
+                    <select id="id_canton" class="form-control" required>
+                        <option value="" disabled>Seleccione un Cantón</option>
+                        <th:block th:each="canton : ${cantones}">
+                            <option th:value="${canton.id_canton}"
+                                    th:selected="${canton.id_canton == cantonSeleccionado}"
+                                    th:text="${canton.nombreCanton}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
 
-	        <div class="row">
-	            <div class="col-md-6 mb-3">
-	                <label for="id_parroquia" class="form-label">Parroquia:</label>
-	                <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
-	                    <option value="" disabled>Seleccione una Parroquia</option>
-	                    <th:block th:each="parroquia : ${parroquias}">
-	                        <option th:value="${parroquia.id_parroquia}"
-	                                th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
-	                                th:text="${parroquia.nombreParroquia}"></option>
-	                    </th:block>
-	                </select>
-	            </div>
-	        </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_parroquia" class="form-label">Parroquia:</label>
+                    <select th:field="*{id_parroquia}" id="id_parroquia" class="form-control" required>
+                        <option value="" disabled>Seleccione una Parroquia</option>
+                        <th:block th:each="parroquia : ${parroquias}">
+                            <option th:value="${parroquia.id_parroquia}"
+                                    th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}"
+                                    th:text="${parroquia.nombreParroquia}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
 
-	        <!-- Sección de fechas (Inicio y Fin) -->
-	        <div class="row">
-	            <div class="col-md-6 mb-3">
-	                <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-	                <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
-	            </div>
+            <!-- Sección de fechas (Inicio y Fin) -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                    <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fechaInicio" required />
+                </div>
 
-	            <div class="col-md-6 mb-3">
-	                <label for="fechaFin" class="form-label">Fecha de Fin:</label>
-	                <input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
-	            </div>
-	        </div>
+                <div class="col-md-6 mb-3">
+                    <label for="fechaFin" class="form-label">Fecha de Fin:</label>
+                    <input type="date" th:field="*{fecha_fin}" class="form-control" id="fechaFin" required />
+                </div>
+            </div>
 
-	        <!-- Sección de estado y porcentaje -->
-	        <div class="row">
-	            <div class="col-md-6 mb-3">
-	                <label for="estado" class="form-label">Estado:</label>
-	                <select th:field="*{estado}" class="form-control" id="estado" required>
-	                    <option value="" disabled selected>Seleccione un Estado</option>
-	                    <option value="activo">Activo</option>
-	                    <option value="inactivo">Inactivo</option>
-	                    <option value="finalizado">Finalizado</option>
-	                </select>
-	            </div>
+            <!-- Sección de estado y porcentaje -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <select th:field="*{estado}" class="form-control" id="estado" required>
+                        <option value="" disabled selected>Seleccione un Estado</option>
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                        <option value="finalizado">Finalizado</option>
+                    </select>
+                </div>
 
-	            <div class="col-md-6 mb-3">
-	                <label for="porcentaje" class="form-label">Porcentaje:</label>
-	                <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
-	                       step="1" required />
-	            </div>
-	        </div>
+                <div class="col-md-6 mb-3">
+                    <label for="porcentaje" class="form-label">Porcentaje:</label>
+                    <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
+                           step="1" required />
+                </div>
+            </div>
 
-	        <!-- Voluntarios máximos -->
-	        <div class="mb-3">
-	            <label for="voluntariosMax" class="form-label">Voluntarios Máximos:</label>
-	            <input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1" required />
-	        </div>
+            <!-- Voluntarios máximos -->
+            <div class="mb-3">
+                <label for="voluntariosMax" class="form-label">Voluntarios Máximos:</label>
+                <input type="number" th:field="*{voluntariosmax}" class="form-control" id="voluntariosMax" min="1" required />
+            </div>
 
-	        <!-- Botones de acción -->
-	        <div class="mb-3 text-center">
-				<button type="submit" class="btn" style="background-color: #4F5B3A; border-color: #4F5B3A; color: white;">Guardar</button>
-	        </div>
-	    </form>
-	</div>
-	
-	<script>
-		function mostrarNombreArchivo() {
-			const input = document.getElementById('imagenArchivo');
-			const nombreArchivo = input.files[0] ? input.files[0].name : 'No se ha seleccionado ningún archivo';
-			document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
-		}
+            <!-- Botones de acción -->
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn" style="background-color: #4F5B3A; border-color: #4F5B3A; color: white;">Guardar</button>
+            </div>
+        </form>
+    </div>
 
-		const fechaInicio = document.getElementById('fechaInicio');
-		const fechaFin = document.getElementById('fechaFin');
+    <script>
+        function mostrarNombreArchivo() {
+            const input = document.getElementById('imagenArchivo');
+            const nombreArchivo = input.files[0] ? input.files[0].name : 'No se ha seleccionado ningún archivo';
+            document.getElementById('nombreArchivoGuardado').textContent = nombreArchivo;
+        }
 
-		fechaFin.addEventListener('change', () => {
-			const inicio = new Date(fechaInicio.value);
-			const fin = new Date(fechaFin.value);
-			if (fin <= inicio) {
-				alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
-				fechaFin.value = "";
-			}
-		});
+        function mostrarImagenPrevia() {
+            const input = document.getElementById('imagenArchivo');
+            const imagenPrevia = document.getElementById('imagenPrevia');
 
-		const provinciaSelect = document.getElementById('id_provincia');
-		const cantonSelect = document.getElementById('id_canton');
-		const parroquiaSelect = document.getElementById('id_parroquia');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
 
-		const provinciaSeleccionada = /*[[${provinciaSeleccionada}]]*/ null;
-		const cantonSeleccionado = /*[[${cantonSeleccionado?.id_canton}]]*/ null;
-		const parroquiaSeleccionada = /*[[${parroquiaSeleccionada?.id_parroquia}]]*/ null;
+                reader.onload = function (e) {
+                    imagenPrevia.src = e.target.result;
+                    imagenPrevia.style.display = 'block';
+                };
 
-		if (provinciaSeleccionada) {
-			cargarCantones(provinciaSeleccionada, cantonSeleccionado, parroquiaSeleccionada);
-		}
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                imagenPrevia.src = '';
+                imagenPrevia.style.display = 'none';
+            }
+        }
 
-		provinciaSelect.addEventListener('change', () => {
-			cargarCantones(provinciaSelect.value);
-		});
+        const fechaInicio = document.getElementById('fechaInicio');
+        const fechaFin = document.getElementById('fechaFin');
 
-		cantonSelect.addEventListener('change', () => {
-			cargarParroquias(cantonSelect.value);
-		});
+        fechaFin.addEventListener('change', () => {
+            const inicio = new Date(fechaInicio.value);
+            const fin = new Date(fechaFin.value);
+            if (fin <= inicio) {
+                alert("La fecha de fin no puede ser anterior o igual a la fecha de inicio.");
+                fechaFin.value = "";
+            }
+        });
 
-		function cargarCantones(idProvincia, idCantonSeleccionado = null, idParroquiaSeleccionada = null) {
-			fetch(`/cantones/${idProvincia}`)
-				.then(response => response.json())
-				.then(data => {
-					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-					data.forEach(canton => {
-						const selected = canton.id_canton == idCantonSeleccionado ? 'selected' : '';
-						cantonSelect.innerHTML += `<option value="${canton.id_canton}" ${selected}>${canton.nombreCanton}</option>`;
-					});
-					cantonSelect.disabled = false;
-					if (idCantonSeleccionado) {
-						cargarParroquias(idCantonSeleccionado, idParroquiaSeleccionada);
-					}
-				});
-		}
+        const provinciaSelect = document.getElementById('id_provincia');
+        const cantonSelect = document.getElementById('id_canton');
+        const parroquiaSelect = document.getElementById('id_parroquia');
 
-		function cargarParroquias(idCanton, idParroquiaSeleccionada = null) {
-			fetch(`/parroquias/${idCanton}`)
-				.then(response => response.json())
-				.then(data => {
-					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					data.forEach(parroquia => {
-						const selected = parroquia.id_parroquia == idParroquiaSeleccionada ? 'selected' : '';
-						parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}" ${selected}>${parroquia.nombreParroquia}</option>`;
-					});
-					parroquiaSelect.disabled = false;
-				});
-		}
-	</script>
-	
-	<script>
-	        function validarFormulario() {
-	            let campos = document.querySelectorAll("#miFormulario input");
-	            let errorCard = document.getElementById("errorCard");
-	            let errorMensaje = document.getElementById("errorMensaje");
-	            let errores = [];
+        const provinciaSeleccionada = /*[[${provinciaSeleccionada}]]*/ null;
+        const cantonSeleccionado = /*[[${cantonSeleccionado?.id_canton}]]*/ null;
+        const parroquiaSeleccionada = /*[[${parroquiaSeleccionada?.id_parroquia}]]*/ null;
 
-	            campos.forEach(campo => {
-	                if (campo.value.trim() === "") {
-	                    errores.push(`El campo "${campo.previousElementSibling.textContent}" es obligatorio.`);
-	                }
-	            });
+        if (provinciaSeleccionada) {
+            cargarCantones(provinciaSeleccionada, cantonSeleccionado, parroquiaSeleccionada);
+        }
 
-	            if (errores.length > 0) {
-	                errorCard.classList.remove("d-none");
-	                errorMensaje.innerHTML = errores.join("<br>");
-	            } else {
-	                errorCard.classList.add("d-none");
-	                alert("Formulario enviado correctamente");
-	            }
-	        }
-	    </script>
+        provinciaSelect.addEventListener('change', () => {
+            cargarCantones(provinciaSelect.value);
+        });
 
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+        cantonSelect.addEventListener('change', () => {
+            cargarParroquias(cantonSelect.value);
+        });
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        function cargarCantones(idProvincia, idCantonSeleccionado = null, idParroquiaSeleccionada = null) {
+            fetch(`/cantones/${idProvincia}`)
+                .then(response => response.json())
+                .then(data => {
+                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+                    data.forEach(canton => {
+                        const selected = canton.id_canton == idCantonSeleccionado ? 'selected' : '';
+                        cantonSelect.innerHTML += `<option value="${canton.id_canton}" ${selected}>${canton.nombreCanton}</option>`;
+                    });
+                    cantonSelect.disabled = false;
+                    if (idCantonSeleccionado) {
+                        cargarParroquias(idCantonSeleccionado, idParroquiaSeleccionada);
+                    }
+                });
+        }
+
+        function cargarParroquias(idCanton, idParroquiaSeleccionada = null) {
+            fetch(`/parroquias/${idCanton}`)
+                .then(response => response.json())
+                .then(data => {
+                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+                    data.forEach(parroquia => {
+                        const selected = parroquia.id_parroquia == idParroquiaSeleccionada ? 'selected' : '';
+                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}" ${selected}>${parroquia.nombreParroquia}</option>`;
+                    });
+                    parroquiaSelect.disabled = false;
+                });
+        }
+    </script>
+
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
