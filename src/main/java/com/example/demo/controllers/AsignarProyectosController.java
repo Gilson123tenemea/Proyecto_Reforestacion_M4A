@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,8 @@ import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.service.IAsignacion_proyectoActiService;
 import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.ITipo_ActividadesService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class AsignarProyectosController {
@@ -84,21 +87,34 @@ public class AsignarProyectosController {
     }
     
     @RequestMapping(value = "/asignacion", method = RequestMethod.POST)
-    public String guardarAsignacion(Asignacion_proyectoActi asignacion, 
+    public String guardarAsignacion(@Valid Asignacion_proyectoActi asignacion, 
+                                     BindingResult result, 
                                      RedirectAttributes flash, 
                                      Model model, 
                                      @SessionAttribute("idAdministrador") Long idAdministrador) {
         try {
+            // Si hay errores de validación
+            if (result.hasErrors()) {
+                model.addAttribute("titulo", "Formulario de Nueva Asignación");
+                model.addAttribute("asignacion", asignacion);
+                model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
+                model.addAttribute("actividades", actividadService.findByAdministradorId(idAdministrador));
+
+                // Extraer los mensajes de error y agregarlos al modelo
+                StringBuilder errores = new StringBuilder();
+                result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+                model.addAttribute("error", errores.toString());
+
+                return "asignacion"; // Volver a cargar la vista con los errores
+            }
+
             // Verificar si se está editando una asignación
             if (asignacion.getId_asignacionproyecto() == null) {
                 // Nueva asignación: verificar si ya existe una asignación para el mismo proyecto y actividad
                 List<Asignacion_proyectoActi> asignacionesExistentes = asignar_p.findByProyectoId(asignacion.getId_proyecto());
                 for (Asignacion_proyectoActi a : asignacionesExistentes) {
                     if (a.getId_tipoActividades().equals(asignacion.getId_tipoActividades())) {
-                        // Si ya existe la asignación, mostrar mensaje de error
                         model.addAttribute("error", "La actividad ya está asignada a este proyecto");
-                        
-                        // Recargar la misma vista con los datos para que no se borren
                         model.addAttribute("titulo", "Formulario de Nueva Asignación");
                         model.addAttribute("asignacion", asignacion);
                         model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
@@ -111,14 +127,12 @@ public class AsignarProyectosController {
 
             // Guarda nueva asignación o actualiza existente
             if (asignacion.getId_asignacionproyecto() != null) {
-                // Busca la asignación existente
                 Asignacion_proyectoActi asignacionExistente = asignar_p.findOne(asignacion.getId_asignacionproyecto());
                 if (asignacionExistente == null) {
                     model.addAttribute("error", "La Asignación con ese ID no existe");
                     return "asignacion"; // Recargar la vista sin redirigir
                 }
 
-                // Actualiza los campos necesarios
                 asignacionExistente.setId_proyecto(asignacion.getId_proyecto());
                 asignacionExistente.setId_tipoActividades(asignacion.getId_tipoActividades());
                 asignacionExistente.setEstado(asignacion.getEstado());
@@ -126,7 +140,6 @@ public class AsignarProyectosController {
                 asignar_p.save(asignacionExistente);
                 model.addAttribute("success", "Asignación actualizada exitosamente");
             } else {
-                // Guarda nueva asignación
                 asignar_p.save(asignacion);
                 model.addAttribute("success", "Asignación guardada exitosamente");
             }
@@ -141,14 +154,12 @@ public class AsignarProyectosController {
             List<Asignacion_proyectoActi> asignacionesProyecto = asignar_p.findByProyectoId(asignacion.getId_proyecto());
             for (Asignacion_proyectoActi a : asignacionesProyecto) {
                 a.setPorcentajeActividad(porcentajePorActividad);
-                asignar_p.save(a); // Guarda cada actividad con el nuevo porcentaje
+                asignar_p.save(a);
             }
 
-            // Redirigir al listado de asignaciones después de guardar
             return "redirect:/listarAsignaciones"; // Redirección al listado de asignaciones
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar la Asignación: " + e.getMessage());
-            // En caso de error, recargar la misma página con el mensaje de error
             model.addAttribute("titulo", "Formulario de Nueva Asignación");
             model.addAttribute("asignacion", asignacion);
             model.addAttribute("proyectos", proyectoService.findByAdministradorId(idAdministrador));
