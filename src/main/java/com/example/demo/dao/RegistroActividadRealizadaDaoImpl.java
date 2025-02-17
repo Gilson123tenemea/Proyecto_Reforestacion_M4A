@@ -56,6 +56,33 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 				+ "AND r.validacion_voluntario_tareaRealizada = TRUE", Object[].class)
 				.setParameter("voluntarioId", voluntarioId).getResultList();
 	}
+	
+	
+	@Override
+	public List<Object[]> findInfo_RegistroRealizado(Long voluntarioId, Long RegistroActividadRealizada_Id) {
+		 return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
+		            + "e.nombre, ta.nombre_act, "
+		            + "r.validacion_admin_tareaRealizada, r.validacion_voluntario_tareaRealizada, r.id_registroactividadrealizada, ta.id_tipoActividades,   "
+		            + "ta.duracion, ta.id_administrador, r.descripcion   "
+		            + "FROM Usuarios u "
+		            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+		            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+		            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+		            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+		            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+		            + "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+		            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+		            + "WHERE v.id_voluntario = :voluntarioId "
+		            + "AND r.id_registroactividadrealizada = :RegistroActividadRealizada_Id 	"
+		            + "AND r.validacion_admin_tareaRealizada = FALSE "
+		            + "AND r.validacion_voluntario_tareaRealizada = TRUE",
+		            Object[].class)
+				    .setParameter("voluntarioId", voluntarioId)
+				    .setParameter("RegistroActividadRealizada_Id", RegistroActividadRealizada_Id)
+				    .getResultList();
+	}
+
+
 
 	@Override
 	public Optional<Object[]> findDetalleActividadById(Long actividadId) {
