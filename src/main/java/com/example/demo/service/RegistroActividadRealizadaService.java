@@ -112,6 +112,11 @@ public class RegistroActividadRealizadaService {
     	
     	return registroActividadRealizadaDao.findInfo_RegistroRealizado(voluntarioId, RegistroActividadRealizada_Id);
     }
+   
+   List<Object[]> findInfo_RegistroRealizado_cumplido(Long voluntarioId, Long RegistroActividadRealizada_Id){
+	   return registroActividadRealizadaDao.findInfo_RegistroRealizado_cumplido(voluntarioId, RegistroActividadRealizada_Id);
+   }
+    
     
 	public List<Asignar_equipos> listarvoluntariosporequipos (Long idvolunta){
 		return registroActividadRealizadaDao.listarvoluntariosporequipos(idvolunta);

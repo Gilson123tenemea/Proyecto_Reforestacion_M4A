@@ -148,7 +148,7 @@
 			<table class="table table-striped">
 				<thead class="thead-dark">
 					<tr>
-						<th>ID tipo actividad</th>
+						
 						<th>Actividad</th>
 						<th>Duración</th>
 						<th>Proyecto</th>
@@ -158,7 +158,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="actividad : ${actividades}">
-						<td th:text="${actividad[5]}"></td>
+						
 						<td th:text="${actividad[0]}"></td>
 						<td th:text="${actividad[1]} + ' horas'"></td>
 						<td th:text="${actividad[2]}"></td>
@@ -199,7 +199,10 @@
 							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[8]})}" alt="Evidencia" class="img-thumbnail" width="100">
 						</td>
 						<td>
-							<a th:href="@{/voluntarioActividadesRealizadasMas}" class="btn btn-info btn-sm">Más Información</a>
+							<a th:href="@{/registro-actividad/Infor(id=${actividad[8]})}" class="btn btn-info btn-sm">
+																						Más Información
+																					</a>
+														
 							<a th:href="@{/registro-actividad/editar(id=${actividad[8]})}"
 								class="btn btn-warning btn-sm">
 								Editar
