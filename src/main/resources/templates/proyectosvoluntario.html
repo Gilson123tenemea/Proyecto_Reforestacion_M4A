@@ -4,166 +4,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto</title>
+    <title>Proyectos Voluntariado - LLakta Forest</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-		    body {
-		        background-color: #fbffed; /* Fondo claro de la paleta */
-		        color: #68705a; /* Texto en color gris oscuro */
-		        font-family: 'Arial', sans-serif;
-		    }
+        body {
+            background-color: #fbffed;
+            color: #68705a;
+            font-family: 'Arial', sans-serif;
+        }
 
-		    header {
-		        background-color: #747b4f; /* Color oscuro de la paleta */
-		        color: #fbffed;
-		        padding: 10px 20px;
-		        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-		    }
+        header {
+            background-color: #747b4f;
+            color: #fbffed;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-		    nav a {
-		        text-decoration: none;
-		        color: #fbffed;
-		        margin: 0 10px;
-		        transition: color 0.3s ease;
-		    }
+        nav a {
+            text-decoration: none;
+            color: #fbffed;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
 
-		    nav a:hover {
-		        color: #a6b285; /* Color de botón de la paleta en hover */
-		        text-decoration: underline;
-		    }
+        nav a:hover {
+            color: #a6b285;
+            text-decoration: underline;
+        }
 
-		    .carousel-container {
-		        overflow: hidden;
-		        width: 100%;
-		        position: relative;
-		        padding: 20px 0px 10px 0px;
-		    }
+        .carousel-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            padding: 20px 0px 10px 0px;
+        }
 
-		    #carousel {
-		        display: flex;
-		        transition: transform 0.5s ease-in-out;
-		        gap: 15px;
-		        padding: 10px;
-		    }
+        #carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 15px;
+            padding: 10px;
+        }
 
-		    .card {
-		        flex: 0 0 auto;
-		        width: 300px;
-		        min-height: 200px;
-		        border-radius: 12px;
-		        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-		        background-color: #fbffed;
-		        text-align: center;
-		        overflow: hidden;
-		        transition: transform 0.3s ease, box-shadow 0.3s ease;
-		    }
+        .card {
+            flex: 0 0 auto;
+            width: 300px;
+            min-height: 200px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f0f4e3; /* Cambio de color de fondo */
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-		    .card:hover {
-		        transform: translateY(-10px);
-		        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-		    }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
 
-		    .card img {
-		        width: 100%;
-		        height: 150px;
-		        object-fit: cover;
-		        transition: transform 0.3s ease;
-		    }
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
 
-		    .card:hover img {
-		        transform: scale(1.1);
-		    }
+        .card:hover img {
+            transform: scale(1.1);
+        }
 
-		    .card-body {
-		        padding: 15px;
-		    }
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-		    .botones {
-		        display: flex;
-		        justify-content: center;
-		        gap: 10px;
-		        margin-top: 10px;
-		    }
+        .botones {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-		    .btn-view {
-		        background-color: #a6b285; /* Color de botón de la paleta */
-		        color: #fbffed;
-		        border-radius: 8px;
-		        padding: 8px 15px;
-		        border: none;
-		        cursor: pointer;
-		        transition: background-color 0.3s ease;
-		    }
+        .btn-view {
+            background-color: #a6b285;
+            color: #fbffed;
+            border-radius: 8px;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-		    .btn-view:hover {
-		        background-color: #747b4f; /* Color oscuro de la paleta en hover */
-		    }
+        .btn-view:hover {
+            background-color: #747b4f;
+            transform: scale(1.05);
+        }
 
-		    .footer {
-		        background-color: #68705a;
-		        padding: 15px;
-		        text-align: center;
-		        font-size: 14px;
-		        color: #fbffed;
-		        margin-top: 20px;
-		        border-top: 2px solid #a6b285;
-		    }
+        .footer {
+            background-color: #68705a;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fbffed;
+            margin-top: 20px;
+            border-top: 2px solid #a6b285;
+        }
 
-		    .footer a {
-		        color: #a6b285;
-		        text-decoration: none;
-		        transition: color 0.3s ease;
-		    }
+        .footer a {
+            color: #a6b285;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-		    .footer a:hover {
-		        color: #fbffed;
-		    }
+        .footer a:hover {
+            color: #fbffed;
+        }
 
-		    .card.bg-light {
-		        width: 100%;
-		        max-width: 100%;
-		        padding: 1px 40px 0px 40px;
-		    }
+        .card.bg-light {
+            width: 100%;
+            max-width: 100%;
+            padding: 1px 40px 0px 40px;
+        }
 
-		    .toast-container {
-		        z-index: 1050; /* Asegura que esté por encima de otros elementos */
-		    }
+        .toast-container {
+            z-index: 1050;
+        }
 
-		    .toast {
-		        background-color: #a6b285;
-		        color: #fbffed;
-		        border-radius: 8px;
-		        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-		    }
+        .toast {
+            background-color: #a6b285;
+            color: #fbffed;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-		    .toast-body {
-		        padding: 10px 15px;
-		    }
+        .toast-body {
+            padding: 10px 15px;
+        }
 
-		    /* Estilo mejorado para el título */
-		    h2 {
-		        background: linear-gradient(90deg, #a6b285, #b4be9a); /* Degradado con colores de la paleta */
-		        color: #fbffed; /* Texto en color claro */
-		        padding: 15px 20px;
-		        text-align: center;
-		        font-size: 2.5rem; /* Tamaño grande */
-		        font-weight: bold;
-		        border-radius: 12px; /* Bordes redondeados */
-		        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-		        margin-bottom: 20px; /* Espaciado inferior */
-		        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra en el texto */
-		    }
-		</style>
+        h2 {
+            background: linear-gradient(90deg, #a6b285, #b4be9a);
+            color: #fbffed;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #68705a;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #68705a;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .centered-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        /* Estilo para el botón de información */
+        .btn-outline-info {
+            color: #a6b285; /* Color similar al botón de inscribirme */
+            border-color: #a6b285; /* Borde con el mismo color */
+        }
+
+        .btn-outline-info:hover {
+            background-color: #a6b285; /* Fondo al pasar el mouse */
+            color: #fbffed; /* Color del texto al pasar el mouse */
+        }
+    </style>
 </head>
 
 <body>
     <div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
     <div th:replace="layout/layoutAdmin :: fondo1"></div>
-    <div class="container-fluid py-4">
-        <div class="card bg-light">
-            <h2>Proyectos Disponibles</h2>
+    <div class="container-fluid py-4 centered-content">
+        <!-- Nueva card para el título y la descripción -->
+        <div class="card bg-light mb-4" style="width: 80%;">
+            <div class="card-body">
+                <h2>Únete a Nuestros Proyectos de Voluntariado</h2>
+                <p class="subtitle">Descubre cómo puedes marcar la diferencia en el medio ambiente y la comunidad.</p>
+                <p class="description">
+                    En LLakta Forest, creemos en el poder de la acción colectiva. Nuestros proyectos están diseñados para
+                    proteger y restaurar los ecosistemas, fomentar la sostenibilidad y empoderar a las comunidades locales.
+                    ¡Inscríbete hoy y sé parte del cambio!
+                </p>
+            </div>
+        </div>
 
+        <!-- Card del carrusel -->
+        <div class="card bg-light" style="width: 80%;">
             <div class="card-body">
                 <div class="carousel-container">
                     <div id="carousel">
@@ -173,9 +250,13 @@
                                 <p class="card-text" th:text="${proyecto.nombre}"></p>
 
                                 <input type="hidden" class="proyecto-id" th:value="${proyecto.id_proyecto}">
-                                <div class="d-flex gap-2 mt-auto">
-                                    <button type="button" class="btn btn-outline-success inscribirme-btn">Inscribirme</button>
-                                    <button type="button" class="btn btn-outline-info informa-btn">Info</button>
+                                <div class="d-flex gap-2 mt-auto justify-content-center">
+                                    <button type="button" class="btn btn-outline-success inscribirme-btn">
+                                        <i class="bi bi-person-plus"></i> Inscribirme
+                                    </button>
+                                    <button type="button" class="btn btn-outline-info informa-btn">
+                                        <i class="bi bi-info-circle"></i> Información
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +282,7 @@
 
     <script>
         let position = 0;
-        const cardWidth = 300; // Ancho de la tarjeta más el margen
+        const cardWidth = 300;
         const carousel = document.getElementById("carousel");
 
         function moveLeft() {
@@ -218,7 +299,6 @@
                 carousel.style.transform = `translateX(-${position}px)`;
             }
         }
-		
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".inscribirme-btn").forEach(button => {
