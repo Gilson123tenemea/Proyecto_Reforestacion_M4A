@@ -33,6 +33,12 @@
             padding: 20px;
             text-align: center;
         }
+		.card-container {
+		    width: 70%; /* Reduce el ancho de la tarjeta */
+		    padding: 20px 15px; /* Reduce el relleno interno */
+		    margin: 30px auto 0; /* Ajusta la distancia superior */
+		}
+
 
         .card-container {
             background: linear-gradient(135deg, #a6b285, #b4be9a);
@@ -40,7 +46,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 90%;
+            width: 75%;
             margin: 50px auto 0; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -49,216 +55,224 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
+		.card-container {
+		      display: flex;
+		      justify-content: center;
+		      align-items: center; 
+		      gap: 20px;
+		      flex-wrap: wrap;
+		      margin-top: 30px;
+		    }
 
-        .card-title {
-            color: #fbffed;
-            font-weight: 500;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
+		    .card {
+		      width: 250px;
+		      height: 250px;
+		      border-radius: 25%;
+		      display: flex;
+		      flex-direction: column;
+		      align-items: center;
+		      justify-content: center;
+		      text-align: center;
+		      background-color: #4F5B3A;
+		      color: white;
+		      cursor: pointer;
+		      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+		      text-decoration: none;
+		      padding: 20px;
+		      position: relative;
+		      overflow: hidden;
+		      animation: float 6s ease-in-out infinite;
+		    }
 
-        .card-description {
-            color: #fbffed;
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
+		    .card::before {
+		      content: "";
+		      position: absolute;
+		      top: -50%;
+		      left: -50%;
+		      width: 200%;
+		      height: 200%;
+		      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+		      transform: rotate(45deg);
+		      transition: opacity 0.5s ease;
+		      opacity: 0;
+		    }
 
-        .btn {
-            background-color: #747b4f;
-            color: #fff;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 10px;
-            border: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+		    .card:hover::before {
+		      opacity: 1;
+		    }
 
-        .btn:hover {
-            background-color: #68705a;
-            transform: translateY(-5px);
-        }
+		    .card:hover {
+		      transform: scale(1.1) rotate(5deg);
+		      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+		      background-color: #5f6f50;
+		    }
 
-        h2 {
-            color: #747b4f;
-            font-size: 36px;
-            font-weight: 800;
-            text-align: center;
-            margin-top: 10px; 
-            margin-bottom: 20px;
-        }
+		    .card .icon-container {
+		      width: 100px;
+		      height: 100px;
+		      background-color: white;
+		      border-radius: 50%; 
+		      display: flex;
+		      align-items: center;
+		      justify-content: center;
+		      margin-bottom: 10px;
+		      transition: transform 0.3s ease;
+		    }
 
-        .card-report {
-            background: #fbffed;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+		    .card:hover .icon-container {
+		      transform: scale(1.1) rotate(15deg);
+		    }
 
-        .card-report:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
+		    .card img {
+		      width: 50px;
+		      height: 50px;
+		      transition: transform 0.3s ease;
+		    }
 
-        .footer {
-            background-color: #68705a;
-            padding: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: #fff;
-            margin-top: auto;
-        }
+		    .card:hover img {
+		      transform: rotate(20deg);
+		    }
 
-        .motivational-quote {
-            color: #68705a;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
+		    .card h5 {
+		      margin: 0;
+		      font-size: 18px;
+		      font-weight: bold;
+		      transition: color 0.3s ease;
+		    }
 
-        .welcome-text {
-            color: #fbffed;
-            font-size: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
+		    .card:hover h5 {
+		      color: rgb(64, 0, 0);
+		    }
 
-        /* Animación al cargar la página */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+		    .card p {
+		      margin: 5px 0 0;
+		      font-size: 13px;
+		      color: #ddd;
+		      transition: color 0.3s ease;
+		    }
 
-        .card-container {
-            animation: fadeIn 0.8s ease-out;
-        }
+		    .card:hover p {
+		      color: #fff;
+		    }
+
+		    @keyframes float {
+		      0%, 100% {
+		        transform: translateY(0);
+		      }
+		      50% {
+		        transform: translateY(-10px);
+		      }
+		    }
+
+		    h1 {
+		      font-family: 'Montserrat', sans-serif;
+		      font-size: 2.5rem;
+		      font-weight: 700;
+		      background: linear-gradient(90deg, rgb(128, 64, 0) 0%, rgb(64, 0, 0) 100%);
+		      -webkit-background-clip: text;
+		      -webkit-text-fill-color: transparent;
+		      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+		      animation: fadeIn 1.5s ease-in-out;
+		    }
+
+		    @keyframes fadeIn {
+		      0% {
+		        opacity: 0;
+		        transform: translateY(-20px);
+		      }
+		      100% {
+		        opacity: 1;
+		        transform: translateY(0);
+		      }
+		    }
+
+		    /* Ajustes para el fondo */
+		    .fondo1 {
+		      position: relative;
+		      z-index: 1;
+		    }
+
+		    .pane {
+		      background-color: transparent; /* o rgba(255, 255, 255, 0.5) para semi-transparente */
+		      z-index: 2;
+		    }
     </style>
 </head>
 <body>
     <!-- Menú del patrocinador -->
 	<div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
-
 	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <!-- Contenido principal -->
     <div class="content">
         <div class="card-container">
-            <h1 class="card-title welcome-text">¡BIENVENIDO, <span th:text="${nombresuperadmin}">Administrador</span> <span th:text="${apellidosuperadmin}">Apellido</span>!</h1>
-            <p class="motivational-quote">"El éxito no es la clave de la felicidad, la felicidad es la clave del éxito."</p>
-            <p class="card-description">Gracias por unirte a nuestra causa. Juntos haremos una gran diferencia en la reforestación y en el cuidado del medio ambiente.</p>
+            <h2 class="card-title welcome-text">¡BIENVENIDO, <span th:text="${nombresuperadmin}">Administrador</span> <span th:text="${apellidosuperadmin}">Apellido</span>!</h2>
+            <p class="motivational-quote">Como líder del sistema, tienes acceso total a todas las funciones y configuraciones. Tu gestión y visión estratégica son esenciales para el éxito de nuestra plataforma.</p>
+            <p class="card-description">¡Gracias por tu compromiso y liderazgo!</p>
         </div>
     </div>
 
-    <!-- Reportes -->
-    <h2>REPORTES</h2>
-    <div id="reportes" class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO DE BARRAS</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart1"></canvas>
-                    </div>
+    <!-- Contenido principal -->
+    <div class="content container mt-5">
+        <h2 class="text-center mb-4">Ver Listas de usuarios</h2>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a class="card" href="/listarVoluntarios">
+                <div class="icon-container">
+                    <img src="/imagenes/proyecto.png" alt="Proyectos">
                 </div>
-            </div>
+                <h5>Listado de Voluntarios</h5>
+                <p>Gestiona los administradores creadas en el Voluntarios</p>
+            </a>
+            <a class="card" href="/listarAdministradores">
+                <div class="icon-container">
+                    <img src="/imagenes/area.png" alt="Áreas">
+                </div>
+                <h5>Listado de Administradores</h5>
+                <p>Gestiona los administradores creadas en el sistema.</p>
+            </a>
+            <a class="card" href="/listar">
+                <div class="icon-container">
+                    <img src="/imagenes/parcelas.png" alt="Parcelas">
+                </div>
+                <h5>Listado de Patrocinadores</h5>
+                <p>Revisa y administra los patrocinadores.</p>
+            </a>
+        </div>
+    </div>
 
-            <div class="col-md-6">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO DE LÍNEAS</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart2"></canvas>
-                    </div>
+    <!-- Contenido ubicaciones -->
+    <div class="content container mt-5">
+        <h2 class="text-center mb-4">Ver Listas de ubicaciones</h2>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a class="card" href="/listarprovincia">
+                <div class="icon-container">
+                    <img src="/imagenes/proyecto.png" alt="Proyectos">
                 </div>
-            </div>
-
-            <div class="col-md-12">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO COMPARATIVO</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart3"></canvas>
-                    </div>
+                <h5>Listado de Provincias</h5>
+                <p>Gestiona los administradores creadas en el Voluntarios</p>
+            </a>
+            <a class="card" href="/listarcantones">
+                <div class="icon-container">
+                    <img src="/imagenes/area.png" alt="Áreas">
                 </div>
-            </div>
+                <h5>Listado de Cantones</h5>
+                <p>Gestiona los administradores creadas en el sistema.</p>
+            </a>
+            <a class="card" href="/listarparroquias">
+                <div class="icon-container">
+                    <img src="/imagenes/parcelas.png" alt="Parcelas">
+                </div>
+                <h5>Listado de Parroquias</h5>
+                <p>Revisa y administra los patrocinadores.</p>
+            </a>
         </div>
     </div>
 
     <!-- Pie de página -->
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+    <br>
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const ctx1 = document.getElementById("myChart1").getContext("2d");
-            const ctx2 = document.getElementById("myChart2").getContext("2d");
-            const ctx3 = document.getElementById("myChart3").getContext("2d");
-
-            // Gráfico de Barras
-            new Chart(ctx1, {
-                type: "bar",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Datos de ejemplo",
-                        backgroundColor: "rgba(109, 127, 78, 0.7)",
-                        borderColor: "#6d7f4e",
-                        data: [10, 20, 30, 40]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-            // Gráfico de Líneas
-            new Chart(ctx2, {
-                type: "line",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Crecimiento",
-                        borderColor: "rgba(109, 127, 78, 0.5)",
-                        backgroundColor: "rgba(109, 127, 78, 0.3)",
-                        data: [15, 25, 35, 50],
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-            // Gráfico Comparativo
-            new Chart(ctx3, {
-                type: "bar",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Comparación",
-                        backgroundColor: "rgba(109, 127, 78, 0.3)",
-                        borderColor: "#6d7f4e",
-                        data: [5, 15, 25, 35]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-        });
-    </script>
 </body>
 </html>
