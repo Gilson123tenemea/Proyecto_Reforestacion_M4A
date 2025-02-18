@@ -42,9 +42,7 @@ public class Usuarios implements Serializable {
     @Pattern(regexp = "^[0-9]{10}$", message = "El celular debe tener 10 dígitos")
     private String celular;
 
-    @NotNull(message = "La contraseña no puede ser nula")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$", 
-             message = "La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)")
+    
     private String contraseña;
 
 

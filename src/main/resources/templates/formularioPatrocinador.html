@@ -149,7 +149,7 @@
 	<div class="login-wrapper">
 		<div class="login-container">
 			<h2>Crear Nuevo Patrocinador</h2>
-			<form action="/guardarPatrocinador" method="post">
+			<form action="/guardarPatrocinador"method="post">
 				<fieldset>
 					<legend>Datos del Usuario</legend>
 					<div class="row g-3">
@@ -229,17 +229,29 @@
 						
 						
 						<div class="col-md-6">
-							<div class="form-group">
-								<label for="contraseña">Contraseña:</label>
-								<input type="password" id="contraseña" name="contraseña" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="confirmar_contraseña">Confirmar Contraseña:</label>
-								<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
-							</div>
-						</div>
+													<div class="form-group">
+														<label for="contraseña">Contraseña:</label>
+														<input type="password" id="contraseña" name="contraseña" required minlength="8"
+														oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"	>
+														<label for="mostrarContraseña" class="mostrar-contraseña">
+															<input type="checkbox" id="mostrarContraseña"
+																onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+														</label>
+														<small id="mensajeContraseña"></small>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="confirmar_contraseña">Confirmar Contraseña:</label>
+														<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
+														oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')">
+														<label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
+															<input type="checkbox" id="mostrarConfirmarContraseña"
+																onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
+														</label>
+														<small id="mensajeConfirmacion"></small>
+													</div>
+												</div>
 					</div>
 				</fieldset>
 
@@ -274,20 +286,64 @@
 		</div>
 	</div>
 	
-	<script>
-		
-		document.querySelector('form').addEventListener('submit', function(event) {
-			const contraseñaInput = document.getElementById('contraseña');
-			const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
 
-			if (contraseñaInput.value !== confirmarContraseñaInput.value) {
-				event.preventDefault(); 
-				alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
-				confirmarContraseñaInput.focus(); 
-			}
-		});
+	<script>
+	    document.addEventListener("DOMContentLoaded", function () {
+	        const contraseñaInput = document.getElementById("contraseña");
+	        const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
+	        const mensajeContraseña = document.getElementById("mensajeContraseña");
+	        const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
+
+	        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
+
+	        contraseñaInput.addEventListener("input", function () {
+	            const contraseña = contraseñaInput.value;
+	            const especiales = contraseña.match(/[@#$%]/g);
+	            const cantidadEspeciales = especiales ? especiales.length : 0;
+
+	            if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+	                mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+	                mensajeContraseña.style.color = "red";
+	            } else {
+	                mensajeContraseña.textContent = "✅ Contraseña válida";
+	                mensajeContraseña.style.color = "green";
+	            }
+	        });
+
+	        confirmarContraseñaInput.addEventListener("input", function () {
+	            if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+	                mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
+	                mensajeConfirmacion.style.color = "red";
+	            } else {
+	                mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
+	                mensajeConfirmacion.style.color = "green";
+	            }
+	        });
+
+	        window.validarFormulario = function() {
+	            const mensajeContraseñaTexto = mensajeContraseña.innerText.trim();
+	            const mensajeConfirmacionTexto = mensajeConfirmacion.innerText.trim();
+
+	            if (mensajeContraseñaTexto !== "✅ Contraseña válida" || 
+	                mensajeConfirmacionTexto !== "✅ Las contraseñas coinciden") {
+	                alert("Por favor, revise la información. Algunos campos no son válidos.");
+	                return false; 
+	            }
+
+	            return true;
+	        };
+
+	        window.togglePasswordVisibility = function(id) {
+	            var passwordInput = document.getElementById(id);
+	            
+	            if (passwordInput.type === "password") {
+	                passwordInput.type = "text";
+	            } else {
+	                passwordInput.type = "password";
+	            }
+	        };
+	    });
 	</script>
-	
 
 	<script>
 		const cedulaInput = document.getElementById('cedula');
@@ -403,6 +459,7 @@
 				});
 		}
 	</script>
+	
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
 
