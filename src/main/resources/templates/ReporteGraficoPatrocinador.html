@@ -1,101 +1,283 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-    <title>Reporte Gráfico de Proyectos por Patrocinador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Gráfico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
     <style>
-        .charts-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .chart {
-            width: 80%;
-            height: 500px;
-        }
-
+        /* Estilos generales */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            background-color: #fbffed; /* Fondo suave con color principal */
             color: #333;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
 
         h1 {
             text-align: center;
-            color: #3a3a3a;
-            font-size: 2em;
-            margin: 20px;
+            color: #747b4f; /* Color del título */
+            font-size: 2.5em;
+            margin: 40px 0 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para el título */
+            animation: fadeIn 1.5s ease-in-out; /* Animación al cargar */
         }
 
+        .background-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('/imagenes/Fondo1.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.8; /* Ajustar la opacidad del fondo */
+        }
+
+        /* Contenedor de gráficos */
+        .charts-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto; /* Reducido margen superior para no pegarse al título */
+            padding: 20px;
+            max-width: 1200px;
+            animation: slideIn 1s ease-in-out; /* Animación al cargar */
+        }
+
+        /* Estilos de la gráfica */
+        .chart {
+            width: 90%;
+            height: 500px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .chart:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Títulos y textos */
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            color: #a6b285; /* Color de título para las gráficas */
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            background-color: #68705a; /* Tooltip con color suave */
+            color: #fbffed;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Leyenda */
+        .chart-legend {
+            color: #b4be9a;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+                margin: 20px 0;
+            }
+
             .chart {
                 width: 100%;
+                height: 400px;
+            }
+
+            .charts-container {
+                padding: 10px;
             }
         }
 
-        .chart {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            background-color: #fff;
+        .footer {
+            background-color: #68705a;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+            margin-top: 15px;
+        }
+
+        /* Animación al cargar la página */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Menú del patrocinador -->
+    <div th:replace="layout/layoutPatrocinador :: menupatrocinador"></div>
+    <!-- Fondo de la página -->
+    <div class="background-panel"></div>
 
-<h1>Reporte Gráfico de Proyectos por Patrocinador</h1>
+    <!-- Título fuera del contenedor de gráficos -->
+    <h1>Reporte Gráfico de Proyectos</h1>
 
-<div class="charts-container">
-    <div id="chartPatrocinador" class="chart"></div>
-</div>
+    <!-- Contenedor de gráficos -->
+    <div class="charts-container">
+        <div id="chartPatrocinador" class="chart"></div>
+    </div>
 
-<script th:inline="javascript">
-    var nombresProyectosPatrocinador = [[${nombresProyectosPatrocinador}]];
+    <script th:inline="javascript">
+        var nombresProyectosPatrocinador = [[${nombresProyectosPatrocinador}]];
 
-    var myChartPatrocinador = echarts.init(document.getElementById('chartPatrocinador'));
+        var myChartPatrocinador = echarts.init(document.getElementById('chartPatrocinador'));
 
-    var option = {
-        title: {
-            text: 'Proyectos por Patrocinador',
-            subtext: 'Distribución de proyectos',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'shadow' },
-            formatter: '{b}: ({c}%)'
-        },
-        xAxis: {
-            type: 'category',
-            data: nombresProyectosPatrocinador.map(function(proyecto) {
-                return proyecto.nombre;
-            }),
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}%'
-            }
-        },
-        series: [
-            {
-                name: 'Proyectos',
-                type: 'bar',
+        var option = {
+            title: {
+                text: '',
+                left: 'center',
+                textStyle: {
+                    color: '#a6b285', /* Título con color suave */
+                    fontWeight: 'bold',
+                    fontSize: 24,
+                    lineHeight: 30 /* Ajusta el espacio entre líneas */
+                },
+                subtextStyle: {
+                    color: '#b4be9a', /* Subtítulo con color más claro */
+                    fontSize: 16,
+                    lineHeight: 20 /* Ajusta el espacio entre líneas */
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                formatter: '{b}: ({c}%)',
+                backgroundColor: '#68705a', /* Tooltip con color suave */
+                textStyle: {
+                    color: '#fbffed' /* Color del texto dentro del tooltip */
+                }
+            },
+            xAxis: {
+                type: 'category',
                 data: nombresProyectosPatrocinador.map(function(proyecto) {
-                    return proyecto.porcentaje;
+                    return proyecto.nombre;
                 }),
-                barWidth: '30%',
-                itemStyle: {
-                    color: '#4caf50',
+                axisLabel: {
+                    color: '#747b4f', /* Color de las etiquetas del eje X */
+                    fontSize: 12, /* Tamaño de fuente más pequeño */
+                    margin: 10, /* Espaciado entre etiquetas */
+                    align: 'center', /* Centrar las etiquetas */
+                    interval: 0, /* Mostrar todas las etiquetas */
+                    formatter: function (value) {
+                        // Divide el texto en varias líneas si es demasiado largo
+                        var maxLength = 20; // Máximo de caracteres por línea
+                        var result = [];
+                        var currentLine = '';
+
+                        value.split(' ').forEach(function(word) {
+                            if ((currentLine + word).length > maxLength) {
+                                result.push(currentLine.trim());
+                                currentLine = '';
+                            }
+                            currentLine += word + ' ';
+                        });
+
+                        if (currentLine.trim() !== '') {
+                            result.push(currentLine.trim());
+                        }
+
+                        return result.join('\n'); // Une las líneas con saltos de línea
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#b4be9a' /* Color de la línea del eje X */
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%',
+                    color: '#747b4f', /* Color de las etiquetas del eje Y */
+                    fontSize: 14
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#b4be9a' /* Color de la línea del eje Y */
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Proyectos',
+                    type: 'bar',
+                    data: nombresProyectosPatrocinador.map(function(proyecto) {
+                        return proyecto.porcentaje;
+                    }),
+                    barWidth: '30%',
+                    itemStyle: {
+                        color: '#a6b285', /* Barra con color suave */
+                        borderRadius: [10, 10, 0, 0] /* Bordes redondeados para las barras */
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: 14
+                    }
+                }
+            ],
+            legend: {
+                data: ['Proyectos'],
+                bottom: '10px',
+                textStyle: {
+                    color: '#b4be9a', /* Color de la leyenda */
+                    fontSize: 16
                 }
             }
-        ]
-    };
+        };
 
-    myChartPatrocinador.setOption(option);
-</script>
-
+        myChartPatrocinador.setOption(option);
+    </script>
+    <!-- Pie de página -->
+    <div class="footer">
+        <p>&copy; 2025 LLakta Forest - Todos los derechos reservados.</p>
+    </div>
 </body>
 </html>
