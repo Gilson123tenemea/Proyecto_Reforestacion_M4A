@@ -95,14 +95,14 @@
 	        <!-- Datos del Usuario -->
 	        <fieldset>
 	            <legend>Datos del Usuario</legend>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="cedula">Cédula:</label>
-	                    <div class="input-group">
-	                        <input type="text" name="cedula" id="cedula" th:value="${usuario.cedula}" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
-	                        <button type="button" id="buscarBtn" class="btn btn-primary">Buscar</button>
-	                    </div>
-	                </div>
+				<div class="row mb-3">
+				    <div class="col-md-6">
+				        <label for="cedula">Cédula:</label>
+				        <div class="input-group">
+				            <input type="text" name="cedula" id="cedula" th:value="${usuario.cedula}" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
+				            <button type="button" id="buscarBtn" class="btn btn-primary">Buscar</button>
+				        </div>
+				    </div>
 	                <div class="col-md-6">
 	                    <label for="nombre" class="form-label">Nombre:</label>
 	                    <input type="text" name="nombre" id="nombre" th:value="${usuario.nombre}" class="form-control" required>
@@ -287,6 +287,27 @@
                     parroquiaSelect.disabled = false;
                 });
         });
+		document.addEventListener('DOMContentLoaded', function() {
+		    // Verifica si estamos en modo editar
+		    const modo = document.getElementById('modo').value;
+		    const cedulaInput = document.getElementById('cedula');
+
+		    if (modo === 'editar') {
+		        // Deshabilita el campo de la cédula
+		        cedulaInput.disabled = true;
+		    }
+
+		    // Lógica para buscar datos de cédula
+		    document.getElementById('buscarBtn').addEventListener('click', () => {
+		        const cedula = cedulaInput.value.trim();
+		        if (cedula.length === 10 && !isNaN(cedula)) {
+		            buscarDatos(cedula);
+		        } else {
+		            alert('Por favor ingrese una cédula válida de 10 dígitos.');
+		        }
+		    });
+		});
+
     </script>
 </body>
 
