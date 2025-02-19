@@ -69,7 +69,7 @@ public class ProvinciaControllers {
 
         for (Provincia provinciaExistente : provinciasExistentes) {
             if (provinciaExistente.getNombreProvincia().trim().toLowerCase().equals(nombreProvincia)) {
-                model.addAttribute("error", "La provincia ya existe. Si deseas, puedes continuar y repetirla.");
+                model.addAttribute("error", "La provincia ya existe.Puedes intentar de nuevo ingresando otra provincia.");
                 model.addAttribute("titulo", "Formulario de Nueva Provincia");
                 return "formprovincia";  // Volver al formulario con el mensaje de error
             }
