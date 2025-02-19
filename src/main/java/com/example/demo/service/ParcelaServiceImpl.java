@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IAreaDao;
 import com.example.demo.dao.IParcelaDao;
+import com.example.demo.dao.IParroquiaDao;
+import com.example.demo.dao.IProyectoDao;
 import com.example.demo.entity.Area;
 import com.example.demo.entity.Parcelas;
+import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Suelo;
 import com.example.demo.entity.Tipo_Suelo;
 
@@ -20,6 +25,10 @@ public class ParcelaServiceImpl implements IParcelaService{
 	private IParcelaDao parceladao;
 	@Autowired
 	private IAreaDao areadao;
+	@Autowired
+	private IProyectoDao proyectodao;
+	@Autowired
+	private IParroquiaDao parroquiadao;
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -81,6 +90,64 @@ public class ParcelaServiceImpl implements IParcelaService{
 		    return null;
 	}
 	
+	@Override
+	public Object findArea(Long idParcela) {
+	    Parcelas area = parceladao.findOne(idParcela);
+	    if (area != null) {
+	        Long idArea = area.getId_area(); 
+	        Area areas = areadao.findOne(idArea); 
+	        if (areas != null) {
+	            return new Object() {
+	                public Long id_area = areas.getId_area();
+	                public String nombre = areas.getNombre();
+	                public String tipo_terreno = areas.getTipo_terreno();
+	                public String tipo_vegetacion = areas.getTipo_vegetacion();
+	                public String observaciones = areas.getObservaciones();
+	            };
+	        } else {
+	            System.out.println("No se encontró el área con ID: " + idArea);
+	        }
+	    } else {
+	        System.out.println("No se encontró el proyecto con ID: " + idParcela);
+	    }
+	    return null;
+	}
+	
+	@Override
+	public String findParroquiaName(Long idAreas) {
+	    
+	    Parcelas parcelas = parceladao.findOne(idAreas);
+	    
+	    if (parcelas != null) {
+	     
+	        Long idArea = parcelas.getId_area();
+	        
+	        
+	        Area area = areadao.findOne(idArea);
+	        
+	        if (area != null) {
+	            
+	            Long idProyecto = area.getId_proyecto();
+	            
+	            
+	            Proyecto proyecto = proyectodao.findOne(idProyecto);
+	            
+	            if (proyecto != null) {
+	               
+	                Long idParroquia = proyecto.getId_parroquia();
+	                
+	               
+	                Parroquia parroquia = parroquiadao.findOne(idParroquia);
+	                
+	                
+	                return parroquia != null ? parroquia.getNombreParroquia() : null;
+	            }
+	        }
+	    }
+	    
+	    
+	    return null;
+	}
 	
 	
 	

@@ -13,5 +13,7 @@ public interface IParcelaService {
 	List<Parcelas> findByAdministradorId(Long adminId);
 	public List<Parcelas> listarparcelas();
 	public String findAreaName(Long idAreas);
+	public Object findArea(Long idParcela);
+	public String findParroquiaName(Long idAreas);
 
 }

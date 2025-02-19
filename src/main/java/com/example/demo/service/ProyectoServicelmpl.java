@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dao.IAdministradorDao;
+import com.example.demo.dao.IParroquiaDao;
 import com.example.demo.dao.IProyectoDao;
+import com.example.demo.entity.Administrador;
+import com.example.demo.entity.Parroquia;
 import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Suelo;
+import com.example.demo.entity.Tipo_Suelo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,6 +26,10 @@ public class ProyectoServicelmpl implements IProyectoServices{
 
 	@Autowired
 	private IProyectoDao proyectodao;
+	@Autowired
+	private IParroquiaDao parroquiadao;
+	@Autowired
+	private IAdministradorDao admindao;
 	
 	 @PersistenceContext 
 	private EntityManager em;
@@ -118,6 +128,18 @@ public class ProyectoServicelmpl implements IProyectoServices{
 	public List<Proyecto> findByPatrocinadorId(Long idPatrocinador) {
 	    return proyectodao.findByPatrocinadorId(idPatrocinador);
 	}
+	
+	@Override
+	public String findparroquianame(Long idProyecto) {
+		 Proyecto proyecto = proyectodao.findOne(idProyecto);
+		    if (proyecto != null) {
+		        Long idParroquia = proyecto.getId_parroquia();
+		        Parroquia parroquia = parroquiadao.findOne(idParroquia); 
+		        return parroquia != null ?parroquia.getNombreParroquia() : null;
+		    }
+		    return null;
+	}
+
 	
 	
 }

@@ -165,6 +165,7 @@
                             <a th:href="@{/parcela/editar/{id}(id=${parcela.id_parcelas})}" class="btn btn-warning btn-sm">Editar</a>
                             <a th:href="@{/parcela/eliminar/{id}(id=${parcela.id_parcelas})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta parcela?')">Eliminar</a>
 							<a th:href="@{/mapa/{id}(id=${parcela.id_parcelas})}" class="btn btn-sm" style="background-color: #005F6B; color: white; border: none;">Ver en el Mapa</a>
+							<a th:href="@{/vistaCompleta/{id}(id=${parcela.id_parcelas})}" class="btn btn-sm" style="background-color: #005F6B; color: white; border: none;">Ver</a>
                         </td>
                     </tr>
                 </tbody>

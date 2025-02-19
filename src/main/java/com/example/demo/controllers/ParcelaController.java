@@ -22,6 +22,7 @@ import com.example.demo.entity.Parcelas;
 import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IParcelaService;
 import com.example.demo.service.IPlantasService;
+import com.example.demo.service.IProyectoServices;
 import com.example.demo.service.ISueloService;
 
 import jakarta.validation.Valid;
@@ -40,6 +41,9 @@ public class ParcelaController {
 
     @Autowired
     private IPlantasService plantaService;
+    
+    @Autowired
+    private IProyectoServices proyectoService;
 
     @RequestMapping(value = "/listarparcelas", method = RequestMethod.GET)
     public String listarParcelas(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
@@ -227,6 +231,34 @@ public class ParcelaController {
         return parcelaservice.findByAreaId(idArea);
     }
     
+    
+    @GetMapping("/vistaCompleta/{id}")
+    public String mostrarVistaCompleta(@PathVariable(value = "id") Long id, Model model) {
+    
+        Parcelas parcelaSeleccionada = parcelaservice.findOne(id);
+      
+        if (parcelaSeleccionada == null) {
+            return "redirect:/listarparcelas";
+        }
+        
+       
+        
+        String parroquiaNombre = parcelaservice.findParroquiaName(parcelaSeleccionada.getId_parcelas());
+        String sueloNombre = sueloservice.findSueloName(parcelaSeleccionada.getId_suelo());
+        Object proyectoCompleto = areaService.findProyecto(parcelaSeleccionada.getId_area());
+        Object areaCompleto = parcelaservice.findArea(parcelaSeleccionada.getId_parcelas());
+        
+        
+        
+        model.addAttribute("parcelaSeleccionada", parcelaSeleccionada);
+        model.addAttribute("sueloNombre", sueloNombre != null ? sueloNombre : "No disponible");
+        model.addAttribute("proyectoCompleto", proyectoCompleto);
+        model.addAttribute("areaCompleto", areaCompleto);
+        model.addAttribute("parroquiaNombre", parroquiaNombre != null ? parroquiaNombre : "No disponible");
+        
+        
+        return "vistaCompleta";
+    }
     
   
 }
