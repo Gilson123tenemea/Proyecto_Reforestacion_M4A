@@ -113,16 +113,11 @@
 						</li>
 						<!-- Menú Perfil -->
 						<ul class="navbar-nav">
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-									data-bs-toggle="dropdown" aria-expanded="false"
+							<li class="nav-item">
+								<a class="nav-link" href="/logout"
 									style="color: rgb(0, 0, 0); font-weight: bold; font-size: 13px;">
-									Perfil
+									Cerrar sesión
 								</a>
-								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-									<li><a class="dropdown-item">Editar Perfil</a></li>
-									<li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
-								</ul>
 							</li>
 						</ul>
 					</ul>
@@ -150,19 +145,18 @@
 
 
 	<div th:fragment="fondo1">
-	    <div th:fragment="fondo1" 
-	         style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
+		<div th:fragment="fondo1" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
 	                background-image: url('/imagenes/Fondo1.jpg'); 
 	                background-size: cover; 
 	                background-position: center; 
 	                background-attachment: fixed; 
 	                z-index: -9999;">
-	    </div>
+		</div>
 	</div>
 
 	<div th:fragment="footercompacto">
-		<div id="footer" class="text-center p-1"
-			style="background-color: #4F5B3A; color: white; width: 100%; font-size: 9px; line-height: 1.2;">
+		<div id="footer" class="text-center p-1" style="background-color: #4F5B3A; color: white; width: 100%; font-size: 9px; line-height: 1.2;
+	        position: relative; bottom: 0; left: 0;">
 			© 2025 LLakta Forest - Todos los derechos reservados.
 		</div>
 	</div>

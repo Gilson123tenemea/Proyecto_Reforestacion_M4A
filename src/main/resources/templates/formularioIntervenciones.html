@@ -230,7 +230,7 @@
 	        </div>
 
 	        <div class="mb-3">
-	            <button type="submit" class="btn btn-primary">Guardar</button>
+	            <button type="submit" class="btn btn-primary" style="background-color: #4F5B3A;">Guardar</button>
 	        </div>
 	    </form>
 	</div>
@@ -239,8 +239,8 @@
 		function cargarProyectosYParcelasPorArea(areaId) {
 			const proyectoSelect = document.getElementById('idProyecto');
 			const parcelaSelect = document.getElementById('idParcela');
-			proyectoSelect.innerHTML = ''; // Limpiar opciones anteriores
-			parcelaSelect.innerHTML = ''; // Limpiar opciones anteriores
+			proyectoSelect.innerHTML = ''; 
+			parcelaSelect.innerHTML = ''; 
 
 			if (areaId) {
 				// Cargar proyectos
