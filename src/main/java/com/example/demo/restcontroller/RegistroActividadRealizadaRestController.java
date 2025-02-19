@@ -3,14 +3,26 @@ package com.example.demo.restcontroller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dto.ActividadARealizarDTO;
+import com.example.demo.entity.Area;
+import com.example.demo.entity.Parcelas;
+import com.example.demo.entity.Patrocinador;
+import com.example.demo.entity.Patrocinio;
+import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.service.IVoluntariosService;
 import com.example.demo.service.RegistroActividadRealizadaService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,6 +31,9 @@ public class RegistroActividadRealizadaRestController {
 
 	@Autowired
 	private RegistroActividadRealizadaService registroActividadService;
+	
+	@Autowired
+	private IVoluntariosService voluntariosService;
 
 	// Guardar una nueva actividad
 	@PostMapping("/guardar")
@@ -104,4 +119,73 @@ public class RegistroActividadRealizadaRestController {
 		}
 		return ResponseEntity.ok(actividades);
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+	@GetMapping("/crear/{id_actividad}/{id_voluntario}")
+	public ResponseEntity<?> mostrarActividad(
+	        @PathVariable("id_actividad") Long idactividad,
+	        @PathVariable("id_voluntario") Long voluntarioId) {
+
+	    System.out.println("📢 Método mostrarActividad iniciado");
+	    System.out.println("📢 Id Actividad ======================" + idactividad);
+	    System.out.println("📌 ID del voluntario recibido: " + voluntarioId);
+
+	    // Obtener los resultados de la actividad
+	    List<Object[]> resultados = registroActividadService.findActividadesRealizadas2(voluntarioId);
+	    System.out.println("🔍 Resultados obtenidos: " + resultados.size());
+
+	    if (resultados.isEmpty()) {
+	        return ResponseEntity.status(404).body("⚠️ No se encontraron actividades realizadas para el voluntario con ID: " + voluntarioId);
+	    }
+
+	    // Usar un Map para almacenar los datos dinámicamente
+	    Map<String, Object> responseData = new HashMap<>();
+	    Object[] datos = resultados.get(0);
+	    
+	    responseData.put("voluntarioNombre", datos[4].toString());  // Voluntario Nombre
+	    responseData.put("actividadNombre", datos[0].toString());   // Actividad Nombre
+	    responseData.put("actividadDuracion",  datos[1]);  // Actividad Duración
+	    responseData.put("proyectoNombre", datos[2].toString());    // Proyecto Nombre
+	    responseData.put("equipoNombre", datos[3].toString()); 
+	    responseData.put("Id_tipoProyecto", datos[6].toString()); 
+	    // Equipo Nombre
+
+	    // Si quieres almacenar más información, solo añádela al Map
+
+	    return ResponseEntity.ok(responseData);  // Retorna los datos en formato JSON
+	}
+	
+	/*
+	 @PostMapping("/guardarActividad")
+	    public ResponseEntity<String> guardarActividad(@RequestBody ActividadARealizarDTO actividadDTO) {
+	        try {
+	            // Procesamos los datos recibidos del cliente (móvil)
+	            RegistroActividadRealiza registroActividad = new RegistroActividadRealiza();
+	            registroActividad.setId_voluntario(actividadDTO.getIdVoluntario());
+	            registroActividad.setId_tipoActividades(actividadDTO.getIdTipoActividad());
+	            registroActividad.setCantidad_realizada(actividadDTO.getCantidadRealizada());
+	            registroActividad.setDescripcion(actividadDTO.getDescripcion());
+	            registroActividad.setValidacion_admin_tareaRealizada(actividadDTO.isValidacionAdmin());
+	            registroActividad.setValidacion_voluntario_tareaRealizada(actividadDTO.isValidacionVoluntario());
+
+	            // Si hay foto en Base64, la decodificamos
+	            if (actividadDTO.getFoto() != null && !actividadDTO.getFoto().isEmpty()) {
+	                byte[] fotoBytes = Base64.getDecoder().decode(actividadDTO.getFoto());
+	                registroActividad.setFoto(fotoBytes); // Guardamos la foto como bytes
+	            }
+
+	            // Guardamos la actividad en la base de datos
+	            registroActividadService.save(registroActividad);
+
+	            // Retornamos un mensaje de éxito
+	            return ResponseEntity.ok("Actividad guardada exitosamente");
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            // Si ocurre algún error, devolvemos un mensaje de error
+	            return ResponseEntity.status(500).body("Error al guardar la actividad");
+	        }
+	    }
+	*/
 }
