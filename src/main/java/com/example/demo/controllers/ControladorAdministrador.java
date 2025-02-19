@@ -115,6 +115,50 @@ public class ControladorAdministrador {
         
         return "administrador";
     }
+    public boolean esContrasenaValida(String contrasena) {
+        // Expresión regular para validar la contraseña
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,16}$";
+
+        // Verificar que la contraseña no sea nula y cumpla con la expresión regular
+        return contrasena != null && contrasena.matches(regex);
+    }
+    
+    public boolean esCedulaValida(String cedula) {
+        // Verificar que tenga exactamente 10 dígitos numéricos
+        if (cedula == null || !cedula.matches("\\d{10}")) {
+            return false;
+        }
+
+        // Extraer los componentes de la cédula
+        int provincia = Integer.parseInt(cedula.substring(0, 2)); // Dos primeros dígitos
+        int tercerDigito = Character.getNumericValue(cedula.charAt(2)); // Tercer dígito
+
+        // Verificar que la provincia esté entre 01 y 24
+        if (provincia < 1 || provincia > 24) {
+            return false;
+        }
+
+        // Verificar que el tercer dígito sea válido (0-6 para personas naturales)
+        if (tercerDigito < 0 || tercerDigito > 6) {
+            return false;
+        }
+
+        // Aplicar el algoritmo de verificación de cédula (módulo 10)
+        int suma = 0;
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2}; // Coeficientes alternados
+
+        for (int i = 0; i < 9; i++) {
+            int valor = Character.getNumericValue(cedula.charAt(i)) * coeficientes[i];
+            suma += (valor > 9) ? valor - 9 : valor;
+        }
+
+        int digitoVerificador = Character.getNumericValue(cedula.charAt(9));
+        int residuo = suma % 10;
+        int digitoCalculado = (residuo == 0) ? 0 : 10 - residuo;
+
+        // Comparar el dígito calculado con el último dígito de la cédula
+        return digitoCalculado == digitoVerificador;
+    }
 
     @PostMapping("/guardar")
     public String guardarAdministradorYUsuario(
@@ -141,10 +185,33 @@ public class ControladorAdministrador {
         }
 
         try {
-            // Verificar si la cédula ya está registrada en otro usuario
+            // Validar cédula ecuatoriana
             String cedula = usuario.getCedula().trim();
-            List<Usuarios> usuariosExistentes = usuarioServices.findAll();
+            if (!esCedulaValida(cedula)) {
+                model.addAttribute("error", "La cédula ingresada no es válida.");
+                model.addAttribute("titulo", "Editar o Crear Administrador");
+                model.addAttribute("provincias", provinciaService.findAll());
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("administrador", administrador);
+                model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+                model.addAttribute("contraseña", usuario.getContraseña());
+                return "administrador";
+            }
 
+            // Validar contraseña segura
+            if (!esContrasenaValida(usuario.getContraseña().trim())) {
+                model.addAttribute("error", "La contraseña debe tener entre 8 y 16 caracteres, incluir mayúsculas, minúsculas, números y al menos un carácter especial.");
+                model.addAttribute("titulo", "Editar o Crear Administrador");
+                model.addAttribute("provincias", provinciaService.findAll());
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("administrador", administrador);
+                model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+                model.addAttribute("contraseña", usuario.getContraseña());
+                return "administrador";
+            }
+
+            // Verificar si la cédula ya está registrada en otro usuario
+            List<Usuarios> usuariosExistentes = usuarioServices.findAll();
             for (Usuarios usuarioExistente : usuariosExistentes) {
                 if (usuarioExistente.getCedula().trim().equals(cedula) && 
                     (usuario.getId_usuarios() == null || !usuarioExistente.getId_usuarios().equals(usuario.getId_usuarios()))) {
