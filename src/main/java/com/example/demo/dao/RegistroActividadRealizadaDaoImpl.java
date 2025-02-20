@@ -140,13 +140,19 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 
 	@Override
 	public List<Object[]> findActividadesRealizadas2(Long voluntarioId) {
-		return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, p.id_proyecto,ta.id_tipoActividades  "
+		return entityManager.createQuery("SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, p.id_proyecto,ta.id_tipoActividades,  "
+				
+				+ "p.fecha_inicio, ptd.nombreEmpresa, pt.tipo_patrocinio, pt.detalledpnado, ptd.id_usuarios "
+				
 				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
 				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
 				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
 				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
 				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-				+ "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " // Se añade esta
+				+ "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " 
+				
++ "LEFT  JOIN Patrocinio pt ON pt.id_proyecto = p.id_proyecto "
++ "LEFT  JOIN Patrocinador ptd ON ptd.Id_patrocinador = pt.Id_patrocinador " // Se añade esta
 																										// relación
 				+ "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL", Object[].class)
 				.setParameter("voluntarioId", voluntarioId).getResultList();
