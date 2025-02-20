@@ -1,15 +1,20 @@
 package com.example.demo.controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -35,23 +40,27 @@ import com.example.demo.service.IUsuarioServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @SessionAttributes("idPatrocinador")
 public class PatrocinadorController {
-    
+
     @Autowired
     private IPatrocinadorServices patrocinadorservice;
-    
+
     @Autowired
     private IUsuarioServices usuarioservice;
+
     @Autowired
     private IParroquiaService parroquiaService;
+
     @Autowired
-    private ICantonService cantonService; 
+    private ICantonService cantonService;
+
     @Autowired
-    private IProvinciaService provinciaService; 
-    
+    private IProvinciaService provinciaService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,12 +71,11 @@ public class PatrocinadorController {
     @GetMapping("/listar")
     public String listarPatrocinadores(Model model) {
         model.addAttribute("titulo", "Lista de Patrocinadores");
-
         List<Patrocinador> patrocinadores = patrocinadorservice.findAll();
         model.addAttribute("patrocinadores", patrocinadores);
         return "Lista";
     }
-    
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
@@ -76,8 +84,7 @@ public class PatrocinadorController {
         }
         return "redirect:/";
     }
-    
-    // Inicio Patrocinador
+
     @GetMapping("/iniciopatrocinador")
     public String iniciopatrocinador(@SessionAttribute("idPatrocinador") Long idPatrocinador, Model model) {
         model.addAttribute("titulo", "Inicio Patrocinador");
@@ -91,21 +98,15 @@ public class PatrocinadorController {
             }
         }
 
-        return "iniciopatrocinador"; 
+        return "iniciopatrocinador";
     }
 
-    @GetMapping("/formularioPatrocinador")
-    public String crearPatrocinador(Model model) {
-        model.addAttribute("patrocinador", new Patrocinador());
-        model.addAttribute("provincias", provinciaService.findAll());
-        return "formularioPatrocinador"; 
-    }
 
     @GetMapping("/editarPatrocinador")
     public String editarPatrocinador(@SessionAttribute Long idPatrocinador, Map<String, Object> model) {
         Patrocinador patrocinador = patrocinadorservice.findOne(idPatrocinador);
         Usuarios usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
-        
+
         model.put("patrocinadores", patrocinador);
         model.put("usuario", usuario);
         model.put("provincias", provinciaService.findAll());
@@ -113,101 +114,216 @@ public class PatrocinadorController {
         return "editarPatrocinador";
     }
     
-    @PostMapping("/guardarPatrocinador")
-    public String guardarPatrocinadorYUsuario(@ModelAttribute Patrocinador patrocinador, @ModelAttribute Usuarios usuario, Model model) {
-        usuarioservice.save(usuario); // Guarda el usuario
-        patrocinador.setId_usuarios(usuario.getId_usuarios()); // Asocia el usuario al patrocinador
-        patrocinadorservice.save(patrocinador); // Guarda el patrocinador
-        return "redirect:/login"; 
+    @GetMapping("/formularioPatrocinador")
+    public String crearPatrocinador(Model model) {
+        model.addAttribute("patrocinador", new Patrocinador());
+        model.addAttribute("usuario", new Usuarios()); // Asegúrate de inicializar el objeto usuario
+        model.addAttribute("provincias", provinciaService.findAll());
+        return "formularioPatrocinador";
     }
 
-    @RequestMapping(value="/formulario/{id}")
-    public String guardarPatrocinadorDesdeFormulario(@ModelAttribute("patrocinador") Patrocinador patrocinador,
-            @ModelAttribute("usuario") Usuarios usuario, Model model) {
-        if (usuario.getId_usuarios() != null) {
-            Usuarios usuarioExistente = usuarioservice.findOne(usuario.getId_usuarios());
+    @PostMapping("/guardarPatrocinador")
+    public String guardarPatrocinadorYUsuario(
+            @Valid @ModelAttribute("patrocinador") Patrocinador patrocinador,
+            @Valid @ModelAttribute("usuario") Usuarios usuario,
+            BindingResult result,
+            Model model) {
+
+        // Comprobar si hay errores de validación antes de continuar
+        if (result.hasErrors()) {
+            return manejarErrores(model, usuario, patrocinador, result);
+        }
+
+        try {
+            // Validar cédula ecuatoriana
+            String cedula = usuario.getCedula().trim();
+
+            // Validar nombre
+            if (!esNombreValido(usuario.getNombre())) {
+                model.addAttribute("error", "El nombre debe ser válido (ejemplo: 'Steven Carpio').");
+                return manejarErrores(model, usuario, patrocinador, null);
+            }
+            
+         // Validar nombre de la empresa
+            if (!validarNombreEmpresa(patrocinador.getNombreEmpresa())) {
+                model.addAttribute("error", "El nombre de la empresa debe ser válido (no puede estar vacío y solo puede contener letras, números y espacios).");
+                return manejarErrores(model, usuario, patrocinador, null);
+            }
+
+            // Validar apellido
+            if (!esApellidoValido(usuario.getApellido())) {
+                model.addAttribute("error", "El apellido debe ser válido (ejemplo: 'Carpio Chillogallo').");
+                return manejarErrores(model, usuario, patrocinador, null);
+            }
+
+            // Validar RUC
+            if (!validarRuc(patrocinador.getRuc())) {
+                model.addAttribute("error", "El RUC debe contener exactamente 13 dígitos.");
+                return manejarErrores(model, usuario, patrocinador, null);
+            }
+
+            // Verificar si la cédula ya está registrada en otro usuario
+            List<Usuarios> usuariosExistentes = usuarioservice.findAll();
+            for (Usuarios usuarioExistente : usuariosExistentes) {
+                if (usuarioExistente.getCedula().trim().equals(cedula) && 
+                    (usuario.getId_usuarios() == null || !usuarioExistente.getId_usuarios().equals(usuario.getId_usuarios()))) {
+                    model.addAttribute("error", "La cédula ya está registrada en otro usuario.");
+                    return manejarErrores(model, usuario, patrocinador, null);
+                }
+            }
+
+            // Verificar que el usuario sea mayor de 18 años
+            if (usuario.getFecha_nacimiento() != null) {
+                Date fechaNacimientoDate = usuario.getFecha_nacimiento();
+                LocalDate fechaNacimiento = fechaNacimientoDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate fechaActual = LocalDate.now();
+                int edad = Period.between(fechaNacimiento, fechaActual).getYears();
+
+                if (edad < 18) {
+                    model.addAttribute("error", "El usuario debe ser mayor de 18 años.");
+                    return manejarErrores(model, usuario, patrocinador, null);
+                }
+            }
+
+            // Convertir el nombre y apellido a mayúsculas antes del guardado
+            if (usuario.getNombre() != null) {
+                usuario.setNombre(usuario.getNombre().toUpperCase());
+            }
+            if (usuario.getApellido() != null) {
+                usuario.setApellido(usuario.getApellido().toUpperCase());
+            }
+
+            // Guardar usuario
+            usuarioservice.save(usuario);
+            patrocinador.setId_usuarios(usuario.getId_usuarios()); // Asociar usuario al patrocinador
+            patrocinadorservice.save(patrocinador); // Guardar patrocinador
+
+            model.addAttribute("success", "Patrocinador guardado exitosamente.");
+            return "redirect:/login"; // Redirigir al login
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Ocurrió un error al guardar el patrocinador: " + e.getMessage());
+            return manejarErrores(model, usuario, patrocinador, null);
+        }
+    }
+
+    // Método auxiliar para manejar errores y mantener los valores
+    private String manejarErrores(Model model, Usuarios usuario, Patrocinador patrocinador, BindingResult result) {
+        model.addAttribute("titulo", "Editar o Crear Patrocinador");
+        model.addAttribute("provincias", provinciaService.findAll());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("patrocinador", patrocinador);
+
+        if (result != null) {
+            // Extraer los mensajes de error y agregarlos al modelo
+            StringBuilder errores = new StringBuilder();
+            result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+            model.addAttribute("error", errores.toString());
+        }
+
+        return "formularioPatrocinador"; // Volver al formulario
+    }
+
+    // Método para validar el RUC
+    private boolean validarRuc(String ruc) {
+        return ruc != null && ruc.matches("^\\d{13}$");
+    }
+    
+ // Método para validar el nombre
+    private boolean esNombreValido(String nombre) {
+        return nombre != null && nombre.trim().length() > 1 && nombre.trim().matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+");
+    }
+
+    // Método para validar el apellido
+    private boolean esApellidoValido(String apellido) {
+        return apellido != null && apellido.trim().length() > 1 && apellido.trim().matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+");
+    }
+   
+    
+    private boolean validarNombreEmpresa(String nombree) {
+        return nombree != null && nombree.trim().length() > 1 && nombree.trim().matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+");
+    }
+
+
+
+
+    @PostMapping("/ActualizarPatrocinador")
+    public String actualizarPatrocinador(
+            @RequestParam(value = "id_usuarios", required = false) Long idUsuario,
+            @RequestParam(value = "id_patrocinador", required = false) Long idPatrocinador,
+            @Valid @ModelAttribute("usuario") Usuarios usuario,
+            BindingResult resultUsuario,
+            @Valid @ModelAttribute("patrocinador") Patrocinador patrocinador,
+            BindingResult resultPatrocinador,
+            Model model) {
+
+        // Validar si hay errores
+        if (resultUsuario.hasErrors() || resultPatrocinador.hasErrors()) {
+            // Concatenar todos los mensajes de error de usuario
+            StringBuilder errores = new StringBuilder();
+            if (resultUsuario.hasErrors()) {
+                resultUsuario.getFieldErrors().forEach(error -> {
+                    errores.append(error.getDefaultMessage()).append("<br>");
+                });
+            }
+
+            // Concatenar todos los mensajes de error de patrocinador
+            if (resultPatrocinador.hasErrors()) {
+                resultPatrocinador.getFieldErrors().forEach(error -> {
+                    errores.append(error.getDefaultMessage()).append("<br>");
+                });
+            }
+
+            // Agregar los errores al modelo
+            model.addAttribute("error", errores.toString());
+
+            // Mantener los valores de patrocinador y usuario en el modelo
+            model.addAttribute("patrocinador", patrocinador);
+            model.addAttribute("usuario", usuario);
+
+            return "editarPatrocinador"; // Volver al formulario de edición
+        }
+
+        try {
+            Usuarios usuarioExistente = usuarioservice.findOne(idUsuario);
             if (usuarioExistente != null) {
                 usuarioExistente.setCedula(usuario.getCedula());
                 usuarioExistente.setNombre(usuario.getNombre());
                 usuarioExistente.setApellido(usuario.getApellido());
                 usuarioExistente.setCorreo(usuario.getCorreo());
-                usuarioExistente.setId_parroquia(usuario.getId_parroquia());
-                if (usuario.getFecha_nacimiento() != null) {
-                    usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
-                }
-                usuarioExistente.setGenero(usuario.getGenero());
-                usuarioExistente.setCelular(usuario.getCelular());
-                usuarioExistente.setContraseña(usuario.getContraseña());
-                usuario = usuarioExistente;
-            }
-        }
-
-        usuarioservice.save(usuario);
-        patrocinador.setId_usuarios(usuario.getId_usuarios());
-        patrocinadorservice.save(patrocinador);
-        return "redirect:/login";
-    }
-    
-    @PostMapping("/ActualizarPatrocinador")
-    public String actualizarPatrocinador(@RequestParam(value = "id_usuarios", required = false) Long idUsuario,
-            @RequestParam(value = "id_patrocinador", required = false) Long idPatrocinador,
-            @ModelAttribute("usuario") Usuarios usuario, 
-            @ModelAttribute("patrocinador") Patrocinador patrocinador) {
-        Usuarios usuarioExistente = usuarioservice.findOne(idUsuario);
-        if (usuarioExistente != null) {
-            usuarioExistente.setId_usuarios(idUsuario);
-            if (usuario.getCedula() != null) {
-                usuarioExistente.setCedula(usuario.getCedula());
-            }
-            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-                usuarioExistente.setNombre(usuario.getNombre());
-            }
-            if (usuario.getApellido() != null && !usuario.getApellido().isEmpty()) {
-                usuarioExistente.setApellido(usuario.getApellido());
-            }
-            if (usuario.getCorreo() != null && !usuario.getCorreo().isEmpty()) {
-                usuarioExistente.setCorreo(usuario.getCorreo());
-            }
-            if (usuario.getFecha_nacimiento() != null) {
                 usuarioExistente.setFecha_nacimiento(usuario.getFecha_nacimiento());
-            }
-            if (usuario.getId_parroquia() != null) {
                 usuarioExistente.setId_parroquia(usuario.getId_parroquia());
-            }
-            if (usuario.getCelular() != null && !usuario.getCelular().isEmpty()) {
                 usuarioExistente.setCelular(usuario.getCelular());
-            }
-            if (usuario.getContraseña() != null && !usuario.getContraseña().isEmpty()) {
                 usuarioExistente.setContraseña(usuario.getContraseña());
+                usuarioservice.save(usuarioExistente);
             }
-            usuarioservice.save(usuarioExistente);
-        }
 
-        if (idPatrocinador != null) {
             Patrocinador patrocinadorExistente = patrocinadorservice.findOne(idPatrocinador);
             if (patrocinadorExistente != null) {
-                patrocinadorExistente.setId_patrocinador(idPatrocinador);
-                if (patrocinador.getNombreEmpresa() != null && !patrocinador.getNombreEmpresa().isEmpty()) {
-                    patrocinadorExistente.setNombreEmpresa(patrocinador.getNombreEmpresa());
-                }
-                if (patrocinador.getRuc() != null && !patrocinador.getRuc().isEmpty()) {
-                    patrocinadorExistente.setRuc(patrocinador.getRuc());
-                }
+                patrocinadorExistente.setNombreEmpresa(patrocinador.getNombreEmpresa());
+                patrocinadorExistente.setRuc(patrocinador.getRuc());
                 patrocinadorservice.save(patrocinadorExistente);
             }
-        } else {
-            patrocinadorservice.save(patrocinador);
-        }
 
-        return "redirect:/verproyectospatrocinador";
+            model.addAttribute("success", "Patrocinador actualizado exitosamente.");
+            return "redirect:/verproyectospatrocinador"; // Redirigir a la vista de proyectos
+        } catch (Exception e) {
+            model.addAttribute("error", "Ocurrió un error al actualizar el patrocinador: " + e.getMessage());
+
+            // Mantener los valores de patrocinador y usuario en el modelo
+            model.addAttribute("patrocinador", patrocinador);
+            model.addAttribute("usuario", usuario);
+
+            return "editarPatrocinador"; // Volver al formulario de edición
+        }
     }
-    
+
     @RequestMapping(value="/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id) {
-        patrocinadorservice.delete(id); 
-        return "redirect:/listar"; 
+        patrocinadorservice.delete(id);
+        return "redirect:/listar";
     }
-    
+
     @GetMapping("/patrocinador/cantones/{idProvincia}")
     @ResponseBody
     public List<Canton> getCantonesByProvinciaPatrocinador(@PathVariable Long idProvincia) {
