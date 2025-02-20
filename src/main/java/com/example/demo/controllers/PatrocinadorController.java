@@ -140,7 +140,7 @@ public class PatrocinadorController {
 
             // Validar nombre
             if (!esNombreValido(usuario.getNombre())) {
-                model.addAttribute("error", "El nombre debe ser válido (ejemplo: 'Steven Carpio').");
+                model.addAttribute("error", "El nombre debe ser válido (ejemplo: 'Steven Alexander').");
                 return manejarErrores(model, usuario, patrocinador, null);
             }
             
