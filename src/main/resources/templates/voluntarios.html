@@ -233,7 +233,7 @@
 
 <body>
     <!-- Menú superior -->
-    <div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
+    <div th:replace="layout/layoutinicio :: menuinicio"></div>
     <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="login-wrapper">
@@ -514,9 +514,7 @@
 
 		});
 
-		/**
-		 * Función para validar una cédula ecuatoriana
-		 */
+
 		function validarCedulaEcuatoriana(cedula) {
 			if (!/^\d{10}$/.test(cedula)) return false; // Verifica que sean solo 10 números
 
@@ -538,46 +536,6 @@
 		}
 
 
-
-		const provinciaSelect = document.getElementById('id_provincia');
-		const cantonSelect = document.getElementById('id_canton');
-		const parroquiaSelect = document.getElementById('id_parroquia');
-
-		provinciaSelect.addEventListener('change', () => {
-			cargarCantones(provinciaSelect.value);
-		});
-
-		cantonSelect.addEventListener('change', () => {
-			cargarParroquias(cantonSelect.value);
-		});
-
-		function cargarCantones(idProvincia) {
-			fetch(/cantones/${idProvincia})
-				.then(response => response.json())
-				.then(data => {
-					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-					data.forEach(canton => {
-						cantonSelect.innerHTML += <option value="${canton.id_canton}">${canton.nombreCanton}</option>;
-					});
-					cantonSelect.disabled = false;
-					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					parroquiaSelect.disabled = true; // Deshabilitar hasta que se seleccione un cantón
-				});
-		}
-
-		function cargarParroquias(idCanton) {
-			fetch(/parroquias/${idCanton})
-				.then(response => response.json())
-				.then(data => {
-					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					data.forEach(parroquia => {
-						parroquiaSelect.innerHTML += <option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>;
-					});
-					parroquiaSelect.disabled = false;
-				});
-		}
-
-
 		document.getElementById('buscarBtn').addEventListener('click', () => {
 			const cedula = cedulaInput.value.trim();
 			if (cedula.length === 10 && !isNaN(cedula)) {
@@ -594,6 +552,45 @@
 
 	</script>
 
+	<script>
+			const provinciaSelect = document.getElementById('id_provincia');
+			const cantonSelect = document.getElementById('id_canton');
+			const parroquiaSelect = document.getElementById('id_parroquia');
+
+			provinciaSelect.addEventListener('change', () => {
+				cargarCantones(provinciaSelect.value);
+			});
+
+			cantonSelect.addEventListener('change', () => {
+				cargarParroquias(cantonSelect.value);
+			});
+
+			function cargarCantones(idProvincia) {
+				fetch(`/cantones/${idProvincia}`)
+					.then(response => response.json())
+					.then(data => {
+						cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+						data.forEach(canton => {
+							cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+						});
+						cantonSelect.disabled = false;
+						parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+						parroquiaSelect.disabled = true; 
+					});
+			}
+
+			function cargarParroquias(idCanton) {
+				fetch(`/parroquias/${idCanton}`)
+					.then(response => response.json())
+					.then(data => {
+						parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+						data.forEach(parroquia => {
+							parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+						});
+						parroquiaSelect.disabled = false;
+					});
+			}
+		</script>
 	<div th:replace="layout/layoutAdmin :: footer"></div>
 
 </body>
