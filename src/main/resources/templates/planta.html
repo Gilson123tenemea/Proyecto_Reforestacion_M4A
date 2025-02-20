@@ -227,74 +227,94 @@
             margin: 0;
         }
     </style>
-</head>
-<body>
-    <div th:replace="layout/layoutAdmin :: menu"></div>
-	<div th:replace="layout/layoutAdmin :: fondo1"></div>
-	<br>
-	<div class="main-content">
-	    <div class="form-container">
-	        <h1>Formulario de Planta</h1>
-	        <form th:action="@{/guardarplanta}" th:object="${planta}" method="post">
-	            <input type="hidden" th:field="*{id_plantas}" />
+	</head>
+	<body>
+	    <div th:replace="layout/layoutAdmin :: menu"></div>
+	    <div th:replace="layout/layoutAdmin :: fondo1"></div>
+	    <br>
+	    <div class="main-content">
+	        <div class="form-container">
+	            <h1>Formulario de Planta</h1>
+	            <form id="plantaForm" th:action="@{/guardarplanta}" th:object="${planta}" method="post">
+	                <input type="hidden" th:field="*{id_plantas}" />
 
-	            <div class="mb-3 row">
-	                <div class="col-md-6">
-	                    <label for="especieId" class="form-label">Seleccione la Especie:</label>
-	                    <select th:field="*{id_especie}" class="form-control" required>
-	                        <option value="" disabled selected>Seleccione una Especie</option>
-	                        <th:block th:each="especie : ${especies}">
-	                            <option th:value="${especie.id_especie}" th:text="${especie.nombre}"></option>
-	                        </th:block>
-	                    </select>
+	                <div class="mb-3 row">
+	                    <div class="col-md-6">
+	                        <label for="especieId" class="form-label">Seleccione la Especie:</label>
+	                        <select th:field="*{id_especie}" class="form-control" required>
+	                            <option value="" disabled selected>Seleccione una Especie</option>
+	                            <th:block th:each="especie : ${especies}">
+	                                <option th:value="${especie.id_especie}" th:text="${especie.nombre}"></option>
+	                            </th:block>
+	                        </select>
+	                    </div>
+
+	                    <div class="col-md-6">
+	                        <label class="form-label">Nombre Científico:</label>
+	                        <input type="text" th:field="*{nombre_cientifico}" class="form-control" placeholder="Ej. Planta Científica" required />
+	                    </div>
 	                </div>
 
-	                <div class="col-md-6">
-	                    <label class="form-label">Nombre Científico:</label>
-	                    <input type="text" th:field="*{nombre_cientifico}" class="form-control" placeholder="Ej. Planta Científica" required />
-	                </div>
-	            </div>
+	                <div class="mb-3 row">
+	                    <div class="col-md-6">
+	                        <label class="form-label">Clima:</label>
+	                        <input type="text" th:field="*{clima}" class="form-control" placeholder="Ej. Tropical" required />
+	                    </div>
 
-	            <div class="mb-3 row">
-	                <div class="col-md-6">
-	                    <label class="form-label">Clima:</label>
-	                    <input type="text" th:field="*{clima}" class="form-control" placeholder="Ej. Tropical" required />
-	                </div>
-
-	                <div class="col-md-6">
-	                    <label class="form-label">Nombre Común:</label>
-	                    <input type="text" th:field="*{nombre_comun}" class="form-control" placeholder="Ej. Rosa" required />
-	                </div>
-	            </div>
-
-	            <div class="mb-3 row">
-	                <div class="col-md-6">
-	                    <label class="form-label">Tamaño (en metros):</label>
-	                    <input type="number" th:field="*{tamaño}" class="form-control" step="0.1" placeholder="Ej. 1.5" required />
+	                    <div class="col-md-6">
+	                        <label class="form-label">Nombre Común:</label>
+	                        <input type="text" th:field="*{nombre_comun}" class="form-control" placeholder="Ej. Rosa" required />
+	                    </div>
 	                </div>
 
-	                <div class="col-md-6">
-	                    <label class="form-label">Color de Hojas:</label>
-	                    <input type="text" th:field="*{color_hojas}" class="form-control" placeholder="Ej. Verde" required />
-	                </div>
-	            </div>
+	                <div class="mb-3 row">
+	                    <div class="col-md-6">
+	                        <label class="form-label">Tamaño (en metros):</label>
+	                        <input type="number" th:field="*{tamaño}" class="form-control" step="0.1" placeholder="Ej. 1.5" required />
+	                    </div>
 
-	            <div class="mb-3 d-flex gap-2">
-	                <button type="submit" class="btn btn-primary">Guardar</button>
-	            </div>
-	        </form>
+	                    <div class="col-md-6">
+	                        <label class="form-label">Color de Hojas:</label>
+	                        <input type="text" th:field="*{color_hojas}" class="form-control" placeholder="Ej. Verde" required />
+	                    </div>
+	                </div>
+
+	                <div class="mb-3 d-flex gap-2">
+	                    <button type="submit" class="btn btn-primary">Guardar</button>
+	                </div>
+	            </form>
+	        </div>
 	    </div>
-	</div>
-    <div th:if="${error}" class="alert alert-danger">
-        <p th:utext="${error}"></p>
-    </div>
+	    <div th:if="${error}" class="alert alert-danger">
+	        <p th:utext="${error}"></p>
+	    </div>
 
-    <div th:if="${success}" class="alert alert-success">
-        <p th:text="${success}"></p>
-    </div>
-    </br>
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+	    <div th:if="${success}" class="alert alert-success">
+	        <p th:text="${success}"></p>
+	    </div>
+	    </br>
+	    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	    <script>
+	        document.getElementById('plantaForm').onsubmit = function(event) {
+	            let isValid = true;
+	            const inputs = this.querySelectorAll('input[required], select[required]');
+
+	            inputs.forEach(input => {
+	                if (!input.value.trim()) {
+	                    isValid = false;
+	                    input.classList.add('is-invalid');
+	                } else {
+	                    input.classList.remove('is-invalid');
+	                }
+	            });
+
+	            if (!isValid) {
+	                event.preventDefault(); // Evita el envío del formulario
+	                alert('Por favor, complete todos los campos obligatorios.');
+	            }
+	        };
+	    </script>
+	</body>
+	</html>
