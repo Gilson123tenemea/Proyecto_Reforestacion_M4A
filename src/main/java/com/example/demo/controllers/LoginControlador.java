@@ -27,6 +27,11 @@ public class LoginControlador {
     public String Inicio() {
         return "/layout/layout";
     }
+    
+    @GetMapping("/nosotros")
+    public String nosotros() {
+        return "nosotros"; 
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam String cedula, @RequestParam String contraseña, Model model) {
