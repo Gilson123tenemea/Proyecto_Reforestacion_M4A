@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -149,6 +150,36 @@ public class ParcelaServiceImpl implements IParcelaService{
 	    return null;
 	}
 	
+	@Override
+	public String findProyectoImg(Long idAreas) {
+	    
+	    Parcelas parcelas = parceladao.findOne(idAreas);
+	    
+	    if (parcelas != null) {
+	     
+	        Long idArea = parcelas.getId_area();
+	        
+	        
+	        Area area = areadao.findOne(idArea);
+	        
+	        if (area != null) {
+	            
+	            Long idProyecto = area.getId_proyecto();
+	            
+	            
+	            Proyecto proyecto = proyectodao.findOne(idProyecto);
+	            
+	            if (proyecto != null && proyecto.getImagen() != null) {
+	                // Convertir la imagen a Base64
+	                String imagenBase64 = Base64.getEncoder().encodeToString(proyecto.getImagen());
+	                return imagenBase64;
+	            }
+	        }
+	    }
+	    
+	    
+	    return null;
+	}
 	
 	
 	

@@ -15,5 +15,7 @@ public interface IParcelaService {
 	public String findAreaName(Long idAreas);
 	public Object findArea(Long idParcela);
 	public String findParroquiaName(Long idAreas);
+	
+	public String findProyectoImg(Long idAreas);
 
 }
