@@ -209,6 +209,23 @@ public class ControladorAdministrador {
                 model.addAttribute("contraseña", usuario.getContraseña());
                 return "administrador";
             }
+            
+         // Comprobar si hay errores de validación antes de continuar
+            if (result.hasErrors()) {
+                return manejarErrores(model, usuario, administrador, result);
+            }
+            
+         // Validar nombre
+            if (!esNombreValido(usuario.getNombre())) {
+                model.addAttribute("error", "El nombre debe ser válido (ejemplo: 'Steven Alexander').");
+                return manejarErrores(model, usuario, administrador, null);
+            }
+            
+         // Validar apellido
+            if (!esApellidoValido(usuario.getApellido())) {
+                model.addAttribute("error", "El apellido debe ser válido (ejemplo: 'Carpio Chillogallo').");
+                return manejarErrores(model, usuario, administrador, null);
+            }
 
             // Verificar si la cédula ya está registrada en otro usuario
             List<Usuarios> usuariosExistentes = usuarioServices.findAll();
@@ -287,6 +304,34 @@ public class ControladorAdministrador {
             model.addAttribute("contraseña", usuario.getContraseña());
             return "administrador";
         }
+    }
+    
+ // Método para validar el nombre
+    private boolean esNombreValido(String nombre) {
+        return nombre != null && nombre.trim().length() > 1 && nombre.trim().matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+");
+    }
+    
+ // Método para validar el apellido
+    private boolean esApellidoValido(String apellido) {
+        return apellido != null && apellido.trim().length() > 1 && apellido.trim().matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+");
+    }
+    
+    
+ // Método auxiliar para manejar errores y mantener los valores
+    private String manejarErrores(Model model, Usuarios usuario, Administrador administrador, BindingResult result) {
+        model.addAttribute("titulo", "Editar o Crear Administrador");
+        model.addAttribute("provincias", provinciaService.findAll());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("administrador", administrador);
+
+        if (result != null) {
+            // Extraer los mensajes de error y agregarlos al modelo
+            StringBuilder errores = new StringBuilder();
+            result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+            model.addAttribute("error", errores.toString());
+        }
+
+        return "administrador"; // Volver al formulario
     }
 
 
