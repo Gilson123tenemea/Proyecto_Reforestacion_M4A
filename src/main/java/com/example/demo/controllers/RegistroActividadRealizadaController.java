@@ -124,6 +124,9 @@ public class RegistroActividadRealizadaController {
 
 		return "crearRegistroActividadRealizada";
 	}*/
+	
+	
+	
 	@GetMapping("/crear")
 	public String mostrarActividad(
 			@RequestParam("id_actividad") Long idactividad,

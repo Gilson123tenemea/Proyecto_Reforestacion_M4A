@@ -14,6 +14,8 @@ import com.example.demo.entity.Patrocinador;
 import com.example.demo.entity.Patrocinio;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.entity.Usuarios;
+import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 import com.example.demo.service.RegistroActividadRealizadaService;
 
@@ -35,35 +37,36 @@ public class RegistroActividadRealizadaRestController {
 	@Autowired
 	private IVoluntariosService voluntariosService;
 
+	@Autowired
+	private IUsuarioServices usuarioService;
+
 	@PostMapping("/guardarActividad/{id_actividad}/{id_voluntario}")
-	public ResponseEntity<String> guardarActividad(
-	        @PathVariable("id_actividad") Long idActividad,
-	        @PathVariable("id_voluntario") Long idVoluntario,
-	        @RequestBody ActividadARealizarDTO actividadDTO) {
-	    try {
-	        // Crear un nuevo registro de actividad
-	        RegistroActividadRealiza registroActividad = new RegistroActividadRealiza();
-	        registroActividad.setId_voluntario(idVoluntario);
-	        registroActividad.setId_tipoActividades(idActividad);
-	        registroActividad.setCantidad_realizada(actividadDTO.getCantidadRealizada());
-	        registroActividad.setDescripcion(actividadDTO.getDescripcion());
-	        registroActividad.setValidacion_admin_tareaRealizada(actividadDTO.isValidacionAdmin());
-	        registroActividad.setValidacion_voluntario_tareaRealizada(actividadDTO.isValidacionVoluntario());
+	public ResponseEntity<String> guardarActividad(@PathVariable("id_actividad") Long idActividad,
+			@PathVariable("id_voluntario") Long idVoluntario, @RequestBody ActividadARealizarDTO actividadDTO) {
+		try {
+			// Crear un nuevo registro de actividad
+			RegistroActividadRealiza registroActividad = new RegistroActividadRealiza();
+			registroActividad.setId_voluntario(idVoluntario);
+			registroActividad.setId_tipoActividades(idActividad);
+			registroActividad.setCantidad_realizada(actividadDTO.getCantidadRealizada());
+			registroActividad.setDescripcion(actividadDTO.getDescripcion());
+			registroActividad.setValidacion_admin_tareaRealizada(actividadDTO.isValidacionAdmin());
+			registroActividad.setValidacion_voluntario_tareaRealizada(actividadDTO.isValidacionVoluntario());
 
-	        // Procesar la foto si existe
-	        if (actividadDTO.getFoto() != null && !actividadDTO.getFoto().isEmpty()) {
-	            byte[] fotoBytes = Base64.getDecoder().decode(actividadDTO.getFoto());
-	            registroActividad.setFoto(fotoBytes);
-	        }
+			// Procesar la foto si existe
+			if (actividadDTO.getFoto() != null && !actividadDTO.getFoto().isEmpty()) {
+				byte[] fotoBytes = Base64.getDecoder().decode(actividadDTO.getFoto());
+				registroActividad.setFoto(fotoBytes);
+			}
 
-	        // Guardar el registro
-	        registroActividadService.save(registroActividad);
-	        return ResponseEntity.status(HttpStatus.CREATED).body("Actividad guardada con éxito");
+			// Guardar el registro
+			registroActividadService.save(registroActividad);
+			return ResponseEntity.status(HttpStatus.CREATED).body("Actividad guardada con éxito");
 
-	    } catch (Exception e) {
-	        e.printStackTrace(); // Si ocurre algún error, lo logueamos
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la actividad");
-	    }
+		} catch (Exception e) {
+			e.printStackTrace(); // Si ocurre algún error, lo logueamos
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la actividad");
+		}
 	}
 
 	@GetMapping("/crear/{id_actividad}/{id_voluntario}")
@@ -156,34 +159,52 @@ public class RegistroActividadRealizadaRestController {
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@GetMapping("/Info_Actividad/{id_actividad}/{id_voluntario}")
+	public ResponseEntity<?> mostrarActividadInfo(@PathVariable("id_actividad") Long idactividad,
+			@PathVariable("id_voluntario") Long voluntarioId) {
 
-	/*
-	 * @PostMapping("/guardarActividad") public ResponseEntity<String>
-	 * guardarActividad(@RequestBody ActividadARealizarDTO actividadDTO) { try { //
-	 * Procesamos los datos recibidos del cliente (móvil) RegistroActividadRealiza
-	 * registroActividad = new RegistroActividadRealiza();
-	 * registroActividad.setId_voluntario(actividadDTO.getIdVoluntario());
-	 * registroActividad.setId_tipoActividades(actividadDTO.getIdTipoActividad());
-	 * registroActividad.setCantidad_realizada(actividadDTO.getCantidadRealizada());
-	 * registroActividad.setDescripcion(actividadDTO.getDescripcion());
-	 * registroActividad.setValidacion_admin_tareaRealizada(actividadDTO.
-	 * isValidacionAdmin());
-	 * registroActividad.setValidacion_voluntario_tareaRealizada(actividadDTO.
-	 * isValidacionVoluntario());
-	 * 
-	 * // Si hay foto en Base64, la decodificamos if (actividadDTO.getFoto() != null
-	 * && !actividadDTO.getFoto().isEmpty()) { byte[] fotoBytes =
-	 * Base64.getDecoder().decode(actividadDTO.getFoto());
-	 * registroActividad.setFoto(fotoBytes); // Guardamos la foto como bytes }
-	 * 
-	 * // Guardamos la actividad en la base de datos
-	 * registroActividadService.save(registroActividad);
-	 * 
-	 * // Retornamos un mensaje de éxito return
-	 * ResponseEntity.ok("Actividad guardada exitosamente");
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); // Si ocurre algún error,
-	 * devolvemos un mensaje de error return
-	 * ResponseEntity.status(500).body("Error al guardar la actividad"); } }
-	 */
+		System.out.println("📢 Método mostrarActividad iniciado");
+		System.out.println("📢 Id Actividad ======================" + idactividad);
+		System.out.println("📌 ID del voluntario recibido: " + voluntarioId);
+
+		// Obtener los resultados de la actividad
+		List<Object[]> resultados = registroActividadService.findActividadesRealizadas2(voluntarioId);
+		System.out.println("🔍 Resultados obtenidos: " + resultados.size());
+
+		if (resultados.isEmpty()) {
+			return ResponseEntity.status(404)
+					.body("⚠️ No se encontraron actividades realizadas para el voluntario con ID: " + voluntarioId);
+		}
+
+		// Usar un Map para almacenar los datos dinámicamente
+		Map<String, Object> responseData = new HashMap<>();
+		Object[] datos = resultados.get(0);
+
+		responseData.put("voluntarioNombre", datos[4] != null ? datos[4].toString() : "");
+		responseData.put("actividadNombre", datos[0] != null ? datos[0].toString() : "");
+		responseData.put("actividadDuracion", datos[1] != null ? datos[1] : "");
+		responseData.put("proyectoNombre", datos[2] != null ? datos[2].toString() : "");
+		responseData.put("equipoNombre", datos[3] != null ? datos[3].toString() : "");
+		responseData.put("Id_tipoProyecto", datos[6] != null ? datos[6].toString() : "");
+
+		responseData.put("fecha_inicio", datos[7] != null ? datos[7].toString() : "");
+		responseData.put("nombreEmpresa", datos[8] != null ? datos[8].toString() : "");
+		responseData.put("tipo_patrocinio", datos[9] != null ? datos[9].toString() : "");
+		responseData.put("detalledpnado", datos[10] != null ? datos[10].toString() : "");
+
+		// Validar si datos[11] es null antes de hacer la consulta
+		String nombre = "";
+		if (datos[11] != null) {
+			Usuarios usuario = usuarioService.findOne((Long) datos[11]);
+			if (usuario != null) {
+				nombre = usuario.getNombre() + " " + usuario.getApellido();
+			}
+		}
+
+		responseData.put("NombrePatrocinador", nombre);
+
+		return ResponseEntity.ok(responseData);
+	}
+
+
 }
