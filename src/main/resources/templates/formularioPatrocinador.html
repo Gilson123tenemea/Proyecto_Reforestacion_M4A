@@ -145,146 +145,148 @@
 	<div th:replace="layout/layoutinicio :: menuinicio"></div>
 	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
+	<div th:if="${error}" class="alert alert-danger">
+			<p th:utext="${error}"></p>
+		  </div>
 
-	<div class="login-wrapper">
-		<div class="login-container">
-			<h2>Crear Nuevo Patrocinador</h2>
-			<form action="/guardarPatrocinador"method="post">
-				<fieldset>
-					<legend>Datos del Usuario</legend>
-					<div class="row g-3">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="cedula">Cédula:</label>
-								<input type="text" name="cedula" id="cedula" required maxlength="10"
-									placeholder="Cédula de 10 dígitos">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="nombre">Nombre:</label>
-								<input type="text" id="nombre" name="nombre" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="apellido">Apellido:</label>
-								<input type="text" id="apellido" name="apellido" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="correo">Correo:</label>
-								<input type="email" id="correo" name="correo" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-								<input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required >
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="genero">Género:</label>
-								<select id="genero" name="genero" class="form-select" required readonly>
-									<option selected disabled>Selecciona tu género</option>
-									<option value="MASCULINO">Masculino</option>
-									<option value="FEMENINO">Femenino</option>
-								</select>
-							</div>
-						</div>
+		  <div th:if="${success}" class="alert alert-success">
+		      <p th:text="${success}"></p>
+			  
+		  </div>
 
-						<div class="col-md-6">
-							<label for="celular" class="form-label">Celular:</label>
-							<input type="text" name="celular" id="celular" class="form-control" required>
-						</div>
+		  <div class="login-wrapper">
+		      <div class="login-container">
+		          <h2>Crear Nuevo Patrocinador</h2>
+		          <form action="/guardarPatrocinador" method="post">
+		              <fieldset>
+		                  <legend>Datos del Usuario</legend>
+		                  <div class="row g-3">
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="cedula">Cédula:</label>
+		                              <input type="text" name="cedula" id="cedula" required maxlength="10"
+		                                  placeholder="Cédula de 10 dígitos" th:value="${usuario.cedula}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="nombre">Nombre:</label>
+		                              <input type="text" id="nombre" name="nombre" required th:value="${usuario.nombre}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="apellido">Apellido:</label>
+		                              <input type="text" id="apellido" name="apellido" required th:value="${usuario.apellido}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="correo">Correo:</label>
+		                              <input type="email" id="correo" name="correo" required th:value="${usuario.correo}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+		                              <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="genero">Género:</label>
+		                              <select id="genero" name="genero" class="form-select" required>
+		                                  <option th:selected="${usuario.genero == null}" disabled>Selecciona tu género</option>
+		                                  <option value="MASCULINO" th:selected="${usuario.genero == 'MASCULINO'}">Masculino</option>
+		                                  <option value="FEMENINO" th:selected="${usuario.genero == 'FEMENINO'}">Femenino</option>
+		                              </select>
+		                          </div>
+		                      </div>
 
+		                      <div class="col-md-6">
+		                          <label for="celular" class="form-label">Celular:</label>
+		                          <input type="text" name="celular" id="celular" class="form-control" required th:value="${usuario.celular}">
+		                      </div>
 
-						<div class="mb-3">
-							<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-							<select id="id_provincia" class="form-control" required>
-								<option value="" disabled selected>Seleccione una Provincia</option>
-								<th:block th:each="provincia : ${provincias}">
-									<option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
-									</option>
-								</th:block>
-							</select>
-						</div>
+		                      <div class="mb-3">
+		                          <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+		                          <select id="id_provincia" name="id_provincia" class="form-control" required>
+		                              <option value="" disabled selected>Seleccione una Provincia</option>
+		                              <th:block th:each="provincia : ${provincias}">
+		                                  <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"> </option>
+		                              </th:block>
+		                          </select>
+		                      </div>
 
-						<div class="mb-3">
-							<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-							<select id="id_canton" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione un Cantón</option>
-							</select>
-						</div>
+		                      <div class="mb-3">
+		                          <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+		                          <select id="id_canton" name="id_canton" class="form-control" required disabled>
+		                              <option value="" disabled selected>Seleccione un Cantón</option>
+		                          </select>
+		                      </div>
 
-						<div class="mb-3">
-							<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-							<select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione una Parroquia</option>
-							</select>
-						</div>
+		                      <div class="mb-3">
+		                          <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+		                          <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+		                              <option value="" disabled selected>Seleccione una Parroquia</option>
+		                          </select>
+		                      </div>
 
-						
-						
-						<div class="col-md-6">
-													<div class="form-group">
-														<label for="contraseña">Contraseña:</label>
-														<input type="password" id="contraseña" name="contraseña" required minlength="8"
-														oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"	>
-														<label for="mostrarContraseña" class="mostrar-contraseña">
-															<input type="checkbox" id="mostrarContraseña"
-																onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
-														</label>
-														<small id="mensajeContraseña"></small>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="confirmar_contraseña">Confirmar Contraseña:</label>
-														<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
-														oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')">
-														<label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
-															<input type="checkbox" id="mostrarConfirmarContraseña"
-																onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
-														</label>
-														<small id="mensajeConfirmacion"></small>
-													</div>
-												</div>
-					</div>
-				</fieldset>
+							  <div class="col-md-6">
+							      <div class="form-group">
+							          <label for="contraseña">Contraseña:</label>
+							          <input type="password" id="contraseña" name="contraseña" required minlength="8"
+							              oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
+							              th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
+							          <label for="mostrarContraseña" class="mostrar-contraseña">
+							              <input type="checkbox" id="mostrarContraseña"
+							                  onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+							          </label>
+							          <small id="mensajeContraseña"></small>
+							      </div>
+							  </div>
+							  <div class="col-md-6">
+							      <div class="form-group">
+							          <label for="confirmar_contraseña">Confirmar Contraseña:</label>
+							          <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
+							              oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
+							              th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
+							          <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
+							              <input type="checkbox" id="mostrarConfirmarContraseña"
+							                  onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
+							          </label>
+							          <small id="mensajeConfirmacion"></small>
+							      </div>
+							  </div>
+		              </fieldset>
 
-				<fieldset>
-					<legend>Datos del Patrocinador</legend>
-					<div class="row g-3">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="nombreEmpresa">Nombre de la Empresa:</label>
-								<input type="text" id="nombreEmpresa" name="nombreEmpresa" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="ruc">RUC:</label>
-								<input type="text" id="ruc" name="ruc" required>
-							</div>
-						</div>
-						
-					</div>
-					
-				</fieldset>
-				
+		              <fieldset>
+		                  <legend>Datos del Patrocinador</legend>
+		                  <div class="row g-3">
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="nombreEmpresa">Nombre de la Empresa:</label>
+		                              <input type="text" id="nombreEmpresa" name="nombreEmpresa" required th:value="${patrocinador.nombreEmpresa}">
+		                          </div>
+		                      </div>
+		                      <div class="col-md-6">
+		                          <div class="form-group">
+		                              <label for="ruc">RUC:</label>
+		                              <input type="text" id="ruc" name="ruc" required th:value="${patrocinador.ruc}">
+		                          </div>
+		                      </div>
+		                  </div>
+		              </fieldset>
 
-				<button type="submit" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-				  Guardar
-				</button>
-				<div class="register-link">
-					<a href="/login"></a>
-				</div>
-			</form>
-		</div>
-	</div>
+		              <button type="submit" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+		                  Guardar
+		              </button>
+		              <div class="register-link">
+		                  <a href="/login"></a>
+		              </div>
+		          </form>
+		      </div>
+		  </div>
 	
 
 	<script>
@@ -332,6 +334,7 @@
 
 	            return true;
 	        };
+			
 
 	        window.togglePasswordVisibility = function(id) {
 	            var passwordInput = document.getElementById(id);
@@ -458,7 +461,9 @@
 					parroquiaSelect.disabled = false;
 				});
 		}
+	
 	</script>
+		
 	
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
