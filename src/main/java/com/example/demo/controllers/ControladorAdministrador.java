@@ -188,7 +188,7 @@ public class ControladorAdministrador {
             // Validar cédula ecuatoriana
             String cedula = usuario.getCedula().trim();
             if (!esCedulaValida(cedula)) {
-                model.addAttribute("error", "La cédula ingresada no es válida.");
+                model.addAttribute("error", "La cédula ingresada no es válida, tiene que ser una cédula ecuatoriana.");
                 model.addAttribute("titulo", "Editar o Crear Administrador");
                 model.addAttribute("provincias", provinciaService.findAll());
                 model.addAttribute("usuario", usuario);
