@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,12 +70,26 @@ public class PatrocinadorController {
     }
 
     @GetMapping("/listar")
-    public String listarPatrocinadores(Model model) {
-        model.addAttribute("titulo", "Lista de Patrocinadores");
-        List<Patrocinador> patrocinadores = patrocinadorservice.findAll();
-        model.addAttribute("patrocinadores", patrocinadores);
-        return "Lista";
-    }
+	public String listarPatrocinadores(Model model) {
+		model.addAttribute("titulo", "Lista de Patrocinadores ");
+
+		List<Patrocinador> patrocinador = patrocinadorservice.findAll();
+		List<Usuarios> usuarios = usuarioservice.findAll();
+
+		List<Map<String, Object>> combinados = new ArrayList<>();
+		for (Usuarios usuario : usuarios) {
+			if (usuario.getPatrocinador() != null && !usuario.getPatrocinador().isEmpty()) {
+				Patrocinador patrocinadores  = usuario.getPatrocinador().get(0);
+				Map<String, Object> datosCombinados = new HashMap<>();
+				datosCombinados.put("patrocinadores", patrocinadores);
+				datosCombinados.put("usuario", usuario);
+				combinados.add(datosCombinados);
+			}
+		}
+
+		model.addAttribute("combinados", combinados);
+		return "Lista";
+	}
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
