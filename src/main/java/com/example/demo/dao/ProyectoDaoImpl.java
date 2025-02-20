@@ -63,13 +63,14 @@ public class ProyectoDaoImpl implements IProyectoDao {
 	             .getResultList();
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Proyecto> findFinalizados() {
 		// TODO Auto-generated method stub
 
 		return em.createQuery("from Proyecto p where p.estado = :estado")
-	             .setParameter("estado", "Finalizado")
+	             .setParameter("estado", "finalizado")
 	             .getResultList();
 	}
 
