@@ -135,8 +135,19 @@ public class PatrocinadorController {
         }
 
         try {
-            // Validar cédula ecuatoriana
+        	
+        	// Validar cédula ecuatoriana
             String cedula = usuario.getCedula().trim();
+            if (!esCedulaValida(cedula)) {
+                model.addAttribute("error", "La cédula ingresada no es válida, tiene que ser una cédula ecuatoriana.");
+                model.addAttribute("titulo", "Editar o Crear Patrocinador");
+                model.addAttribute("provincias", provinciaService.findAll());
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("patrocinador", patrocinador);
+                model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+                model.addAttribute("contraseña", usuario.getContraseña());
+                return "formularioPatrocinador";
+            }
 
             // Validar nombre
             if (!esNombreValido(usuario.getNombre())) {
@@ -222,6 +233,43 @@ public class PatrocinadorController {
         }
 
         return "formularioPatrocinador"; // Volver al formulario
+    }
+    
+    public boolean esCedulaValida(String cedula) {
+        // Verificar que tenga exactamente 10 dígitos numéricos
+        if (cedula == null || !cedula.matches("\\d{10}")) {
+            return false;
+        }
+
+        // Extraer los componentes de la cédula
+        int provincia = Integer.parseInt(cedula.substring(0, 2)); // Dos primeros dígitos
+        int tercerDigito = Character.getNumericValue(cedula.charAt(2)); // Tercer dígito
+
+        // Verificar que la provincia esté entre 01 y 24
+        if (provincia < 1 || provincia > 24) {
+            return false;
+        }
+
+        // Verificar que el tercer dígito sea válido (0-6 para personas naturales)
+        if (tercerDigito < 0 || tercerDigito > 6) {
+            return false;
+        }
+
+        // Aplicar el algoritmo de verificación de cédula (módulo 10)
+        int suma = 0;
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2}; // Coeficientes alternados
+
+        for (int i = 0; i < 9; i++) {
+            int valor = Character.getNumericValue(cedula.charAt(i)) * coeficientes[i];
+            suma += (valor > 9) ? valor - 9 : valor;
+        }
+
+        int digitoVerificador = Character.getNumericValue(cedula.charAt(9));
+        int residuo = suma % 10;
+        int digitoCalculado = (residuo == 0) ? 0 : 10 - residuo;
+
+        // Comparar el dígito calculado con el último dígito de la cédula
+        return digitoCalculado == digitoVerificador;
     }
 
     // Método para validar el RUC
