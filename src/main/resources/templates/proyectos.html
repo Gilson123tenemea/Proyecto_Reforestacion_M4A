@@ -165,6 +165,17 @@
             font-size: 0.9em;
             color: #6c757d;
         }
+
+        .position-relative {
+            position: relative;
+        }
+
+        .position-absolute {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -191,15 +202,18 @@
 
             <!-- Sección de imagen del proyecto -->
             <div class="row mb-3">
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center position-relative">
                     <!-- Imagen actual del proyecto -->
-                    <div class="mb-3">
-                        <img th:if="${imagenGuardada}" 
-                             th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
-                             alt="Imagen del proyecto" 
-                             class="img-fluid rounded mb-3" 
-                             style="max-width: 150px;" />
-                    </div>
+					<div class="mb-3 position-relative" style="width: 150px; height: 150px;">
+					    <img th:if="${imagenGuardada}" 
+					         th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
+					         alt="Imagen del proyecto" 
+					         class="img-fluid rounded position-absolute" 
+					         style="width: 150px; height: 150px; object-fit: cover;" />
+					    <!-- Imagen previa que se superpone a la imagen actual -->
+					    <img id="imagenPrevia" src="" alt="Vista previa" class="img-fluid rounded position-absolute" 
+					         style="width: 150px; height: 150px; display:none; object-fit: cover;" />
+					</div>
                     <!-- Cargar nueva imagen -->
                     <div class="mb-3">
                         <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
@@ -208,8 +222,6 @@
                         <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
                         <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
                     </div>
-                    <!-- Imagen previa -->
-                    <img id="imagenPrevia" src="" alt="Vista previa" class="img-fluid rounded mb-3" style="max-width: 150px; display:none;" />
                 </div>
 
                 <!-- Nombre del Proyecto -->
@@ -325,13 +337,13 @@
 
                 reader.onload = function (e) {
                     imagenPrevia.src = e.target.result;
-                    imagenPrevia.style.display = 'block';
+                    imagenPrevia.style.display = 'block'; // Mostrar la imagen previa
                 };
 
                 reader.readAsDataURL(input.files[0]);
             } else {
                 imagenPrevia.src = '';
-                imagenPrevia.style.display = 'none';
+                imagenPrevia.style.display = 'none'; // Ocultar si no hay archivo
             }
         }
 
