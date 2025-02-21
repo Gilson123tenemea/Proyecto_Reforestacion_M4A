@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
+		
+			padding-top: 70px; /* Ajusta según la altura de tu navbar */
             background-color: #fbffed;
             color: #68705a;
             font-family: 'Arial', sans-serif;
@@ -213,12 +215,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Pie de página -->
-    <div class="footer">
-        <p>&copy; 2025 LLakta Forest - Todos los derechos reservados.</p>
-    </div>
-
+	
+	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

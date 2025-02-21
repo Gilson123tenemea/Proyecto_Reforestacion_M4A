@@ -72,6 +72,7 @@
 
 <body>
     <div th:replace="layout/layoutVoluntario :: menuVoluntario"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
     <div class="container">
         <div class="card-futuristic">
@@ -103,7 +104,8 @@
             <p class="text-center" th:if="${Id_RegistroAdtividades == null}">No hay evidencia disponible.</p>
         </div>
     </div>
-
+	
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

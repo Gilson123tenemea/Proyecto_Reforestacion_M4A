@@ -11,21 +11,11 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 	<style>
 		header {
-			background-color: #a6b285; /* Color de fondo del encabezado */
+			background-color: #a6b285; 
 			width: 100%;
 		}
 
-		.background-panel {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			background-image: url('/imagenes/Fondo1.jpg');
-			background-size: cover;
-			background-position: center;
-			z-index: -1;
-		}
+
 		.login-wrapper {
 			display: flex;
 			justify-content: center;
@@ -136,7 +126,7 @@
 		        }
 
 		fieldset {
-			border: 1px solid #b4be9a; /* Borde de los fieldsets */
+			border: 1px solid #b4be9a; 
 			border-radius: 5px;
 			padding: 20px;
 			margin-bottom: 20px;
@@ -145,7 +135,7 @@
 		legend {
 			font-size: 1.2em;
 			font-weight: bold;
-			color: #68705a; /* Color del texto de los legends */
+			color: #68705a;
 			padding: 0 10px;
 		}
 	</style>
@@ -154,6 +144,7 @@
 <body>
 	<!-- Menú del patrocinador -->
 		    <div th:replace="layout/layoutPatrocinador :: menupatrocinador"></div>
+			<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
 		<!-- Fondo de la página -->
 		    <div class="background-panel"></div>

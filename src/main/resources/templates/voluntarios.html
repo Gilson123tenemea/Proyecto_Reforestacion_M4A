@@ -16,7 +16,6 @@
 			display: flex;
 			flex-direction: column;
 			font-family: 'Roboto', sans-serif;
-			background-image: url('/imagenes/cuenca.png');
 			background-size: cover;
 			background-position: center;
 			background-attachment: fixed;
@@ -140,14 +139,11 @@
 			padding: 0 10px;
 		}
 
-		/* Estilo contra*/
 		.mostrar-contraseña {
 			font-size: 0.8em;
 			/* Tamaño más pequeño */
 			color: rgba(0, 0, 0, 0.6);
-			/* Color negro con algo de transparencia */
 			cursor: pointer;
-			/* Cambia el cursor al pasar por encima */
 		}
 
 		.mostrar-contraseña input {
@@ -159,6 +155,7 @@
 
 <body>
 	<div th:replace="layout/layoutinicio :: menuinicio"></div>
+	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 
 	<div class="login-wrapper">
 		<div class="login-container">
