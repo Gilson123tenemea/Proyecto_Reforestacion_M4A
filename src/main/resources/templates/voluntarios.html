@@ -370,52 +370,53 @@
 
 	<script>
 
+
 		document.getElementById('fecha_nacimiento').max = new Date().toISOString().split("T")[0];
 
-		function validarFechaPasada() {
-			let fechaInput = document.getElementById('fecha_nacimiento');
-			let mensajeFecha = document.getElementById('mensajeFecha');
-			let fechaSeleccionada = new Date(fechaInput.value);
-			let fechaHoy = new Date();
+		   function validarFechaPasada() {
+		       let fechaInput = document.getElementById('fecha_nacimiento');
+		       let mensajeFecha = document.getElementById('mensajeFecha');
+		       let fechaSeleccionada = new Date(fechaInput.value);
+		       let fechaHoy = new Date();
 
-			// Reseteamos la hora de la fecha actual para compararla solo con la fecha
-			fechaHoy.setHours(0, 0, 0, 0);
+		       // Reseteamos la hora de la fecha actual para compararla solo con la fecha
+		       fechaHoy.setHours(0, 0, 0, 0);
 
-			if (fechaSeleccionada > fechaHoy) {
-				mensajeFecha.textContent = "No puedes seleccionar una fecha futura.";
-				fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
-			} else {
-				mensajeFecha.textContent = "";
-				fechaInput.setCustomValidity(""); // Elimina cualquier mensaje de error
-			}
-		}
+		       if (fechaSeleccionada > fechaHoy) {
+		           mensajeFecha.textContent = "No puedes seleccionar una fecha futura.";
+		           fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
+		       } else {
+		           mensajeFecha.textContent = "";
+		           fechaInput.setCustomValidity(""); // Elimina cualquier mensaje de error
+		       }
+		   }
 		function validarFormulario() {
-			// Obtener los elementos de mensaje
-			const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
-			const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
-			const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
-			const mensajeConfirmacion = document.getElementById("mensajeConfirmacion").innerText.trim();
+		       // Obtener los elementos de mensaje
+		       const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
+		       const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
+		       const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
+		       const mensajeConfirmacion = document.getElementById("mensajeConfirmacion").innerText.trim();
 
-			// Comprobar si todos los mensajes contienen las palabras de validación
-			if (mensajeCedula !== "✅ Cédula válida y disponible" ||
-				mensajeCelular !== "✅ Número de celular válido" ||
-				mensajeContraseña !== "✅ Contraseña válida" ||
-				mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
+		       // Comprobar si todos los mensajes contienen las palabras de validación
+		       if (mensajeCedula !== "✅ Cédula válida y disponible" || 
+		           mensajeCelular !== "✅ Número de celular válido" || 
+		           mensajeContraseña !== "✅ Contraseña válida" || 
+		           mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
+		           
+		           // Si alguno de los mensajes no es válido, mostrar una alerta
+		           alert("Por favor, revise la información. Algunos campos no son válidos.");
+		           return false; // No permitir que el formulario se envíe
+		       }
 
-				// Si alguno de los mensajes no es válido, mostrar una alerta
-				alert("Por favor, revise la información. Algunos campos no son válidos.");
-				return false; // No permitir que el formulario se envíe
-			}
-
-			// Si todos los mensajes son válidos, permitir el envío del formulario
-			return true;
-		}
+		       // Si todos los mensajes son válidos, permitir el envío del formulario
+		       return true;
+		   }
 
 
 
 		function togglePasswordVisibility(id) {
 			var passwordInput = document.getElementById(id);
-			// Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
+			// Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
 			if (passwordInput.type === "password") {
 				passwordInput.type = "text";
 			} else {
@@ -432,59 +433,59 @@
 				let cedula = this.value.trim();
 
 				if (!validarCedulaEcuatoriana(cedula)) {
-					mensaje.innerHTML = <span style="color: red;">⚠ Cédula inválida. Verifica los datos.</span>;
+					mensaje.innerHTML = `<span style="color: red;">⚠️ Cédula inválida. Verifica los datos.</span>`;
 					botonGuardar.disabled = true;
 					return;
 				}
 
-				// Si la cédula es válida, verificamos si está registrada
-				fetch(/cedulaVoltuntarui/${cedula})
+				// Si la cédula es válida, verificamos si está registrada
+				fetch(`/cedulaVoltuntarui/${cedula}`)
 					.then(response => response.json())
 					.then(data => {
 						if (data) {
-							mensaje.innerHTML = <span style="color: red;">⚠ La cédula ya está registrada</span>;
+							mensaje.innerHTML = `<span style="color: red;">⚠️ La cédula ya está registrada</span>`;
 							botonGuardar.disabled = true;
 						} else {
-							mensaje.innerHTML = <span style="color: green;">✅ Cédula válida y disponible</span>;
+							mensaje.innerHTML = `<span style="color: green;">✅ Cédula válida y disponible</span>`;
 							botonGuardar.disabled = false;
 						}
 					})
 					.catch(error => {
-						console.error("Error en la verificación:", error);
-						mensaje.innerHTML = <span style="color: red;">⚠ Error al verificar la cédula</span>;
+						console.error("Error en la verificación:", error);
+						mensaje.innerHTML = `<span style="color: red;">⚠️ Error al verificar la cédula</span>`;
 						botonGuardar.disabled = true;
 					});
 			});
 
-			//Contraseña
-			const contraseñaInput = document.getElementById("contraseña");
-			const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
-			const mensajeContraseña = document.getElementById("mensajeContraseña");
+			//Contraseña
+			const contraseñaInput = document.getElementById("contraseña");
+			const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
+			const mensajeContraseña = document.getElementById("mensajeContraseña");
 			const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
 
-			// Expresión regular para validar la contraseña
-			const regex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d@#$%]{8,}$/;
+			// Expresión regular para validar la contraseña
+			const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
 
-			contraseñaInput.addEventListener("input", function () {
-				const contraseña = contraseñaInput.value;
-				const especiales = contraseña.match(/[@#$%]/g);
+			contraseñaInput.addEventListener("input", function () {
+				const contraseña = contraseñaInput.value;
+				const especiales = contraseña.match(/[@#$%]/g);
 				const cantidadEspeciales = especiales ? especiales.length : 0;
 
-				if (!regex.test(contraseña) || cantidadEspeciales > 3) {
-					mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
-					mensajeContraseña.style.color = "red";
+				if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+					mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+					mensajeContraseña.style.color = "red";
 				} else {
-					mensajeContraseña.textContent = "✅ Contraseña válida";
-					mensajeContraseña.style.color = "green";
+					mensajeContraseña.textContent = "✅ Contraseña válida";
+					mensajeContraseña.style.color = "green";
 				}
 			});
 
-			confirmarContraseñaInput.addEventListener("input", function () {
-				if (contraseñaInput.value !== confirmarContraseñaInput.value) {
-					mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
+			confirmarContraseñaInput.addEventListener("input", function () {
+				if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+					mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
 					mensajeConfirmacion.style.color = "red";
 				} else {
-					mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
+					mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
 					mensajeConfirmacion.style.color = "green";
 				}
 			});
@@ -496,17 +497,17 @@
 			const celularInput = document.getElementById("celular");
 			const mensajeCelular = document.getElementById("mensajeCelular");
 
-			// Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
+			// Expresión regular para validar el número de celular (debe comenzar con 09 y tener 10 dígitos en total)
 			const regexCelular = /^09\d{8}$/;
 
 			celularInput.addEventListener("input", function () {
 				const celular = celularInput.value;
 
 				if (!regexCelular.test(celular)) {
-					mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
+					mensajeCelular.textContent = "El número de celular debe tener 10 dígitos en total.";
 					mensajeCelular.style.color = "red";
 				} else {
-					mensajeCelular.textContent = "✅ Número de celular válido";
+					mensajeCelular.textContent = "✅ Número de celular válido";
 					mensajeCelular.style.color = "green";
 				}
 			});
@@ -514,25 +515,67 @@
 
 		});
 
-
+		/**
+		 * Función para validar una cédula ecuatoriana
+		 */
 		function validarCedulaEcuatoriana(cedula) {
-			if (!/^\d{10}$/.test(cedula)) return false; // Verifica que sean solo 10 números
+			if (!/^\d{10}$/.test(cedula)) return false; // Verifica que sean solo 10 números
 
 			let provincia = parseInt(cedula.substring(0, 2));
 			let tercerDigito = parseInt(cedula.charAt(2));
-			let coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]; // Para cálculo del dígito verificador
+			let coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]; // Para cálculo del dígito verificador
 			let suma = 0;
 
-			if (provincia < 1 || provincia > 24 || tercerDigito > 5) return false; // Reglas de provincia y tercer dígito
+			if (provincia < 1 || provincia > 24 || tercerDigito > 5) return false; // Reglas de provincia y tercer dígito
 
 			for (let i = 0; i < coeficientes.length; i++) {
 				let valor = parseInt(cedula.charAt(i)) * coeficientes[i];
 				suma += valor > 9 ? valor - 9 : valor; // Si es mayor a 9, restar 9
 			}
 
-			let verificador = (10 - (suma % 10)) % 10; // Cálculo del dígito verificador
+			let verificador = (10 - (suma % 10)) % 10; // Cálculo del dígito verificador
 
-			return verificador === parseInt(cedula.charAt(9)); // Comparar con el último dígito
+			return verificador === parseInt(cedula.charAt(9)); // Comparar con el último dígito
+		}
+
+
+
+		const provinciaSelect = document.getElementById('id_provincia');
+		const cantonSelect = document.getElementById('id_canton');
+		const parroquiaSelect = document.getElementById('id_parroquia');
+
+		provinciaSelect.addEventListener('change', () => {
+			cargarCantones(provinciaSelect.value);
+		});
+
+		cantonSelect.addEventListener('change', () => {
+			cargarParroquias(cantonSelect.value);
+		});
+
+		function cargarCantones(idProvincia) {
+			fetch(`/cantones/${idProvincia}`)
+				.then(response => response.json())
+				.then(data => {
+					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+					data.forEach(canton => {
+						cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+					});
+					cantonSelect.disabled = false;
+					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+					parroquiaSelect.disabled = true; // Deshabilitar hasta que se seleccione un cantón
+				});
+		}
+
+		function cargarParroquias(idCanton) {
+			fetch(`/parroquias/${idCanton}`)
+				.then(response => response.json())
+				.then(data => {
+					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+					data.forEach(parroquia => {
+						parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+					});
+					parroquiaSelect.disabled = false;
+				});
 		}
 
 
@@ -541,55 +584,13 @@
 			if (cedula.length === 10 && !isNaN(cedula)) {
 				buscarDatos(cedula);
 			} else {
-				alert('Por favor ingrese una cédula válida de 10 dígitos.');
+				alert('Por favor ingrese una cédula válida de 10 dígitos.');
 			}
 		});
 
 
 
 
-
-
-	</script>
-
-	<script>
-			const provinciaSelect = document.getElementById('id_provincia');
-			const cantonSelect = document.getElementById('id_canton');
-			const parroquiaSelect = document.getElementById('id_parroquia');
-
-			provinciaSelect.addEventListener('change', () => {
-				cargarCantones(provinciaSelect.value);
-			});
-
-			cantonSelect.addEventListener('change', () => {
-				cargarParroquias(cantonSelect.value);
-			});
-
-			function cargarCantones(idProvincia) {
-				fetch(`/cantones/${idProvincia}`)
-					.then(response => response.json())
-					.then(data => {
-						cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-						data.forEach(canton => {
-							cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
-						});
-						cantonSelect.disabled = false;
-						parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-						parroquiaSelect.disabled = true; 
-					});
-			}
-
-			function cargarParroquias(idCanton) {
-				fetch(`/parroquias/${idCanton}`)
-					.then(response => response.json())
-					.then(data => {
-						parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-						data.forEach(parroquia => {
-							parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
-						});
-						parroquiaSelect.disabled = false;
-					});
-			}
 		</script>
 	<div th:replace="layout/layoutAdmin :: footer"></div>
 
