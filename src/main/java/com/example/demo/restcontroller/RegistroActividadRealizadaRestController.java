@@ -31,6 +31,9 @@ import java.util.Optional;
 @RequestMapping("/api/registro-actividad")
 public class RegistroActividadRealizadaRestController {
 
+	
+	@Autowired
+	private RegistroActividadRealizadaService registroActividadRealizadaService;
 	@Autowired
 	private RegistroActividadRealizadaService registroActividadService;
 
@@ -157,6 +160,51 @@ public class RegistroActividadRealizadaRestController {
 		}
 		return ResponseEntity.ok(actividades);
 	}
+	
+
+	
+	 @GetMapping("/actividades-realizadas/{voluntarioId}")
+	    public ResponseEntity<Map<String, Object>> getActividadesRealizadas(@PathVariable Long voluntarioId) {
+	        List<Object[]> actividadesRealizadas = registroActividadRealizadaService.obtenerActividadesRealizadas(voluntarioId);
+	       
+	        Map<String, Object> responseData = new HashMap<>();
+
+	        if (!actividadesRealizadas.isEmpty()) {
+	        Object[] datos = actividadesRealizadas.get(0);
+	        
+	        
+	       
+		//	responseData.put("UsuarNombre", datos[0] != null ? datos[0].toString() : "");
+		//.put("actividadDuracion", datos[1] != null ? datos[1] : "");
+		//	
+			
+			responseData.put("proyectoNombre", datos[1] != null ? datos[1].toString() : "");
+			responseData.put("equipoNombre", datos[4] != null ? datos[4].toString() : "");
+		//	 responseData.put("voluntarioNombre", datos[4] != null ? datos[4].toString() : "");
+		//	responseData.put("Id_tipoProyecto", datos[6] != null ? datos[6].toString() : "");
+
+			//responseData.put("fecha_inicio", datos[7] != null ? datos[7].toString() : "");
+		responseData.put("nombre_actividad", datos[5] != null ? datos[5].toString() : "");
+			//responseData.put("tipo_patrocinio", datos[9] != null ? datos[9].toString() : "");
+		//	responseData.put("detalledpnado", datos[10] != null ? datos[10].toString() : "");
+
+			// Validar si datos[11] es null antes de hacer la consulta
+			
+			
+			responseData.put("Estado", "Cumplido");
+	        
+			responseData.put("Lista", "");
+	        
+	        	
+	        	
+	        } else {
+	           
+	        	
+	        	responseData.put("Lista", "Sin Actividades Cumplidas");
+	        }
+
+	        return ResponseEntity.ok(responseData);
+	    }
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@GetMapping("/Info_Actividad/{id_actividad}/{id_voluntario}")
