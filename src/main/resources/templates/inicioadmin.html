@@ -1,108 +1,94 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido Administrador</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>Proyectos Voluntariado - LLakta Forest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #fbffed;
+            color: #68705a;
+            font-family: 'Arial', sans-serif;
         }
 
-        .menu {
-            background-color: #68705a;
-            padding: 15px 0;
-            color: white;
-            text-align: center;
-            font-weight: 600;
-            font-size: 24px;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card-container {
-            background: linear-gradient(135deg, #a6b285, #b4be9a);
-            padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            margin: 50px auto 0; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-title {
-            color: #fbffed;
-            font-weight: 500;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .card-description {
-            color: #fbffed;
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .btn {
+        header {
             background-color: #747b4f;
-            color: #fff;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 10px;
-            border: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            color: #fbffed;
+            padding: 10px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .btn:hover {
-            background-color: #68705a;
-            transform: translateY(-5px);
+        nav a {
+            text-decoration: none;
+            color: #fbffed;
+            margin: 0 10px;
+            transition: color 0.3s ease;
         }
 
-        h2 {
-            color: #747b4f;
-            font-size: 36px;
-            font-weight: 800;
-            text-align: center;
-            margin-top: 10px; 
-            margin-bottom: 20px;
+        nav a:hover {
+            color: #a6b285;
+            text-decoration: underline;
         }
 
-        .card-report {
-            background: #fbffed;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .carousel-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            padding: 20px 0px 10px 0px;
         }
 
-        .card-report:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        #carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 15px;
+            padding: 10px;
+        }
+
+       
+		/* Cambiar el ancho de las cards */
+		   .card.bg-light {
+		       width: 80%; /* Ajusta el ancho a un 85% */
+		       max-width: 100%;
+		       padding: 1px 40px 0px 40px;
+		   }
+
+		   .card {
+		       flex: 0 0 auto;
+		       width: 80%; /* Cambié de 90% a 85% */
+		       min-height: 200px;
+		       border-radius: 12px;
+		       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		       background-color: #f0f4e3;
+		       text-align: center;
+		       overflow: hidden;
+		       transition: transform 0.3s ease, box-shadow 0.3s ease;
+		   }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .footer {
@@ -110,28 +96,39 @@
             padding: 15px;
             text-align: center;
             font-size: 14px;
-            color: #fff;
-            margin-top: auto;
-        }
-
-        .motivational-quote {
-            color: #68705a;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .welcome-text {
             color: #fbffed;
-            font-size: 20px;
-            font-family: 'Poppins', sans-serif;
+            margin-top: 20px;
+            border-top: 2px solid #a6b285;
+        }
+
+        .footer a {
+            color: #a6b285;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fbffed;
+        }
+
+        h2 {
+            background: linear-gradient(90deg, #a6b285, #b4be9a);
+            color: #fbffed;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -139,125 +136,90 @@
             }
         }
 
-        .card-container {
-            animation: fadeIn 0.8s ease-out;
+        .subtitle {
+            font-size: 1.2rem;
+            color: #68705a;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
         }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #68705a;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .centered-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
     </style>
 </head>
+
 <body>
-    <!-- Menú del patrocinador -->
+	<!-- Menú del patrocinador -->
 	<div th:replace="layout/layoutAdmin :: menu"></div>
 
 	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+	
+	<div class="container-fluid py-4 centered-content">
+	    <!-- Card de bienvenida -->
+	    <div class="card bg-light mb-4">
+	        <div class="card-body">
+	            <h2>¡BIENVENIDO, <span th:text="${nombreAdmin}">Administrador</span> <span th:text="${apellidoAdmin}">Apellido</span>!</h2>
+	            <p class="subtitle">Juntos podemos construir un futuro más verde y sostenible.</p>
+	            <p class="description">
+	                En LLakta Forest, tu liderazgo es la clave para transformar realidades. Cada decisión, cada acción,
+	                tiene el poder de restaurar la naturaleza, mejorar comunidades y sembrar esperanza para las generaciones
+	                futuras. ¡Únete y sé el motor de un cambio positivo que el mundo necesita!
+	            </p>
+	        </div>
+	    </div>
 
-    <!-- Contenido principal -->
-    <div class="content">
-        <div class="card-container">
-            <h1 class="card-title welcome-text">¡BIENVENIDO, <span th:text="${nombreAdmin}">Administrador</span> <span th:text="${apellidoAdmin}">Apellido</span>!</h1>
-            <p class="motivational-quote">"El éxito no es la clave de la felicidad, la felicidad es la clave del éxito."</p>
-            <p class="card-description">Gracias por unirte a nuestra causa. Juntos haremos una gran diferencia en la reforestación y en el cuidado del medio ambiente.</p>
+        <!-- Card para el reporte -->
+        <div class="card bg-light mb-4">
+            <div class="card-body">
+                <div class="reporte">
+                    <iframe src="/MostrarProyectos" width="100%" height="400px"></iframe>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Reportes -->
-    <h2>REPORTES</h2>
-    <div id="reportes" class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO DE BARRAS</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart1"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO DE LÍNEAS</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart2"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div class="card card-report">
-                    <h3 class="text-center text-success">GRÁFICO COMPARATIVO</h3>
-                    <div class="chart-container">
-                        <canvas id="myChart3"></canvas>
-                    </div>
-                </div>
+    <!-- Toast de Bootstrap -->
+    <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="customToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">Mensaje de prueba</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
 
     <!-- Pie de página -->
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+    <div class="footer">
+        <p>&copy; 2025 LLakta Forest - Todos los derechos reservados.</p>
+    </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const ctx1 = document.getElementById("myChart1").getContext("2d");
-            const ctx2 = document.getElementById("myChart2").getContext("2d");
-            const ctx3 = document.getElementById("myChart3").getContext("2d");
-
-            // Gráfico de Barras
-            new Chart(ctx1, {
-                type: "bar",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Datos de ejemplo",
-                        backgroundColor: "rgba(109, 127, 78, 0.7)",
-                        borderColor: "#6d7f4e",
-                        data: [10, 20, 30, 40]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-            // Gráfico de Líneas
-            new Chart(ctx2, {
-                type: "line",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Crecimiento",
-                        borderColor: "rgba(109, 127, 78, 0.5)",
-                        backgroundColor: "rgba(109, 127, 78, 0.3)",
-                        data: [15, 25, 35, 50],
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-            // Gráfico Comparativo
-            new Chart(ctx3, {
-                type: "bar",
-                data: {
-                    labels: ["Enero", "Febrero", "Marzo", "Abril"],
-                    datasets: [{
-                        label: "Comparación",
-                        backgroundColor: "rgba(109, 127, 78, 0.3)",
-                        borderColor: "#6d7f4e",
-                        data: [5, 15, 25, 35]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
-            });
-        });
-    </script>
 </body>
+
 </html>

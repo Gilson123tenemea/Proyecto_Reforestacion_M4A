@@ -15,20 +15,71 @@
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            background-color: #f4f7fa;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
+
         h1 {
             font-size: 30px;
             margin-top: 30px;
-            color: #4a90e2;
+            color: #68705a; 
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         h3 {
             font-size: 20px;
             margin-bottom: 20px;
+            color: #68705a;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #b4be9a; 
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #747b4f; 
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #b4be9a; 
+            background-color: #fbffed; 
+            font-size: 16px;
             color: #333;
         }
+
+        .form-select:focus {
+            border-color: #68705a; 
+            background-color: #ffffff; 
+        }
+
+        button {
+            background-color: #a6b285; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #747b4f; 
+        }
+
         #main {
             width: 80%;
             max-width: 1200px;
@@ -38,44 +89,30 @@
             background-color: #ffffff;
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
         }
-        .card {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+
+        .card-body {
+            background-color: #fbffed; 
         }
-        .card-header {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        .form-select {
-            width: 100%;
+
+        .card-footer {
+            background-color: #b4be9a; 
             padding: 10px;
-            margin-top: 15px;
+            text-align: center;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            font-size: 16px;
+            color: #ffffff;
         }
-        .form-select:focus {
-            border-color: #4a90e2;
+
+        .form-control {
+            background-color: #fbffed; 
+            border: 1px solid #b4be9a; 
+            color: #333;
+        }
+
+        .form-control:focus {
             background-color: #ffffff;
+            border-color: #68705a; 
         }
-        button {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #357ab7;
-        }
+
     </style>
 </head>
 <body>
@@ -110,8 +147,8 @@
         var data = /*[[${Integrantes}]]*/ [];
 
         var formattedData = data.map(item => ({
-            name: item[1], // Nombre de la provincia
-            value: item[0]  // Cantidad de voluntarios
+            name: item[1], 
+            value: item[0]
         }));
 
         console.log("Datos procesados:", formattedData);
@@ -136,7 +173,7 @@
                     text: 'Distribución de Voluntarios por Provincia',
                     left: 'center',
                     textStyle: {
-                        color: '#4a90e2',
+                        color: '#68705a', 
                         fontSize: 20,
                         fontWeight: 'bold'
                     }
@@ -148,9 +185,9 @@
                 visualMap: {
                     left: 'right',
                     min: 0,
-                    max: Math.max(...formattedData.map(d => d.value), 10), // Ajusta el rango automáticamente
+                    max: Math.max(...formattedData.map(d => d.value), 10), 
                     inRange: {
-                        color: ['#f7fbff', '#6baed6', '#2171b5']
+                        color: ['#f7fbff', '#a6b285', '#68705a']
                     },
                     text: ['Alto', 'Bajo'],
                     calculable: true
@@ -175,34 +212,43 @@
                     }
                 ]
             };
+			
+			//Barras de Grafico
 
-            // Opciones del gráfico de barras
-            const barOption = {
-                title: {
-                    text: 'Número de Voluntarios por Provincia',
-                    left: 'center',
-                    textStyle: {
-                        color: '#4a90e2',
-                        fontSize: 20,
-                        fontWeight: 'bold'
-                    }
-                },
-                xAxis: {
-                    type: 'value'
-                },
-                yAxis: {
-                    type: 'category',
-                    data: formattedData.map(item => item.name),
-                    axisLabel: {
-                        rotate: 30
-                    }
-                },
-                series: [{
-                    type: 'bar',
-                    data: formattedData.map(item => item.value),
-                    universalTransition: true
-                }]
-            };
+			const barOption = {
+			    title: {
+			        text: 'Número de Voluntarios por Provincia',
+			        left: 'center',
+			        textStyle: {
+			            color: '#68705a', 
+			            fontSize: 20,
+			            fontWeight: 'bold'
+			        }
+			    },
+			    xAxis: {
+			        type: 'value'
+			    },
+			    yAxis: {
+			        type: 'category',
+			        data: formattedData.map(item => item.name),
+			        axisLabel: {
+			            rotate: 30
+			        }
+			    },
+			    series: [{
+			        type: 'bar',
+			        data: formattedData.map(item => item.value),
+			        itemStyle: {
+			            color: '#b4be9a'  
+			        },
+			        emphasis: {
+			            itemStyle: {
+			                color: '#747b4f' 
+			            }
+			        },
+			        universalTransition: true
+			    }]
+			};
 
             let currentOption = mapOption;
             myChart.setOption(mapOption);
