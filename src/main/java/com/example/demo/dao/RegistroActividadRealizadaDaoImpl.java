@@ -28,17 +28,45 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 				.setParameter("id_voluntario", voluntarioId).getResultList();
 	}
 
+	
+	/*SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, e.nombre,   ta.nombre_act, r.id_registroactividadrealizada 
+	FROM usuario u 
+    INNER JOIN Voluntarios v ON u.id_usuarios = v.id_usuarios
+    
+    
+	INNER JOIN registroactividadesrealiza r ON v.id_voluntario = r.id_voluntario 
+     INNER JOIN tipo_actividades ta ON r.id_tipo_actividades = ta.id_tipo_actividades 
+	INNER JOIN asignaciones tac ON ta.id_tipo_actividades = tac.id_tipo_actividades 
+	INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto 
+    LEFT JOIN equipo e ON tac.id_asignacionproyecto = e.id_asignacionproyecto 
+	
+	
+	WHERE v.id_voluntario =5 AND r.validacion_admin_tarea_realizada = TRUE
+    */
+    
 	@Override
 	public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
 		return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
 				+ "e.nombre, ta.nombre_act, r.id_registroactividadrealizada  " // Agregar nombre del equipo y nombre de la actividad
-				+ "FROM Usuarios u " + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-				+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+				+ "FROM Usuarios u " 
+				+ "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+				
+				
+				+ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+				+ "INNER JOIN Tipo_Actividades ta ON r.id_tipoActividades = ta.id_tipoActividades "
+				+ "INNER JOIN Asignacion_proyectoActi tac ON ta.id_tipoActividades = tac.id_tipoActividades "
+				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+				+ " LEFT JOIN Equipos e ON tac.id_asignacionproyecto = e.id_asignacionproyecto "
+		
+				
+		/*		+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
 				+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
 				+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
 				+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
 				+ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
-				+ "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+				+ "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "*/
+				
+			
 				+ "WHERE v.id_voluntario = :voluntarioId " + "AND r.validacion_admin_tareaRealizada = TRUE",
 				Object[].class).setParameter("voluntarioId", voluntarioId).getResultList();
 	}
@@ -69,12 +97,21 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 		            + "ta.duracion, ta.id_administrador, r.descripcion   "
 		            + "FROM Usuarios u "
 		            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-		            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
-		            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
-		            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-		            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-		            + "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
-		            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+		            
++ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
++ "INNER JOIN Tipo_Actividades ta ON r.id_tipoActividades = ta.id_tipoActividades "
++ "INNER JOIN Asignacion_proyectoActi tac ON ta.id_tipoActividades = tac.id_tipoActividades "
++ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
++ " LEFT JOIN Equipos e ON tac.id_asignacionproyecto = e.id_asignacionproyecto "
+		          
+		          
+		          
+		          //  + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+		           // + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+		           // + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+		           // + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+		           // + "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+		           // + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
 		            + "WHERE v.id_voluntario = :voluntarioId "
 		            + "AND r.id_registroactividadrealizada = :RegistroActividadRealizada_Id 	"
 		            + "AND r.validacion_admin_tareaRealizada = FALSE "
@@ -85,6 +122,33 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 				    .getResultList();
 	}
 
+	/*
+
+	SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
+			+ "e.nombre, ta.nombre_act, r.id_registroactividadrealizada  " // Agregar nombre del equipo y nombre de la actividad
+			+ "FROM Usuarios u " 
+			+ "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
+			
+			
+			+ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+			+ "INNER JOIN Tipo_Actividades ta ON r.id_tipoActividades = ta.id_tipoActividades "
+			+ "INNER JOIN Asignacion_proyectoActi tac ON ta.id_tipoActividades = tac.id_tipoActividades "
+			+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+			+ " LEFT JOIN Equipos e ON tac.id_asignacionproyecto = e.id_asignacionproyecto "
+	
+			
+	////	+ "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+	////		+ "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+///			+ "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+	///		+ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+	///		+ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+	/////		+ "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+			
+		
+			+ "WHERE v.id_voluntario = :voluntarioId " 
+			+ "AND r.validacion_admin_tareaRealizada = TRUE
+	
+	*/
 	
 	@Override
 	public List<Object[]> findInfo_RegistroRealizado_cumplido(Long voluntarioId, Long RegistroActividadRealizada_Id) {
@@ -94,12 +158,25 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 		            + "ta.duracion, ta.id_administrador, r.descripcion   "
 		            + "FROM Usuarios u "
 		            + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-		            + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
-		            + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
-		            + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-		            + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-		            + "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
-		            + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+		            
+		            
+		         //   + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
+		         //  + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
+		         //   + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
+		         //   + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
+		         //   + "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
+		         //   + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
+		         
+		         
+		            
++ "INNER JOIN RegistroActividadRealiza r ON v.id_voluntario = r.id_voluntario "
++ "INNER JOIN Tipo_Actividades ta ON r.id_tipoActividades = ta.id_tipoActividades "
++ "INNER JOIN Asignacion_proyectoActi tac ON ta.id_tipoActividades = tac.id_tipoActividades "
++ "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
++ " LEFT JOIN Equipos e ON tac.id_asignacionproyecto = e.id_asignacionproyecto "
+		            
+		            
+		            
 		            + "WHERE v.id_voluntario = :voluntarioId "
 		            + "AND r.id_registroactividadrealizada = :RegistroActividadRealizada_Id 	"
 		            + "AND r.validacion_admin_tareaRealizada = TRUE "
