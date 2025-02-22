@@ -43,5 +43,21 @@ public class AdministradorServiceslmpl implements IAdministradorServices{
 	    public List<Administrador> findAdministradoresWithUsuarios(Long idAdministrador) {
 	        return administradordao.findAdministradoresWithUsuarios(idAdministrador);
 	    }
+	 
+	 
+	 @Override
+	 public long countProyectosByAdministradorId(Long idAdministrador) {
+	     return administradordao.countProyectosByAdministradorId(idAdministrador);
+	 }
+
+	 @Override
+	 public long countEquiposByAdministradorId(Long idAdministrador) {
+	     return administradordao.countEquiposByAdministradorId(idAdministrador);
+	 }
+
+	 @Override
+	 public long countTipoActividadesByAdministradorId(Long idAdministrador) {
+	     return administradordao.countTipoActividadesByAdministradorId(idAdministrador);
+	 }
 
 }

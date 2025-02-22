@@ -11,5 +11,8 @@ public interface IAdministradorDao {
 	public Administrador findOne(Long id);
 	public void delete(Long id);
 	List<Administrador> findAdministradoresWithUsuarios(Long idAdministrador);
+	long countProyectosByAdministradorId(Long idAdministrador);
+    long countEquiposByAdministradorId(Long idAdministrador);
+    long countTipoActividadesByAdministradorId(Long idAdministrador);
 
 }

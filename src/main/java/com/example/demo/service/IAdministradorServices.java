@@ -10,5 +10,8 @@ public interface IAdministradorServices {
 	public void save(Administrador administrador);
 	public Administrador findOne(Long id);
 	public void delete(Long id);
+	long countProyectosByAdministradorId(Long idAdministrador);
+    long countEquiposByAdministradorId(Long idAdministrador);
+    long countTipoActividadesByAdministradorId(Long idAdministrador);
 
 }

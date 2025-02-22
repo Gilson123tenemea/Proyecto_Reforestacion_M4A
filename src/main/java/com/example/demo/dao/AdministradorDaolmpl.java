@@ -63,4 +63,25 @@ public class AdministradorDaolmpl implements IAdministradorDao {
                  .setParameter("idAdministrador", idAdministrador)
                  .getResultList();
 	}
+	
+	@Override
+	public long countProyectosByAdministradorId(Long idAdministrador) {
+	    return em.createQuery("SELECT COUNT(p) FROM Proyecto p WHERE p.id_administrador = :idAdministrador", Long.class)
+	             .setParameter("idAdministrador", idAdministrador)
+	             .getSingleResult();
+	}
+
+	@Override
+	public long countEquiposByAdministradorId(Long idAdministrador) {
+	    return em.createQuery("SELECT COUNT(e) FROM Equipos e WHERE e.id_administrador = :idAdministrador", Long.class)
+	             .setParameter("idAdministrador", idAdministrador)
+	             .getSingleResult();
+	}
+
+	@Override
+	public long countTipoActividadesByAdministradorId(Long idAdministrador) {
+	    return em.createQuery("SELECT COUNT(ta) FROM Tipo_Actividades ta WHERE ta.id_administrador = :idAdministrador", Long.class)
+	             .setParameter("idAdministrador", idAdministrador)
+	             .getSingleResult();
+	}
 }

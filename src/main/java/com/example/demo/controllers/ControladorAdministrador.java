@@ -371,13 +371,25 @@ public class ControladorAdministrador {
     @PostMapping("/delete/{id}")
     public String deleteAdministrador(@PathVariable Long id, Model model) {
         try {
+            // Verificar si el administrador existe
             Administrador administrador = administradorServices.findOne(id);
-
+            
             if (administrador == null) {
                 model.addAttribute("mensaje", "Administrador no encontrado con ID: " + id);
                 return "error";
             }
 
+            // Verificar si hay proyectos, equipos o tipos de actividades asociados
+            long proyectosCount = administradorServices.countProyectosByAdministradorId(id);
+            long equiposCount = administradorServices.countEquiposByAdministradorId(id);
+            long tipoActividadesCount = administradorServices.countTipoActividadesByAdministradorId(id);
+            
+            if (proyectosCount > 0 || equiposCount > 0 || tipoActividadesCount > 0) {
+                model.addAttribute("mensaje", "No se puede eliminar el administrador porque tiene proyectos, equipos o tipos de actividades asociados.");
+                return "error"; // Mostrar un mensaje de error
+            }
+
+            // Eliminar el administrador
             administradorServices.delete(id);
             model.addAttribute("mensaje", "Administrador eliminado exitosamente");
             return "redirect:/listarAdministradores";
