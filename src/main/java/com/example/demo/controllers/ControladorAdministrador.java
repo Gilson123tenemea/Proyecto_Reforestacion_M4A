@@ -105,6 +105,23 @@ public class ControladorAdministrador {
             administrador = administradorServices.findOne(id);
             if (administrador != null) {
                 usuario = usuarioServices.findOne(administrador.getId_usuarios());
+                // Cargar la parroquia relacionada con el usuario
+                if (usuario.getId_parroquia() != null) {
+                    Parroquia parroquia = parroquiaService.findOne(usuario.getId_parroquia());
+                    if (parroquia != null) {
+                        Canton canton = cantonService.findOne(parroquia.getId_canton());
+                        if (canton != null) {
+                            Long idProvincia = canton.getId_provincia();
+                            model.put("provinciaSeleccionada", idProvincia);
+                            model.put("cantonSeleccionado", canton);
+                            model.put("parroquiaSeleccionada", parroquia);
+                            model.put("cantones", cantonService.findByProvincia(idProvincia)); // Carga los cantones
+                            model.put("parroquias", parroquiaService.findByCanton(canton.getId_canton()));
+                            model.put("parroquiaSeleccionada", parroquia.getId_parroquia());
+
+                        }
+                    }
+                }
             } else {
                 flash.addFlashAttribute("info", "El administrador no existe en la base de datos");
                 return "redirect:/listarAdministradores";
@@ -118,6 +135,7 @@ public class ControladorAdministrador {
         model.put("esEdicion", esEdicion); 
 
         return "administrador";
+        
     }
     
     public boolean esContrasenaValida(String contrasena) {
