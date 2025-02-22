@@ -1,179 +1,204 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Gráfico de Proyectos</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
-    <style>
-        body {
-           
-            color: #68705a;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+	<title>Gráfico de Proyectos</title>
+	<script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+	<style>
+		body {
+			color: #68705a;
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			padding: 20px;
+			text-align: center;
+		}
 
-        h1 {
-            font-size: 28px;
-            font-weight: bold;
-            color: #747b4f;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
-        }
-	
-	        .chart-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            gap: 30px;
-            margin-top: 20px;
-        }
+		h1 {
+			font-size: 28px;
+			font-weight: bold;
+			color: #747b4f;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+			margin-bottom: 40px;
+		}
 
-        .chart-box {
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            position: relative;
-            margin-bottom: 30px;
-        }
+		.chart-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-evenly;
+			gap: 30px;
+			margin-top: 20px;
+		}
 
-        .chart-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #68705a;
-            margin-bottom: 15px;
-        }
-    </style>
+		.chart-box {
+			width: 100%;
+			max-width: 800px;
+			height: 400px;
+			background-color: white;
+			border-radius: 15px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+			position: relative;
+			margin-bottom: 30px;
+		}
+
+		.chart-title {
+			font-size: 20px;
+			font-weight: bold;
+			color: #68705a;
+			margin-bottom: 15px;
+		}
+	</style>
 </head>
+
 <body>
 
-<h1>GRÁFICO DE PROYECTOS</h1>
+	<h1>GRÁFICO DE PROYECTOS</h1>
 
-<div class="chart-container">
-    <div class="chart-box">
-        <div class="chart-title">Proyectos Activos</div>
-        <div id="chartActivos" style="height: 100%;"></div>
-    </div>
-    <div class="chart-box">
-        <div class="chart-title">Proyectos Inactivos</div>
-        <div id="chartInactivos" style="height: 100%;"></div>
-    </div>
-    <div class="chart-box">
-        <div class="chart-title">Proyectos Finalizados</div>
-        <div id="chartFinalizados" style="height: 100%;"></div>
-    </div>
-</div>
+	<div class="chart-container">
+		<div class="chart-box">
+			<div class="chart-title">Proyectos Activos</div>
+			<div id="chartActivos" style="height: 100%;"></div>
+		</div>
+		<div class="chart-box">
+			<div class="chart-title">Proyectos Inactivos</div>
+			<div id="chartInactivos" style="height: 100%;"></div>
+		</div>
+		<div class="chart-box">
+			<div class="chart-title">Proyectos Finalizados</div>
+			<div id="chartFinalizados" style="height: 100%;"></div>
+		</div>
+	</div>
 
-<script th:inline="javascript">
-    var nombresProyectosActivos = [[${nombresProyectosActivos}]];
-    var nombresProyectosInactivos = [[${nombresProyectosInactivos}]];
-    var nombresProyectosFinalizados = [[${nombresProyectosFinalizados}]];
+	<script th:inline="javascript">
+		var nombresProyectosActivos = [[${nombresProyectosActivos}]];
+		var nombresProyectosInactivos = [[${nombresProyectosInactivos}]];
+		var nombresProyectosFinalizados = [[${nombresProyectosFinalizados}]];
 
-    function prepararDatos(proyectos) {
-        return proyectos.map(proyecto => ({
-            name: proyecto.nombre,
-            value: proyecto.porcentaje
-        })).sort((a, b) => b.value - a.value);
-    }
+		function prepararDatos(proyectos) {
+			return proyectos.map(proyecto => ({
+				name: proyecto.nombre,
+				value: proyecto.porcentaje
+			})).sort((a, b) => b.value - a.value);
+		}
 
-    var myChartActivos = echarts.init(document.getElementById('chartActivos'));
-    var myChartInactivos = echarts.init(document.getElementById('chartInactivos'));
-    var myChartFinalizados = echarts.init(document.getElementById('chartFinalizados'));
+		var myChartActivos = echarts.init(document.getElementById('chartActivos'));
+		var myChartInactivos = echarts.init(document.getElementById('chartInactivos'));
+		var myChartFinalizados = echarts.init(document.getElementById('chartFinalizados'));
 
-    function dividirTexto(texto, longitudMax) {
-        let palabras = texto.split(' ');
-        let lineaActual = '';
-        let resultado = [];
-        
-        palabras.forEach(palabra => {
-            if ((lineaActual + palabra).length > longitudMax) {
-                resultado.push(lineaActual.trim());
-                lineaActual = palabra + ' ';
-            } else {
-                lineaActual += palabra + ' ';
-            }
-        });
+		function dividirTexto(texto, longitudMax) {
+			let palabras = texto.split(' ');
+			let lineaActual = '';
+			let resultado = [];
 
-        if (lineaActual.trim() !== '') {
-            resultado.push(lineaActual.trim());
-        }
+			palabras.forEach(palabra => {
+				if ((lineaActual + palabra).length > longitudMax) {
+					resultado.push(lineaActual.trim());
+					lineaActual = palabra + ' ';
+				} else {
+					lineaActual += palabra + ' ';
+				}
+			});
 
-        return resultado.join('\n'); // Unir con salto de línea para mostrar en varias líneas
-    }
+			if (lineaActual.trim() !== '') {
+				resultado.push(lineaActual.trim());
+			}
 
-    function crearGrafico(chart, data, nombres) {
-        var nombresProcesados = nombres.map(nombre => dividirTexto(nombre, 12)); // Máximo 12 caracteres por línea
+			return resultado.join('\n');
+		}
 
-        var option = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: { type: 'shadow' },
-                formatter: '{b}: {c}%',
-                backgroundColor: '#fbffed',
-                borderColor: '#a6b285',
-                textStyle: { color: '#68705a' }
-            },
-            xAxis: {
-                type: 'category',
-                data: nombresProcesados,
-                axisLabel: {
-                    fontSize: 12,
-                    color: '#68705a',
-                    interval: 0, // Mostrar todas las etiquetas
-                    rotate: 0, // Mantenerlas rectas
-                    lineHeight: 16, // Espaciado entre líneas
-                    align: 'center' // Centrar el texto
-                },
-                axisLine: { lineStyle: { color: '#a6b285' } }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: { formatter: '{value}%', fontSize: 14, color: '#68705a' },
-                axisLine: { lineStyle: { color: '#a6b285' } },
-                splitLine: { lineStyle: { color: '#b4be9a', opacity: 0.5 } }
-            },
-            series: [
-                {
-                    name: 'Proyectos',
-                    type: 'bar',
-                    data: data.map(proyecto => proyecto.value),
-                    barWidth: '40%', // Ajustar tamaño de barras
-                    itemStyle: {
-                        color: '#a6b285',
-                        borderRadius: [5, 5, 0, 0],
-                        shadowBlur: 6,
-                        shadowOffsetX: 2,
-                        shadowOffsetY: 2,
-                        shadowColor: 'rgba(0, 0, 0, 0.2)'
-                    },
-                    emphasis: {
-                        itemStyle: {
-                            color: '#747b4f',
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    },
-                    animationDuration: 1500
-                }
-            ],
-            grid: { left: '10%', right: '10%', bottom: '15%', top: '15%', containLabel: true } // Ajuste de márgenes
-        };
-        chart.setOption(option);
-    }
+		function crearGrafico(chart, title, data, nombres) {
+			var nombresProcesados = nombres.map(nombre => dividirTexto(nombre, 12));
 
-    var datosActivos = prepararDatos(nombresProyectosActivos);
-    var datosInactivos = prepararDatos(nombresProyectosInactivos);
-    var datosFinalizados = prepararDatos(nombresProyectosFinalizados);
+			var option = {
+				title: {
+					text: title,
+					left: 'center',
+					textStyle: {color: '#68705a', fontSize: 16}
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {type: 'shadow'},
+					formatter: '{b}: {c}%',
+					backgroundColor: '#fbffed',
+					borderColor: '#a6b285',
+					textStyle: {color: '#68705a'}
+				},
+				xAxis: {
+					type: 'category',
+					data: nombresProcesados,
+					axisLabel: {
+						fontSize: 12,
+						color: '#68705a',
+						interval: 0,
+						rotate: 0,
+						lineHeight: 16,
+						align: 'center'
+					},
+					axisLine: {lineStyle: {color: '#a6b285'}}
+				},
+				yAxis: {
+					type: 'value',
+					axisLabel: {formatter: '{value}%', fontSize: 14, color: '#68705a'},
+					axisLine: {lineStyle: {color: '#a6b285'}},
+					splitLine: {lineStyle: {color: '#b4be9a', opacity: 0.5}}
+				},
+				series: [
+					{
+						name: 'Proyectos',
+						type: 'bar',
+						data: data.map(proyecto => proyecto.value),
+						barWidth: '40%',
+						itemStyle: {
+							color: '#a6b285',
+							borderRadius: [5, 5, 0, 0],
+							shadowBlur: 6,
+							shadowOffsetX: 2,
+							shadowOffsetY: 2,
+							shadowColor: 'rgba(0, 0, 0, 0.2)'
+						},
+						emphasis: {
+							itemStyle: {
+								color: '#747b4f',
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						},
+						animationDuration: 1500
+					}
+				],
+				grid: {left: '10%', right: '10%', bottom: '15%', top: '20%', containLabel: true}
+			};
+			chart.setOption(option);
+		}
+		
+		
+	//FUNCION DE CAMBIAR LOS GRAFICOS CADA 5 SEGUNDOS!!!!!!!!
+			
 
-    crearGrafico(myChartActivos, datosActivos, datosActivos.map(p => p.name));
-    crearGrafico(myChartInactivos, datosInactivos, datosInactivos.map(p => p.name));
-    crearGrafico(myChartFinalizados, datosFinalizados, datosFinalizados.map(p => p.name));
-</script>
+		function cambiarProyectos(chart, proyectos, nombres, interval, title) {
+			let index = 0;
+			setInterval(function () {
+				let proyectosMostrados = proyectos.slice(index, index + 5);
+				let nombresMostrados = nombres.slice(index, index + 5);
+				crearGrafico(chart, title, proyectosMostrados, nombresMostrados);
+				index = (index + 5) % proyectos.length;
+			}, interval);
+		}
+
+		var datosActivos = prepararDatos(nombresProyectosActivos);
+		var datosInactivos = prepararDatos(nombresProyectosInactivos);
+		var datosFinalizados = prepararDatos(nombresProyectosFinalizados);
+
+		crearGrafico(myChartActivos, 'Proyectos Activos', datosActivos.slice(0, 5), datosActivos.slice(0, 5).map(p => p.name));
+		crearGrafico(myChartInactivos, 'Proyectos Inactivos', datosInactivos.slice(0, 5), datosInactivos.slice(0, 5).map(p => p.name));
+		crearGrafico(myChartFinalizados, 'Proyectos Finalizados', datosFinalizados.slice(0, 5), datosFinalizados.slice(0, 5).map(p => p.name));
+
+		cambiarProyectos(myChartActivos, datosActivos, datosActivos.map(p => p.name), 5000, 'Proyectos Activos');
+		cambiarProyectos(myChartInactivos, datosInactivos, datosInactivos.map(p => p.name), 5000, 'Proyectos Inactivos');
+		cambiarProyectos(myChartFinalizados, datosFinalizados, datosFinalizados.map(p => p.name), 5000, 'Proyectos Finalizados');
+	</script>
 
 </body>
+
 </html>
