@@ -2,12 +2,14 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Provincia;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IProvinciaService;
 
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +31,20 @@ public class CantonControllers {
     private ICantonService cantonService;
     
     @Autowired
-    private IProvinciaService provinciaService;  // Añadir este servicio
+    private IProvinciaService provinciaService;  
 
-    // Listar Cantones
     @RequestMapping(value = "/listarcantones", method = RequestMethod.GET)
     public String listarCantones(Model model) {
         model.addAttribute("titulo", "Listado de Cantones");
         model.addAttribute("cantones", cantonService.findAll());
+
+        Map<Long, String> nombreProvincias = new HashMap<>();
+        for (Provincia provincia : provinciaService.findAll()) {
+            nombreProvincias.put(provincia.getId_provincia(), provincia.getNombreProvincia());
+        }
+
+        model.addAttribute("nombreProvincias", nombreProvincias);
+        
         return "listarcantones";
     }
 

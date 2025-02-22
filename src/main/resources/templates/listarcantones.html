@@ -189,7 +189,7 @@
                     <tr th:each="canton : ${cantones}">
                         <td th:text="${canton.id_canton}"></td>
                         <td th:text="${canton.nombreCanton}"></td>
-                        <td th:text="${canton.id_provincia}"></td>
+                        <td th:text="${nombreProvincias[canton.id_provincia]}"></td>
                         <td>
                             <a th:href="@{/canton/editar/{id}(id=${canton.id_canton})}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Editar

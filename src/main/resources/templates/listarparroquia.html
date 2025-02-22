@@ -188,7 +188,7 @@
           <tr th:each="parroquia : ${parroquias}">
             <td th:text="${parroquia.id_parroquia}"></td>
             <td th:text="${parroquia.nombreParroquia}"></td>
-            <td th:text="${parroquia.id_canton}"></td>
+              <td th:text="${nombreCantones[parroquia.id_canton]}"></td>
             <td>
               <div class="btn-group">
                 <a th:href="@{/parroquia/editar/{id}(id=${parroquia.id_parroquia})}" class="btn btn-warning">

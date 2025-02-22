@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -118,9 +120,18 @@ public class ParroquiaControllers {
     public String listarParroquias(Model model) {
         List<Parroquia> parroquias = parroquiaService.findAll();
         model.addAttribute("parroquias", parroquias);
-        return "listarparroquia";  // Nombre de la vista donde se mostrará la lista
+
+        Map<Long, String> nombreCantones = new HashMap<>();
+        for (Canton canton : cantonService.findAll()) {
+            nombreCantones.put(canton.getId_canton(), canton.getNombreCanton());
+        }
+
+        model.addAttribute("nombreCantones", nombreCantones);
+        
+        return "listarparroquia"; 
     }
 
+    
     @GetMapping("/parroquia/eliminar/{id}")
     public String eliminarParroquia(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
