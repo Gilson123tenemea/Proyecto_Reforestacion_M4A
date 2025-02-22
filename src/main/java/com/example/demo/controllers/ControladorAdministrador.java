@@ -97,8 +97,10 @@ public class ControladorAdministrador {
     public String listarYEditar(@RequestParam(value = "id", required = false) Long id, Map<String, Object> model, RedirectAttributes flash) {
         Administrador administrador = new Administrador();
         Usuarios usuario = new Usuarios();
-        
+        boolean esEdicion = false; 
+
         if (id != null && id > 0) {
+            esEdicion = true; 
             administrador = administradorServices.findOne(id);
             if (administrador != null) {
                 usuario = usuarioServices.findOne(administrador.getId_usuarios());
@@ -107,14 +109,16 @@ public class ControladorAdministrador {
                 return "redirect:/listarAdministradores";
             }
         }
-        
+
         model.put("administrador", administrador);
         model.put("usuario", usuario);
         model.put("provincias", provinciaService.findAll());
         model.put("titulo", "Editar o Crear Administrador");
-        
+        model.put("esEdicion", esEdicion); 
+
         return "administrador";
     }
+    
     public boolean esContrasenaValida(String contrasena) {
         // Expresión regular para validar la contraseña
         String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,16}$";
