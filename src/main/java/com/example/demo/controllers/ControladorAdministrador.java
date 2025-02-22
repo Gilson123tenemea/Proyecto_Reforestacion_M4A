@@ -16,6 +16,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -171,20 +172,19 @@ public class ControladorAdministrador {
             BindingResult result,
             Model model) {
 
-        // Si hay errores en la validación
         if (result.hasErrors()) {
             model.addAttribute("titulo", "Editar o Crear Administrador");
             model.addAttribute("provincias", provinciaService.findAll());
             model.addAttribute("usuario", usuario);
             model.addAttribute("administrador", administrador);
-            model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento()); // Mantiene la fecha
-            model.addAttribute("contraseña", usuario.getContraseña()); // Mantiene la contraseña
+            model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
+            model.addAttribute("contraseña", usuario.getContraseña());
 
-            // Extraer los mensajes de error y agregarlos al modelo
-            StringBuilder errores = new StringBuilder();
-            result.getAllErrors().forEach(error -> errores.append(error.getDefaultMessage()).append("<br>"));
+            // Agregar errores específicos al modelo
+            for (FieldError error : result.getFieldErrors()) {
+                model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            }
 
-            model.addAttribute("error", errores.toString());
             return "administrador";
         }
 
@@ -192,58 +192,36 @@ public class ControladorAdministrador {
             // Validar cédula ecuatoriana
             String cedula = usuario.getCedula().trim();
             if (!esCedulaValida(cedula)) {
-                model.addAttribute("error", "La cédula ingresada no es válida, tiene que ser una cédula ecuatoriana.");
-                model.addAttribute("titulo", "Editar o Crear Administrador");
-                model.addAttribute("provincias", provinciaService.findAll());
-                model.addAttribute("usuario", usuario);
-                model.addAttribute("administrador", administrador);
-                model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
-                model.addAttribute("contraseña", usuario.getContraseña());
-                return "administrador";
+                model.addAttribute("cedulaError", "La cédula ingresada no es válida, tiene que ser una cédula ecuatoriana.");
+                return manejarErrores(model, usuario, administrador, null);
             }
 
             // Validar contraseña segura
             if (!esContrasenaValida(usuario.getContraseña().trim())) {
-                model.addAttribute("error", "La contraseña debe tener entre 8 y 16 caracteres, incluir mayúsculas, minúsculas, números y al menos un carácter especial.");
-                model.addAttribute("titulo", "Editar o Crear Administrador");
-                model.addAttribute("provincias", provinciaService.findAll());
-                model.addAttribute("usuario", usuario);
-                model.addAttribute("administrador", administrador);
-                model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
-                model.addAttribute("contraseña", usuario.getContraseña());
-                return "administrador";
-            }
-            
-         // Comprobar si hay errores de validación antes de continuar
-            if (result.hasErrors()) {
-                return manejarErrores(model, usuario, administrador, result);
-            }
-            
-         // Validar nombre
-            if (!esNombreValido(usuario.getNombre())) {
-                model.addAttribute("error", "El nombre debe ser válido (ejemplo: 'Steven Alexander').");
-                return manejarErrores(model, usuario, administrador, null);
-            }
-            
-         // Validar apellido
-            if (!esApellidoValido(usuario.getApellido())) {
-                model.addAttribute("error", "El apellido debe ser válido (ejemplo: 'Carpio Chillogallo').");
+                model.addAttribute("contraseñaError", "La contraseña debe tener entre 8 y 16 caracteres, incluir mayúsculas, minúsculas, números y al menos un carácter especial.");
                 return manejarErrores(model, usuario, administrador, null);
             }
 
-            // Verificar si la cédula ya está registrada en otro usuario
-            List<Usuarios> usuariosExistentes = usuarioServices.findAll();
-            for (Usuarios usuarioExistente : usuariosExistentes) {
-                if (usuarioExistente.getCedula().trim().equals(cedula) && 
-                    (usuario.getId_usuarios() == null || !usuarioExistente.getId_usuarios().equals(usuario.getId_usuarios()))) {
-                    model.addAttribute("error", "La cédula ya está registrada en otro usuario.");
-                    model.addAttribute("titulo", "Editar o Crear Administrador");
-                    model.addAttribute("provincias", provinciaService.findAll());
-                    model.addAttribute("usuario", usuario);
-                    model.addAttribute("administrador", administrador);
-                    model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
-                    model.addAttribute("contraseña", usuario.getContraseña());
-                    return "administrador";
+            // Validar nombre
+            if (!esNombreValido(usuario.getNombre())) {
+                model.addAttribute("nombreError", "El nombre debe ser válido (ejemplo: 'Steven Alexander').");
+                return manejarErrores(model, usuario, administrador, null);
+            }
+
+            // Validar apellido
+            if (!esApellidoValido(usuario.getApellido())) {
+                model.addAttribute("apellidoError", "El apellido debe ser válido (ejemplo: 'Carpio Chillogallo').");
+                return manejarErrores(model, usuario, administrador, null);
+            }
+
+            // Verificar si la cédula ya está registrada en otro usuario (solo en modo creación)
+            if (usuario.getId_usuarios() == null) { // Modo creación
+                List<Usuarios> usuariosExistentes = usuarioServices.findAll();
+                for (Usuarios usuarioExistente : usuariosExistentes) {
+                    if (usuarioExistente.getCedula().trim().equals(cedula)) {
+                        model.addAttribute("cedulaError", "La cédula ya está registrada en otro usuario.");
+                        return manejarErrores(model, usuario, administrador, null);
+                    }
                 }
             }
 
@@ -255,14 +233,8 @@ public class ControladorAdministrador {
                 int edad = Period.between(fechaNacimiento, fechaActual).getYears();
 
                 if (edad < 18) {
-                    model.addAttribute("error", "El usuario debe ser mayor de 18 años.");
-                    model.addAttribute("titulo", "Editar o Crear Administrador");
-                    model.addAttribute("provincias", provinciaService.findAll());
-                    model.addAttribute("usuario", usuario);
-                    model.addAttribute("administrador", administrador);
-                    model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
-                    model.addAttribute("contraseña", usuario.getContraseña());
-                    return "administrador";
+                    model.addAttribute("fecha_nacimientoError", "El usuario debe ser mayor de 18 años.");
+                    return manejarErrores(model, usuario, administrador, null);
                 }
             }
 
@@ -300,15 +272,11 @@ public class ControladorAdministrador {
 
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar: " + e.getMessage());
-            model.addAttribute("titulo", "Editar o Crear Administrador");
-            model.addAttribute("provincias", provinciaService.findAll());
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("administrador", administrador);
-            model.addAttribute("fecha_nacimiento", usuario.getFecha_nacimiento());
-            model.addAttribute("contraseña", usuario.getContraseña());
-            return "administrador";
+            return manejarErrores(model, usuario, administrador, null);
         }
     }
+
+
     
  // Método para validar el nombre
     private boolean esNombreValido(String nombre) {
