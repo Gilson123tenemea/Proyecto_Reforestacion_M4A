@@ -215,14 +215,15 @@
 					         style="width: 150px; height: 150px; display:none; object-fit: cover;" />
 					</div>
                     <!-- Cargar nueva imagen -->
-                    <div class="mb-3">
-                        <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-                        <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
-                               accept="image/*" onchange="mostrarNombreArchivo(); mostrarImagenPrevia();" />
-                        <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
-                        <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
-                    </div>
-                </div>
+					<div class="mb-3">
+					    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+					    <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
+					           accept="image/*" onchange="validarImagen(this); mostrarNombreArchivo(); mostrarImagenPrevia();" />
+					    <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
+					    <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
+					    <!-- Mensaje de error para archivos no permitidos -->
+					    <div id="errorArchivo" class="text-danger" style="display: none;">Solo se permiten archivos de imagen (JPG, PNG, etc.).</div>
+					</div>
 
                 <!-- Nombre del Proyecto -->
                 <div class="col-md-8">
@@ -407,6 +408,21 @@
                     parroquiaSelect.disabled = false;
                 });
         }
+		
+		function validarImagen(input) {
+		    const archivo = input.files[0];
+		    const errorArchivo = document.getElementById('errorArchivo');
+
+		    if (archivo) {
+		        // Verificar el tipo MIME del archivo
+		        if (!archivo.type.startsWith('image/')) {
+		            errorArchivo.style.display = 'block'; // Mostrar mensaje de error
+		            input.value = ''; // Limpiar el input de archivo
+		        } else {
+		            errorArchivo.style.display = 'none'; // Ocultar mensaje de error
+		        }
+		    }
+		}
     </script>
 
     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
