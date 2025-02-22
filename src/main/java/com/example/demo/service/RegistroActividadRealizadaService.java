@@ -124,4 +124,10 @@ public class RegistroActividadRealizadaService {
 	public List<Usuarios> listarvoluntariosUsuarios(Long idusu){
 		return registroActividadRealizadaDao.listarvoluntariosUsuarios(idusu);
 	}
+	
+	
+	public List<RegistroActividadRealiza> FiltroActividades(Long id_administrador,Long id_proyecto){
+		return registroActividadRealizadaDao.FiltroActividades(id_administrador, id_proyecto);
+	}
+
 }

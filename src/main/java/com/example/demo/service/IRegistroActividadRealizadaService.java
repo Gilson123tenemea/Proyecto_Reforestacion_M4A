@@ -15,6 +15,8 @@ public interface IRegistroActividadRealizadaService {
 
     List<Object[]> findActividadesRealizadas(Long voluntarioId);
     List<Object[]> findActividadesPorAceptar(Long voluntarioId);
+	public List<RegistroActividadRealiza> FiltroActividades(Long id_administrador,Long id_proyecto);
+
 
     List<Object[]> findNombreSueloPorRegistro(Long voluntarioId);
 

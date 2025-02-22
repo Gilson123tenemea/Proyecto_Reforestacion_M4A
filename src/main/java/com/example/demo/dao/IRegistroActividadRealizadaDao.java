@@ -17,6 +17,8 @@ public interface IRegistroActividadRealizadaDao {
 
     
     List<RegistroActividadRealiza> findAll();
+	public List<RegistroActividadRealiza> FiltroActividades(Long id_administrador,Long id_proyecto);
+
 
     void deleteById(Long id);
 

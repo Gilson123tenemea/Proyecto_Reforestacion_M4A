@@ -151,6 +151,19 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	*/
 	
 	@Override
+	public List<RegistroActividadRealiza> FiltroActividades(Long id_administrador, Long id_proyecto) {
+	    return entityManager.createQuery(
+	            "SELECT r FROM RegistroActividadRealiza r "
+	            + "JOIN Tipo_Actividades t ON r.id_tipoActividades = t.id_tipoActividades "
+	            + "JOIN Proyecto p ON t.id_administrador = p.id_administrador "
+	            + "WHERE t.id_administrador = :id_administrador AND p.id_proyecto = :id_proyecto", 
+	            RegistroActividadRealiza.class)
+	            .setParameter("id_administrador", id_administrador)
+	            .setParameter("id_proyecto", id_proyecto)
+	            .getResultList();
+	}
+	
+	@Override
 	public List<Object[]> findInfo_RegistroRealizado_cumplido(Long voluntarioId, Long RegistroActividadRealizada_Id) {
 		 return entityManager.createQuery("SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, "
 		            + "e.nombre, ta.nombre_act, "
