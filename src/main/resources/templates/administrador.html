@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Administrador</title>
-    <!-- Bootstrap 5.3.0 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         
@@ -76,182 +74,149 @@
 		    background-color: #c82333; /* Cambia aquí el color de fondo al pasar el mouse */
 		    border-color: #c82333; /* Cambia aquí el color del borde al pasar el mouse */
 		}
-    </style>
-</head>
 
-<body>
-    <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
-	<div th:replace="layout/layoutAdmin :: fondo1"></div>
-
-	<div class="form-container">
-	    <h1>Registrar Administrador</h1>
-
-	    <form action="/guardar" method="post">
-	        <input type="hidden" name="id_super_administrador" th:value="${idSuperAdministrador}">
-	        <input type="hidden" name="id_usuarios" th:value="${usuario.id_usuarios}">
-	        <input type="hidden" name="id_administrador" th:value="${administrador.id_administrador}">
-
-	        <!-- Datos del Usuario -->
-	        <fieldset>
-	            <legend>Datos del Usuario</legend>
-				<div class="row mb-3">
-				    <div class="col-md-6">
-				        <label for="cedula">Cédula:</label>
-				        <div class="input-group">
-				            <input type="text" name="cedula" id="cedula" th:value="${usuario.cedula}" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
-				        </div>
-				    </div>
-	                <div class="col-md-6">
-	                    <label for="nombre" class="form-label">Nombre:</label>
-	                    <input type="text" name="nombre" id="nombre" th:value="${usuario.nombre}" class="form-control" required>
-	                </div>
-	            </div>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="apellido" class="form-label">Apellido:</label>
-	                    <input type="text" name="apellido" id="apellido" th:value="${usuario.apellido}" class="form-control" required>
-	                </div>
-	                <div class="col-md-6">
-	                    <label for="correo" class="form-label">Correo:</label>
-	                    <input type="email" name="correo" id="correo" th:value="${usuario.correo}" class="form-control" required>
-	                </div>
-	            </div>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
-	                    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" 
-	                           th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}" 
-	                           class="form-control" required>
-	                </div>
-	                <div class="col-md-6">
-	                    <label for="genero" class="form-label">Género:</label>
-	                    <select name="genero" id="genero" class="form-select" required>
-	                        <option th:value="Masculino" th:selected="${usuario.genero != null && usuario.genero == 'Masculino'}">Masculino</option>
-	                        <option th:value="Femenino" th:selected="${usuario.genero != null && usuario.genero == 'Femenino'}">Femenino</option>
-	                    </select>
-	                </div>
-	            </div>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="celular" class="form-label">Celular:</label>
-	                    <input type="text" name="celular" id="celular" th:value="${usuario.celular}" class="form-control" required>
-	                </div>
-	                <div class="col-md-6">
-	                    <label for="contraseña" class="form-label">Contraseña:</label>
-	                    <input type="password" name="contraseña" id="contraseña" 
-	                           th:value="${usuario.contraseña}" class="form-control" required>
-	                </div>
-	            </div>
-	            <input type="hidden" name="contraseña_oculta" th:value="${usuario.contraseña}">
-	        </fieldset>
-
-	        <!-- Ubicación -->
-	        <fieldset>
-	            <legend>Ubicación</legend>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-	                    <select id="id_provincia" name="id_provincia" class="form-control" required>
-	                        <option value="" disabled selected>Seleccione una Provincia</option>
-	                        <th:block th:each="provincia : ${provincias}">
-	                            <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
-	                        </th:block>
-	                    </select>
-	                </div>
-	                <div class="col-md-6">
-	                    <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-	                    <select id="id_canton" name="id_canton" class="form-control" required disabled>
-	                        <option value="" disabled selected>Seleccione un Cantón</option>
-	                    </select>
-	                </div>
-	            </div>
-	            <div class="row mb-3">
-	                <div class="col-md-6">
-	                    <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-	                    <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-	                        <option value="" disabled selected>Seleccione una Parroquia</option>
-	                    </select>
-	                </div>
-	                <div class="col-md-6">
-	                    <label for="actividades_gestionadas" class="form-label">Actividades Gestionadas:</label>
-	                    <input type="number" name="actividades_gestionadas" id="actividades_gestionadas" th:value="${administrador.actividades_gestionadas}" class="form-control" required>
-	                </div>
-	            </div>
-	        </fieldset>
-
-	        <div class="btn-group">
-	            <button type="submit" class="btn btn-danger">Guardar</button>
-	            <a href="/listarAdministradores" class="btn btn-secondary">Volver a la lista</a>
-	        </div>
-	    </form>
-	</div>
-    </div>
-	<div th:if="${error}" class="alert alert-danger">
-		<p th:utext="${error}"></p>
-	  </div>
-
-	  <div th:if="${success}" class="alert alert-success">
-	      <p th:text="${success}"></p>
-		  
-	  </div>
-
-	  <br>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Lógica para buscar datos de cédula
-        const cedulaInput = document.getElementById('cedula');
-        const nombreInput = document.getElementById('nombre');
-        const apellidoInput = document.getElementById('apellido');
-        const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
-        const generoSelect = document.getElementById('genero');
-
-        async function buscarDatos(cedula) {
-            const proxyUrl = 'https://infoplacas.herokuapp.com/';
-            const targetUrl = 'https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php';
-
-            const postData = {
-                documento: cedula,
-                tipo: '1'
-            };
-
-            try {
-                const response = await fetch(proxyUrl + targetUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(postData)
-                });
-
-                if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
-
-                const textResponse = await response.text();
-                let data = JSON.parse(textResponse);
-
-                if (data && data.nombres && data.apellidos) {
-                    nombreInput.value = data.nombres;
-                    apellidoInput.value = data.apellidos;
-                    fechaNacimientoInput.value = data.fechaNacimiento || '';
-                    generoSelect.value = (data.sexo === 'HOMBRE') ? 'true' : 'false';
-                } else {
-                    alert('No se encontraron datos para la cédula ingresada.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert(`Error: ${error.message}`);
-            }
+.error-message {
+            color: red;
+            font-size: 0.875em;
         }
 
-        document.getElementById('buscarBtn').addEventListener('click', () => {
-            const cedula = cedulaInput.value.trim();
-            if (cedula.length === 10 && !isNaN(cedula)) {
-                buscarDatos(cedula);
-            } else {
-                alert('Por favor ingrese una cédula válida de 10 dígitos.');
-            }
-        });
+    </style>
+        
+</head>
+<body>
+    <div th:replace="layout/layoutSuperAdmin :: menusuper"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
+    <div class="form-container">
+        <h1>Registrar Administrador</h1>
+
+        <form action="/guardar" method="post">
+            <input type="hidden" name="id_super_administrador" th:value="${idSuperAdministrador}">
+            <input type="hidden" name="id_usuarios" th:value="${usuario.id_usuarios}">
+            <input type="hidden" name="id_administrador" th:value="${administrador.id_administrador}">
+
+            <!-- Datos del Usuario -->
+            <fieldset>
+                <legend>Datos del Usuario</legend>
+                <div class="row mb-3">
+					<div class="col-md-6">
+					    <label for="cedula">Cédula:</label>
+					    <input type="text" name="cedula" id="cedula" 
+					           th:value="${usuario.cedula}" 
+					           required maxlength="10" 
+					           placeholder="Cédula de 10 dígitos" 
+					           class="form-control" 
+					           th:disabled="${esEdicion}">
+					    <!-- Campo oculto para mantener el valor de la cédula en modo de edición -->
+					    <input type="hidden" name="cedula" th:if="${esEdicion}" th:value="${usuario.cedula}">
+					    <div class="error-message" th:if="${cedulaError}" th:text="${cedulaError}"></div>
+					</div>
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" name="nombre" id="nombre" th:value="${usuario.nombre}" class="form-control" required>
+                        <div class="error-message" th:if="${nombreError}" th:text="${nombreError}"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" name="apellido" id="apellido" th:value="${usuario.apellido}" class="form-control" required>
+                        <div class="error-message" th:if="${apellidoError}" th:text="${apellidoError}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="correo" class="form-label">Correo:</label>
+                        <input type="email" name="correo" id="correo" th:value="${usuario.correo}" class="form-control" required>
+                        <div class="error-message" th:if="${correoError}" th:text="${correoError}"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" 
+                               th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}" 
+                               class="form-control" required>
+                        <div class="error-message" th:if="${fecha_nacimientoError}" th:text="${fecha_nacimientoError}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="genero" class="form-label">Género:</label>
+                        <select name="genero" id="genero" class="form-select" required>
+                            <option th:value="Masculino" th:selected="${usuario.genero != null && usuario.genero == 'Masculino'}">Masculino</option>
+                            <option th:value="Femenino" th:selected="${usuario.genero != null && usuario.genero == 'Femenino'}">Femenino</option>
+                        </select>
+                        <div class="error-message" th:if="${generoError}" th:text="${generoError}"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="celular" class="form-label">Celular:</label>
+                        <input type="text" name="celular" id="celular" th:value="${usuario.celular}" class="form-control" required>
+                        <div class="error-message" th:if="${celularError}" th:text="${celularError}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contraseña" class="form-label">Contraseña:</label>
+                        <input type="password" name="contraseña" id="contraseña" 
+                               th:value="${usuario.contraseña}" class="form-control" required>
+                        <div class="error-message" th:if="${contraseñaError}" th:text="${contraseñaError}"></div>
+                    </div>
+                </div>
+                <input type="hidden" name="contraseña_oculta" th:value="${usuario.contraseña}">
+            </fieldset>
+
+            <!-- Ubicación -->
+            <fieldset>
+                <legend>Ubicación</legend>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                        <select id="id_provincia" name="id_provincia" class="form-control" required>
+                            <option value="" disabled selected>Seleccione una Provincia</option>
+                            <th:block th:each="provincia : ${provincias}">
+                                <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+                            </th:block>
+                        </select>
+                        <div class="error-message" th:if="${id_provinciaError}" th:text="${id_provinciaError}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+                        <select id="id_canton" name="id_canton" class="form-control" required disabled>
+                            <option value="" disabled selected>Seleccione un Cantón</option>
+                        </select>
+                        <div class="error-message" th:if="${id_cantonError}" th:text="${id_cantonError}"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+                        <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+                            <option value="" disabled selected>Seleccione una Parroquia</option>
+                        </select>
+                        <div class="error-message" th:if="${id_parroquiaError}" th:text="${id_parroquiaError}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="actividades_gestionadas" class="form-label">Actividades Gestionadas:</label>
+                        <input type="number" name="actividades_gestionadas" id="actividades_gestionadas" th:value="${administrador.actividades_gestionadas}" class="form-control" required>
+                        <div class="error-message" th:if="${actividades_gestionadasError}" th:text="${actividades_gestionadasError}"></div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger">Guardar</button>
+                <a href="/listarAdministradores" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:utext="${error}"></p>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
         // Lógica para manejar las provincias, cantones y parroquias
         const provinciaSelect = document.getElementById('id_provincia');
         const cantonSelect = document.getElementById('id_canton');
@@ -284,31 +249,8 @@
                     parroquiaSelect.disabled = false;
                 });
         });
-		document.addEventListener('DOMContentLoaded', function() {
-		    // Verifica si estamos en modo editar
-		    const modo = document.getElementById('modo').value;
-		    const cedulaInput = document.getElementById('cedula');
-
-		    if (modo === 'editar') {
-		        // Deshabilita el campo de la cédula
-		        cedulaInput.disabled = true;
-		    }
-
-		    // Lógica para buscar datos de cédula
-		    document.getElementById('buscarBtn').addEventListener('click', () => {
-		        const cedula = cedulaInput.value.trim();
-		        if (cedula.length === 10 && !isNaN(cedula)) {
-		            buscarDatos(cedula);
-		        } else {
-		            alert('Por favor ingrese una cédula válida de 10 dígitos.');
-		        }
-		    });
-		});
-
     </script>
-	
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 </body>
-
 </html>
