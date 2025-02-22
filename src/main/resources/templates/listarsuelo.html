@@ -200,7 +200,7 @@
                 <thead>
                     <tr>
                         <th>ID Suelo</th>
-                        <th>ID Tipo Suelo</th>
+                        <th>Tipo Suelo</th>
                         <th>Composición Actual</th>
                         <th>Descripción Estado de Suelo</th>
                         <th>Acciones</th>
@@ -209,7 +209,7 @@
                 <tbody>
                     <tr th:each="suelo : ${suelos}">
                         <td th:text="${suelo.id_suelo}"></td>
-                        <td th:text="${suelo.id_tiposuelo}"></td>
+                        <td th:text="${nombreTiposSuelo[suelo.id_tiposuelo]}"></td>
                         <td th:text="${suelo.composicion}"></td>
                         <td th:text="${suelo.descripcion}"></td>
                         <td>
