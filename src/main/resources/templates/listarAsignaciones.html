@@ -157,8 +157,8 @@
                 <tbody>
                     <tr th:each="asignacion : ${asignaciones}">
                         <td th:text="${asignacion.id_asignacionproyecto}"></td>
-                        <td th:text="${asignacion.id_proyecto}"></td>
-                        <td th:text="${asignacion.id_tipoActividades}"></td>
+						<td th:text="${nombreProyectos[asignacion.id_proyecto]}"></td>
+						<td th:text="${nombreActividades[asignacion.id_tipoActividades]}"></td>
                         <td th:text="${asignacion.estado ? 'Activo' : 'Inactivo'}"></td>
                         <td th:text="${asignacion.meta_deseada}"></td>
                         <td th:text="${asignacion.porcentajeActividad} + '%'"></td>
