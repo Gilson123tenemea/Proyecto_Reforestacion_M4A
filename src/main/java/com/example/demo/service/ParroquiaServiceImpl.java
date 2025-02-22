@@ -49,5 +49,15 @@ public class ParroquiaServiceImpl implements IParroquiaService{
 	public List<Parroquia> findByCanton(Long idCanton) {
 	     return parroquiadao.findByCanton(idCanton); 
 	}
+	
+	@Override
+	public long countUsuariosByParroquiaId(Long idParroquia) {
+	    return parroquiadao.countUsuariosByParroquiaId(idParroquia);
+	}
+
+	@Override
+	public long countProyectosByParroquiaId(Long idParroquia) {
+	    return parroquiadao.countProyectosByParroquiaId(idParroquia);
+	}
 
 }

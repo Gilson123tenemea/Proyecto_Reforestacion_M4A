@@ -11,5 +11,6 @@ public interface IProvinciaService {
 	public Provincia findOne(Long id);
 	public void delete(Long id);
 	public List<Provincia> listarProvincias(); 
+	long countCantonesByProvinciaId(Long idProvincia);
 	
 }

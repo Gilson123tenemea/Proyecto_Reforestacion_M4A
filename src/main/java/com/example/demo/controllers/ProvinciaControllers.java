@@ -95,17 +95,24 @@ public class ProvinciaControllers {
         return "redirect:/listarprovincia";
     }
 
-    // Eliminar provincia
-    @RequestMapping(value="/eliminarprovincia/{id}", method=RequestMethod.GET)
-    public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
+ // Eliminar provincia
+    @RequestMapping(value = "/eliminarprovincia/{id}", method = RequestMethod.GET)
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
+            // Verificar si hay cantones asociados
+            long cantonesCount = provinciaService.countCantonesByProvinciaId(id);
+            if (cantonesCount > 0) {
+                flash.addFlashAttribute("error", "No se puede eliminar la provincia porque tiene cantones asociados.");
+                return "redirect:/listarprovincia"; // Redirige si no se puede eliminar
+            }
+
             if (id > 0) {
                 provinciaService.delete(id);
                 flash.addFlashAttribute("success", "La provincia ha sido eliminada correctamente.");
             }
             return "redirect:/listarprovincia";
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "No se puede eliminar la provincia porque está siendo referenciada por otras entidades.");
+            flash.addFlashAttribute("error", "Error al eliminar la provincia: " + e.getMessage());
             return "redirect:/listarprovincia";
         }
     }

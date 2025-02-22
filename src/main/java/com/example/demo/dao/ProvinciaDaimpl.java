@@ -60,5 +60,11 @@ public class ProvinciaDaimpl implements IProvinciaDao {
 		en.remove(findOne(id));
 		
 	}
+	@Override
+	public long countCantonesByProvinciaId(Long idProvincia) {
+	    return en.createQuery("SELECT COUNT(c) FROM Canton c WHERE c.id_provincia = :idProvincia", Long.class)
+	             .setParameter("idProvincia", idProvincia)
+	             .getSingleResult();
+	}
 
 }

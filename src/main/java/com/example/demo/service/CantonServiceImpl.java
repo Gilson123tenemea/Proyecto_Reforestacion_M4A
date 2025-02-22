@@ -68,6 +68,11 @@ public class CantonServiceImpl implements ICantonService {
 		 return cantondao.findByProvincia(idProvincia); 
 	}
 	
+	@Override
+	public long countParroquiasByCantonId(Long idCanton) {
+	    return cantondao.countParroquiasByCantonId(idCanton);
+	}
+	
 	
 
 }

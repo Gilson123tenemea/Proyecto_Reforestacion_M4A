@@ -11,5 +11,7 @@ public interface ICantonService {
 	public Canton findOne(Long id);
 	public void delete(Long id);
 	public List<Canton> listarCanton(); 
-	 public List<Canton> findByProvincia(Long idProvincia); 
+	public List<Canton> findByProvincia(Long idProvincia); 
+	long countParroquiasByCantonId(Long idCanton);
+	 
 }

@@ -11,5 +11,6 @@ public interface ICantonDao {
 	public Canton findOne(Long id);
 	public void delete(Long id);
     public List<Canton> findByProvincia(Long idProvincia);
+    long countParroquiasByCantonId(Long idCanton);
 
 }

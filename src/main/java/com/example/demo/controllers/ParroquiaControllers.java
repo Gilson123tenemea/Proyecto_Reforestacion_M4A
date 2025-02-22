@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Canton;
 import com.example.demo.entity.Parroquia;
+import com.example.demo.entity.Proyecto;
+import com.example.demo.entity.Usuarios;
 import com.example.demo.service.ICantonService;
 import com.example.demo.service.IParroquiaService;
 import com.example.demo.service.IProvinciaService;
@@ -47,22 +49,22 @@ public class ParroquiaControllers {
         try {
             // Si hay errores de validación, regresamos al formulario con los errores
             if (bindingResult.hasErrors()) {
-                model.addAttribute("cantones", cantonService.findAll());  // Aseguramos que los cantones se carguen
-                model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
+                model.addAttribute("cantones", cantonService.findAll());
+                model.addAttribute("provincias", provinciaService.findAll());
                 return "parroquia";  // Volver al formulario con los errores de validación
             }
 
             // Verificar si el nombre de la parroquia ya existe (ignorando mayúsculas y minúsculas)
             String nombreParroquia = parroquia.getNombreParroquia().trim().toLowerCase();
-            List<Parroquia> parroquiasExistentes = parroquiaService.findAll();  // Obtener todas las parroquias
+            List<Parroquia> parroquiasExistentes = parroquiaService.findAll();
 
-            // Verificar si el nombre de la parroquia ya está en uso en cualquier cantón
             for (Parroquia parroquiaExistente : parroquiasExistentes) {
-                if (parroquiaExistente.getNombreParroquia().trim().toLowerCase().equals(nombreParroquia)) {
+                if (parroquiaExistente.getNombreParroquia().trim().toLowerCase().equals(nombreParroquia) 
+                    && !parroquiaExistente.getId_parroquia().equals(parroquia.getId_parroquia())) {
                     model.addAttribute("error", "Ya existe una parroquia con el mismo nombre.");
-                    model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones nuevamente
-                    model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
-                    model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+                    model.addAttribute("cantones", cantonService.findAll());
+                    model.addAttribute("provincias", provinciaService.findAll());
+                    model.addAttribute("parroquia", parroquia);
                     return "parroquia";  // Volver al formulario con el mensaje de error
                 }
             }
@@ -70,9 +72,9 @@ public class ParroquiaControllers {
             // Verificar si el objeto parroquia tiene un cantón asociado
             if (parroquia.getId_canton() == null) {
                 model.addAttribute("error", "Debe seleccionar un Cantón.");
-                model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones
-                model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
-                model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+                model.addAttribute("cantones", cantonService.findAll());
+                model.addAttribute("provincias", provinciaService.findAll());
+                model.addAttribute("parroquia", parroquia);
                 return "parroquia";  // Volver al formulario con el mensaje de error
             }
 
@@ -83,7 +85,18 @@ public class ParroquiaControllers {
                     model.addAttribute("error", "La parroquia con ese ID no existe.");
                     return "parroquia";
                 }
-                parroquiaService.save(parroquia);  // Actualizar la parroquia si ya tiene un ID
+                
+                // Mantener las relaciones existentes con usuarios y proyectos
+                List<Usuarios> usuariosExistentes = parroquiaExistente.getUsuarios(); // Obtener usuarios existentes
+                List<Proyecto> proyectosExistentes = parroquiaExistente.getProyecto(); // Obtener proyectos existentes
+                
+                // Actualizar la parroquia
+                parroquiaExistente.setNombreParroquia(parroquia.getNombreParroquia());
+                parroquiaExistente.setId_canton(parroquia.getId_canton());
+                parroquiaExistente.setUsuarios(usuariosExistentes); // Mantener usuarios existentes
+                parroquiaExistente.setProyecto(proyectosExistentes); // Mantener proyectos existentes
+                
+                parroquiaService.save(parroquiaExistente);  // Actualizar la parroquia
                 model.addAttribute("success", "Parroquia actualizada exitosamente");
             } else {
                 parroquiaService.save(parroquia);  // Crear nueva parroquia si no tiene un ID
@@ -93,9 +106,9 @@ public class ParroquiaControllers {
             return "redirect:/listarparroquias";  // Redirigir a la lista de parroquias
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar la parroquia: " + e.getMessage());
-            model.addAttribute("cantones", cantonService.findAll());  // Cargar cantones
-            model.addAttribute("provincias", provinciaService.findAll()); // Asegurar que las provincias se recarguen
-            model.addAttribute("parroquia", parroquia);  // Mantener los datos ingresados
+            model.addAttribute("cantones", cantonService.findAll());
+            model.addAttribute("provincias", provinciaService.findAll());
+            model.addAttribute("parroquia", parroquia);
             return "parroquia";  // Volver al formulario con mensaje de error
         }
     }
@@ -111,10 +124,19 @@ public class ParroquiaControllers {
     @GetMapping("/parroquia/eliminar/{id}")
     public String eliminarParroquia(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
+            // Verificar si hay usuarios o proyectos asociados
+            long usuariosCount = parroquiaService.countUsuariosByParroquiaId(id);
+            long proyectosCount = parroquiaService.countProyectosByParroquiaId(id);
+            
+            if (usuariosCount > 0 || proyectosCount > 0) {
+                attributes.addFlashAttribute("error", "No se puede eliminar la parroquia porque tiene usuarios o proyectos asociados.");
+                return "redirect:/listarparroquias"; // Redirige si no se puede eliminar
+            }
+
             parroquiaService.delete(id);
             attributes.addFlashAttribute("mensaje", "Parroquia eliminada correctamente");
         } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Error al eliminar la parroquia");
+            attributes.addFlashAttribute("error", "Error al eliminar la parroquia: " + e.getMessage());
         }
         return "redirect:/listarparroquias";
     }

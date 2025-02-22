@@ -12,6 +12,8 @@ public interface IParroquiaDao {
 	public Parroquia findOne(Long id);
 	public void delete(Long id);
     public List<Parroquia> findByCanton(Long idCanton);
+    long countUsuariosByParroquiaId(Long idParroquia);
+    long countProyectosByParroquiaId(Long idParroquia);
 
 
 }

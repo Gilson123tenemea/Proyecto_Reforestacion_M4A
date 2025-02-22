@@ -10,5 +10,7 @@ public interface IProvinciaDao {
 	public void save(Provincia provincia);
 	public Provincia findOne(Long id);
 	public void delete(Long id);
+    long countCantonesByProvinciaId(Long idProvincia);
+
 
 }

@@ -63,4 +63,18 @@ public class ParroquiaDaoImp implements IParroquiaDao {
 	             .getResultList();
 	}
 	
+	@Override
+	public long countUsuariosByParroquiaId(Long idParroquia) {
+	    return en.createQuery("SELECT COUNT(u) FROM Usuarios u WHERE u.id_parroquia = :idParroquia", Long.class)
+	             .setParameter("idParroquia", idParroquia)
+	             .getSingleResult();
+	}
+
+	@Override
+	public long countProyectosByParroquiaId(Long idParroquia) {
+	    return en.createQuery("SELECT COUNT(p) FROM Proyecto p WHERE p.id_parroquia = :idParroquia", Long.class)
+	             .setParameter("idParroquia", idParroquia)
+	             .getSingleResult();
+	}
+	
 }

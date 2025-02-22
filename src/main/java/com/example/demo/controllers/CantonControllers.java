@@ -76,7 +76,7 @@ public class CantonControllers {
         return "cantones";
     }
     
-    // Guardar un Canton (Crear o Actualizar)
+ // Guardar un Canton (Crear o Actualizar)
     @RequestMapping(value = "/cantones", method = RequestMethod.POST)
     public String guardarCanton(@Valid @ModelAttribute("canton") Canton canton, RedirectAttributes flash, Model model) {
         try {
@@ -88,7 +88,7 @@ public class CantonControllers {
                 if (cantonExistente.getNombreCanton().trim().toLowerCase().equals(nombreCanton)) {
                     model.addAttribute("error", "El Cantón ya existe. Si deseas, puedes continuar y repetirlo.");
                     model.addAttribute("titulo", "Formulario de Nuevo Cantón");
-                    model.addAttribute("provincias", provinciaService.findAll());  // Asegúrate de que las provincias se carguen
+                    model.addAttribute("provincias", provinciaService.findAll());
                     return "cantones";  // Volver al formulario con el mensaje de error
                 }
             }
@@ -101,12 +101,24 @@ public class CantonControllers {
             if (canton.getId_canton() != null) {
                 Canton cantonExistente = cantonService.findOne(canton.getId_canton());
                 if (cantonExistente == null) {
-                    flash.addFlashAttribute("error", "El Canton con ese ID no existe");
+                    flash.addFlashAttribute("error", "El Cantón con ese ID no existe");
                     return "redirect:/listarcantones";
                 }
                 cantonExistente.setId_provincia(canton.getId_provincia());
                 cantonExistente.setNombreCanton(canton.getNombreCanton());
-                cantonExistente.setParroquia(canton.getParroquia()); // Actualizar la lista de parroquias
+                
+                // Mantener las parroquias existentes y agregar las nuevas
+                List<Parroquia> parroquiasExistentes = cantonExistente.getParroquia();
+                if (parroquiasExistentes == null) {
+                    parroquiasExistentes = new ArrayList<>();
+                }
+                
+                // Asignar las parroquias nuevas (si es el caso)
+                if (canton.getParroquia() != null) {
+                    parroquiasExistentes.addAll(canton.getParroquia());
+                }
+
+                cantonExistente.setParroquia(parroquiasExistentes); // Actualizar la lista de parroquias
                 cantonService.save(cantonExistente);
                 flash.addFlashAttribute("success", "Cantón actualizado exitosamente");
             } else {
@@ -119,11 +131,17 @@ public class CantonControllers {
             return "redirect:/listarcantones";
         }
     }
-
     // Eliminar un Canton
     @RequestMapping(value = "/canton/eliminar/{id}", method = RequestMethod.GET)
     public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
         try {
+            // Verificar si hay parroquias asociadas
+            long parroquiasCount = cantonService.countParroquiasByCantonId(id);
+            if (parroquiasCount > 0) {
+                flash.addFlashAttribute("error", "No se puede eliminar el Cantón porque tiene parroquias asociadas.");
+                return "redirect:/listarcantones"; // Redirige si no se puede eliminar
+            }
+
             cantonService.delete(id);
             flash.addFlashAttribute("success", "Cantón eliminado correctamente");
         } catch (Exception e) {

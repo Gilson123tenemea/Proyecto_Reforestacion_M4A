@@ -68,4 +68,11 @@ public class CantonDaoImpl implements ICantonDao {
 	             .setParameter("idProvincia", idProvincia)
 	             .getResultList();
 	}
+	
+	@Override
+	public long countParroquiasByCantonId(Long idCanton) {
+	    return en.createQuery("SELECT COUNT(p) FROM Parroquia p WHERE p.id_canton = :idCanton", Long.class)
+	             .setParameter("idCanton", idCanton)
+	             .getSingleResult();
+	}
 }

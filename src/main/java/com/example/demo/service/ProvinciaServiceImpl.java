@@ -61,5 +61,10 @@ public class ProvinciaServiceImpl implements IProvinciaService {
 	public List<Provincia> listarProvincias() {
 		return provinciadao.findAll();
 	}
+	
+	@Override
+	public long countCantonesByProvinciaId(Long idProvincia) {
+	    return provinciadao.countCantonesByProvinciaId(idProvincia);
+	}
 
 }
