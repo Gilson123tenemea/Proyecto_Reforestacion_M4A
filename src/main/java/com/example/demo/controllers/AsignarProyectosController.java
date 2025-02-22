@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +40,19 @@ public class AsignarProyectosController {
     public String listarAsignaciones(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Listado de Asignaciones de Proyecto");
         List<Asignacion_proyectoActi> asignaciones = asignar_p.findByAdministradorId(idAdministrador);
-        model.addAttribute("asignaciones", asignaciones); 
-        
+        model.addAttribute("asignaciones", asignaciones);
+
+        Map<Long, String> nombreProyectos = new HashMap<>();
+        for (Proyecto proyecto : proyectoService.findByAdministradorId(idAdministrador)) {
+            nombreProyectos.put(proyecto.getId_proyecto(), proyecto.getNombre());
+        }
+
+        Map<Long, String> nombreActividades = new HashMap<>();
+        for (Tipo_Actividades actividad : actividadService.findByAdministradorId(idAdministrador)) {
+            nombreActividades.put(actividad.getId_tipoActividades(), actividad.getNombre_act());
+        }
+        model.addAttribute("nombreProyectos", nombreProyectos);
+        model.addAttribute("nombreActividades", nombreActividades);
         
         return "listarAsignaciones";
     }
