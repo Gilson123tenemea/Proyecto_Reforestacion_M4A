@@ -155,6 +155,12 @@ public class ProyectosControllers {
 
             // Verificar si se ha subido una nueva imagen
             if (!imagenArchivo.isEmpty()) {
+                // Validar que el archivo sea una imagen
+                if (!imagenArchivo.getContentType().startsWith("image/")) {
+                    redirectAttributes.addFlashAttribute("error", "El archivo seleccionado no es una imagen válida.");
+                    return "redirect:/proyectos";
+                }
+
                 // Guardar la imagen en su tamaño original
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 baos.write(imagenArchivo.getBytes()); // Guardar la imagen original
