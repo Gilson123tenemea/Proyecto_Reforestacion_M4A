@@ -173,6 +173,13 @@
 	<div class="main-content">
 		<div class="container">
 			<h1 th:text="${titulo}">Listado de Proyectos</h1>
+			
+			<div th:if="${success}" class="alert alert-success" role="alert">
+			        <p th:text="${success}"></p>
+			    </div>
+			    <div th:if="${error}" class="alert alert-danger" role="alert">
+			        <p th:text="${error}"></p>
+			    </div>
 
 			<!-- Campo de búsqueda -->
 			<input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre del proyecto..."
