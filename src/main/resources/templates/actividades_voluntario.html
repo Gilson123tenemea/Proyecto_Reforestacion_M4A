@@ -9,20 +9,21 @@
 	<style>
 		body {
 			height: 100%;
+			flex: 75px;
 			padding-bottom: 60px;
-			background-color: #fbffed; /* Fondo principal */
-			color: #68705a; /* Color de texto principal */
+			background-color: #fbffed;
+			color: #68705a;
 		}
 
 		h1, h3 {
-			color: #747b4f; /* Color de títulos */
-			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para títulos */
+			color: #747b4f;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 		}
 
 		h1 {
 			font-size: 2.5rem;
 			font-weight: bold;
-			background: linear-gradient(90deg, #747b4f, #a6b285); /* Gradiente para el título principal */
+			background: linear-gradient(90deg, #747b4f, #a6b285);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 		}
@@ -31,18 +32,18 @@
 			font-size: 1.8rem;
 			margin-bottom: 1.5rem;
 			padding-bottom: 0.5rem;
-			border-bottom: 2px solid #a6b285; /* Línea decorativa bajo los subtítulos */
+			border-bottom: 2px solid #a6b285; 
 		}
 
 		footer {
 			text-align: center;
 			padding: 15px 0;
-			background-color: #68705a; /* Fondo del footer */
+			background-color: #68705a; 
 			width: 100%;
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			color: #fbffed; /* Color de texto del footer */
+			color: #fbffed;
 		}
 
 		.img-thumbnail {
@@ -50,87 +51,87 @@
 		    height: 100px;
 		    object-fit: cover;
 		    border-radius: 5px;
-		    border-color: #a6b285; /* Borde de las imágenes */
-		    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto hover */
+		    border-color: #a6b285;
+		    transition: transform 0.3s ease, box-shadow 0.3s ease;
 		}
 
 		.img-thumbnail:hover {
-			transform: scale(1.1); /* Escalar imagen al pasar el mouse */
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra al pasar el mouse */
+			transform: scale(1.1); 
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 		}
 
 		.table {
-			background-color: #fbffed; /* Fondo de las tablas */
-			border-color: #a6b285; /* Borde de las tablas */
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para las tablas */
-			transition: box-shadow 0.3s ease; /* Transición suave */
+			background-color: #fbffed; 
+			border-color: #a6b285; 
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+			transition: box-shadow 0.3s ease; 
 		}
 
 		.table:hover {
-			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada al pasar el mouse */
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 		}
 
 		.table thead th {
-			background-color: #a6b285; /* Fondo del encabezado de la tabla */
-			color: #fbffed; /* Color de texto del encabezado de la tabla */
+			background-color: #a6b285; 
+			color: #fbffed; 
 			font-weight: bold;
-			text-transform: uppercase; /* Texto en mayúsculas */
+			text-transform: uppercase; 
 		}
 
 		.table-striped tbody tr:nth-of-type(odd) {
-			background-color: #b4be9a; /* Fondo de filas impares */
+			background-color: #b4be9a; 
 		}
 
 		.table-striped tbody tr:nth-of-type(even) {
-			background-color: #fbffed; /* Fondo de filas pares */
+			background-color: #fbffed; 
 		}
 
 		.table tbody tr {
-			transition: background-color 0.3s ease; /* Transición suave para filas */
+			transition: background-color 0.3s ease;
 		}
 
 		.table tbody tr:hover {
-			background-color: #a6b285; /* Cambio de color al pasar el mouse */
-			color: #fbffed; /* Color de texto al pasar el mouse */
+			background-color: #a6b285; 
+			color: #fbffed;
 		}
 
 		.btn-success {
-			background-color: #747b4f; /* Fondo del botón Registrar */
-			border-color: #747b4f; /* Borde del botón Registrar */
-			color: #fbffed; /* Color de texto del botón Registrar */
-			transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto hover */
+			background-color: #747b4f;
+			border-color: #747b4f; 
+			color: #fbffed; 
+			transition: background-color 0.3s ease, transform 0.3s ease; 
 		}
 
 		.btn-success:hover {
-			background-color: #68705a; /* Fondo del botón Registrar al pasar el mouse */
-			border-color: #68705a; /* Borde del botón Registrar al pasar el mouse */
-			transform: translateY(-2px); /* Efecto de elevación */
+			background-color: #68705a; 
+			border-color: #68705a; 
+			transform: translateY(-2px);
 		}
 
 		.btn-info {
-			background-color: #a6b285; /* Fondo del botón Más Información */
-			border-color: #a6b285; /* Borde del botón Más Información */
-			color: #fbffed; /* Color de texto del botón Más Información */
-			transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto hover */
+			background-color: #a6b285;
+			border-color: #a6b285;
+			color: #fbffed; 
+			transition: background-color 0.3s ease, transform 0.3s ease; 
 		}
 
 		.btn-info:hover {
-			background-color: #b4be9a; /* Fondo del botón Más Información al pasar el mouse */
-			border-color: #b4be9a; /* Borde del botón Más Información al pasar el mouse */
-			transform: translateY(-2px); /* Efecto de elevación */
+			background-color: #b4be9a;
+			border-color: #b4be9a; 
+			transform: translateY(-2px); 
 		}
 
 		.btn-warning {
-			background-color: #b4be9a; /* Fondo del botón Editar */
-			border-color: #b4be9a; /* Borde del botón Editar */
-			color: #fbffed; /* Color de texto del botón Editar */
-			transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto hover */
+			background-color: #b4be9a; 
+			border-color: #b4be9a; 
+			color: #fbffed; 
+			transition: background-color 0.3s ease, transform 0.3s ease; 
 		}
 
 		.btn-warning:hover {
-			background-color: #a6b285; /* Fondo del botón Editar al pasar el mouse */
-			border-color: #a6b285; /* Borde del botón Editar al pasar el mouse */
-			transform: translateY(-2px); /* Efecto de elevación */
+			background-color: #a6b285;
+			border-color: #a6b285; 
+			transform: translateY(-2px);
 		}
 
 	</style>

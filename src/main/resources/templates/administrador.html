@@ -29,7 +29,7 @@
 		    border-radius: 10px;
 		    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 		    width: 80%; /* Ocupa todo el ancho disponible */
-		    max-width: 1200px; /* Ancho máximo ajustado */
+		    max-width: 1200px; /* Ancho máximo ajustado */
 		    margin: auto;
 		    margin-top: 50px;
 		}
@@ -59,23 +59,23 @@
 		}
 
 		.btn-primary {
-		    background-color: #4F5B3A; /* Cambia aquí el color de fondo */
-		    border-color: #007bff; /* Cambia aquí el color del borde */
+		    background-color: #4F5B3A; /* Cambia aquí el color de fondo */
+		    border-color: #007bff; /* Cambia aquí el color del borde */
 		}
 
 		.btn-primary:hover {
-		    background-color: #0056b3; /* Cambia aquí el color de fondo al pasar el mouse */
-		    border-color: #0056b3; /* Cambia aquí el color del borde al pasar el mouse */
+		    background-color: #0056b3; /* Cambia aquí el color de fondo al pasar el mouse */
+		    border-color: #0056b3; /* Cambia aquí el color del borde al pasar el mouse */
 		}
 
 		.btn-danger {
-		    background-color: #4F5B3A; /* Cambia aquí el color de fondo */
-		    border-color: #4F5B3A; /* Cambia aquí el color del borde */
+		    background-color: #4F5B3A; /* Cambia aquí el color de fondo */
+		    border-color: #4F5B3A; /* Cambia aquí el color del borde */
 		}
 
 		.btn-danger:hover {
-		    background-color: #c82333; /* Cambia aquí el color de fondo al pasar el mouse */
-		    border-color: #c82333; /* Cambia aquí el color del borde al pasar el mouse */
+		    background-color: #c82333; /* Cambia aquí el color de fondo al pasar el mouse */
+		    border-color: #c82333; /* Cambia aquí el color del borde al pasar el mouse */
 		}
     </style>
 </head>
@@ -97,9 +97,9 @@
 	            <legend>Datos del Usuario</legend>
 				<div class="row mb-3">
 				    <div class="col-md-6">
-				        <label for="cedula">Cédula:</label>
+				        <label for="cedula">Cédula:</label>
 				        <div class="input-group">
-				            <input type="text" name="cedula" id="cedula" th:value="${usuario.cedula}" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
+				            <input type="text" name="cedula" id="cedula" th:value="${usuario.cedula}" required maxlength="10" placeholder="Cédula de 10 dígitos" class="form-control">
 				            <button type="button" id="buscarBtn" class="btn btn-primary">Buscar</button>
 				        </div>
 				    </div>
@@ -126,7 +126,7 @@
 	                           class="form-control" required>
 	                </div>
 	                <div class="col-md-6">
-	                    <label for="genero" class="form-label">Género:</label>
+	                    <label for="genero" class="form-label">Género:</label>
 	                    <select name="genero" id="genero" class="form-select" required>
 	                        <option th:value="Masculino" th:selected="${usuario.genero != null && usuario.genero == 'Masculino'}">Masculino</option>
 	                        <option th:value="Femenino" th:selected="${usuario.genero != null && usuario.genero == 'Femenino'}">Femenino</option>
@@ -139,17 +139,17 @@
 	                    <input type="text" name="celular" id="celular" th:value="${usuario.celular}" class="form-control" required>
 	                </div>
 	                <div class="col-md-6">
-	                    <label for="contraseña" class="form-label">Contraseña:</label>
-	                    <input type="password" name="contraseña" id="contraseña" 
-	                           th:value="${usuario.contraseña}" class="form-control" required>
+	                    <label for="contraseña" class="form-label">Contraseña:</label>
+	                    <input type="password" name="contraseña" id="contraseña" 
+	                           th:value="${usuario.contraseña}" class="form-control" required>
 	                </div>
 	            </div>
-	            <input type="hidden" name="contraseña_oculta" th:value="${usuario.contraseña}">
+	            <input type="hidden" name="contraseña_oculta" th:value="${usuario.contraseña}">
 	        </fieldset>
 
-	        <!-- Ubicación -->
+	        <!-- Ubicación -->
 	        <fieldset>
-	            <legend>Ubicación</legend>
+	            <legend>Ubicación</legend>
 	            <div class="row mb-3">
 	                <div class="col-md-6">
 	                    <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
@@ -161,9 +161,9 @@
 	                    </select>
 	                </div>
 	                <div class="col-md-6">
-	                    <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+	                    <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
 	                    <select id="id_canton" name="id_canton" class="form-control" required disabled>
-	                        <option value="" disabled selected>Seleccione un Cantón</option>
+	                        <option value="" disabled selected>Seleccione un Cantón</option>
 	                    </select>
 	                </div>
 	            </div>
@@ -201,7 +201,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Lógica para buscar datos de cédula
+        // Lógica para buscar datos de cédula
         const cedulaInput = document.getElementById('cedula');
         const nombreInput = document.getElementById('nombre');
         const apellidoInput = document.getElementById('apellido');
@@ -226,7 +226,7 @@
                     body: new URLSearchParams(postData)
                 });
 
-                if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
+                if (!response.ok) throw new Error(Error en la solicitud: ${response.status});
 
                 const textResponse = await response.text();
                 let data = JSON.parse(textResponse);
@@ -237,11 +237,11 @@
                     fechaNacimientoInput.value = data.fechaNacimiento || '';
                     generoSelect.value = (data.sexo === 'HOMBRE') ? 'true' : 'false';
                 } else {
-                    alert('No se encontraron datos para la cédula ingresada.');
+                    alert('No se encontraron datos para la cédula ingresada.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert(`Error: ${error.message}`);
+                alert(Error: ${error.message});
             }
         }
 
@@ -250,23 +250,23 @@
             if (cedula.length === 10 && !isNaN(cedula)) {
                 buscarDatos(cedula);
             } else {
-                alert('Por favor ingrese una cédula válida de 10 dígitos.');
+                alert('Por favor ingrese una cédula válida de 10 dígitos.');
             }
         });
 
-        // Lógica para manejar las provincias, cantones y parroquias
+        // Lógica para manejar las provincias, cantones y parroquias
         const provinciaSelect = document.getElementById('id_provincia');
         const cantonSelect = document.getElementById('id_canton');
         const parroquiaSelect = document.getElementById('id_parroquia');
 
         provinciaSelect.addEventListener('change', () => {
             const idProvincia = provinciaSelect.value;
-            fetch(`/admin/cantones/${idProvincia}`)
+            fetch(/admin/cantones/${idProvincia})
                 .then(response => response.json())
                 .then(data => {
-                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
                     data.forEach(canton => {
-                        cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+                        cantonSelect.innerHTML += <option value="${canton.id_canton}">${canton.nombreCanton}</option>;
                     });
                     cantonSelect.disabled = false;
                     parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
@@ -276,12 +276,12 @@
 
         cantonSelect.addEventListener('change', () => {
             const idCanton = cantonSelect.value;
-            fetch(`/admin/parroquias/${idCanton}`)
+            fetch(/admin/parroquias/${idCanton})
                 .then(response => response.json())
                 .then(data => {
                     parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
                     data.forEach(parroquia => {
-                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+                        parroquiaSelect.innerHTML += <option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>;
                     });
                     parroquiaSelect.disabled = false;
                 });
@@ -292,17 +292,17 @@
 		    const cedulaInput = document.getElementById('cedula');
 
 		    if (modo === 'editar') {
-		        // Deshabilita el campo de la cédula
+		        // Deshabilita el campo de la cédula
 		        cedulaInput.disabled = true;
 		    }
 
-		    // Lógica para buscar datos de cédula
+		    // Lógica para buscar datos de cédula
 		    document.getElementById('buscarBtn').addEventListener('click', () => {
 		        const cedula = cedulaInput.value.trim();
 		        if (cedula.length === 10 && !isNaN(cedula)) {
 		            buscarDatos(cedula);
 		        } else {
-		            alert('Por favor ingrese una cédula válida de 10 dígitos.');
+		            alert('Por favor ingrese una cédula válida de 10 dígitos.');
 		        }
 		    });
 		});
