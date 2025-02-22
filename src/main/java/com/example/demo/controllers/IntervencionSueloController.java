@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import java.text.SimpleDateFormat; 
-import java.util.Date; 
+import java.util.Date;
+import java.util.HashMap;
 
 import com.example.demo.entity.Area;
 import com.example.demo.entity.Canton;
@@ -42,8 +45,19 @@ public class IntervencionSueloController {
 
     @RequestMapping(value = "/Listaintervencion", method = RequestMethod.GET)
     public String listar(Model model) {
-        model.addAttribute("titulo", "Listado de Asignacion de Equipos a Parcela");
-        model.addAttribute("Intervenciones", intervencionservice.findAll());
+        List<Intervencion_Suelo> intervenciones = intervencionservice.findAll();
+        
+        // Crear un mapa para almacenar los nombres de los equipos
+        Map<Long, String> nombreEquipos = new HashMap<>();
+        for (Equipos equipo : equiposService.findAll()) {
+            nombreEquipos.put(equipo.getId_equipos(), equipo.getNombre());
+        }
+        
+        model.addAttribute("titulo", "Listado de Asignación de Equipos a Parcelas");
+        
+        // Agregar el mapa al modelo para usar en la vista
+        model.addAttribute("nombreEquipos", nombreEquipos);
+        model.addAttribute("Intervenciones", intervenciones);
         return "Listaintervencion";
     }
 

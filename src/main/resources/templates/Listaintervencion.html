@@ -173,7 +173,7 @@
             <tbody>
                 <tr th:each="intervencion : ${Intervenciones}">
                     <td th:text="${intervencion.id_intervencion_suelo}"></td>
-                    <td th:text="${intervencion.id_equipos}"></td>
+                   <td th:text="${nombreEquipos[intervencion.id_equipos]}"></td>
                     <td th:text="${intervencion.id_parcelas}"></td>
                     <td th:text="${#dates.format(intervencion.fecha_asignacion, 'yyyy-MM-dd')}"></td>
                     <td th:text="${intervencion.hora_asignacion}"></td>
