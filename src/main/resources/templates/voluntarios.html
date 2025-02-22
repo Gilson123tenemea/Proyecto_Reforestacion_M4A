@@ -11,28 +11,17 @@
 	<style>
 		html,
 		body {
-			height: 100%;
-			margin: 0;
-			display: flex;
-			flex-direction: column;
-			font-family: 'Roboto', sans-serif;
-			background-size: cover;
-			background-position: center;
-			background-attachment: fixed;
-			color: white;
+		    height: 100%;
+		    margin: 0;
+		    display: flex;
+		    flex-direction: column;
+		    font-family: 'Roboto', sans-serif;
+		    background-size: cover;
+		    background-position: center;
+		    background-attachment: fixed;
+		    color: white;
 		}
 
-		header {
-			background-color: rgba(211, 47, 47, 0.8);
-			width: 100%;
-		}
-
-		footer {
-			text-align: center;
-			padding: 15px 0;
-			background-color: rgba(211, 47, 47, 0.8);
-			width: 100%;
-		}
 
 		.login-wrapper {
 			display: flex;
@@ -148,7 +137,6 @@
 
 		.mostrar-contraseña input {
 			margin-right: 5px;
-			/* Espacio entre el checkbox y el texto */
 		}
 	</style>
 </head>
@@ -332,7 +320,6 @@
 		       let fechaSeleccionada = new Date(fechaInput.value);
 		       let fechaHoy = new Date();
 
-		       // Reseteamos la hora de la fecha actual para compararla solo con la fecha
 		       fechaHoy.setHours(0, 0, 0, 0);
 
 		       if (fechaSeleccionada > fechaHoy) {
@@ -340,11 +327,10 @@
 		           fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
 		       } else {
 		           mensajeFecha.textContent = "";
-		           fechaInput.setCustomValidity(""); // Elimina cualquier mensaje de error
+		           fechaInput.setCustomValidity(""); 
 		       }
 		   }
 		function validarFormulario() {
-		       // Obtener los elementos de mensaje
 		       const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
 		       const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
 		       const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
@@ -356,12 +342,9 @@
 		           mensajeContraseña !== "✅ Contraseña válida" || 
 		           mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
 		           
-		           // Si alguno de los mensajes no es válido, mostrar una alerta
 		           alert("Por favor, revise la información. Algunos campos no son válidos.");
-		           return false; // No permitir que el formulario se envíe
+		           return false; 
 		       }
-
-		       // Si todos los mensajes son válidos, permitir el envío del formulario
 		       return true;
 		   }
 		
@@ -541,15 +524,9 @@
 			}
 		});
 
-
-
-
-
-
 	</script>
 
-	<div th:replace="layout/layoutAdmin :: footer"></div>
 
 </body>
-
+<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 </html>

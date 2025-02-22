@@ -555,7 +555,8 @@ public class RegistroActividadRealizadaController {
 
 	    for (RegistroActividadRealiza actividad : actividades) {
 	        List<Double> porcentajes = registroActividadService.obtenerPorcentajesPorTipoActividad(actividad.getId_tipoActividades());
-	        Double porcentaje = (porcentajes.isEmpty()) ? 0.0 : porcentajes.get(0);
+	        Double porcentaje = (porcentajes.isEmpty() || porcentajes.get(0) == null) ? 0.0 : porcentajes.get(0);
+
 	        
 	        // Obtener nombre y apellido del voluntario
 	        List<Object[]> voluntarioInfo = iregistroActividadRealizadaDao.findVoluntariosPorActividad(actividad.getId_registroactividadrealizada());
