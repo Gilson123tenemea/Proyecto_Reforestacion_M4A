@@ -355,34 +355,33 @@ public class ControladorAdministrador {
 
 
     @PostMapping("/delete/{id}")
-    public String deleteAdministrador(@PathVariable Long id, Model model) {
+    public String deleteAdministrador(@PathVariable Long id, RedirectAttributes attributes) {
         try {
-            // Verificar si el administrador existe
             Administrador administrador = administradorServices.findOne(id);
-            
+
             if (administrador == null) {
-                model.addAttribute("mensaje", "Administrador no encontrado con ID: " + id);
-                return "error";
+                attributes.addFlashAttribute("mensaje", "Administrador no encontrado con ID: " + id);
+                return "redirect:/listarAdministradores"; // Redirigir a la lista
             }
 
-            // Verificar si hay proyectos, equipos o tipos de actividades asociados
+            // Verificar asociaciones
             long proyectosCount = administradorServices.countProyectosByAdministradorId(id);
             long equiposCount = administradorServices.countEquiposByAdministradorId(id);
             long tipoActividadesCount = administradorServices.countTipoActividadesByAdministradorId(id);
-            
+
             if (proyectosCount > 0 || equiposCount > 0 || tipoActividadesCount > 0) {
-                model.addAttribute("mensaje", "No se puede eliminar el administrador porque tiene proyectos, equipos o tipos de actividades asociados.");
-                return "error"; // Mostrar un mensaje de error
+                attributes.addFlashAttribute("mensaje", "No se puede eliminar el administrador porque tiene proyectos, equipos o tipos de actividades asociados.");
+                return "redirect:/listarAdministradores"; // Redirigir a la lista
             }
 
-            // Eliminar el administrador
+            // Eliminar el administrador si no hay asociaciones
             administradorServices.delete(id);
-            model.addAttribute("mensaje", "Administrador eliminado exitosamente");
-            return "redirect:/listarAdministradores";
+            attributes.addFlashAttribute("mensaje", "Administrador eliminado exitosamente");
         } catch (Exception e) {
-            model.addAttribute("mensaje", "Error al eliminar el administrador: " + e.getMessage());
-            return "error";
+            attributes.addFlashAttribute("mensaje", "Error al eliminar el administrador: " + e.getMessage());
         }
+        
+        return "redirect:/listarAdministradores"; // Redirigir a la lista
     }
 
     @GetMapping("/admin/cantones/{idProvincia}")
