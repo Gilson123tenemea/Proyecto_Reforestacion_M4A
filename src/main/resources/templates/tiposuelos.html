@@ -144,47 +144,47 @@
 	                <div class="row mb-3">
 	                    <div class="col-md-4">
 	                        <label for="nombre_suelo" class="form-label">Nombre del Suelo</label>
-	                        <input type="text" th:field="*{nombre_suelo}" class="form-control" id="nombre_suelo" placeholder="Ingrese el nombre del suelo" required>
+	                        <input type="text" th:field="*{nombre_suelo}" class="form-control" id="nombre_suelo" placeholder=" Ejm: (Arcilloso, Arenoso, Limoso)" required>
 	                    </div>
 	                    <div class="col-md-4">
 	                        <label for="color" class="form-label">Color</label>
-	                        <input type="text" th:field="*{color}" class="form-control" id="color" placeholder="Ingrese el color del suelo" required>
+	                        <input type="text" th:field="*{color}" class="form-control" id="color" placeholder="Ejm: (Marrón oscuro, Rojizo, Amarillo claro)" required>
 	                    </div>
 	                    <div class="col-md-4">
 	                        <label for="textura" class="form-label">Textura</label>
-	                        <input type="text" th:field="*{textura}" class="form-control" id="textura" placeholder="Ingrese la textura del suelo" required>
+	                        <input type="text" th:field="*{textura}" class="form-control" id="textura" placeholder=" Ejm: (Granular fina, Suave y porosa, Compacta)" required>
 	                    </div>
 	                </div>
 
 	                <div class="row mb-3">
 	                    <div class="col-md-4">
 	                        <label for="densidad" class="form-label">Densidad en g/cm³</label>
-	                        <input type="text" th:field="*{densidad}" class="form-control" id="densidad" placeholder="Ingrese la densidad del suelo" required>
+	                        <input type="text" th:field="*{densidad}" class="form-control" id="densidad" placeholder="Ejm: (1.25 g/cm³, 1.50 g/cm³, 1.75 g/cm³)" required>
 	                    </div>
 	                    <div class="col-md-4">
 	                        <label for="ph" class="form-label">pH</label>
-	                        <input type="text" th:field="*{ph}" class="form-control" id="ph" placeholder="Ingrese el pH del suelo" required>
+	                        <input type="text" th:field="*{ph}" class="form-control" id="ph" placeholder="Ejm: (5.5, 6.8, 7.2)" required>
 	                    </div>
 	                    <div class="col-md-4">
 	                        <label for="fertilidad" class="form-label">Fertilidad</label>
-	                        <input type="text" th:field="*{fertilidad}" class="form-control" id="fertilidad" placeholder="Ingrese la fertilidad del suelo" required>
+	                        <input type="text" th:field="*{fertilidad}" class="form-control" id="fertilidad" placeholder=" Ejm: (Alta, Media, Baja)" required>
 	                    </div>
 	                </div>
 
 	                <!-- Campos que van solos en una fila -->
 	                <div class="mb-3">
 	                    <label for="descripcion" class="form-label">Descripción General </label>
-	                    <textarea th:field="*{descripcion}" class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción del suelo" required></textarea>
+	                    <textarea th:field="*{descripcion}" class="form-control" id="descripcion" rows="3" placeholder=" Ejm: (Suelo fértil con buena retención de agua, Suelo seco con baja capacidad de retención, Suelo rico en minerales pero poco profundo)" required></textarea>
 	                </div>
 
 	                <div class="mb-3">
 	                    <label for="composicion" class="form-label">Composición Base </label>
-	                    <textarea th:field="*{composicion}" class="form-control" id="composicion" rows="3" placeholder="Ingrese la composición del suelo" required></textarea>
+	                    <textarea th:field="*{composicion}" class="form-control" id="composicion" rows="3" placeholder=" Ejm: (Arcilla y limo en proporciones equilibradas, Alto contenido de materia orgánica, Mezcla de arena y grava)" required></textarea>
 	                </div>
 
 	                <div class="mb-3">
 	                    <label for="uso_del_suelo" class="form-label">Uso del Suelo</label>
-	                    <textarea th:field="*{uso_del_suelo}" class="form-control" id="uso_del_suelo" rows="3" placeholder="Ingrese el uso del suelo" required></textarea>
+	                    <textarea th:field="*{uso_del_suelo}" class="form-control" id="uso_del_suelo" rows="3" placeholder="Ejm: (Apto para cultivos de hortalizas, Ideal para reforestación, Utilizado para ganadería)" required></textarea>
 	                </div>
 
 	                <!-- Botón de Envío -->
