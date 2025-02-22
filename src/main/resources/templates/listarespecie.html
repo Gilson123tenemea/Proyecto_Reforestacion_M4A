@@ -162,8 +162,14 @@
 
     <div class="container">
         <h1 th:text="${titulo}">Listado de Especies</h1>
+		
+		<div th:if="${success}" class="alert alert-success" role="alert">
+		        <p th:text="${success}"></p>
+		    </div>
+		    <div th:if="${error}" class="alert alert-danger" role="alert">
+		        <p th:text="${error}"></p>
+		    </div>
 
-        <!-- Campo de búsqueda -->
         <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar especie..." onkeyup="filterTable()">
 
         <div class="table-container">

@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Especie;
 import com.example.demo.entity.Plantas;
 import com.example.demo.service.IPlantasService;
 
@@ -114,15 +117,20 @@ public class PlantaController {
 
 
 
-    // Listar Plantas
     @GetMapping("/listarplantas")
     public String listarPlantas(Model model) {
         model.addAttribute("titulo", "Lista de Plantas");
-        model.addAttribute("plantas", plantasService.findAll());
+        List<Plantas> plantas = plantasService.findAll(); 
+        model.addAttribute("plantas", plantas);
+        Map<Long, String> nombreEspecies = new HashMap<>();
+        for (Especie especie : especieService.findAll()) {
+            nombreEspecies.put(especie.getId_especie(), especie.getNombre());
+        }
+        model.addAttribute("nombreEspecies", nombreEspecies);
+        
         return "listarplantas";
     }
 
- // Eliminar una Planta
     @GetMapping("/planta/eliminar/{id}")
     public String eliminarPlanta(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {

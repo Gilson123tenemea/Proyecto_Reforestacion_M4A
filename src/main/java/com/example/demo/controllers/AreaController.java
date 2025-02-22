@@ -1,7 +1,9 @@
 
 package com.example.demo.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,8 +60,15 @@ public class AreaController {
     @GetMapping("/listarareas")
     public String listarAreas(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Lista de Áreas");
+        
         List<Area> areas = areaService.findByProyectoIdAdministrador(idAdministrador);
         model.addAttribute("areas", areas);
+        Map<Long, String> nombreProyectos = new HashMap<>();
+        for (Proyecto proyecto : proyectoService.findByAdministradorId(idAdministrador)) {
+            nombreProyectos.put(proyecto.getId_proyecto(), proyecto.getNombre());
+        }
+        model.addAttribute("nombreProyectos", nombreProyectos);
+        
         return "listarareas";
     }
 

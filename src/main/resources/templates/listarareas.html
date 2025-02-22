@@ -169,7 +169,7 @@
                     <th>Tipo de Terreno</th>
                     <th>Tipo de Vegetación</th>
                     <th>Observaciones</th>
-                    <th>ID Proyecto</th>
+                    <th>Proyecto</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -180,7 +180,7 @@
                     <td th:text="${area.tipo_terreno}"></td>
                     <td th:text="${area.tipo_vegetacion}"></td>
                     <td th:text="${area.observaciones}"></td>
-                    <td th:text="${area.id_proyecto}"></td>
+                    <td th:text="${nombreProyectos[area.id_proyecto]}"></td>
                     <td>
                         <a th:href="@{/area/editar/{id}(id=${area.id_area})}" class="btn btn-warning btn-sm">Editar</a>
                         <a th:href="@{/area/eliminar/{id}(id=${area.id_area})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta área?');">Eliminar</a>

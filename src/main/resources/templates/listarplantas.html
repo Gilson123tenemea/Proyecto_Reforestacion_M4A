@@ -178,7 +178,7 @@
             <tbody>
                 <tr th:each="planta : ${plantas}">
                     <td th:text="${planta.id_plantas}"></td>
-                    <td th:text="${planta.id_especie}"></td>
+                    <td th:text="${nombreEspecies[planta.id_especie]}"></td>
                     <td th:text="${planta.nombre_cientifico}"></td>
                     <td th:text="${planta.clima}"></td>
                     <td th:text="${planta.nombre_comun}"></td>
