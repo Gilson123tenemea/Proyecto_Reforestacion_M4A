@@ -164,35 +164,45 @@
 
             <!-- Ubicación -->
             <fieldset>
-                <legend>Ubicación</legend>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-                        <select id="id_provincia" name="id_provincia" class="form-control" required>
-                            <option value="" disabled selected>Seleccione una Provincia</option>
-                            <th:block th:each="provincia : ${provincias}">
-                                <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
-                            </th:block>
-                        </select>
-                        <div class="error-message" th:if="${id_provinciaError}" th:text="${id_provinciaError}"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-                        <select id="id_canton" name="id_canton" class="form-control" required disabled>
-                            <option value="" disabled selected>Seleccione un Cantón</option>
-                        </select>
-                        <div class="error-message" th:if="${id_cantonError}" th:text="${id_cantonError}"></div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-                        <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-                            <option value="" disabled selected>Seleccione una Parroquia</option>
-                        </select>
-                        <div class="error-message" th:if="${id_parroquiaError}" th:text="${id_parroquiaError}"></div>
-                    </div>
-                    <div class="col-md-6">
+				<legend>Ubicación</legend>
+								<div class="row mb-3">
+								    <div class="col-md-6">
+								        <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+								        <select id="id_provincia" name="id_provincia" class="form-control" required>
+								            <option value="" disabled selected>Seleccione una Provincia</option>
+								            <th:block th:each="provincia : ${provincias}">
+								                <option th:value="${provincia.id_provincia}" 
+								                        th:selected="${provincia.id_provincia == provinciaSeleccionada}" 
+								                        th:text="${provincia.nombreProvincia}"></option>
+								            </th:block>
+								        </select>
+								    </div>
+									<div class="col-md-6 mb-3">
+									    <label for="id_canton" class="form-label">Cantón:</label>
+									    <select id="id_canton" class="form-control" required>
+									        <option value="" disabled>Seleccione un Cantón</option>
+									        <th:block th:each="canton : ${cantones}">
+									            <option th:value="${canton.id_canton}"
+									                    th:selected="${canton.id_canton == cantonSeleccionado}"
+									                    th:text="${canton.nombreCanton}"></option>
+									        </th:block>
+									    </select>
+									</div>
+								</div>
+								<div class="row mb-3">
+								    <div class="col-md-6">
+								        <label for="id_parroquia" class="form-label">Parroquia</label>:</label>
+								        <select id="id_parroquia" name="id_parroquia" class="form-control" required>
+								            <option value="" disabled selected>Seleccione una Parroquia</option>
+								            <th:block th:each="parroquia : ${parroquias}">
+								                <option th:value="${parroquia.id_parroquia}" 
+								                        th:selected="${parroquia.id_parroquia == parroquiaSeleccionada}" 
+								                        th:text="${parroquia.nombreParroquia}"></option>
+								            </th:block>
+								        </select>
+								    </div>
+									
+				                <div class="col-md-6">
                         <label for="actividades_gestionadas" class="form-label">Actividades Gestionadas:</label>
                         <input type="number" name="actividades_gestionadas" id="actividades_gestionadas" th:value="${administrador.actividades_gestionadas}" class="form-control" required>
                         <div class="error-message" th:if="${actividades_gestionadasError}" th:text="${actividades_gestionadasError}"></div>
@@ -217,38 +227,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Lógica para manejar las provincias, cantones y parroquias
-        const provinciaSelect = document.getElementById('id_provincia');
-        const cantonSelect = document.getElementById('id_canton');
-        const parroquiaSelect = document.getElementById('id_parroquia');
+		// Lógica para manejar las provincias, cantones y parroquias
+		const provinciaSelect = document.getElementById('id_provincia');
+		const cantonSelect = document.getElementById('id_canton');
+		const parroquiaSelect = document.getElementById('id_parroquia');
 
-        provinciaSelect.addEventListener('change', () => {
-            const idProvincia = provinciaSelect.value;
-            fetch(`/admin/cantones/${idProvincia}`)
-                .then(response => response.json())
-                .then(data => {
-                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-                    data.forEach(canton => {
-                        cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
-                    });
-                    cantonSelect.disabled = false;
-                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-                    parroquiaSelect.disabled = true; // Disable until a canton is selected
-                });
-        });
+		provinciaSelect.addEventListener('change', () => {
+		    const idProvincia = provinciaSelect.value;
+		    fetch(/admin/cantones/${idProvincia})
+		        .then(response => response.json())
+		        .then(data => {
+		            cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+		            data.forEach(canton => {
+		                cantonSelect.innerHTML += <option value="${canton.id_canton}">${canton.nombreCanton}</option>;
+		            });
+		            cantonSelect.disabled = false;
+		            parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+		            parroquiaSelect.disabled = true; // Disable until a canton is selected
+		        });
+		});
 
-        cantonSelect.addEventListener('change', () => {
-            const idCanton = cantonSelect.value;
-            fetch(`/admin/parroquias/${idCanton}`)
-                .then(response => response.json())
-                .then(data => {
-                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-                    data.forEach(parroquia => {
-                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
-                    });
-                    parroquiaSelect.disabled = false;
-                });
-        });
+		cantonSelect.addEventListener('change', () => {
+		    const idCanton = cantonSelect.value;
+		    fetch(/admin/parroquias/${idCanton})
+		        .then(response => response.json())
+		        .then(data => {
+		            parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+		            data.forEach(parroquia => {
+		                parroquiaSelect.innerHTML += <option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>;
+		            });
+		            parroquiaSelect.disabled = false;
+		        });
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+		    const provinciaSelect = document.getElementById('id_provincia');
+		    const cantonSelect = document.getElementById('id_canton');
+		    const parroquiaSelect = document.getElementById('id_parroquia');
+
+		    provinciaSelect.addEventListener('change', () => {
+		        cargarCantones(provinciaSelect.value);
+		    });
+
+		    cantonSelect.addEventListener('change', () => {
+		        cargarParroquias(cantonSelect.value);
+		    });
+
+		    function cargarCantones(idProvincia) {
+		        fetch(/admin/cantones/${idProvincia})
+		            .then(response => response.json())
+		            .then(data => {
+		                cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+		                data.forEach(canton => {
+		                    cantonSelect.innerHTML += <option value="${canton.id_canton}">${canton.nombreCanton}</option>;
+		                });
+		                cantonSelect.disabled = false;
+		                parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+		                parroquiaSelect.disabled = true; // Disable until a canton is selected
+		            });
+		    }
+
+		    function cargarParroquias(idCanton) {
+		        fetch(/admin/parroquias/${idCanton})
+		            .then(response => response.json())
+		            .then(data => {
+		                parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+		                data.forEach(parroquia => {
+		                    parroquiaSelect.innerHTML += <option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>;
+		                });
+		                parroquiaSelect.disabled = false;
+		            });
+		    }
+		});
     </script>
 
     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
