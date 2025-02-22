@@ -29,6 +29,7 @@ import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.RegistroActividadRealiza;
 import com.example.demo.entity.Usuarios;
 import com.example.demo.service.RegistroActividadRealizadaService;
+import com.example.demo.service.EquiposServiceImpl;
 import com.example.demo.service.IAdministradorServices;
 import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IParcelaService;
@@ -40,6 +41,7 @@ import com.example.demo.service.IUsuarioServices;
 import com.example.demo.service.IVoluntariosService;
 
 @Controller
+@SessionAttributes("idAdministrador")
 @RequestMapping("/registro-actividad")
 public class RegistroActividadRealizadaController {
 
@@ -80,6 +82,15 @@ public class RegistroActividadRealizadaController {
 	
 	  @Autowired
 	    private ISueloService sueloservice;
+	  
+	  @Autowired
+	    private EquiposServiceImpl equiposimpl;
+	  
+	  
+	  
+	    public Long Id_actividades=null;
+	    public Long id_administrador=null;
+	    
 	
 
 	@InitBinder
@@ -124,6 +135,19 @@ public class RegistroActividadRealizadaController {
 
 		return "crearRegistroActividadRealizada";
 	}*/
+	
+	
+	@GetMapping("/TodosProyectos")
+	public String Vista(Model model) {
+
+		 Long idAdministrador = (Long) model.asMap().get("idAdministrador");
+	        id_administrador=(long)1;
+	        model.addAttribute("proyectos", equiposimpl.findAllProyectos((long)1));
+	        
+	      
+	        return "confirmar_actividadreal";
+	}
+	
 	
 	
 	
@@ -548,9 +572,11 @@ public class RegistroActividadRealizadaController {
 	}
 	
 	
-	@GetMapping("/confirmar_actividadreal")
-	public String mostrarActividadesPendientes(Model model) {
-	    List<RegistroActividadRealiza> actividades = registroActividadService.findAllActividades();
+	@PostMapping("/confirmar_actividadreal")
+	public String mostrarActividadesPendientes(Model model, @RequestParam("idProyecto") Long id_proyecto) {
+		
+		System.out.print("id    uuuuuu"+id_proyecto);
+	    List<RegistroActividadRealiza> actividades = registroActividadService.FiltroActividades(id_administrador,id_proyecto);
 	    List<Map<String, Object>> actividadesConPorcentaje = new ArrayList<>();
 
 	    for (RegistroActividadRealiza actividad : actividades) {
