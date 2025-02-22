@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -142,7 +142,8 @@ public class PatrocinadorController {
             @Valid @ModelAttribute("patrocinador") Patrocinador patrocinador,
             @Valid @ModelAttribute("usuario") Usuarios usuario,
             BindingResult result,
-            Model model) {
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         // Comprobar si hay errores de validación antes de continuar
         if (result.hasErrors()) {
@@ -224,8 +225,10 @@ public class PatrocinadorController {
             patrocinador.setId_usuarios(usuario.getId_usuarios()); // Asociar usuario al patrocinador
             patrocinadorservice.save(patrocinador); // Guardar patrocinador
 
-            model.addAttribute("success", "Patrocinador guardado exitosamente.");
+         // Agregar mensaje de éxito a RedirectAttributes
+            redirectAttributes.addFlashAttribute("success", "Patrocinador guardado exitosamente.");
             return "redirect:/login"; // Redirigir al login
+
 
         } catch (Exception e) {
             model.addAttribute("error", "Ocurrió un error al guardar el patrocinador: " + e.getMessage());
