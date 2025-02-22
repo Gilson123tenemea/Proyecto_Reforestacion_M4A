@@ -217,6 +217,32 @@
     </div>
 
     <br>
+	
+	<script>
+	    document.addEventListener("DOMContentLoaded", function () {
+	        document.querySelector("form").addEventListener("submit", function (event) {
+	            let camposTexto = ["nombre", "tipo_terreno", "tipo_vegetacion", "observaciones"];
+	            let esValido = true;
+
+	            camposTexto.forEach(function (campo) {
+	                let input = document.getElementById(campo);
+	                if (!input.value.trim().match(/\w+/)) {
+	                    esValido = false;
+	                    input.classList.add("is-invalid");
+	                } else {
+	                    input.classList.remove("is-invalid");
+	                }
+	            });
+
+	            if (!esValido) {
+	                event.preventDefault();
+	                alert("Por favor, ingrese al menos una palabra en todos los campos obligatorios.");
+	            }
+	        });
+	    });
+	</script>
+
+	
     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

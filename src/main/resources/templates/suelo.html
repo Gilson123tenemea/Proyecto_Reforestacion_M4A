@@ -193,6 +193,20 @@
         </div>
     </div>
     </br>
+	
+	<script>
+	    document.addEventListener("DOMContentLoaded", function () {
+	        document.querySelector("form").addEventListener("submit", function (event) {
+	            let composicion = document.querySelector("[name='composicion']").value.trim();
+	            let descripcion = document.querySelector("[name='descripcion']").value.trim();
+
+	            if (composicion === "" || descripcion === "") {
+	                event.preventDefault(); 
+	                alert("Debe ingresar al menos una palabra en los campos de Composición y Descripción.");
+	            }
+	        });
+	    });
+	</script>
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -119,13 +119,16 @@
                 <form th:action="@{/formtipo}" th:object="${tactividad}" method="post">
                     <input type="hidden" name="idAdministrador" th:value="${idAdministrador}" />
                     
-                    <div class="mb-3">
-                        <label for="nombre_act" class="form-label">Nombre de la Actividad</label>
-                        <input type="text" class="form-control" id="nombre_act" th:field="*{nombre_act}" placeholder="Nombre" required pattern="^[A-Za-z\s]+$" />
-                        <div th:if="${#fields.hasErrors('nombre_act')}" class="error">
-                            <p th:errors="*{nombre_act}"></p>
-                        </div>
-                    </div>
+					<div class="mb-3">
+					    <label for="nombre_act" class="form-label">Nombre de la Actividad</label>
+					    <input type="text" class="form-control" id="nombre_act" th:field="*{nombre_act}" 
+					           placeholder="Nombre" required minlength="2" 
+					           pattern="^(?!\s*$)[A-Za-zÀ-ÿ\s]+$" 
+					           title="Debe ingresar al menos una palabra válida" />
+					    <div th:if="${#fields.hasErrors('nombre_act')}" class="error">
+					        <p th:errors="*{nombre_act}"></p>
+					    </div>
+					</div>
 
                     <div class="mb-3">
                         <label for="duracion" class="form-label">Duración Horas</label>

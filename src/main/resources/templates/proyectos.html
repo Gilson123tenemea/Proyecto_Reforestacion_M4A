@@ -424,6 +424,20 @@
 		    }
 		}
     </script>
+	
+	<script>
+		    document.addEventListener("DOMContentLoaded", function () {
+		        document.querySelector("form").addEventListener("submit", function (event) {
+		            let composicion = document.querySelector("[name='nombre']").value.trim();
+		            
+
+		            if (composicion === "" || descripcion === "") {
+		                event.preventDefault(); 
+		                alert("Debe ingresar al menos una palabra en el nombre del proyecto .");
+		            }
+		        });
+		    });
+		</script>
 
     <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 

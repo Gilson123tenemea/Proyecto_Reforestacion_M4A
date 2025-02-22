@@ -136,7 +136,7 @@
 	                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
 	            </div>
 
-	            <form th:action="@{/tiposuelos}" th:object="${tiposuelo}" method="post">
+	            <form th:action="@{/tiposuelos}" th:object="${tiposuelo}" method="post" onsubmit="return validateForm()">
 	                <!-- Campo Oculto para ID -->
 	                <input type="hidden" th:field="*{id_tiposuelo}" />
 
@@ -196,5 +196,29 @@
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function validateForm() {
+            const fields = [
+                document.getElementById('nombre_suelo'),
+                document.getElementById('color'),
+                document.getElementById('textura'),
+                document.getElementById('densidad'),
+                document.getElementById('ph'),
+                document.getElementById('fertilidad'),
+                document.getElementById('descripcion'),
+                document.getElementById('composicion'),
+                document.getElementById('uso_del_suelo')
+            ];
+
+            for (let field of fields) {
+                if (!field.value.trim()) {
+                    alert("Por favor, completa todos los campos.");
+                    field.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
