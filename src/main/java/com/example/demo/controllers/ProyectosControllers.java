@@ -166,7 +166,7 @@ public class ProyectosControllers {
                 baos.write(imagenArchivo.getBytes()); // Guardar la imagen original
                 proyecto.setImagen(baos.toByteArray());
             } else {
-                // Mantener la imagen existente
+                // Mantener la imagen existente en el proyecto
                 Proyecto proyectoExistente = proyectoService.findOne(proyecto.getId_proyecto());
                 proyecto.setImagen(proyectoExistente.getImagen());
             }
