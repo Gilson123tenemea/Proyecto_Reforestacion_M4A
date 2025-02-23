@@ -152,6 +152,13 @@ public class ProyectosControllers {
             if (proyecto.getId_parroquia() == null) {
                 throw new Exception("Debe seleccionar una Parroquia.");
             }
+            
+            
+            Proyecto proyectoExistente = proyectoService.findOne(proyecto.getId_proyecto());
+            if (proyectoExistente != null) {
+                // Mantener las asignaciones existentes
+                proyecto.setAsignacion_proyectoacti(proyectoExistente.getAsignacion_proyectoacti());
+            }
 
             // Verificar si se ha subido una nueva imagen
             if (!imagenArchivo.isEmpty()) {
@@ -167,7 +174,7 @@ public class ProyectosControllers {
                 proyecto.setImagen(baos.toByteArray());
             } else {
                 // Mantener la imagen existente en el proyecto
-                Proyecto proyectoExistente = proyectoService.findOne(proyecto.getId_proyecto());
+                Proyecto proyectoExistenteProyecto = proyectoService.findOne(proyecto.getId_proyecto());
                 proyecto.setImagen(proyectoExistente.getImagen());
             }
 
