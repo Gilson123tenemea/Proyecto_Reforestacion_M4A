@@ -110,22 +110,24 @@ public class PatrocinadorController {
             if (usuario != null) {
                 model.addAttribute("nombrePatrocinador", usuario.getNombre());
                 model.addAttribute("apellidoPatrocinador", usuario.getApellido());
+                model.addAttribute("id_patrocinador", idPatrocinador); 
             }
         }
 
         return "iniciopatrocinador";
     }
 
-    @GetMapping("/editarPatrocinador")
-    public String editarPatrocinador(@SessionAttribute Long idPatrocinador, Map<String, Object> model) {
+
+    @GetMapping("/editarPatrocinador/{idPatrocinador}")
+    public String editarPatrocinador(@PathVariable Long idPatrocinador, Model model) {
         Patrocinador patrocinador = patrocinadorservice.findOne(idPatrocinador);
         Usuarios usuario = usuarioservice.findOne(patrocinador.getId_usuarios());
 
-        model.put("patrocinadores", patrocinador);
-        model.put("usuario", usuario);
-        model.put("provincias", provinciaService.findAll());
+        model.addAttribute("patrocinador", patrocinador);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("provincias", provinciaService.findAll());
 
-        return "editarPatrocinador";
+        return "editarPatrocinador"; // Nombre de la vista
     }
     
     @GetMapping("/formularioPatrocinador")

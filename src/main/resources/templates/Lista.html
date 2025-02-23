@@ -199,7 +199,7 @@
                         <td th:text="${item['usuario'].celular}"></td>
                         <td th:text="${item['usuario'].contraseña}"></td>
                         <td>
-                            <a th:href="@{/patrocinadores?id={id}(id=${item['patrocinadores'].id_patrocinador})}" class="btn btn-warning">Editar</a>
+                           <a th:href="@{/editarPatrocinador/{idPatrocinador}(idPatrocinador=${item['patrocinadores'].id_patrocinador})}" class="btn btn-warning">Editar</a>
                         </td>
                         <td>
                             <form th:action="@{/eliminar/{id}(id=${item['patrocinadores'].id_patrocinador})}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este patrocinador?');">
