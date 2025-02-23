@@ -15,5 +15,6 @@ public interface IAreaServices {
 	List<Area> findByProyectoIdAdministrador(Long adminId);
 	long countParcelasByAreaId(Long idArea);
 	public Object findProyecto(Long idArea);
+	 String findAreaName(Long idArea);
 	
 }

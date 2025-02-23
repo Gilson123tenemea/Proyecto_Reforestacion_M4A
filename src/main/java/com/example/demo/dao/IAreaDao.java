@@ -12,4 +12,5 @@ public interface IAreaDao {
 	public void delete(Long id);
 	List<Area> findByProyectoIdAdministrador(Long adminId); 
 	long countParcelasByAreaId(Long idArea);
+	
 }

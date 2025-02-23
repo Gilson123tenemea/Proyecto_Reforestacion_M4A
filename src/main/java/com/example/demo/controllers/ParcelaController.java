@@ -48,19 +48,32 @@ public class ParcelaController {
     @RequestMapping(value = "/listarparcelas", method = RequestMethod.GET)
     public String listarParcelas(Model model, @SessionAttribute("idAdministrador") Long idAdministrador) {
         model.addAttribute("titulo", "Listado de Parcelas");
+        
+        // Filtrar parcelas por ID de administrador
         List<Parcelas> parcelas = parcelaservice.findByAdministradorId(idAdministrador);
+        
         Map<Long, String> proyectoNombres = new HashMap<>();
         Map<Long, String> areaNombres = new HashMap<>();
+        
+        // Iterar sobre cada parcela para obtener sus nombres de proyecto y área
         for (Parcelas parcela : parcelas) {
+            // Obtener el nombre del proyecto
             String proyectoNombre = areaService.findProyectoNameByAreaId(parcela.getId_area());
             proyectoNombres.put(parcela.getId_parcelas(), proyectoNombre != null ? proyectoNombre : "No disponible");
-            String areaNombre = parcelaservice.findAreaName(parcela.getId_area());
+
+            // Obtener el nombre del área
+            String areaNombre = null;
+            if (parcela.getId_area() != null) {
+                System.out.println("Buscando área con ID: " + parcela.getId_area());
+                areaNombre = areaService.findAreaName(parcela.getId_area()); // Sin casting
+            }
             areaNombres.put(parcela.getId_parcelas(), areaNombre != null ? areaNombre : "No disponible");
         }
         
         model.addAttribute("areaNombres", areaNombres);
         model.addAttribute("parcelas", parcelas);
         model.addAttribute("proyectoNombres", proyectoNombres);
+        
         return "listarparcelas";
     }
     

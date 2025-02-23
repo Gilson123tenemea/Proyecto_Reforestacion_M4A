@@ -94,5 +94,10 @@ public class AreaServiceslmpl implements IAreaServices{
 	    }
 	    return null;
 	}
+	@Override
+	public String findAreaName(Long idArea) {
+	    Area area = areadao.findOne(idArea);
+	    return area != null ? area.getNombre() : null;
+	}
 
 }

@@ -15,4 +15,5 @@ public interface IParcelaDao {
 	List<Parcelas> findByAreaId(Long idArea);
 	List<Parcelas> findByAdministradorId(Long adminId);
 	public List<Parcelas> listarparcelas();
+	
 }
