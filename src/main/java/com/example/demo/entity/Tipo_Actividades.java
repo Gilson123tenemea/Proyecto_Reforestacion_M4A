@@ -29,7 +29,6 @@ public class Tipo_Actividades implements Serializable {
 
     @NotBlank(message = "El nombre de la actividad no puede estar vacío")
     @Pattern(regexp = "^[A-Za-z\\s]+$", message = "El nombre de la actividad no puede contener números")
-    @Column(unique = true)
     private String nombre_act;
 
     @NotNull(message = "La duración no puede ser nula")

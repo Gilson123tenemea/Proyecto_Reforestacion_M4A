@@ -79,7 +79,7 @@ public class TipoActividadesController {
             @SessionAttribute("idAdministrador") Long idAdministrador,
             RedirectAttributes flash,
             Model model) {
-        
+
         tactividad.setId_administrador(idAdministrador);
         
         // Validar que el nombre de la actividad no esté vacío
@@ -89,30 +89,19 @@ public class TipoActividadesController {
             return "formtipo"; // Volver a cargar la vista con errores
         }
         
-        // Validar que no exista otra actividad con el mismo nombre
-        List<Tipo_Actividades> actividadesExistentes = tipoActividadesService.findAll();
+        // Validar que no exista otra actividad con el mismo nombre para el mismo administrador
+        List<Tipo_Actividades> actividadesExistentes = tipoActividadesService.findByAdministradorId(idAdministrador);
         for (Tipo_Actividades actividadExistente : actividadesExistentes) {
             if (!actividadExistente.getId_tipoActividades().equals(tactividad.getId_tipoActividades()) 
                 && actividadExistente.getNombre_act().equalsIgnoreCase(tactividad.getNombre_act())) {
-                model.addAttribute("error", "Ya existe una actividad con ese nombre.");
+                model.addAttribute("error", "Ya existe una actividad con ese nombre para este administrador.");
                 model.addAttribute("titulo", "Formulario de Tipo Actividad");
                 model.addAttribute("tactividad", tactividad);
                 return "formtipo"; // Volver a la vista con el mensaje de error
             }
         }
 
-        // Si estás editando un registro existente, asegúrate de mantener las asignaciones
-        if (tactividad.getId_tipoActividades() != null) {
-            // Cargar las asignaciones existentes
-            List<Asignacion_proyectoActi> asignacionesExistentes = tipoActividadesService.findAsignacionesByTipo(tactividad.getId_tipoActividades());
-            
-            // No cambies el id_tipoActividades de las asignaciones
-            for (Asignacion_proyectoActi asignacion : asignacionesExistentes) {
-                asignacion.setId_tipoActividades(tactividad.getId_tipoActividades()); // Mantener el ID existente
-            }
-        }
-
-        // Guardar el tipo de actividad sin eliminar las asignaciones existentes
+        // Guardar el tipo de actividad
         tipoActividadesService.save(tactividad);
         
         String mensajeFls = (tactividad.getId_tipoActividades() != null) 
@@ -123,7 +112,6 @@ public class TipoActividadesController {
         
         return "redirect:/asignacion";
     }
-
 
     
     @RequestMapping(value = "/eliminartipo/{id}", method = RequestMethod.GET)
