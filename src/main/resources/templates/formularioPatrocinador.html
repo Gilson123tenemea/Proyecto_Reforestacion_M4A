@@ -1,474 +1,478 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Crear Patrocinador</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<style>
-		html,
-		body {
-			height: 100%;
-			margin: 0;
-			display: flex;
-			flex-direction: column;
-			font-family: 'Roboto', sans-serif;
-			background-size: cover;
-			background-position: center;
-			background-attachment: fixed;
-			color: white;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Patrocinador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
 
-		header {
-			background-color: rgba(211, 47, 47, 0.8);
-			width: 100%;
-		}
+        header {
+            background-color: rgba(211, 47, 47, 0.8);
+            width: 100%;
+        }
 
-		footer {
-			text-align: center;
-			padding: 15px 0;
-			background-color: rgba(211, 47, 47, 0.8);
-			width: 100%;
-		}
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: rgba(211, 47, 47, 0.8);
+            width: 100%;
+        }
 
-		.login-wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-grow: 1;
-			padding: 20px;
-		}
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
 
-		.login-container {
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 30px;
-			border-radius: 10px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			width: 100%;
-			max-width: 700px;
-			transition: transform 0.3s;
-		}
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s;
+        }
 
-		.login-container:hover {
-			transform: scale(1.02);
-		}
+        .login-container:hover {
+            transform: scale(1.02);
+        }
 
-		h2 {
-			text-align: center;
-			margin-bottom: 20px;
-			color: #333333;
-		}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
 
-		.form-group {
-			margin-bottom: 20px;
-		}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-		label {
-			display: block;
-			margin-bottom: 5px;
-			color: #555555;
-		}
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555555;
+        }
 
-		input[type="text"],
-		input[type="password"],
-		input[type="email"],
-		input[type="date"],
-		.form-select {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			transition: border 0.3s;
-		}
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"],
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
 
-		input:focus,
-		.form-select:focus {
-			border-color: #d32f2f;
-			outline: none;
-		}
+        input:focus,
+        .form-select:focus {
+            border-color: #d32f2f;
+            outline: none;
+        }
 
-		button {
-			width: 100%;
-			padding: 12px;
-			background-color: #d32f2f;
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-		button:hover {
-			background-color: #c62828;
-		}
+        button:hover {
+            background-color: #c62828;
+        }
 
-		.error {
-			color: red;
-			text-align: center;
-		}
+        .error {
+            color: red;
+            text-align: center;
+        }
 
-		.register-link {
-			text-align: center;
-			margin-top: 15px;
-			color: #555555;
-		}
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #555555;
+        }
 
-		.register-link a {
-			color: #d32f2f;
-			text-decoration: none;
-		}
+        .register-link a {
+            color: #d32f2f;
+            text-decoration: none;
+        }
 
-		.register-link a:hover {
-			text-decoration: underline;
-		}
+        .register-link a:hover {
+            text-decoration: underline;
+        }
 
-		fieldset {
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			padding: 20px;
-			margin-bottom: 20px;
-		}
+        fieldset {
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-		legend {
-			font-size: 1.2em;
-			font-weight: bold;
-			color: #333333;
-			padding: 0 10px;
-		}
-	</style>
+        legend {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333333;
+            padding: 0 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
-	<div th:replace="layout/layoutinicio :: menuinicio"></div>
-	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+    <div th:replace="layout/layoutinicio :: menuinicio"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
-	<div th:if="${error}" class="alert alert-danger">
-			<p th:utext="${error}"></p>
-		  </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:utext="${error}"></p>
+    </div>
 
-		  <div th:if="${success}" class="alert alert-success">
-		      <p th:text="${success}"></p>
-			  
-		  </div>
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
 
-		  <div class="login-wrapper">
-		      <div class="login-container">
-		          <h2>Crear Nuevo Patrocinador</h2>
-		          <form action="/guardarPatrocinador" method="post">
-		              <fieldset>
-		                  <legend>Datos del Usuario</legend>
-		                  <div class="row g-3">
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="cedula">Cédula:</label>
-		                              <input type="text" name="cedula" id="cedula" required maxlength="10"
-		                                  placeholder="Cédula de 10 dígitos" th:value="${usuario.cedula}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="nombre">Nombre:</label>
-		                              <input type="text" id="nombre" name="nombre" required th:value="${usuario.nombre}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="apellido">Apellido:</label>
-		                              <input type="text" id="apellido" name="apellido" required th:value="${usuario.apellido}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="correo">Correo:</label>
-		                              <input type="email" id="correo" name="correo" required th:value="${usuario.correo}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-		                              <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="genero">Género:</label>
-		                              <select id="genero" name="genero" class="form-select" required>
-		                                  <option th:selected="${usuario.genero == null}" disabled>Selecciona tu género</option>
-		                                  <option value="MASCULINO" th:selected="${usuario.genero == 'MASCULINO'}">Masculino</option>
-		                                  <option value="FEMENINO" th:selected="${usuario.genero == 'FEMENINO'}">Femenino</option>
-		                              </select>
-		                          </div>
-		                      </div>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h2>Crear Nuevo Patrocinador</h2>
+            <form action="/guardarPatrocinador" method="post">
+                <fieldset>
+                    <legend>Datos del Usuario</legend>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cedula">Cédula:</label>
+                                <input type="text" name="cedula" id="cedula" required maxlength="10"
+                                    placeholder="Cédula de 10 dígitos" th:value="${usuario.cedula}">
+                                <div th:if="${errorCedula}" class="error-message" th:text="${errorCedula}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" required th:value="${usuario.nombre}">
+                                <div th:if="${errorNombre}" class="error-message" th:text="${errorNombre}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" id="apellido" name="apellido" required th:value="${usuario.apellido}">
+                                <div th:if="${errorApellido}" class="error-message" th:text="${errorApellido}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="correo">Correo:</label>
+                                <input type="email" id="correo" name="correo" required th:value="${usuario.correo}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required th:value="${#dates.format(usuario.fecha_nacimiento, 'yyyy-MM-dd')}">
+                                <div th:if="${errorFechaNacimiento}" class="error-message" th:text="${errorFechaNacimiento}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genero">Género:</label>
+                                <select id="genero" name="genero" class="form-select" required>
+                                    <option th:selected="${usuario.genero == null}" disabled>Selecciona tu género</option>
+                                    <option value="MASCULINO" th:selected="${usuario.genero == 'MASCULINO'}">Masculino</option>
+                                    <option value="FEMENINO" th:selected="${usuario.genero == 'FEMENINO'}">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
 
-		                      <div class="col-md-6">
-		                          <label for="celular" class="form-label">Celular:</label>
-		                          <input type="text" name="celular" id="celular" class="form-control" required th:value="${usuario.celular}">
-		                      </div>
+						<div class="col-md-6">
+						    <label for="celular" class="form-label">Celular:</label>
+						    <input type="text" name="celular" id="celular" class="form-control" required th:value="${usuario.celular}">
+						    <div th:if="${errorCelular}" class="error-message" th:text="${errorCelular}"></div>
+						</div>
 
-		                      <div class="mb-3">
-		                          <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-		                          <select id="id_provincia" name="id_provincia" class="form-control" required>
-		                              <option value="" disabled selected>Seleccione una Provincia</option>
-		                              <th:block th:each="provincia : ${provincias}">
-		                                  <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"> </option>
-		                              </th:block>
-		                          </select>
-		                      </div>
+                        <div class="mb-3">
+                            <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                            <select id="id_provincia" name="id_provincia" class="form-control" required>
+                                <option value="" disabled selected>Seleccione una Provincia</option>
+                                <th:block th:each="provincia : ${provincias}">
+                                    <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"> </option>
+                                </th:block>
+                            </select>
+                        </div>
 
-		                      <div class="mb-3">
-		                          <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-		                          <select id="id_canton" name="id_canton" class="form-control" required disabled>
-		                              <option value="" disabled selected>Seleccione un Cantón</option>
-		                          </select>
-		                      </div>
+                        <div class="mb-3">
+                            <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+                            <select id="id_canton" name="id_canton" class="form-control" required disabled>
+                                <option value="" disabled selected>Seleccione un Cantón</option>
+                            </select>
+                        </div>
 
-		                      <div class="mb-3">
-		                          <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-		                          <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-		                              <option value="" disabled selected>Seleccione una Parroquia</option>
-		                          </select>
-		                      </div>
+                        <div class="mb-3">
+                            <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+                            <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+                                <option value="" disabled selected>Seleccione una Parroquia</option>
+                            </select>
+                        </div>
 
-							  <div class="col-md-6">
-							      <div class="form-group">
-							          <label for="contraseña">Contraseña:</label>
-							          <input type="password" id="contraseña" name="contraseña" required minlength="8"
-							              oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
-							              th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
-							          <label for="mostrarContraseña" class="mostrar-contraseña">
-							              <input type="checkbox" id="mostrarContraseña"
-							                  onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
-							          </label>
-							          <small id="mensajeContraseña"></small>
-							      </div>
-							  </div>
-							  <div class="col-md-6">
-							      <div class="form-group">
-							          <label for="confirmar_contraseña">Confirmar Contraseña:</label>
-							          <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
-							              oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
-							              th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
-							          <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
-							              <input type="checkbox" id="mostrarConfirmarContraseña"
-							                  onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
-							          </label>
-							          <small id="mensajeConfirmacion"></small>
-							      </div>
-							  </div>
-		              </fieldset>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contraseña">Contraseña:</label>
+                                <input type="password" id="contraseña" name="contraseña" required minlength="8"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
+                                    th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
+                                <label for="mostrarContraseña" class="mostrar-contraseña">
+                                    <input type="checkbox" id="mostrarContraseña"
+                                        onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+                                </label>
+                                <small id="mensajeContraseña"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="confirmar_contraseña">Confirmar Contraseña:</label>
+                                <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"
+                                    th:value="${usuario.contraseña}"> <!-- Mantener el valor ingresado -->
+                                <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
+                                    <input type="checkbox" id="mostrarConfirmarContraseña"
+                                        onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
+                                </label>
+                                <small id="mensajeConfirmacion"></small>
+                            </div>
+                        </div>
+                </fieldset>
 
-		              <fieldset>
-		                  <legend>Datos del Patrocinador</legend>
-		                  <div class="row g-3">
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="nombreEmpresa">Nombre de la Empresa:</label>
-		                              <input type="text" id="nombreEmpresa" name="nombreEmpresa" required th:value="${patrocinador.nombreEmpresa}">
-		                          </div>
-		                      </div>
-		                      <div class="col-md-6">
-		                          <div class="form-group">
-		                              <label for="ruc">RUC:</label>
-		                              <input type="text" id="ruc" name="ruc" required th:value="${patrocinador.ruc}">
-		                          </div>
-		                      </div>
-		                  </div>
-		              </fieldset>
+                <fieldset>
+                    <legend>Datos del Patrocinador</legend>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                                <input type="text" id="nombreEmpresa" name="nombreEmpresa" required th:value="${patrocinador.nombreEmpresa}">
+                                <div th:if="${errorNombreEmpresa}" class="error-message" th:text="${errorNombreEmpresa}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ruc">RUC:</label>
+                                <input type="text" id="ruc" name="ruc" required th:value="${patrocinador.ruc}">
+                                <div th:if="${errorRuc}" class="error-message" th:text="${errorRuc}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
 
-		              <button type="submit" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-		                  Guardar
-		              </button>
-		              <div class="register-link">
-		                  <a href="/login"></a>
-		              </div>
-		          </form>
-		      </div>
-		  </div>
-	
+                <button type="submit" style="background-color: #4F5B3A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    Guardar
+                </button>
+                <div class="register-link">
+                    <a href="/login"></a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-	<script>
-	    document.addEventListener("DOMContentLoaded", function () {
-	        const contraseñaInput = document.getElementById("contraseña");
-	        const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
-	        const mensajeContraseña = document.getElementById("mensajeContraseña");
-	        const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const contraseñaInput = document.getElementById("contraseña");
+            const confirmarContraseñaInput = document.getElementById("confirmar_contraseña");
+            const mensajeContraseña = document.getElementById("mensajeContraseña");
+            const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
 
-	        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%]{8,}$/;
 
-	        contraseñaInput.addEventListener("input", function () {
-	            const contraseña = contraseñaInput.value;
-	            const especiales = contraseña.match(/[@#$%]/g);
-	            const cantidadEspeciales = especiales ? especiales.length : 0;
+            contraseñaInput.addEventListener("input", function () {
+                const contraseña = contraseñaInput.value;
+                const especiales = contraseña.match(/[@#$%]/g);
+                const cantidadEspeciales = especiales ? especiales.length : 0;
 
-	            if (!regex.test(contraseña) || cantidadEspeciales > 3) {
-	                mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
-	                mensajeContraseña.style.color = "red";
-	            } else {
-	                mensajeContraseña.textContent = "✅ Contraseña válida";
-	                mensajeContraseña.style.color = "green";
-	            }
-	        });
+                if (!regex.test(contraseña) || cantidadEspeciales > 3) {
+                    mensajeContraseña.textContent = "Debe tener al menos 8 caracteres, incluir letras y números. Puede contener hasta 3 caracteres especiales (@, #, $, %).";
+                    mensajeContraseña.style.color = "red";
+                } else {
+                    mensajeContraseña.textContent = "✅ Contraseña válida";
+                    mensajeContraseña.style.color = "green";
+                }
+            });
 
-	        confirmarContraseñaInput.addEventListener("input", function () {
-	            if (contraseñaInput.value !== confirmarContraseñaInput.value) {
-	                mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
-	                mensajeConfirmacion.style.color = "red";
-	            } else {
-	                mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
-	                mensajeConfirmacion.style.color = "green";
-	            }
-	        });
+            confirmarContraseñaInput.addEventListener("input", function () {
+                if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+                    mensajeConfirmacion.textContent = "Las contraseñas no coinciden.";
+                    mensajeConfirmacion.style.color = "red";
+                } else {
+                    mensajeConfirmacion.textContent = "✅ Las contraseñas coinciden";
+                    mensajeConfirmacion.style.color = "green";
+                }
+            });
 
-	        window.validarFormulario = function() {
-	            const mensajeContraseñaTexto = mensajeContraseña.innerText.trim();
-	            const mensajeConfirmacionTexto = mensajeConfirmacion.innerText.trim();
+            window.validarFormulario = function() {
+                const mensajeContraseñaTexto = mensajeContraseña.innerText.trim();
+                const mensajeConfirmacionTexto = mensajeConfirmacion.innerText.trim();
 
-	            if (mensajeContraseñaTexto !== "✅ Contraseña válida" || 
-	                mensajeConfirmacionTexto !== "✅ Las contraseñas coinciden") {
-	                alert("Por favor, revise la información. Algunos campos no son válidos.");
-	                return false; 
-	            }
+                if (mensajeContraseñaTexto !== "✅ Contraseña válida" || 
+                    mensajeConfirmacionTexto !== "✅ Las contraseñas coinciden") {
+                    alert("Por favor, revise la información. Algunos campos no son válidos.");
+                    return false; 
+                }
 
-	            return true;
-	        };
-			
+                return true;
+            };
 
-	        window.togglePasswordVisibility = function(id) {
-	            var passwordInput = document.getElementById(id);
-	            
-	            if (passwordInput.type === "password") {
-	                passwordInput.type = "text";
-	            } else {
-	                passwordInput.type = "password";
-	            }
-	        };
-	    });
-	</script>
+            window.togglePasswordVisibility = function(id) {
+                var passwordInput = document.getElementById(id);
+                
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                } else {
+                    passwordInput.type = "password";
+                }
+            };
+        });
+    </script>
 
-	<script>
-		const cedulaInput = document.getElementById('cedula');
-		const nombreInput = document.getElementById('nombre');
-		const apellidoInput = document.getElementById('apellido');
-		const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
-		const generoSelect = document.getElementById('genero');
+    <script>
+        const cedulaInput = document.getElementById('cedula');
+        const nombreInput = document.getElementById('nombre');
+        const apellidoInput = document.getElementById('apellido');
+        const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+        const generoSelect = document.getElementById('genero');
 
-		async function buscarDatos(cedula) {
-			const proxyUrl = 'https://infoplacas.herokuapp.com/';
-			const targetUrl = 'https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php';
+        async function buscarDatos(cedula) {
+            const proxyUrl = 'https://infoplacas.herokuapp.com/';
+            const targetUrl = 'https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php';
 
-			const postData = {
-				documento: cedula,
-				tipo: '1'
-			};
+            const postData = {
+                documento: cedula,
+                tipo: '1'
+            };
 
-			try {
-				const response = await fetch(proxyUrl + targetUrl, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					},
-					body: new URLSearchParams(postData)
-				});
+            try {
+                const response = await fetch(proxyUrl + targetUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(postData)
+                });
 
-				if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
+                if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
 
-				const textResponse = await response.text();
-				let data = JSON.parse(textResponse);
-				console.log('Respuesta de la API:', data);
+                const textResponse = await response.text();
+                let data = JSON.parse(textResponse);
+                console.log('Respuesta de la API:', data);
 
-				if (data && data.nombres && data.apellidos) {
-					nombreInput.value = data.nombres;
-					apellidoInput.value = data.apellidos;
-					fechaNacimientoInput.value = data.fechaNacimiento || '';
+                if (data && data.nombres && data.apellidos) {
+                    nombreInput.value = data.nombres;
+                    apellidoInput.value = data.apellidos;
+                    fechaNacimientoInput.value = data.fechaNacimiento || '';
 
-					// Establecer el género según la respuesta de la API
-					if (data.sexo) {
-						generoSelect.value = (data.sexo === 'HOMBRE') ? 'MASCULINO' : 'FEMENINO';
-					}
-				} else {
-					alert('No se encontraron datos para la cédula ingresada.');
-				}
+                    // Establecer el género según la respuesta de la API
+                    if (data.sexo) {
+                        generoSelect.value = (data.sexo === 'HOMBRE') ? 'MASCULINO' : 'FEMENINO';
+                    }
+                } else {
+                    alert('No se encontraron datos para la cédula ingresada.');
+                }
 
-			} catch (error) {
-				console.error('Error:', error);
-				alert(`Error: ${error.message}`);
-			}
-		}
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
 
-		document.getElementById('buscarBtn').addEventListener('click', () => {
-			const cedula = cedulaInput.value.trim();
-			if (cedula.length === 10 && !isNaN(cedula)) {
-				buscarDatos(cedula);
-			} else {
-				alert('Por favor ingrese una cédula válida de 10 dígitos.');
-			}
-		});
-		
-			document.querySelector('form').addEventListener('submit', function(event) {
-				const contraseñaInput = document.getElementById('contraseña');
-				const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
+        document.getElementById('buscarBtn').addEventListener('click', () => {
+            const cedula = cedulaInput.value.trim();
+            if (cedula.length === 10 && !isNaN(cedula)) {
+                buscarDatos(cedula);
+            } else {
+                alert('Por favor ingrese una cédula válida de 10 dígitos.');
+            }
+        });
+        
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const contraseñaInput = document.getElementById('contraseña');
+            const confirmarContraseñaInput = document.getElementById('confirmar_contraseña');
 
-				if (contraseñaInput.value !== confirmarContraseñaInput.value) {
-					event.preventDefault(); 
-					alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
-					confirmarContraseñaInput.focus(); 
-				}
-			});
-		
-	</script>
+            if (contraseñaInput.value !== confirmarContraseñaInput.value) {
+                event.preventDefault(); 
+                alert('Las contraseñas no coinciden. Por favor, ingrésalas nuevamente.');
+                confirmarContraseñaInput.focus(); 
+            }
+        });
+    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const provinciaSelect = document.getElementById('id_provincia');
+        const cantonSelect = document.getElementById('id_canton');
+        const parroquiaSelect = document.getElementById('id_parroquia');
 
-	<script>
-		const provinciaSelect = document.getElementById('id_provincia');
-		const cantonSelect = document.getElementById('id_canton');
-		const parroquiaSelect = document.getElementById('id_parroquia');
+        provinciaSelect.addEventListener('change', () => {
+            cargarCantones(provinciaSelect.value);
+        });
 
-		provinciaSelect.addEventListener('change', () => {
-			cargarCantones(provinciaSelect.value);
-		});
+        cantonSelect.addEventListener('change', () => {
+            cargarParroquias(cantonSelect.value);
+        });
 
-		cantonSelect.addEventListener('change', () => {
-			cargarParroquias(cantonSelect.value);
-		});
+        function cargarCantones(idProvincia) {
+            fetch(`/cantones/${idProvincia}`)
+                .then(response => response.json())
+                .then(data => {
+                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+                    data.forEach(canton => {
+                        cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+                    });
+                    cantonSelect.disabled = false;
+                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+                    parroquiaSelect.disabled = true; 
+                });
+        }
 
-		function cargarCantones(idProvincia) {
-			fetch(`/cantones/${idProvincia}`)
-				.then(response => response.json())
-				.then(data => {
-					cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-					data.forEach(canton => {
-						cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
-					});
-					cantonSelect.disabled = false;
-					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					parroquiaSelect.disabled = true; 
-				});
-		}
-
-		function cargarParroquias(idCanton) {
-			fetch(`/parroquias/${idCanton}`)
-				.then(response => response.json())
-				.then(data => {
-					parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-					data.forEach(parroquia => {
-						parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
-					});
-					parroquiaSelect.disabled = false;
-				});
-		}
-	
-	</script>
-		
-	
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
-
-
+        function cargarParroquias(idCanton) {
+            fetch(`/parroquias/${idCanton}`)
+                .then(response => response.json())
+                .then(data => {
+                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+                    data.forEach(parroquia => {
+                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+                    });
+                    parroquiaSelect.disabled = false;
+                });
+        }
+    </script>
+    
+    
 </body>
-
+<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
 </html>
