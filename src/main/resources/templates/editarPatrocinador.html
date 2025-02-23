@@ -1,288 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Editar Perfil</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-	<style>
-		header {
-			background-color: #a6b285; 
-			width: 100%;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Patrocinador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        header {
+            background-color: #a6b285;
+            width: 100%;
+        }
 
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
 
-		.login-wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-grow: 1;
-			padding: 20px;
-		}
+        .login-container {
+            background-color: #fbffed;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s;
+        }
 
-		.login-container {
-			background-color: #fbffed; /* Fondo de la caja del formulario */
-			padding: 30px;
-			border-radius: 10px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			width: 100%;
-			max-width: 700px;
-			transition: transform 0.3s;
-		}
+        .login-container:hover {
+            transform: scale(1.02);
+        }
 
-		.login-container:hover {
-			transform: scale(1.02);
-		}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #68705a;
+        }
 
-		h2 {
-			text-align: center;
-			margin-bottom: 20px;
-			color: #68705a; /* Color del título */
-		}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-		.form-group {
-			margin-bottom: 20px;
-		}
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #747b4f;
+            font-weight: bold;
+        }
 
-		label {
-			display: block;
-			margin-bottom: 5px;
-			color: #747b4f; /* Color de los textos de las etiquetas */
-			font-weight: bold;
-		}
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"],
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b4be9a;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
 
-		input[type="text"],
-		input[type="password"],
-		input[type="email"],
-		input[type="date"],
-		.form-select {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #b4be9a; /* Borde de los campos */
-			border-radius: 5px;
-			transition: border 0.3s;
-		}
+        input:focus,
+        .form-select:focus {
+            border-color: #68705a;
+            outline: none;
+        }
 
-		input:focus,
-		.form-select:focus {
-			border-color: #68705a; /* Color azul para el borde cuando se hace foco */
-			outline: none; /* Eliminar el contorno predeterminado */
-		}
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #68705a, #747b4f);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background 0.5s, box-shadow 0.3s;
+        }
 
-		button {
-			width: 100%;
-			padding: 12px;
-			background: linear-gradient(45deg, #68705a, #747b4f); /* Botón con gradiente */
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: transform 0.3s, background 0.5s, box-shadow 0.3s;
-		}
+        button:hover {
+            background: linear-gradient(45deg, #747b4f, #68705a);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
 
-		button:hover {
-			background: linear-gradient(45deg, #747b4f, #68705a);
-			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Agregar sombra */
-			transform: scale(1.05); /* Efecto de aumento */
-		}
+        button i {
+            margin-right: 10px;
+        }
 
-		button i {
-			margin-right: 10px;
-		}
+        .error {
+            color: red;
+            text-align: center;
+        }
 
-		.error {
-			color: red;
-			text-align: center;
-		}
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #747b4f;
+        }
 
-		.register-link {
-			text-align: center;
-			margin-top: 15px;
-			color: #747b4f; /* Color de los enlaces */
-		}
+        .register-link a {
+            color: #b4be9a;
+            text-decoration: none;
+        }
 
-		.register-link a {
-			color: #b4be9a;
-			text-decoration: none;
-		}
+        .register-link a:hover {
+            text-decoration: underline;
+        }
 
-		.register-link a:hover {
-			text-decoration: underline;
-		}
-		.footer {
-			background-color: #68705a;
-		 	padding: 15px;
-		    text-align: center;
-		    font-size: 14px;
-		    color: #fff;
-		    margin-top: 20px;
-		        }
+        .footer {
+            background-color: #68705a;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+            margin-top: 20px;
+        }
 
-		fieldset {
-			border: 1px solid #b4be9a; 
-			border-radius: 5px;
-			padding: 20px;
-			margin-bottom: 20px;
-		}
+        fieldset {
+            border: 1px solid #b4be9a;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-		legend {
-			font-size: 1.2em;
-			font-weight: bold;
-			color: #68705a;
-			padding: 0 10px;
-		}
-	</style>
+        legend {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #68705a;
+            padding: 0 10px;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- Menú del patrocinador -->
-		    <div th:replace="layout/layoutPatrocinador :: menupatrocinador"></div>
-			<div th:replace="layout/layoutAdmin :: fondo1"></div>
+    <!-- Menú del patrocinador -->
+    <div th:replace="layout/layoutPatrocinador :: menupatrocinador"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
-		<!-- Fondo de la página -->
-		    <div class="background-panel"></div>
+    <!-- Fondo de la página -->
+    <div class="background-panel"></div>
 
-	<div class="login-wrapper">
-		<div class="login-container">
-			<h2>Editar Patrocinador</h2>
-			<form action="/ActualizarPatrocinador" method="post">
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h2>Editar Patrocinador</h2>
+            <form action="/ActualizarPatrocinador" method="post">
+                <input type="hidden" name="id_usuarios" th:value="${usuario.id_usuarios}" />
+                <input type="hidden" name="id_patrocinador" th:value="${patrocinador.id_patrocinador}" />
 
-				<input type="hidden" name="id_usuarios" th:value="${usuario?.id_usuarios}" />
-				<input type="hidden" name="id_patrocinador" th:value="${patrocinadores?.id_patrocinador}" />
+                <fieldset>
+                    <legend>Datos del Usuario</legend>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="cedula">Cédula:</label>
+                            <input type="text" id="cedula" name="cedula" th:value="${usuario.cedula}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellido">Apellido:</label>
+                            <input type="text" id="apellido" name="apellido" th:value="${usuario.apellido}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="correo">Correo:</label>
+                            <input type="email" id="correo" name="correo" th:value="${usuario.correo}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" th:value="${usuario.fecha_nacimiento}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="celular">Celular:</label>
+                            <input type="text" id="celular" name="celular" th:value="${usuario.celular}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_provincia">Seleccione la Provincia:</label>
+                            <select id="id_provincia" class="form-control">
+                                <option value="" disabled selected>Seleccione una Provincia</option>
+                                <option th:each="provincia : ${provincias}" th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_canton">Seleccione el Cantón:</label>
+                            <select id="id_canton" class="form-control" required disabled>
+                                <option value="" disabled selected>Seleccione un Cantón</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_parroquia">Seleccione la Parroquia:</label>
+                            <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+                                <option value="" disabled selected>Seleccione una Parroquia</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contraseña">Contraseña:</label>
+                                <input type="password" id="contraseña" name="contraseña" th:value="${usuario.contraseña}" required>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
 
-				<fieldset>
-					<legend>Datos del Usuario</legend>
-					<div class="row g-3">
-						<div class="col-md-6">
-							<label for="cedula">Cédula:</label>
-							<input type="text" id="cedula" name="cedula" th:value="${usuario?.cedula ?: ''}" disabled>
-						</div>
-						<div class="col-md-6">
-							<label for="nombre">Nombre:</label>
-							<input type="text" id="nombre" name="nombre" th:value="${usuario?.nombre ?: ''}">
-						</div>
-						<div class="col-md-6">
-							<label for="apellido">Apellido:</label>
-							<input type="text" id="apellido" name="apellido" th:value="${usuario?.apellido ?: ''}" required>
-						</div>
-						<div class="col-md-6">
-							<label for="correo">Correo:</label>
-							<input type="email" id="correo" name="correo" th:value="${usuario?.correo ?: ''}">
-						</div>
-						<div class="col-md-6">
-							<label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-							<input type="date" id="fecha_nacimiento" name="fecha_nacimiento" th:value="${usuario?.fecha_nacimiento ?: ''}" required>
-						</div>
-						<div class="col-md-6">
-							<label for="celular">Celular:</label>
-							<input type="text" id="celular" name="celular" th:value="${usuario?.celular ?: ''}" required>
-						</div>
+                <fieldset>
+                    <legend>Datos del Patrocinador</legend>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                            <input type="text" id="nombreEmpresa" name="nombreEmpresa" th:value="${patrocinador.nombreEmpresa}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ruc">RUC:</label>
+                            <input type="text" id="ruc" name="ruc" th:value="${patrocinador.ruc}" required>
+                        </div>
+                    </div>
+                </fieldset>
 
-						<div class="col-md-6">
-							<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-							<select id="id_provincia" class="form-control">
-								<option value="" disabled selected>Seleccione una Provincia</option>
-								<th:block th:each="provincia : ${provincias}">
-									<option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
-									</option>
-								</th:block>
-							</select>
-						</div>
+                <button type="submit">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </form>
+        </div>
+    </div>
 
-						<div class="col-md-6">
-							<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-							<select id="id_canton" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione un Cantón</option>
-							</select>
-						</div>
+    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const provinciaSelect = document.getElementById('id_provincia');
+        const cantonSelect = document.getElementById('id_canton');
+        const parroquiaSelect = document.getElementById('id_parroquia');
 
-						<div class="col-md-6">
-							<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-							<select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione una Parroquia</option>
-							</select>
-						</div>
+        provinciaSelect.addEventListener('change', () => {
+            cargarCantones(provinciaSelect.value);
+        });
 
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="contraseña">Contraseña:</label>
-								<input value="" type="password" id="contraseña" name="contraseña" th:value="${usuario?.contraseña ?: ''}" required>
-							</div>
-						</div>
-					</div>
-				</fieldset>
+        cantonSelect.addEventListener('change', () => {
+            cargarParroquias(cantonSelect.value);
+        });
 
-				<fieldset>
-					<legend>Datos del Patrocinador</legend>
-					<div class="row g-3">
-						<div class="col-md-6">
-							<label for="nombreEmpresa">Nombre de la Empresa:</label>
-							<input type="text" id="nombreEmpresa" name="nombreEmpresa" th:value="${patrocinadores?.nombreEmpresa ?: ''}" required>
-						</div>
-						<div class="col-md-6">
-							<label for="ruc">RUC:</label>
-							<input type="text" id="ruc" name="ruc" th:value="${patrocinadores?.ruc ?: ''}" required>
-						</div>
-					</div>
-				</fieldset>
+        function cargarCantones(idProvincia) {
+            fetch(`/cantones/${idProvincia}`)
+                .then(response => response.json())
+                .then(data => {
+                    cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
+                    data.forEach(canton => {
+                        cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
+                    });
+                    cantonSelect.disabled = false;
+                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+                    parroquiaSelect.disabled = true;
+                });
+        }
 
-				<button type="submit">
-					<i class="fas fa-save"></i> Guardar Cambios
-				</button>
-			</form>
-		</div>
-	</div>
-
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	
+        function cargarParroquias(idCanton) {
+            fetch(`/parroquias/${idCanton}`)
+                .then(response => response.json())
+                .then(data => {
+                    parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
+                    data.forEach(parroquia => {
+                        parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
+                    });
+                    parroquiaSelect.disabled = false;
+                });
+        }
+    </script>
 </body>
-
-<script>
-	const provinciaSelect = document.getElementById('id_provincia');
-	const cantonSelect = document.getElementById('id_canton');
-	const parroquiaSelect = document.getElementById('id_parroquia');
-
-	provinciaSelect.addEventListener('change', () => {
-		cargarCantones(provinciaSelect.value);
-	});
-
-	cantonSelect.addEventListener('change', () => {
-		cargarParroquias(cantonSelect.value);
-	});
-
-	function cargarCantones(idProvincia) {
-		fetch(`/cantones/${idProvincia}`)
-			.then(response => response.json())
-			.then(data => {
-				cantonSelect.innerHTML = '<option value="" disabled selected>Seleccione un Cantón</option>';
-				data.forEach(canton => {
-					cantonSelect.innerHTML += `<option value="${canton.id_canton}">${canton.nombreCanton}</option>`;
-				});
-				cantonSelect.disabled = false;
-				parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-				parroquiaSelect.disabled = true; // Deshabilitar hasta que se seleccione un cantón
-			});
-	}
-
-	function cargarParroquias(idCanton) {
-		fetch(`/parroquias/${idCanton}`)
-			.then(response => response.json())
-			.then(data => {
-				parroquiaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Parroquia</option>';
-				data.forEach(parroquia => {
-					parroquiaSelect.innerHTML += `<option value="${parroquia.id_parroquia}">${parroquia.nombreParroquia}</option>`;
-				});
-				parroquiaSelect.disabled = false;
-			});
-	}
-</script>
-
 </html>
