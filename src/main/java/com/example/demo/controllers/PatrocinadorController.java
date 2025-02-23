@@ -333,7 +333,7 @@ public class PatrocinadorController {
 
         // Validar si hay errores
         if (resultUsuario.hasErrors() || resultPatrocinador.hasErrors()) {
-            // Concatenar todos los mensajes de error de usuario
+            // Manejo de errores
             StringBuilder errores = new StringBuilder();
             if (resultUsuario.hasErrors()) {
                 resultUsuario.getFieldErrors().forEach(error -> {
@@ -341,17 +341,13 @@ public class PatrocinadorController {
                 });
             }
 
-            // Concatenar todos los mensajes de error de patrocinador
             if (resultPatrocinador.hasErrors()) {
                 resultPatrocinador.getFieldErrors().forEach(error -> {
                     errores.append(error.getDefaultMessage()).append("<br>");
                 });
             }
 
-            // Agregar los errores al modelo
             model.addAttribute("error", errores.toString());
-
-            // Mantener los valores de patrocinador y usuario en el modelo
             model.addAttribute("patrocinador", patrocinador);
             model.addAttribute("usuario", usuario);
             model.addAttribute("provincias", provinciaService.findAll());
@@ -360,9 +356,10 @@ public class PatrocinadorController {
         }
 
         try {
+            // Obtener el usuario existente
             Usuarios usuarioExistente = usuarioservice.findOne(idUsuario);
             if (usuarioExistente != null) {
-                usuarioExistente.setCedula(usuario.getCedula());
+                // No actualizar la cédula
                 usuarioExistente.setNombre(usuario.getNombre());
                 usuarioExistente.setApellido(usuario.getApellido());
                 usuarioExistente.setCorreo(usuario.getCorreo());
@@ -373,6 +370,7 @@ public class PatrocinadorController {
                 usuarioservice.save(usuarioExistente);
             }
 
+            // Obtener el patrocinador existente
             Patrocinador patrocinadorExistente = patrocinadorservice.findOne(idPatrocinador);
             if (patrocinadorExistente != null) {
                 patrocinadorExistente.setNombreEmpresa(patrocinador.getNombreEmpresa());
@@ -384,8 +382,6 @@ public class PatrocinadorController {
             return "redirect:/verproyectospatrocinador"; // Redirigir a la vista de proyectos
         } catch (Exception e) {
             model.addAttribute("error", "Ocurrió un error al actualizar el patrocinador: " + e.getMessage());
-
-            // Mantener los valores de patrocinador y usuario en el modelo
             model.addAttribute("patrocinador", patrocinador);
             model.addAttribute("usuario", usuario);
             model.addAttribute("provincias", provinciaService.findAll());
