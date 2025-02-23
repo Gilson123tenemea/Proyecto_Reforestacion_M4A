@@ -162,7 +162,7 @@
 						<td th:text="${actividad[1]}"></td> <!-- Proyecto -->
 						<td th:text="${actividad[4]}"></td> <!-- Nombre del equipo -->
 						<td>
-							<img th:src="${actividad[3]}" alt="Evidencia" class="img-thumbnail">
+							<img th:src="@{/registro-actividad/EdicionActivRealizada/imagen/{id}(id=${actividad[6]})}" alt="Evidencia" class="img-thumbnail">
 						</td>
 						<td>
 
