@@ -88,9 +88,6 @@ public class RegistroActividadRealizadaController {
 	  
 	  
 	  
-	    public Long Id_actividades=null;
-	    public Long id_administrador=null;
-	    
 	
 
 	@InitBinder
@@ -136,17 +133,6 @@ public class RegistroActividadRealizadaController {
 		return "crearRegistroActividadRealizada";
 	}*/
 	
-	
-	@GetMapping("/TodosProyectos")
-	public String Vista(Model model) {
-
-		 Long idAdministrador = (Long) model.asMap().get("idAdministrador");
-	        id_administrador=(long)1;
-	        model.addAttribute("proyectos", equiposimpl.findAllProyectos((long)1));
-	        
-	      
-	        return "confirmar_actividadreal";
-	}
 	
 	
 	
@@ -572,11 +558,10 @@ public class RegistroActividadRealizadaController {
 	}
 	
 	
-	@PostMapping("/confirmar_actividadreal")
-	public String mostrarActividadesPendientes(Model model, @RequestParam("idProyecto") Long id_proyecto) {
+	@GetMapping("/confirmar_actividadreal")
+	public String mostrarActividadesPendientes(Model model) {
 		
-		System.out.print("id    uuuuuu"+id_proyecto);
-	    List<RegistroActividadRealiza> actividades = registroActividadService.FiltroActividades(id_administrador,id_proyecto);
+	    List<RegistroActividadRealiza> actividades = registroActividadService.findAll();
 	    List<Map<String, Object>> actividadesConPorcentaje = new ArrayList<>();
 
 	    for (RegistroActividadRealiza actividad : actividades) {

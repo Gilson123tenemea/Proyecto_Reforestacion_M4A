@@ -134,21 +134,7 @@
 	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 	
 	
-	<div class="card">
-	           <div class="card-header">
-	               <h3>Seleccionar Proyecto</h3>
-	           </div>
-	           <div class="card-body text-center">
-	               <form id="proyectoForm" method="post" th:action="@{/registro-actividad/confirmar_actividadreal}">
-	                   <select class="form-select" name="idProyecto" id="proyecto" onchange="enviarProyecto()">
-	                       <option selected>Selecciona un proyecto</option>
-	                       <option th:each="proyecto : ${proyectos}" 
-	                               th:value="${proyecto.id_proyecto}" 
-	                               th:text="${proyecto.nombre}"></option>
-	                   </select>
-	               </form>
-	           </div>
-	       </div>
+
     <div class="container mt-5">
         <h1>Actividades Pendientes de Validación</h1>
 
@@ -189,12 +175,7 @@
     </div>
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
-	<script>
-		function enviarProyecto() {
-		           document.getElementById("proyectoForm").submit();
-		       }
-		       
-	</script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
