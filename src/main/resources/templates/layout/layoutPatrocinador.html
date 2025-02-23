@@ -103,7 +103,9 @@
 								Perfil
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-								<li><a class="dropdown-item" href="/editarPatrocinador">Editar Perfil</a></li>
+								<li>
+																    <a class="dropdown-item" th:href="@{/editarPatrocinador/{idPatrocinador}(idPatrocinador=${id_patrocinador})}">Editar Perfil</a>
+																</li>
 								<li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
 							</ul>
 						</li>
