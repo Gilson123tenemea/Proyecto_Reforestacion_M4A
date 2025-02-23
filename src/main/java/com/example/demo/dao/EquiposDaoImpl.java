@@ -44,24 +44,28 @@ public class EquiposDaoImpl implements IEquiposDao {
 	@Override
 	public List<Object[]> findActividadesPorHacer(Long voluntarioId) {
 	    return entityManager.createQuery(
-	        "SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, ta.id_tipoActividades "
-	        + "FROM Usuarios u "
-	        + "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios "
-	        + "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario "
-	        + "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos "
-	        + "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto "
-	        + "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto "
-	        + "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades "
-	        + "WHERE v.id_voluntario = :voluntarioId AND p.id_proyecto IS NOT NULL "
-	        + "AND NOT EXISTS ( "
-	        + "    SELECT 1 FROM RegistroActividadRealiza rar "
-	        + "    WHERE rar.id_voluntario = v.id_voluntario "
-	        + "    AND rar.id_tipoActividades = ta.id_tipoActividades"
-	        + ")",
+	        "SELECT ta.nombre_act, ta.duracion, p.nombre, e.nombre, u.nombre, ta.id_tipoActividades " +
+	        "FROM Usuarios u " +
+	        "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios " +
+	        "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " +
+	        "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " +
+	        "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto " +
+	        "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto " +
+	        "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " +
+	        "WHERE v.id_voluntario = :voluntarioId " +
+	        "AND p.id_proyecto IS NOT NULL " +
+	        "AND NOT EXISTS ( " +
+	        "    SELECT 1 FROM RegistroActividadRealiza rar " +
+	        "    INNER JOIN Voluntarios v2 ON rar.id_voluntario = v2.id_voluntario " +
+	        "    INNER JOIN Asignar_equipos ae2 ON v2.id_voluntario = ae2.id_voluntario " +
+	        "    WHERE ae2.id_equipos = e.id_equipos " +  // Validamos dentro del mismo equipo
+	        "    AND rar.id_tipoActividades = ta.id_tipoActividades " +
+	        ")",
 	        Object[].class)
 	    .setParameter("voluntarioId", voluntarioId)
 	    .getResultList();
 	}
+
 
 	@Override
 	public List<Equipos> findAll() {
