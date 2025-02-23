@@ -3,6 +3,8 @@ package com.example.demo.dao;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Tipo_Actividades;
 
 import jakarta.persistence.EntityManager;
@@ -61,5 +63,14 @@ public class Tipo_ActividadesDaoImpl implements ITipo_ActividadesDao {
 	    return em.createQuery("SELECT COUNT(r) FROM RegistroActividadRealiza r WHERE r.id_tipoActividades = :idTipoActividad", Long.class)
 	             .setParameter("idTipoActividad", idTipoActividad)
 	             .getSingleResult();
+	}
+
+	@Override
+	public List<Asignacion_proyectoActi> findAsignacionesByTipo(Long idTipoActividad) {
+		   return em.createQuery(
+		            "SELECT a FROM Asignacion_proyectoActi a WHERE a.id_tipoActividades = :idTipoActividad", 
+		            Asignacion_proyectoActi.class)
+		            .setParameter("idTipoActividad", idTipoActividad)
+		            .getResultList();
 	}
 }

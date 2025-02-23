@@ -158,7 +158,13 @@
     <div class="container">
         <h1 th:text="${titulo}">Listado de Áreas</h1>
 
-        <!-- Campo de búsqueda -->
+		<div th:if="${success}" class="alert alert-success" role="alert">
+		        <p th:text="${success}"></p>
+		    </div>
+		    <div th:if="${error}" class="alert alert-danger" role="alert">
+		        <p th:text="${error}"></p>
+		    </div>
+		
         <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar por nombre o tipo de terreno..." onkeyup="filterTable()">
 
         <table class="table table-bordered table-striped">

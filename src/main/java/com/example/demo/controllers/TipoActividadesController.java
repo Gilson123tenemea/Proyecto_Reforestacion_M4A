@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Tipo_Actividades;
 import com.example.demo.service.ITipo_ActividadesService;
 
@@ -90,7 +92,8 @@ public class TipoActividadesController {
         // Validar que no exista otra actividad con el mismo nombre
         List<Tipo_Actividades> actividadesExistentes = tipoActividadesService.findAll();
         for (Tipo_Actividades actividadExistente : actividadesExistentes) {
-            if (actividadExistente.getNombre_act().equalsIgnoreCase(tactividad.getNombre_act())) {
+            if (!actividadExistente.getId_tipoActividades().equals(tactividad.getId_tipoActividades()) 
+                && actividadExistente.getNombre_act().equalsIgnoreCase(tactividad.getNombre_act())) {
                 model.addAttribute("error", "Ya existe una actividad con ese nombre.");
                 model.addAttribute("titulo", "Formulario de Tipo Actividad");
                 model.addAttribute("tactividad", tactividad);
@@ -98,11 +101,24 @@ public class TipoActividadesController {
             }
         }
 
+        // Si estás editando un registro existente, asegúrate de mantener las asignaciones
+        if (tactividad.getId_tipoActividades() != null) {
+            // Cargar las asignaciones existentes
+            List<Asignacion_proyectoActi> asignacionesExistentes = tipoActividadesService.findAsignacionesByTipo(tactividad.getId_tipoActividades());
+            
+            // No cambies el id_tipoActividades de las asignaciones
+            for (Asignacion_proyectoActi asignacion : asignacionesExistentes) {
+                asignacion.setId_tipoActividades(tactividad.getId_tipoActividades()); // Mantener el ID existente
+            }
+        }
+
+        // Guardar el tipo de actividad sin eliminar las asignaciones existentes
+        tipoActividadesService.save(tactividad);
+        
         String mensajeFls = (tactividad.getId_tipoActividades() != null) 
             ? "El registro del tipo de actividades se ha editado con éxito" 
             : "El registro de tipo de actividad se ha creado con éxito";
 
-        tipoActividadesService.save(tactividad);
         flash.addFlashAttribute("success", mensajeFls);
         
         return "redirect:/asignacion";

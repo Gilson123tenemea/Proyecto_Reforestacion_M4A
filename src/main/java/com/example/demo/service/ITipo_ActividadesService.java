@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Plantas;
 import com.example.demo.entity.Tipo_Actividades;
 @Service
@@ -17,5 +18,6 @@ public interface ITipo_ActividadesService {
 	List<Tipo_Actividades> findByAdministradorId(Long adminId);
 	  long countAsignacionesByTipoActividadId(Long idTipoActividad);
 	    long countRegistrosByTipoActividadId(Long idTipoActividad);
+	    public List<Asignacion_proyectoActi> findAsignacionesByTipo(Long idTipoActividad);
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dao.ITipo_ActividadesDao;
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.entity.Tipo_Actividades;
 
@@ -26,7 +27,13 @@ public class Tipo_ActividadesServiceImpl implements ITipo_ActividadesService {
 	@Transactional
 	@Override
 	public void save(Tipo_Actividades tipo_actividades) {
-		tpactividadesDao.save(tipo_actividades);
+	    if (tipo_actividades.getId_tipoActividades() != null) {
+	        Tipo_Actividades existing = findOne(tipo_actividades.getId_tipoActividades());
+	        if (existing != null) {
+	            tipo_actividades.setAsignacion_proyectoacti(existing.getAsignacion_proyectoacti());
+	        }
+	    }
+	    tpactividadesDao.save(tipo_actividades);
 	}
 
 	@Transactional(readOnly=true)
@@ -63,6 +70,11 @@ public class Tipo_ActividadesServiceImpl implements ITipo_ActividadesService {
 	@Override
 	public long countRegistrosByTipoActividadId(Long idTipoActividad) {
 	    return tpactividadesDao.countRegistrosByTipoActividadId(idTipoActividad);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public List<Asignacion_proyectoActi> findAsignacionesByTipo(Long idTipoActividad) {
+	    return tpactividadesDao.findAsignacionesByTipo(idTipoActividad);
 	}
 
 }

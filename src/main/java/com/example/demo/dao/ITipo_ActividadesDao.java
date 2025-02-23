@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+import com.example.demo.entity.Asignacion_proyectoActi;
 import com.example.demo.entity.Tipo_Actividades;
 
 
@@ -13,6 +14,7 @@ public interface ITipo_ActividadesDao {
 	public void delete(Long id);
 	List<Tipo_Actividades> findByAdministradorId(Long adminId);
 	long countAsignacionesByTipoActividadId(Long idTipoActividad);
-	 long countRegistrosByTipoActividadId(Long idTipoActividad);
+	long countRegistrosByTipoActividadId(Long idTipoActividad);
+	List<Asignacion_proyectoActi> findAsignacionesByTipo(Long idTipoActividad);
 	
 }
