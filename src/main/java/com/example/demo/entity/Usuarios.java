@@ -2,6 +2,9 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,7 +48,7 @@ public class Usuarios implements Serializable {
     
     private String contraseña;
 
-
+    @JsonBackReference
     private Long id_parroquia;
 
     // Relación con super administrador

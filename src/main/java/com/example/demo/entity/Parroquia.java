@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,6 +30,7 @@ public class Parroquia implements Serializable {
 	//relacion con usuarios
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_parroquia")
+	@JsonBackReference
 	private List<Usuarios> usuarios ; 
 	
 	//relacion con proyecto

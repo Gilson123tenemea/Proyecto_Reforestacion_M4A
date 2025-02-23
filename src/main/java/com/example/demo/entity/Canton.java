@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,6 +30,7 @@ public class Canton implements Serializable{
 	//relacion con canton
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name ="id_canton")
+	@JsonManagedReference 
 	private List<Parroquia> parroquia  ; 
 	
 	public Long getId_canton() {
