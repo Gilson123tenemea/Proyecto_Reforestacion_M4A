@@ -45,24 +45,26 @@ public class ProyectoRestControllers {
 	}
 	
 	// Obtener proyectos con paginación y datos reducidos
-	 @GetMapping("/movil/proyectos")
-	    public ResponseEntity<List<ProyectoDTO>> listarProyectosMovil(
-	            @RequestParam(defaultValue = "0") int page,
-	            @RequestParam(defaultValue = "10") int size) {
+	@GetMapping("/movil/proyectos")
+	public ResponseEntity<List<ProyectoDTO>> listarProyectosMovil(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
 
-	        List<ProyectoDTO> proyectos = proyectoServiceMovil.findAllPaged(page, size)
-	                .stream()
-	                .map(proyecto -> new ProyectoDTO(
-	                        proyecto.getId_proyecto(),
-	                        proyecto.getNombre(),
-	                        proyecto.getFecha_inicio(),
-	                        proyecto.getFecha_fin(),
-	                        proyecto.getVoluntariosmax()
-	                ))
-	                .collect(Collectors.toList());
+	    List<ProyectoDTO> proyectos = proyectoServiceMovil.findAllPaged(page, size)
+	            .stream()
+	            .filter(proyecto -> "activo".equalsIgnoreCase(proyecto.getEstado())) // Filtrar por estado activo
+	            .map(proyecto -> new ProyectoDTO(
+	                    proyecto.getId_proyecto(),
+	                    proyecto.getNombre(),
+	                    proyecto.getFecha_inicio(),
+	                    proyecto.getFecha_fin(),
+	                    proyecto.getVoluntariosmax()
+	            ))
+	            .collect(Collectors.toList());
 
-	        return ResponseEntity.ok(proyectos);
-	    }
+	    return ResponseEntity.ok(proyectos);
+	}
+
 
 	// Listar todos los Proyectos
 	@GetMapping("/proyectos")
