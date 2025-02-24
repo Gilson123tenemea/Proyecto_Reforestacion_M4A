@@ -143,10 +143,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>ID Planta</th>
-                        <th>ID Suelo</th>
-                        <th>ID Área</th>
+
                         <th>Largo</th>
                         <th>Ancho</th>
                         <th>X</th>
@@ -156,10 +153,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="parcela : ${parcelas}">
-                        <td th:text="${parcela.id_parcelas}"></td>
-                        <td th:text="${parcela.id_plantas}"></td>
-                        <td th:text="${parcela.id_suelo}"></td>
-                        <td th:text="${parcela.id_area}"></td>
+
                         <td th:text="${parcela.largo}"></td>
                         <td th:text="${parcela.ancho}"></td>
                         <td th:text="${parcela.x}"></td>
