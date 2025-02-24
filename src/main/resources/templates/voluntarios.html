@@ -305,6 +305,14 @@
                             </div>
                         </div>
                     </div>
+					
+					
+					<div class="form-group">
+									    <label for="licencia">
+									        <input type="checkbox" id="licencia" name="licencia" required>
+									        Acepto los términos y condiciones de la <a href="licencia.html" target="_blank">licencia</a>.
+									    </label>
+									</div>
                 </fieldset>
 
                 <fieldset>
@@ -331,6 +339,14 @@
 
 	<script>
 
+		function validarFormulario() {
+		    var licenciaAceptada = document.getElementById('licencia').checked;
+		    if (!licenciaAceptada) {
+		        alert("Debe aceptar los términos y condiciones para registrarse.");
+		        return false;  // Previene el envío del formulario
+		    }
+		    return true;  // Permite el envío del formulario
+		}
 
 
 		function calcularFechaMinima() {
