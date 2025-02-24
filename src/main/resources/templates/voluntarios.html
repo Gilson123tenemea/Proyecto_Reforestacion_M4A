@@ -226,14 +226,14 @@
                                 <input type="email" id="correo" name="correo" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required max=""
-                                    onchange="validarFechaPasada()">
-                                <small id="mensajeFecha" style="color: red;"></small>
-                            </div>
-                        </div>
+						<div class="col-md-6">
+						    <div class="form-group">
+						        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+						        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required 
+						               max="" onchange="validarFechaNacimiento()">
+						        <small id="mensajeFecha" style="color: red;"></small> <!-- Mensaje de error -->
+						    </div>
+						</div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="genero">Género:</label>
@@ -333,24 +333,33 @@
 
 
 
-		document.getElementById('fecha_nacimiento').max = new Date().toISOString().split("T")[0];
+		function calcularFechaMinima() {
+		        let fechaHoy = new Date();
+		        let fechaMinima = new Date();
 
-		function validarFechaPasada() {
-			let fechaInput = document.getElementById('fecha_nacimiento');
-			let mensajeFecha = document.getElementById('mensajeFecha');
-			let fechaSeleccionada = new Date(fechaInput.value);
-			let fechaHoy = new Date();
+		        fechaMinima.setFullYear(fechaHoy.getFullYear() - 18); // Restar 18 años
 
-			fechaHoy.setHours(0, 0, 0, 0);
+		        return fechaMinima.toISOString().split("T")[0];
+		    }
 
-			if (fechaSeleccionada > fechaHoy) {
-				mensajeFecha.textContent = "No puedes seleccionar una fecha futura.";
-				fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
-			} else {
-				mensajeFecha.textContent = "";
-				fechaInput.setCustomValidity("");
-			}
-		}
+		    document.getElementById('fecha_nacimiento').max = calcularFechaMinima(); // Establecer la fecha máxima permitida
+
+		    function validarFechaNacimiento() {
+		        let fechaInput = document.getElementById('fecha_nacimiento');
+		        let mensajeFecha = document.getElementById('mensajeFecha');
+		        let fechaSeleccionada = new Date(fechaInput.value);
+		        let fechaMinima = new Date(calcularFechaMinima());
+
+		        fechaMinima.setHours(0, 0, 0, 0);
+
+		        if (fechaSeleccionada > fechaMinima) {
+		            mensajeFecha.textContent = "Debes tener al menos 18 años.";
+		            fechaInput.setCustomValidity("Debes tener al menos 18 años.");
+		        } else {
+		            mensajeFecha.textContent = "";
+		            fechaInput.setCustomValidity(""); 
+		        }
+		    }
 		function validarFormulario() {
 			const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
 			const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
