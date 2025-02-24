@@ -172,7 +172,7 @@ public class PatrocinioController {
 
         // Agregar logo
         try {
-            String logoPath = "src/main/resources/static/imagenes/LogoPrincipalReforest.png"; // Ruta completa
+            String logoPath = "src/main/resources/static/imagenes/logollakta.png"; // Ruta completa
             Image logo = Image.getInstance(logoPath);
             logo.scaleToFit(140, 120); // Ajusta el tamaño del logo
             logo.setAlignment(Image.ALIGN_CENTER); // Centrar el logo
