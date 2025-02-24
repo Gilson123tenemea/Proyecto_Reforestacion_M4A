@@ -47,20 +47,21 @@ public class RegistroActividadRealizadaDaoImpl implements IRegistroActividadReal
 	@Override
 	public List<Object[]> findActividadesRealizadas(Long voluntarioId) {
 	    return entityManager.createQuery(
-	        "SELECT u.nombre, p.nombre, r.cantidad_realizada, r.foto, e.nombre, ta.nombre_act, r.id_registroactividadrealizada " +
-	        "FROM Usuarios u " +
-	        "INNER JOIN Voluntarios v ON u.id_usuarios = v.usuario.id_usuarios " +
-	        "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " + // Relacionamos el voluntario con su equipo
-	        "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " +
-	        "INNER JOIN Asignacion_proyectoActi tac ON e.id_asignacionproyecto = tac.id_asignacionproyecto " +
-	        "INNER JOIN Tipo_Actividades ta ON tac.id_tipoActividades = ta.id_tipoActividades " +
-	        "INNER JOIN RegistroActividadRealiza r ON ta.id_tipoActividades = r.id_tipoActividades " +
-	        "INNER JOIN Voluntarios v2 ON r.id_voluntario = v2.id_voluntario " + // Relacionamos quien hizo la actividad
+	        "SELECT DISTINCT u.nombre, p.nombre, r.cantidad_realizada, r.foto, e.nombre, ta.nombre_act, r.id_registroactividadrealizada " +
+	        "FROM RegistroActividadRealiza r " +
+	        "INNER JOIN Voluntarios v ON r.id_voluntario = v.id_voluntario " +
+	        "INNER JOIN Usuarios u ON v.usuario.id_usuarios = u.id_usuarios " +
+	        "INNER JOIN Tipo_Actividades ta ON r.id_tipoActividades = ta.id_tipoActividades " +
+	        "INNER JOIN Asignacion_proyectoActi tac ON ta.id_tipoActividades = tac.id_tipoActividades " +
 	        "INNER JOIN Proyecto p ON tac.id_proyecto = p.id_proyecto " +
-	        "WHERE ae.id_equipos = ( " +
-	        "    SELECT ae2.id_equipos FROM Asignar_equipos ae2 WHERE ae2.id_voluntario = :voluntarioId " +
-	        ") " + // Solo mostrar actividades del equipo del voluntario
-	        "AND r.validacion_admin_tareaRealizada = TRUE", 
+	        "INNER JOIN Asignar_equipos ae ON v.id_voluntario = ae.id_voluntario " +
+	        "INNER JOIN Equipos e ON ae.id_equipos = e.id_equipos " +
+	        "WHERE r.validacion_admin_tareaRealizada = TRUE " +
+	        "AND EXISTS ( " +
+	        "    SELECT 1 FROM Asignar_equipos ae2 " +
+	        "    WHERE ae2.id_voluntario = :voluntarioId " +
+	        "    AND ae2.id_equipos = e.id_equipos " +
+	        ")",
 	        Object[].class)
 	    .setParameter("voluntarioId", voluntarioId)
 	    .getResultList();
