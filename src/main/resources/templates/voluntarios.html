@@ -2,354 +2,375 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Crear Voluntario</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<style>
-		html,
-		body {
-		    height: 100%;
-		    margin: 0;
-		    display: flex;
-		    flex-direction: column;
-		    font-family: 'Roboto', sans-serif;
-		    background-size: cover;
-		    background-position: center;
-		    background-attachment: fixed;
-		    color: white;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Voluntario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
 
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
 
-		.login-wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-grow: 1;
-			padding: 20px;
-		}
+        .login-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-		.login-container {
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 30px;
-			border-radius: 10px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-			width: 100%;
-			max-width: 700px;
-			transition: transform 0.3s;
-		}
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
 
-		.login-container:hover {
-			transform: scale(1.02);
-		}
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #747b4f;
+            font-weight: 700;
+        }
 
-		h2 {
-			text-align: center;
-			margin-bottom: 20px;
-			color: #333333;
-		}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-		.form-group {
-			margin-bottom: 20px;
-		}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #68705a;
+            font-weight: 500;
+        }
 
-		label {
-			display: block;
-			margin-bottom: 5px;
-			color: #555555;
-		}
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"],
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #a6b285;
+            border-radius: 8px;
+            background-color: #fbffed;
+            color: #68705a;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-		input[type="text"],
-		input[type="password"],
-		input[type="email"],
-		input[type="date"],
-		.form-select {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			transition: border 0.3s;
-		}
+        input:focus,
+        .form-select:focus {
+            border-color: #747b4f;
+            outline: none;
+            box-shadow: 0 0 8px rgba(116, 123, 79, 0.3);
+        }
 
-		input:focus,
-		.form-select:focus {
-			border-color: #d32f2f;
-			outline: none;
-		}
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #747b4f;
+            color: #fbffed;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-		button {
-			width: 100%;
-			padding: 12px;
-			background-color: #d32f2f;
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
+        button:hover {
+            background-color: #68705a;
+            transform: translateY(-2px);
+        }
 
-		button:hover {
-			background-color: #c62828;
-		}
+        button i {
+            transition: transform 0.3s ease;
+        }
 
-		.error {
-			color: red;
-			text-align: center;
-		}
+        button:hover i {
+            transform: translateX(5px);
+        }
 
-		.register-link {
-			text-align: center;
-			margin-top: 15px;
-			color: #555555;
-		}
+        .error {
+            color: #d32f2f;
+            text-align: center;
+            font-size: 0.9em;
+        }
 
-		.register-link a {
-			color: #d32f2f;
-			text-decoration: none;
-		}
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #68705a;
+        }
 
-		.register-link a:hover {
-			text-decoration: underline;
-		}
+        .register-link a {
+            color: #747b4f;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-		fieldset {
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			padding: 20px;
-			margin-bottom: 20px;
-		}
+        .register-link a:hover {
+            text-decoration: underline;
+        }
 
-		legend {
-			font-size: 1.2em;
-			font-weight: bold;
-			color: #333333;
-			padding: 0 10px;
-		}
+        fieldset {
+            border: 1px solid #a6b285;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fbffed;
+        }
 
-		.mostrar-contraseña {
-			font-size: 0.8em;
-			/* Tamaño más pequeño */
-			color: rgba(0, 0, 0, 0.6);
-			cursor: pointer;
-		}
+        legend {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #747b4f;
+            padding: 0 10px;
+        }
 
-		.mostrar-contraseña input {
-			margin-right: 5px;
-		}
-	</style>
+        .mostrar-contraseña {
+            font-size: 0.9em;
+            color: #68705a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mostrar-contraseña input {
+            margin: 0;
+        }
+
+        /* Ajustes para centrar y organizar mejor los campos */
+        .row.g-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Espacio entre columnas */
+        }
+
+        .row.g-3 .col-md-6 {
+            flex: 1 1 calc(50% - 15px); /* Dos columnas con espacio entre ellas */
+        }
+
+        .row.g-3 .col-md-12 {
+            flex: 1 1 100%; /* Una columna completa */
+        }
+
+        .centrar-experiencia {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
 </head>
 
 <body>
-	<div th:replace="layout/layoutinicio :: menuinicio"></div>
-	<div th:replace="layout/layoutAdmin :: fondo1"></div>
+    <div th:replace="layout/layoutinicio :: menuinicio"></div>
+    <div th:replace="layout/layoutAdmin :: fondo1"></div>
 
-	<div class="login-wrapper">
-		<div class="login-container">
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h2>Registro Voluntario</h2>
+            <form action="/guardarvolun" method="post" onsubmit="return validarFormulario()">
+                <fieldset>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cedula">Cédula:</label>
+                                <input type="text" name="cedula" id="cedula" required maxlength="10"
+                                    placeholder="Cédula de 10 dígitos"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                <div id="mensajeCedula"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" required
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" id="apellido" name="apellido" required
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="correo">Correo:</label>
+                                <input type="email" id="correo" name="correo" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required max=""
+                                    onchange="validarFechaPasada()">
+                                <small id="mensajeFecha" style="color: red;"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genero">Género:</label>
+                                <select id="genero" name="genero" class="form-select" required>
+                                    <option value="" disabled selected>Selecciona tu género</option>
+                                    <option value="MASCULINO">Masculino</option>
+                                    <option value="FEMENINO">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="celular">Celular:</label>
+                                <input type="text" id="celular" name="celular" required
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                <small id="mensajeCelular"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
+                                <select id="id_provincia" class="form-control" required>
+                                    <option value="" disabled selected>Seleccione una Provincia</option>
+                                    <th:block th:each="provincia : ${provincias}">
+                                        <option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
+                                        </option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_canton" class="form-label">Seleccione el Cantón:</label>
+                                <select id="id_canton" class="form-control" required disabled>
+                                    <option value="" disabled selected>Seleccione un Cantón</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
+                                <select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
+                                    <option value="" disabled selected>Seleccione una Parroquia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contraseña">Contraseña:</label>
+                                <input type="password" id="contraseña" name="contraseña" required minlength="8"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')">
+                                <label for="mostrarContraseña" class="mostrar-contraseña">
+                                    <input type="checkbox" id="mostrarContraseña"
+                                        onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
+                                </label>
+                                <small id="mensajeContraseña"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="confirmar_contraseña">Confirmar Contraseña:</label>
+                                <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')">
+                                <label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
+                                    <input type="checkbox" id="mostrarConfirmarContraseña"
+                                        onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
+                                </label>
+                                <small id="mensajeConfirmacion"></small>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
 
-			<h2>Crear Nuevo Voluntario</h2>
-			<form action="/guardarvolun" method="post" onsubmit="return validarFormulario()">
+                <fieldset>
+                    <legend>Datos del Voluntario</legend>
+                    <div class="row g-3 centrar-experiencia">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="experiencia">Experiencia:</label>
+                                <input type="text" name="experiencia" id="experiencia" required>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
 
-
-				<fieldset>
-					<div class="row g-3">
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="cedula">Cédula:</label>
-								<input type="text" name="cedula" id="cedula" required maxlength="10"
-									placeholder="Cédula de 10 dígitos"
-									 oninput="this.value = this.value.replace(/[^0-9]/g, '')"	>
-								<div id="mensajeCedula"></div> <!-- Aquí se mostrará si la cédula existe o no -->
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="nombre">Nombre:</label>
-								<input type="text" id="nombre" name="nombre" required
-								oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" >
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="apellido">Apellido:</label>
-								<input type="text" id="apellido" name="apellido" required
-								oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="correo">Correo:</label>
-								<input type="email" id="correo" name="correo" required>
-							</div>
-						</div>
-						<div class="col-md-6">
-						    <div class="form-group">
-						        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-						        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required 
-						               max="" onchange="validarFechaPasada()">
-						        <small id="mensajeFecha" style="color: red;"></small> <!-- Mensaje de error -->
-						    </div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="genero">Género:</label>
-								<select id="genero" name="genero" class="form-select" required>
-									<option value="" disabled selected>Selecciona tu género</option>
-									<option value="MASCULINO">Masculino</option>
-									<option value="FEMENINO">Femenino</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="celular">Celular:</label>
-								<input type="text" id="celular" name="celular" required
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')"	>
-								<small id="mensajeCelular"></small>
-
-							</div>
-						</div>
-
-
-						<div class="mb-3">
-							<label for="id_provincia" class="form-label">Seleccione la Provincia:</label>
-							<select id="id_provincia" class="form-control" required>
-								<option value="" disabled selected>Seleccione una Provincia</option>
-								<th:block th:each="provincia : ${provincias}">
-									<option th:value="${provincia.id_provincia}" th:text="${provincia.nombreProvincia}">
-									</option>
-								</th:block>
-							</select>
-						</div>
-
-						<div class="mb-3">
-							<label for="id_canton" class="form-label">Seleccione el Cantón:</label>
-							<select id="id_canton" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione un Cantón</option>
-							</select>
-						</div>
-
-						<div class="mb-3">
-							<label for="id_parroquia" class="form-label">Seleccione la Parroquia:</label>
-							<select id="id_parroquia" name="id_parroquia" class="form-control" required disabled>
-								<option value="" disabled selected>Seleccione una Parroquia</option>
-							</select>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="contraseña">Contraseña:</label>
-								<input type="password" id="contraseña" name="contraseña" required minlength="8"
-								oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')"	>
-								<label for="mostrarContraseña" class="mostrar-contraseña">
-									<input type="checkbox" id="mostrarContraseña"
-										onclick="togglePasswordVisibility('contraseña')"> Mostrar Contraseña
-								</label>
-								<small id="mensajeContraseña"></small>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="confirmar_contraseña">Confirmar Contraseña:</label>
-								<input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required minlength="8"
-								oninput="this.value = this.value.replace(/[^A-Za-z\d@$!%*?&]/g, '')">
-								<label for="mostrarConfirmarContraseña" class="mostrar-contraseña">
-									<input type="checkbox" id="mostrarConfirmarContraseña"
-										onclick="togglePasswordVisibility('confirmar_contraseña')"> Mostrar Contraseña
-								</label>
-								<small id="mensajeConfirmacion"></small>
-							</div>
-						</div>
-
-					</div>
-				</fieldset>
-
-
-
-
-				<fieldset>
-
-					<legend>Datos del Voluntario</legend>
-
-					<div class="row g-3">
-
-						<div class="col-md-6">
-							<div class="form-group">
-
-								<label for="experiencia">Experiencia:</label>
-								<input type="text" name="experiencia" id="experiencia" required
-								></input>
-							</div>
-						</div>
-
-
-					</div>
-				</fieldset>
-
-
-
-
-
-				<button type="submit">Guardar</button>
-
-			</form>
-		</div>
-	</div>
-
-
-
-
-
-
-
+                <button type="submit">
+                    <span>Guardar</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-		
-		
-		
+
+
+
 		document.getElementById('fecha_nacimiento').max = new Date().toISOString().split("T")[0];
 
-		   function validarFechaPasada() {
-		       let fechaInput = document.getElementById('fecha_nacimiento');
-		       let mensajeFecha = document.getElementById('mensajeFecha');
-		       let fechaSeleccionada = new Date(fechaInput.value);
-		       let fechaHoy = new Date();
+		function validarFechaPasada() {
+			let fechaInput = document.getElementById('fecha_nacimiento');
+			let mensajeFecha = document.getElementById('mensajeFecha');
+			let fechaSeleccionada = new Date(fechaInput.value);
+			let fechaHoy = new Date();
 
-		       fechaHoy.setHours(0, 0, 0, 0);
+			fechaHoy.setHours(0, 0, 0, 0);
 
-		       if (fechaSeleccionada > fechaHoy) {
-		           mensajeFecha.textContent = "No puedes seleccionar una fecha futura.";
-		           fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
-		       } else {
-		           mensajeFecha.textContent = "";
-		           fechaInput.setCustomValidity(""); 
-		       }
-		   }
+			if (fechaSeleccionada > fechaHoy) {
+				mensajeFecha.textContent = "No puedes seleccionar una fecha futura.";
+				fechaInput.setCustomValidity("No puedes seleccionar una fecha futura.");
+			} else {
+				mensajeFecha.textContent = "";
+				fechaInput.setCustomValidity("");
+			}
+		}
 		function validarFormulario() {
-		       const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
-		       const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
-		       const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
-		       const mensajeConfirmacion = document.getElementById("mensajeConfirmacion").innerText.trim();
+			const mensajeCedula = document.getElementById("mensajeCedula").innerText.trim();
+			const mensajeCelular = document.getElementById("mensajeCelular").innerText.trim();
+			const mensajeContraseña = document.getElementById("mensajeContraseña").innerText.trim();
+			const mensajeConfirmacion = document.getElementById("mensajeConfirmacion").innerText.trim();
 
-		       // Comprobar si todos los mensajes contienen las palabras de validación
-		       if (mensajeCedula !== "✅ Cédula válida y disponible" || 
-		           mensajeCelular !== "✅ Número de celular válido" || 
-		           mensajeContraseña !== "✅ Contraseña válida" || 
-		           mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
-		           
-		           alert("Por favor, revise la información. Algunos campos no son válidos.");
-		           return false; 
-		       }
-		       return true;
-		   }
-		
-		
-		
+			// Comprobar si todos los mensajes contienen las palabras de validación
+			if (mensajeCedula !== "✅ Cédula válida y disponible" ||
+				mensajeCelular !== "✅ Número de celular válido" ||
+				mensajeContraseña !== "✅ Contraseña válida" ||
+				mensajeConfirmacion !== "✅ Las contraseñas coinciden") {
+
+				alert("Por favor, revise la información. Algunos campos no son válidos.");
+				return false;
+			}
+			return true;
+		}
+
+
+
 		function togglePasswordVisibility(id) {
 			var passwordInput = document.getElementById(id);
 			// Cambiar el tipo de input entre "password" y "text" según si el checkbox está marcado o no
@@ -384,7 +405,7 @@
 						} else {
 							mensaje.innerHTML = `<span style="color: green;">✅ Cédula válida y disponible</span>`;
 							botonGuardar.disabled = false;
-						}	
+						}
 					})
 					.catch(error => {
 						console.error("Error en la verificación:", error);
@@ -527,7 +548,6 @@
 	</script>
 	</br>
 	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
-
 </body>
 
 </html>
