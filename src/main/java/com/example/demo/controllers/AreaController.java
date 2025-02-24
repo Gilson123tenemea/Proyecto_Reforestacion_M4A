@@ -46,27 +46,31 @@ public class AreaController {
                 throw new Exception("Debe seleccionar un Proyecto.");
             }
 
-            // Recupera el área existente
-            Area existingArea = areaService.findOne(area.getId_area());
-            if (existingArea == null) {
-                throw new Exception("El área no existe.");
+            // Verificar si es una nueva área o una existente
+            if (area.getId_area() != null) {
+                Area existingArea = areaService.findOne(area.getId_area());
+                if (existingArea == null) {
+                    throw new Exception("El área no existe.");
+                }
+                // Actualiza solo los campos necesarios
+                existingArea.setNombre(area.getNombre());
+                existingArea.setTipo_terreno(area.getTipo_terreno());
+                existingArea.setTipo_vegetacion(area.getTipo_vegetacion());
+                existingArea.setObservaciones(area.getObservaciones());
+                areaService.save(existingArea);
+            } else {
+                // Si es un área nueva, simplemente la guardamos
+                areaService.save(area);
             }
 
-            // Actualiza solo los campos necesarios
-            existingArea.setNombre(area.getNombre());
-            existingArea.setTipo_terreno(area.getTipo_terreno());
-            existingArea.setTipo_vegetacion(area.getTipo_vegetacion());
-            existingArea.setObservaciones(area.getObservaciones());
-            // No actualices id_proyecto aquí si no es necesario
-
-            areaService.save(existingArea); // Guarda el área actualizada
             model.addAttribute("mensaje", "Área guardada exitosamente");
             return "redirect:/parcelas";
         } catch (Exception e) {
             model.addAttribute("mensaje", "Error al guardar el Área: " + e.getMessage());
-            return "error";
+            return "error"; // Asegúrate de que tienes una página de error configurada
         }
     }
+
 
 
     @GetMapping("/listarareas")
