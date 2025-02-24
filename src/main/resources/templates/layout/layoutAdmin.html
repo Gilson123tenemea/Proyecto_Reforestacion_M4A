@@ -158,7 +158,13 @@
 		    <div id="footer" class="text-center py-1" style="background-color: #4F5B3A; color: white; font-size: 12px;">
 		        © 2025 LLakta Forest - Todos los derechos reservados.
 		    </div>
+		  
 		</div>
+		<head th:fragment="logo">
+		    <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
+		    <title th:text="${title} ?: 'Mi Aplicación'"></title>
+		</head>
+
 
 </body>
 

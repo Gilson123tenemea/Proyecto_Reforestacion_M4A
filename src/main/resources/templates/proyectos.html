@@ -201,40 +201,44 @@
             </div>
 
             <!-- Sección de imagen del proyecto -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-center position-relative">
-                    <!-- Imagen actual del proyecto -->
-					<div class="mb-3 position-relative" style="width: 150px; height: 150px;">
-					    <img th:if="${imagenGuardada}" 
-					         th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
-					         alt="Imagen del proyecto" 
-					         class="img-fluid rounded position-absolute" 
-					         style="width: 150px; height: 150px; object-fit: cover;" />
-					    <!-- Imagen previa que se superpone a la imagen actual -->
-					    <img id="imagenPrevia" src="" alt="Vista previa" class="img-fluid rounded position-absolute" 
-					         style="width: 150px; height: 150px; display:none; object-fit: cover;" />
-					</div>
-                    <!-- Cargar nueva imagen -->
-					<div class="mb-3">
-					    <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
-					    <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
-					           accept="image/*" onchange="validarImagen(this); mostrarNombreArchivo(); mostrarImagenPrevia();" />
-					    <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
-					    <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
-					    <!-- Mensaje de error para archivos no permitidos -->
-					    <div id="errorArchivo" class="text-danger" style="display: none;">Solo se permiten archivos de imagen (JPG, PNG, etc.).</div>
-					</div>
+			<div class="row mb-3">
+			    <div class="col-md-12 d-flex align-items-start">
+			        <!-- Contenedor de la imagen y el campo de selección de archivo -->
+			        <div class="me-3"> <!-- Añadimos un margen a la derecha para separar de la columna del nombre -->
+			            <!-- Imagen actual del proyecto -->
+			            <div class="mb-3 position-relative" style="width: 150px; height: 150px;">
+			                <img th:if="${imagenGuardada}" 
+			                     th:src="@{/proyecto/imagen/{id}(id=${proyecto.id_proyecto})}" 
+			                     alt="Imagen del proyecto" 
+			                     class="img-fluid rounded position-absolute" 
+			                     style="width: 150px; height: 150px; object-fit: cover;" />
+			                <!-- Imagen previa que se superpone a la imagen actual -->
+			                <img id="imagenPrevia" src="" alt="Vista previa" class="img-fluid rounded position-absolute" 
+			                     style="width: 150px; height: 150px; display:none; object-fit: cover;" />
+			            </div>
+			            <!-- Cargar nueva imagen -->
+			            <div class="mb-3">
+			                <label for="imagenArchivo" class="form-label">Cargar nueva imagen:</label>
+			                <input type="file" class="form-control custom-file-input" id="imagenArchivo" name="imagenArchivo"
+			                       accept="image/*" onchange="validarImagen(this); mostrarNombreArchivo(); mostrarImagenPrevia();" />
+			                <label for="imagenArchivo" class="custom-file-label">Seleccionar archivo</label>
+			                <small class="form-text text-muted" id="nombreArchivoGuardado">No se ha seleccionado ningún archivo</small>
+			                <!-- Mensaje de error para archivos no permitidos -->
+			                <div id="errorArchivo" class="text-danger" style="display: none;">Solo se permiten archivos de imagen (JPG, PNG, etc.).</div>
+			            </div>
+			        </div>
 
-                <!-- Nombre del Proyecto -->
-                <div class="col-md-8">
-                    <div class="mb-3">
-                        <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
-                        <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
-                               placeholder="Ingresar nombre del proyecto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
-                               title="Solo se permiten letras y espacios" oninput="this.setAttribute('value', this.value);" />
-                    </div>
-                </div>
-            </div>
+			        <!-- Nombre del Proyecto -->
+			        <div class="flex-grow-1"> <!-- Ocupa el espacio restante -->
+			            <div class="mb-3">
+			                <label for="nombreProyecto" class="form-label">Nombre del Proyecto:</label>
+			                <input type="text" th:field="*{nombre}" class="form-control" id="nombreProyecto"
+			                       placeholder="Ingresar nombre del proyecto" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" required
+			                       title="Solo se permiten letras y espacios" oninput="this.setAttribute('value', this.value);" />
+			            </div>
+			        </div>
+			    </div>
+			</div>
 
             <!-- Sección de ubicación (Provincia, Cantón, Parroquia) -->
             <div class="row">
@@ -302,11 +306,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label for="porcentaje" class="form-label">Porcentaje:</label>
-                    <input type="number" th:field="*{porcentaje}" class="form-control" id="porcentaje" min="0" max="100"
-                           step="1" required />
-                </div>
+    
             </div>
 
             <!-- Voluntarios máximos -->
@@ -439,7 +439,6 @@
 		    });
 		</script>
 
-    <div th:replace="layout/layoutAdmin :: footercompacto"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

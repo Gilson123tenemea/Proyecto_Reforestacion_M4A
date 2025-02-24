@@ -10,8 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-		
-			padding-top: 70px; /* Ajusta según la altura de tu navbar */
             background-color: #fbffed;
             color: #68705a;
             font-family: 'Arial', sans-serif;
@@ -22,18 +20,6 @@
             color: #fbffed;
             padding: 10px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #fbffed;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #a6b285;
-            text-decoration: underline;
         }
 
         .carousel-container {
@@ -179,7 +165,6 @@
 <body>
 	<!-- Menú del patrocinador -->
 	<div th:replace="layout/layoutAdmin :: menu"></div>
-
 	<div th:replace="layout/layoutAdmin :: fondo1"></div>
 	
 	<div class="container-fluid py-4 centered-content">
