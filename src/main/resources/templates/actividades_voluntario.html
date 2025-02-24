@@ -13,6 +13,7 @@
 			padding-bottom: 60px;
 			background-color: #fbffed;
 			color: #68705a;
+			font-family: 'Roboto', sans-serif;
 		}
 
 		h1, h3 {
@@ -36,15 +37,13 @@
 		}
 
 		footer {
-			text-align: center;
-			padding: 15px 0;
-			background-color: #68705a; 
-			width: 100%;
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			color: #fbffed;
-		}
+					text-align: center;
+					padding: 15px 0;
+					background-color: #68705a;
+					color: #fbffed;
+					width: 100%;
+					margin-top: auto; /* Empuja el footer hacia el final */
+				}
 
 		.img-thumbnail {
 		    width: 100px;
@@ -216,13 +215,13 @@
 		</section>
 	</div>
 
+			<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+		
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-	<div th:replace="layout/layoutAdmin :: footercompacto"></div>
+	
 </body>
-
 
 </html>
