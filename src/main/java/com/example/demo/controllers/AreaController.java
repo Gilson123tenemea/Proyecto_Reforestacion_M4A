@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Area;
+import com.example.demo.entity.Parcelas;
 import com.example.demo.entity.Proyecto;
 import com.example.demo.service.IAreaServices;
 import com.example.demo.service.IProyectoServices; // Suponiendo que tienes una entidad Proyecto
@@ -41,13 +42,24 @@ public class AreaController {
     @PostMapping("/guardararea")
     public String guardarArea(@ModelAttribute Area area, Model model) {
         try {
-    
             if (area.getId_proyecto() == null) {
                 throw new Exception("Debe seleccionar un Proyecto.");
             }
 
+            // Recupera el área existente
+            Area existingArea = areaService.findOne(area.getId_area());
+            if (existingArea == null) {
+                throw new Exception("El área no existe.");
+            }
 
-            areaService.save(area);
+            // Actualiza solo los campos necesarios
+            existingArea.setNombre(area.getNombre());
+            existingArea.setTipo_terreno(area.getTipo_terreno());
+            existingArea.setTipo_vegetacion(area.getTipo_vegetacion());
+            existingArea.setObservaciones(area.getObservaciones());
+            // No actualices id_proyecto aquí si no es necesario
+
+            areaService.save(existingArea); // Guarda el área actualizada
             model.addAttribute("mensaje", "Área guardada exitosamente");
             return "redirect:/parcelas";
         } catch (Exception e) {
@@ -74,21 +86,28 @@ public class AreaController {
 
   
     @GetMapping("/area/eliminar/{id}")
-    public String eliminarArea(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        try {
-            long count = areaService.countParcelasByAreaId(id);
-            if (count > 0) {
-                attributes.addFlashAttribute("error", "No se puede eliminar el área porque tiene parcelas asociadas.");
-                return "redirect:/listarareas"; // Redirige si no se puede eliminar
-            }
-            areaService.delete(id);
-            attributes.addFlashAttribute("mensaje", "Área eliminada correctamente");
-        } catch (IllegalStateException e) {
-            attributes.addFlashAttribute("error", e.getMessage());
-        } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Error al eliminar el Área");
-        }
-        return "redirect:/listarareas";
+    public String eliminarArea(@PathVariable("id") Long id,Model model, RedirectAttributes attributes,
+    		 @SessionAttribute("idAdministrador") Long idAdministrador) {
+    	 try {
+    	        Area area = areaService.findOne(id);
+    	        if (area == null) {
+    	            attributes.addFlashAttribute("error", "El Área no existe");
+    	            return "redirect:/listarareas";
+    	        }
+    	        model.addAttribute("area", area);
+    	        
+    	        // Cargar parcelas asociadas
+    	        List<Parcelas> parcelas = area.getParcelas();
+    	        model.addAttribute("parcelas", parcelas);
+
+    	        List<Proyecto> proyectos = proyectoService.findByAdministradorId(idAdministrador);
+    	        model.addAttribute("proyectos", proyectos); 
+    	        model.addAttribute("titulo", "Editar Área");
+    	        return "area"; 
+    	    } catch (Exception e) {
+    	        attributes.addFlashAttribute("error", "Error al cargar el Área: " + e.getMessage());
+    	        return "redirect:/listarareas";
+    	    }
     }
 
  
