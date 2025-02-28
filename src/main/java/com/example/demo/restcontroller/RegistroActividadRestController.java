@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.RegistroActividadRealiza;
+import com.example.demo.service.EquiposServiceImpl;
 import com.example.demo.service.RegistroActividadRealizadaService;
 import com.example.demo.dao.IRegistroActividadRealizadaDao;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +26,9 @@ public class RegistroActividadRestController {
 
     @Autowired
     private IRegistroActividadRealizadaDao iregistroActividadRealizadaDao;
+    
+    @Autowired
+	private EquiposServiceImpl equipoService;
 
     @GetMapping("/voluntario/{voluntarioId}")
     public ResponseEntity<List<Object[]>> listarActividadesPorVoluntario(@PathVariable Long voluntarioId) {
@@ -30,13 +37,63 @@ public class RegistroActividadRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> verActividad(@PathVariable Long id) {
-        Optional<RegistroActividadRealiza> actividad = registroActividadService.findOne(id);
+    public ResponseEntity<Map<String, Object>> verActividad(@PathVariable Long id) {
+    	
+    	
+    	 List<Object[]> actividades = equipoService.obtenerActividadesPorHacer(id);
+      /*  Optional<RegistroActividadRealiza> actividad = registroActividadService.findOne(id);
         if (actividad == null) {
             return ResponseEntity.badRequest().body("La actividad no se encuentra en la base de datos.");
-        }
-        return ResponseEntity.ok(actividad);
+        }*/	
+    	 
+    	 
+    	   Map<String, Object> responseData = new HashMap<>();
+
+	        if (!actividades.isEmpty()) {
+	        Object[] datos = actividades.get(0);
+	        
+	        
+	       
+		responseData.put("tipo_actividad", datos[0] != null ? datos[0].toString() : "");
+		responseData.put("duracion", datos[1] != null ? datos[1] : "");
+			
+			
+			responseData.put("proyectoNombre", datos[2] != null ? datos[2].toString() : "");
+			responseData.put("equipoNombre", datos[3] != null ? datos[3].toString() : "");
+			 responseData.put("NombreUsuario", datos[4] != null ? datos[4].toString() : "");
+			responseData.put("Id_tipoProyecto", datos[5] != null ? datos[5].toString() : "");
+
+			
+			
+			
+	        
+	        }
+    	 
+        return ResponseEntity.ok(responseData);
     }
+    
+    
+    /*List<Object[]> actividadesRealizadas = registroActividadRealizadaService.obtenerActividadesRealizadas(voluntarioId);
+	    List<Map<String, Object>> listaActividades = new ArrayList<>();
+
+	    if (!actividadesRealizadas.isEmpty()) {
+	        for (Object[] datos : actividadesRealizadas) {
+	            Map<String, Object> responseData = new HashMap<>();
+	            responseData.put("proyectoNombre", datos[1] != null ? datos[1].toString() : "");
+	            responseData.put("equipoNombre", datos[4] != null ? datos[4].toString() : "");
+	            responseData.put("nombre_actividad", datos[5] != null ? datos[5].toString() : "");
+	            responseData.put("Estado", "Cumplido");
+
+	            listaActividades.add(responseData);
+	        }
+	    } else {
+	        // Si no hay actividades, agregamos un mensaje dentro de la lista
+	        Map<String, Object> responseData = new HashMap<>();
+	        responseData.put("Estado", " ");
+	        listaActividades.add(responseData);
+	    }
+
+	    return ResponseEntity.ok(listaActividades);*/
 
     @PostMapping
     public ResponseEntity<?> crearActividad(
